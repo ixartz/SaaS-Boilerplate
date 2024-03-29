@@ -1,5 +1,4 @@
 import { Protect } from '@clerk/nextjs';
-import Link from 'next/link';
 import { useTranslations } from 'next-intl';
 
 import { buttonVariants } from '@/components/ui/button';
@@ -57,9 +56,12 @@ const DashboardIndexPage = () => {
               />
             }
           >
-            <Link className={buttonVariants({ size: 'lg' })} href="/">
+            <a
+              className={buttonVariants({ size: 'lg' })}
+              href="https://github.com/ixartz/SaaS-Boilerplate"
+            >
               {t('message_state_button')}
-            </Link>
+            </a>
           </Protect>
         }
       />

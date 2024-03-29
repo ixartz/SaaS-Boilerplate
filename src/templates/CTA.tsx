@@ -1,5 +1,4 @@
 import { GitHubLogoIcon } from '@radix-ui/react-icons';
-import Link from 'next/link';
 import { useTranslations } from 'next-intl';
 
 import { buttonVariants } from '@/components/ui/button';
@@ -15,13 +14,13 @@ const CTA = () => {
         title={t('title')}
         description={t('description')}
         buttons={
-          <Link
+          <a
             className={buttonVariants({ variant: 'outline', size: 'lg' })}
-            href="/"
+            href="https://github.com/ixartz/SaaS-Boilerplate"
           >
             <GitHubLogoIcon className="mr-2 size-5" />
             {t('button_text')}
-          </Link>
+          </a>
         }
       />
     </Section>

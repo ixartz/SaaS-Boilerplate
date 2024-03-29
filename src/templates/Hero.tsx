@@ -1,5 +1,4 @@
 import { GitHubLogoIcon, TwitterLogoIcon } from '@radix-ui/react-icons';
-import Link from 'next/link';
 import { useTranslations } from 'next-intl';
 
 import { buttonVariants } from '@/components/ui/button';
@@ -30,17 +29,20 @@ const Hero = () => {
         description={t('description')}
         buttons={
           <>
-            <Link className={buttonVariants({ size: 'lg' })} href="/">
+            <a
+              className={buttonVariants({ size: 'lg' })}
+              href="https://github.com/ixartz/SaaS-Boilerplate"
+            >
               {t('primary_button')}
-            </Link>
+            </a>
 
-            <Link
+            <a
               className={buttonVariants({ variant: 'outline', size: 'lg' })}
-              href="/"
+              href="https://github.com/ixartz/SaaS-Boilerplate"
             >
               <GitHubLogoIcon className="mr-2 size-5" />
               {t('secondary_button')}
-            </Link>
+            </a>
           </>
         }
       />
