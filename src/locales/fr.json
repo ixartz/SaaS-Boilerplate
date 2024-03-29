@@ -1,0 +1,166 @@
+{
+  "Index": {
+    "meta_title": "SaaS Template - Le template SaaS parfait pour construire et mettre à l'échelle votre entreprise en toute simplicité.",
+    "meta_description": "Un template gratuit et open-source de landing page pour votre entreprise SaaS, construit avec Next.js, TypeScript, Shadcn UI et Tailwind CSS."
+  },
+  "Navbar": {
+    "sign_in": "Se connecter",
+    "sign_up": "S'inscrire",
+    "product": "Produit",
+    "docs": "Docs",
+    "blog": "Blog",
+    "community": "Communauté",
+    "company": "Entreprise"
+  },
+  "Hero": {
+    "follow_twitter": "Suivez @Ixartz sur Twitter",
+    "title": "Le parfait <important>SaaS template</important> pour construire et mettre à l'échelle votre entreprise en toute simplicité.",
+    "description": "Un template gratuit et open-source de landing page pour votre entreprise SaaS, construit avec Next.js, TypeScript, Shadcn UI et Tailwind CSS.",
+    "primary_button": "Démarrer",
+    "secondary_button": "Mettez une étoile sur GitHub"
+  },
+  "Sponsors": {
+    "title": "Sponsorisé par"
+  },
+  "Features": {
+    "section_subtitle": "Fonctionnalités",
+    "section_title": "Débloquer le plein potentiel du SaaS Template",
+    "section_description": "Un template gratuit et open-source de landing page pour votre entreprise SaaS, construit avec Next.js, TypeScript, Shadcn UI et Tailwind CSS.",
+    "feature1_title": "Next.js",
+    "feature2_title": "React",
+    "feature3_title": "Tailwind CSS",
+    "feature4_title": "TypeScript",
+    "feature5_title": "Shadcn UI",
+    "feature6_title": "ESLint",
+    "feature_description": "Un template gratuit et open-source de landing page pour votre entreprise SaaS, construit avec Next.js, TypeScript, Shadcn UI et Tailwind CSS."
+  },
+  "Pricing": {
+    "section_subtitle": "Fonctionnalités",
+    "section_title": "Débloquer le plein potentiel du SaaS Template",
+    "section_description": "Un template gratuit et open-source de landing page pour votre entreprise SaaS, construit avec Next.js, TypeScript, Shadcn UI et Tailwind CSS.",
+    "button_text": "Démarrer"
+  },
+  "PricingPlan": {
+    "free_plan_name": "Gratuit",
+    "premium_plan_name": "Premium",
+    "enterprise_plan_name": "Enterprise",
+    "free_plan_description": "Pour les particuliers",
+    "premium_plan_description": "Pour les petites équipes",
+    "enterprise_plan_description": "Pour les leaders de l'industrie",
+    "feature_team_member": "{number} membres",
+    "feature_website": "{number} sites internet",
+    "feature_storage": "{number} Go de stockage",
+    "feature_transfer": "{number} TB de transfert",
+    "feature_email_support": "Support par e-mail",
+    "plan_interval_month": "mois",
+    "plan_interval_year": "année"
+  },
+  "FAQ": {
+    "question": "Lorem ipsum dolor sit amet, consectetur adipiscing elit?",
+    "answer": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aliquam aliquam enim dui, id consequat turpis ullamcorper ac. Mauris id quam dolor. Nullam eu egestas turpis. Proin risus elit, sollicitudin in mi a, accumsan euismod turpis. In euismod mi sed diam tristique hendrerit."
+  },
+  "CTA": {
+    "title": "Vous êtes prêt?",
+    "description": "Lorem ipsum dolor sit amet, consectetur adipiscing elit.",
+    "button_text": "Mettez une étoile sur GitHub"
+  },
+  "Footer": {
+    "product": "Produit",
+    "docs": "Docs",
+    "blog": "Blog",
+    "community": "Communauté",
+    "company": "Entreprise",
+    "terms_of_service": "Conditions d'utilisation",
+    "privacy_policy": "Politique de confidentialité",
+    "designed_by": "Designé by <author></author>"
+  },
+  "ProtectFallback": {
+    "not_enough_permission": "Vous n'avez pas les permissions pour effectuer cette action"
+  },
+  "SignIn": {
+    "meta_title": "Se connecter",
+    "meta_description": "Connectez-vous à votre compte avec facilité."
+  },
+  "SignUp": {
+    "meta_title": "S'inscrire",
+    "meta_description": "Créez un compte sans effort grâce à notre processus d'inscription intuitif."
+  },
+  "DashboardLayout": {
+    "home": "Accueil",
+    "todos": "Todos",
+    "members": "Membres",
+    "billing": "Facturation",
+    "settings": "Réglages"
+  },
+  "Dashboard": {
+    "meta_title": "Tableau de bord du SaaS Template",
+    "meta_description": "Un template gratuit et open-source de landing page pour votre entreprise SaaS, construit avec Next.js, TypeScript, Shadcn UI et Tailwind CSS."
+  },
+  "DashboardIndex": {
+    "title_bar": "Tableau de bord",
+    "title_bar_description": "Bienvenue sur votre tableau de bord",
+    "message_state_title": "C'est parti",
+    "message_state_description": "Vous pouvez personnaliser cette page en modifiant le fichier dans <code>src/app/[locale]/(auth)/dashboard/page.tsx</code>",
+    "message_state_button": "Lire la documentation"
+  },
+  "UserProfile": {
+    "title_bar": "Profil utilisateur",
+    "title_bar_description": "Afficher et gérer votre profil utilisateur"
+  },
+  "OrganizationProfile": {
+    "title_bar": "Gestion de l’organisation",
+    "title_bar_description": "Gérer votre organisation"
+  },
+  "Billing": {
+    "title_bar": "Facturation",
+    "title_bar_description": "Gérer votre facturation et votre abonnement",
+    "current_section_title": "Plan actuel",
+    "current_section_description": "Ajuster votre plan de paiement pour le mieux répondre à vos besoins",
+    "manage_subscription_button": "Gérer l'abonnement"
+  },
+  "BillingOptions": {
+    "current_plan": "Plan actuel",
+    "upgrade_plan": "Démarrer"
+  },
+  "CurrentPlanDetails": {
+    "next_renew_date": "Votre abonnement sera renouvelé le {date}"
+  },
+  "CheckoutConfirmation": {
+    "title_bar": "Confirmation du paiement",
+    "message_state_title": "Paiement accepté",
+    "message_state_description": "Votre paiement a été traité avec succès. Merci pour votre achat !",
+    "message_state_button": "Revenir à la facturation"
+  },
+  "DataTable": {
+    "no_results": "Aucun résultat."
+  },
+  "Todos": {
+    "title_bar": "Liste de Todos",
+    "title_bar_description": "Afficher et gérer votre liste de todos",
+    "add_todo_button": "Nouveau todo"
+  },
+  "TodoTableColumns": {
+    "open_menu": "Ouvrir le menu",
+    "edit": "Modifier",
+    "delete": "Supprimer",
+    "title_header": "Titre",
+    "message_header": "Message"
+  },
+  "AddTodo": {
+    "title_bar": "Ajouter une todo",
+    "add_todo_section_title": "Créer une nouvelle todo",
+    "add_todo_section_description": "Remplissez le formulaire ci-dessous pour créer une nouvelle todo"
+  },
+  "EditTodo": {
+    "title_bar": "Editer le todo",
+    "edit_todo_section_title": "Modifier le todo",
+    "edit_todo_section_description": "Remplissez le formulaire ci-dessous pour modifier la todo"
+  },
+  "TodoForm": {
+    "title_label": "Titre",
+    "title_description": "Entrez un titre descriptif pour votre todo.",
+    "message_title": "Message",
+    "message_description": "Entrez un message détaillé pour votre todo.",
+    "submit_button": "Envoyer"
+  }
+}
