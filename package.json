@@ -1,5 +1,5 @@
 {
-  "name": "next-js-boilerplate",
+  "name": "saas-boilerplate",
   "version": "1.0.0",
   "scripts": {
     "dev:spotlight": "spotlight-sidecar",
