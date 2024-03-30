@@ -75,7 +75,7 @@ export default function DashboardLayout(props: {
             <UserButton
               userProfileMode="navigation"
               userProfileUrl="/dashboard/user-profile"
-              afterSignOutUrl="/sign-in"
+              afterSignOutUrl="/"
             />
           </div>
         </div>
