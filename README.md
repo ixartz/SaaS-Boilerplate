@@ -121,7 +121,7 @@ Now, you can a fully working authentication system with Next.js: Sign up, Sign i
 
 ### Set up remote database
 
-The project uses DrizzleORM, a type-safe ORM compatible with SQLite, PostgreSQL, and MySQL databases. By default, the project is set up to work seamlessly with libSQL, and for production purposes, it's integrated with [Turso](https://turso.tech/?utm_source=nextjsstarterbp). The Next.js Boilerplate also enables a smooth transition to an alternative database provider if your project requires it.
+The project uses DrizzleORM, a type-safe ORM compatible with SQLite, PostgreSQL, and MySQL databases. By default, the project is set up to work seamlessly with libSQL, and for production purposes, it's integrated with [Turso](https://turso.tech/?utm_source=nextjsstarterbp). The SaaS Boilerplate also enables a smooth transition to an alternative database provider if your project requires it.
 
 First, you need to create a Turso account at [Turso.tech](https://turso.tech/?utm_source=nextjsstarterbp) and install the Turso CLI:
 
@@ -193,7 +193,7 @@ After defining the environment variables in your GitHub Actions, your localizati
 
 ### Customization
 
-You can easily configure Next js Boilerplate by making a search in the whole project with `FIXME:` for making quick customization. Here is some of the most important files to customize:
+You can easily configure Next.js SaaS Boilerplate by making a search in the whole project with `FIXME:` for making quick customization. Here is some of the most important files to customize:
 
 - `public/apple-touch-icon.png`, `public/favicon.ico`, `public/favicon-16x16.png` and `public/favicon-32x32.png`: your website favicon, you can generate from https://favicon.io/favicon-converter/
 - `src/utils/AppConfig.ts`: configuration file
@@ -277,7 +277,7 @@ The command starts a local server with the production build. Then, you can now o
 
 ### Error Monitoring
 
-The project uses [Sentry](https://sentry.io/for/nextjs/?utm_source=github&utm_medium=paid-community&utm_campaign=general-fy25q1-nextjs&utm_content=github-banner-nextjsboilerplate-logo) to monitor errors. For development environment, you don't need to do anything: NextJS Boilerplate is already configured to use Sentry and Spotlight (Sentry for Development). All errors will be automatically sent to your local Spotlight instance. So, you can try the Sentry experience locally.
+The project uses [Sentry](https://sentry.io/for/nextjs/?utm_source=github&utm_medium=paid-community&utm_campaign=general-fy25q1-nextjs&utm_content=github-banner-nextjsboilerplate-logo) to monitor errors. For development environment, you don't need to do anything: NextJS SaaS Boilerplate is already configured to use Sentry and Spotlight (Sentry for Development). All errors will be automatically sent to your local Spotlight instance. So, you can try the Sentry experience locally.
 
 For production environment, you need to create a Sentry account and create a new project. Then, in `next.config.mjs`, you need to update the `org` and `project` attribute in `withSentryConfig` function. You also need to add your Sentry DSN in `sentry.client.config.ts`, `sentry.edge.config.ts` and `sentry.server.config.ts`.
 
@@ -307,7 +307,7 @@ To complete the setup, make sure to update the `checkly.config.ts` file with you
 
 #### Bundle Analyzer
 
-NextJS Boilerplate comes with a built-in bundle analyzer. It can be used to analyze the size of your JavaScript bundles. To begin, run the following command:
+SaaS Boilerplate comes with a built-in bundle analyzer. It can be used to analyze the size of your JavaScript bundles. To begin, run the following command:
 
 ```shell
 npm run build-stats
