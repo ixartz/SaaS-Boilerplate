@@ -15,7 +15,7 @@ const CenteredFooter = (props: {
     <div className="flex flex-col items-center text-center">
       {props.logo}
 
-      <ul className="mt-4 flex flex-row gap-x-8 text-lg [&_li:hover]:opacity-100 [&_li]:opacity-60">
+      <ul className="mt-4 flex flex-wrap flex-row gap-x-8 text-lg [&_li:hover]:opacity-100 [&_li]:opacity-60">
         {props.children}
       </ul>
 
