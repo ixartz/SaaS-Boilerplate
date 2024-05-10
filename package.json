@@ -23,8 +23,7 @@
     "storybook:serve": "http-server storybook-static --port 6006 --silent",
     "serve-storybook": "run-s storybook:*",
     "test-storybook:ci": "start-server-and-test serve-storybook http://127.0.0.1:6006 test-storybook",
-    "prepare": "husky",
-    "postbuild": "next-sitemap"
+    "prepare": "husky"
   },
   "dependencies": {
     "@clerk/localizations": "^1.26.16",
@@ -49,7 +48,6 @@
     "lucide-react": "^0.378.0",
     "next": "^14.2.3",
     "next-intl": "^3.13.0",
-    "next-sitemap": "^4.2.3",
     "pino": "^8.21.0",
     "pino-pretty": "^11.0.0",
     "react": "~18.2.0",
