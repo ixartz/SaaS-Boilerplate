@@ -4,7 +4,7 @@
   <a href="https://creativedesignsguru.com/demo/Nextjs-Boilerplate/"><img height="300" src="public/assets/images/nextjs-starter-banner.png?raw=true" alt="Next js starter banner"></a>
 </p>
 
-🚀 Boilerplate and Starter for Next.js with App Router support, Tailwind CSS and TypeScript ⚡️ Made with developer experience first: Next.js, TypeScript, ESLint, Prettier, Husky, Lint-Staged, Jest, Testing Library, Commitlint, VSCode, PostCSS, Tailwind CSS, Authentication with [Clerk](https://go.clerk.com/zGlzydF), Database with DrizzleORM (SQLite, PostgreSQL, and MySQL) and [Turso](https://turso.tech/?utm_source=nextjsstarterbp), Error Monitoring with [Sentry](https://sentry.io/for/nextjs/?utm_source=github&utm_medium=paid-community&utm_campaign=general-fy25q1-nextjs&utm_content=github-banner-nextjsboilerplate-logo), Logging with Pino.js and Log Management with [Better Stack](https://betterstack.com/?utm_source=github&utm_medium=sponsorship&utm_campaign=next-js-boilerplate), Monitoring as Code with [Checkly](https://www.checklyhq.com/?utm_source=github&utm_medium=sponsorship&utm_campaign=next-js-boilerplate), Storybook, Multi-language (i18n), and more.
+🚀 Boilerplate and Starter for Next.js with App Router support, Tailwind CSS and TypeScript ⚡️ Made with developer experience first: Next.js, TypeScript, ESLint, Prettier, Husky, Lint-Staged, Jest, Testing Library, Commitlint, VSCode, PostCSS, Tailwind CSS, Authentication with [Clerk](https://go.clerk.com/zGlzydF), Database with DrizzleORM (SQLite, PostgreSQL, and MySQL) and [Turso](https://turso.tech/?utm_source=nextjsstarterbp), Error Monitoring with [Sentry](https://sentry.io/for/nextjs/?utm_source=github&utm_medium=paid-community&utm_campaign=general-fy25q1-nextjs&utm_content=github-banner-nextjsboilerplate-logo), Logging with Pino.js and Log Management, Monitoring as Code, Storybook, Multi-language (i18n), and more.
 
 Clone this project and use it to create your own SaaS. You can check the live demo at [SaaS Boilerplate](https://react-saas.com).
 
@@ -88,7 +88,7 @@ Built-in feature from Next.js:
 
 ### Requirements
 
-- Node.js 18+ and npm
+- Node.js 20+ and npm
 
 ### Getting started
 
@@ -199,7 +199,6 @@ You can easily configure Next.js SaaS Boilerplate by making a search in the whol
 - `src/utils/AppConfig.ts`: configuration file
 - `src/templates/BaseTemplate.tsx`: default theme
 - `next.config.mjs`: Next.js configuration
-- `next-sitemap.config.js`: sitemap configuration
 - `.env`: default environment variables
 
 You have access to the whole code source if you need further customization. The provided code is only example for you to start your project. The sky is the limit 🚀.
@@ -324,14 +323,6 @@ npm run db:studio
 ```
 
 Then, you can open https://local.drizzle.studio with your favorite browser to explore your database.
-
-### Known warnings
-
-#### webpack.cache.PackFileCacheStrategy
-
-Warning: webpack.cache.PackFileCacheStrategy Serializing big strings (104kiB) impacts deserialization performance (consider using Buffer instead and decode when needed)
-
-This warning is caused by using `Clerk` and `next-intl` middlewares. It only happens when both middlewares are used together.
 
 ### VSCode information (optional)
 
