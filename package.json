@@ -26,8 +26,8 @@
     "prepare": "husky"
   },
   "dependencies": {
-    "@clerk/localizations": "^1.26.16",
-    "@clerk/nextjs": "^4.29.9",
+    "@clerk/localizations": "^2.3.1",
+    "@clerk/nextjs": "^5.0.7",
     "@hookform/resolvers": "^3.3.4",
     "@libsql/client": "^0.6.0",
     "@logtail/pino": "^0.4.21",
@@ -78,7 +78,7 @@
     "@storybook/test": "^7.6.19",
     "@storybook/test-runner": "^0.17.0",
     "@testing-library/jest-dom": "^6.4.5",
-    "@testing-library/react": "^14.3.1",
+    "@testing-library/react": "^15.0.7",
     "@types/jest": "^29.5.12",
     "@types/node": "^20.12.11",
     "@types/react": "^18.3.1",

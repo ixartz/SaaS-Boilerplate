@@ -35,7 +35,7 @@ export default function DashboardLayout(props: {
               <Logo />
             </Link>
 
-            <div className="ml-5 h-8">
+            <div className="ml-3">
               <OrganizationSwitcher
                 organizationProfileMode="navigation"
                 organizationProfileUrl={getI18nPath(
@@ -55,13 +55,13 @@ export default function DashboardLayout(props: {
                 </li>
 
                 <li>
-                  <ActiveLink href="/dashboard/organization-profile">
+                  <ActiveLink href="/dashboard/organization-profile/organization-members">
                     {t('members')}
                   </ActiveLink>
                 </li>
 
                 <li>
-                  <ActiveLink href="/dashboard/organization-profile/organization-settings">
+                  <ActiveLink href="/dashboard/organization-profile">
                     {t('settings')}
                   </ActiveLink>
                 </li>
