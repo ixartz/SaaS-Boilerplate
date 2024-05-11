@@ -4,7 +4,7 @@ const LogoCloud = (props: { text: string; children: React.ReactNode }) => (
       {props.text}
     </div>
 
-    <div className="mt-6 grid grid-cols-6 place-items-center gap-x-3 [&_img:hover]:opacity-100 [&_img]:opacity-60">
+    <div className="mt-6 grid grid-cols-5 place-items-center gap-x-3 [&_img:hover]:opacity-100 [&_img]:opacity-60">
       {props.children}
     </div>
   </>

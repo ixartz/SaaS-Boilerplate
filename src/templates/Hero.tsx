@@ -9,7 +9,7 @@ const Hero = () => {
   const t = useTranslations('Hero');
 
   return (
-    <Section className="py-48 pb-72">
+    <Section className="py-36">
       <CenteredHero
         banner={{
           href: 'https://twitter.com/ixartz',
