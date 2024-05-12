@@ -49,7 +49,7 @@ export default function DashboardLayout(props: {
             </div>
 
             <nav className="ml-3">
-              <ul className="flex flex-row items-center gap-x-3 text-lg font-medium [&_li:hover]:opacity-100 [&_li]:opacity-75">
+              <ul className="flex flex-row items-center gap-x-3 text-lg font-medium [&_a:hover]:opacity-100 [&_a]:opacity-75">
                 <li>
                   <ActiveLink href="/dashboard">{t('home')}</ActiveLink>
                 </li>

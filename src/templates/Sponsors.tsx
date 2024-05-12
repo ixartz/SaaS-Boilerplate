@@ -28,7 +28,7 @@ const Sponsors = () => (
           src="/assets/images/turso-dark.png"
           alt="Turso"
           width="128"
-          height="32"
+          height="29"
         />
       </a>
 
