@@ -1,6 +1,10 @@
+import { type ForwardedRef, forwardRef } from 'react';
+
+import { Button } from '@/components/ui/button';
+
 /* eslint-disable jsx-a11y/control-has-associated-label */
 type IToggleMenuButtonProps = {
-  onClick: () => void;
+  onClick?: () => void;
 };
 
 /**
@@ -9,11 +13,15 @@ type IToggleMenuButtonProps = {
  * @params props - Component props.
  * @param props.onClick - Function to run when the button is clicked.
  */
-const ToggleMenuButton = (props: IToggleMenuButtonProps) => (
-  <button
-    className="rounded-md px-1 py-2 hover:bg-white"
-    onClick={props.onClick}
-    type="button"
+const ToggleMenuButtonInternal = (
+  props: IToggleMenuButtonProps,
+  ref?: ForwardedRef<HTMLButtonElement>,
+) => (
+  <Button
+    className="p-2 focus-visible:ring-offset-0"
+    variant="ghost"
+    ref={ref}
+    {...props}
   >
     <svg
       className="size-6 stroke-current"
@@ -27,7 +35,9 @@ const ToggleMenuButton = (props: IToggleMenuButtonProps) => (
       <path d="M0 0h24v24H0z" stroke="none" />
       <path d="M4 6h16M4 12h16M4 18h16" />
     </svg>
-  </button>
+  </Button>
 );
+
+const ToggleMenuButton = forwardRef(ToggleMenuButtonInternal);
 
 export { ToggleMenuButton };

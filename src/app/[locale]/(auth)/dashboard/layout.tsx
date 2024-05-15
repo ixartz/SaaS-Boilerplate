@@ -1,3 +1,4 @@
+import { useTranslations } from 'next-intl';
 import { getTranslations } from 'next-intl/server';
 
 import { DashboardHeader } from '@/features/dashboard/DashboardHeader';
@@ -15,11 +16,28 @@ export async function generateMetadata(props: { params: { locale: string } }) {
 }
 
 export default function DashboardLayout(props: { children: React.ReactNode }) {
+  const t = useTranslations('DashboardLayout');
+
   return (
     <>
       <div className="shadow-md">
         <div className="mx-auto flex max-w-screen-xl items-center justify-between px-3 py-4">
-          <DashboardHeader />
+          <DashboardHeader
+            menu={[
+              {
+                href: '/dashboard',
+                label: t('home'),
+              },
+              {
+                href: '/dashboard/organization-profile/organization-members',
+                label: t('members'),
+              },
+              {
+                href: '/dashboard/organization-profile',
+                label: t('settings'),
+              },
+            ]}
+          />
         </div>
       </div>
 

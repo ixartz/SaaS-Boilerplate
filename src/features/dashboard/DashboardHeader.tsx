@@ -2,16 +2,26 @@
 
 import { OrganizationSwitcher, UserButton } from '@clerk/nextjs';
 import Link from 'next/link';
-import { useLocale, useTranslations } from 'next-intl';
+import { useLocale } from 'next-intl';
 
 import { ActiveLink } from '@/components/ActiveLink';
 import LocaleSwitcher from '@/components/LocaleSwitcher';
 import { ToggleMenuButton } from '@/components/ToggleMenuButton';
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuTrigger,
+} from '@/components/ui/dropdown-menu';
 import { Logo } from '@/templates/Logo';
 import { getI18nPath } from '@/utils/Helpers';
 
-const DashboardHeader = () => {
-  const t = useTranslations('DashboardLayout');
+const DashboardHeader = (props: {
+  menu: {
+    href: string;
+    label: string;
+  }[];
+}) => {
   const locale = useLocale();
 
   return (
@@ -51,30 +61,31 @@ const DashboardHeader = () => {
 
         <nav className="ml-3 max-lg:hidden">
           <ul className="flex flex-row items-center gap-x-3 text-lg font-medium [&_a:hover]:opacity-100 [&_a]:opacity-75">
-            <li>
-              <ActiveLink href="/dashboard">{t('home')}</ActiveLink>
-            </li>
-
-            <li>
-              <ActiveLink href="/dashboard/organization-profile/organization-members">
-                {t('members')}
-              </ActiveLink>
-            </li>
-
-            <li>
-              <ActiveLink href="/dashboard/organization-profile">
-                {t('settings')}
-              </ActiveLink>
-            </li>
+            {props.menu.map((item) => (
+              <li key={item.href}>
+                <ActiveLink href={item.href}>{item.label}</ActiveLink>
+              </li>
+            ))}
           </ul>
         </nav>
       </div>
 
-      <div className="">
+      <div>
         <ul className="flex items-center gap-x-1 [&_li:not(:last-child):hover]:opacity-100 [&_li:not(:last-child)]:opacity-60">
           <li>
             <div className="lg:hidden">
-              <ToggleMenuButton onClick={() => {}} />
+              <DropdownMenu>
+                <DropdownMenuTrigger asChild>
+                  <ToggleMenuButton />
+                </DropdownMenuTrigger>
+                <DropdownMenuContent>
+                  {props.menu.map((item) => (
+                    <DropdownMenuItem key={item.href} asChild>
+                      <Link href={item.href}>{item.label}</Link>
+                    </DropdownMenuItem>
+                  ))}
+                </DropdownMenuContent>
+              </DropdownMenu>
             </div>
           </li>
 
