@@ -11,7 +11,7 @@ type IToggleMenuButtonProps = {
  */
 const ToggleMenuButton = (props: IToggleMenuButtonProps) => (
   <button
-    className="rounded-md p-2 text-gray-900 hover:bg-white"
+    className="rounded-md px-1 py-2 hover:bg-white"
     onClick={props.onClick}
     type="button"
   >

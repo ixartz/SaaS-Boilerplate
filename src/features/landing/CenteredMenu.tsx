@@ -21,7 +21,7 @@ const CenteredMenu = (props: {
     <div className="flex flex-wrap items-center justify-between">
       <Link href="/">{props.logo}</Link>
 
-      <div className="lg:hidden">
+      <div className="lg:hidden [&_button:hover]:opacity-100 [&_button]:opacity-60">
         <ToggleMenuButton onClick={handleToggleMenu} />
       </div>
 
@@ -37,7 +37,7 @@ const CenteredMenu = (props: {
           navClass,
         )}
       >
-        <ul className="flex flex-row items-center gap-x-4 text-lg font-medium [&_li:not(:last-child):hover]:opacity-100 [&_li:not(:last-child)]:opacity-60">
+        <ul className="flex flex-row items-center gap-x-3 text-lg font-medium [&_li:not(:last-child):hover]:opacity-100 [&_li:not(:last-child)]:opacity-60">
           {props.rightMenu}
         </ul>
       </div>
