@@ -4,7 +4,7 @@
   <a href="https://creativedesignsguru.com/demo/Nextjs-Boilerplate/"><img height="300" src="public/assets/images/nextjs-starter-banner.png?raw=true" alt="Next js starter banner"></a>
 </p>
 
-🚀 Boilerplate and Starter for Next.js with App Router support, Tailwind CSS and TypeScript ⚡️ Made with developer experience first: Next.js, TypeScript, ESLint, Prettier, Husky, Lint-Staged, Jest, Testing Library, Commitlint, VSCode, PostCSS, Tailwind CSS, Authentication with [Clerk](https://go.clerk.com/zGlzydF), Database with DrizzleORM (SQLite, PostgreSQL, and MySQL) and [Turso](https://turso.tech/?utm_source=nextjsstarterbp), Error Monitoring with [Sentry](https://sentry.io/for/nextjs/?utm_source=github&utm_medium=paid-community&utm_campaign=general-fy25q1-nextjs&utm_content=github-banner-nextjsboilerplate-logo), Logging with Pino.js and Log Management with [Better Stack](https://betterstack.com/?utm_source=github&utm_medium=sponsorship&utm_campaign=next-js-boilerplate), Monitoring as Code with [Checkly](https://www.checklyhq.com/?utm_source=github&utm_medium=sponsorship&utm_campaign=next-js-boilerplate), Storybook, Multi-language (i18n), and more.
+🚀 Boilerplate and Starter for Next.js with App Router support, Tailwind CSS and TypeScript ⚡️ Made with developer experience first: Next.js, TypeScript, ESLint, Prettier, Husky, Lint-Staged, Jest, Testing Library, Commitlint, VSCode, PostCSS, Tailwind CSS, Authentication with [Clerk](https://go.clerk.com/zGlzydF), Database with DrizzleORM (SQLite, PostgreSQL, and MySQL) and [Turso](https://turso.tech/?utm_source=nextjsstarterbp), Error Monitoring with [Sentry](https://sentry.io/for/nextjs/?utm_source=github&utm_medium=paid-community&utm_campaign=general-fy25q1-nextjs&utm_content=github-banner-nextjsboilerplate-logo), Logging with Pino.js and Log Management, Monitoring as Code, Storybook, Multi-language (i18n), and more.
 
 Clone this project and use it to create your own SaaS. You can check the live demo at [SaaS Boilerplate](https://react-saas.com).
 
@@ -18,6 +18,42 @@ Clone this project and use it to create your own SaaS. You can check the live de
           <source media="(prefers-color-scheme: dark)" srcset="https://github.com/ixartz/SaaS-Boilerplate/assets/1328388/6fb61971-3bf1-4580-98a0-10bd3f1040a2">
           <source media="(prefers-color-scheme: light)" srcset="https://github.com/ixartz/SaaS-Boilerplate/assets/1328388/f80a8bb5-66da-4772-ad36-5fabc5b02c60">
           <img alt="Clerk – Authentication & User Management for Next.js" src="https://github.com/ixartz/SaaS-Boilerplate/assets/1328388/6fb61971-3bf1-4580-98a0-10bd3f1040a2">
+        </picture>
+      </a>
+    </td>
+    <td align="center" width="33%">
+      <a href="https://turso.tech/?utm_source=nextjsstarterbp">
+        <picture>
+          <source media="(prefers-color-scheme: dark)" srcset="public/assets/images/turso-light.png?raw=true">
+          <source media="(prefers-color-scheme: light)" srcset="public/assets/images/turso-dark.png?raw=true">
+          <img alt="Turso - SQLite for Production" src="public/assets/images/turso-dark.png?raw=true">
+        </picture>
+      </a>
+    </td>
+    <td align="center" width="33%">
+      <a href="https://l.crowdin.com/next-js">
+        <picture>
+          <source media="(prefers-color-scheme: dark)" srcset="public/assets/images/crowdin-white.png?raw=true">
+          <source media="(prefers-color-scheme: light)" srcset="public/assets/images/crowdin-dark.png?raw=true">
+          <img alt="Crowdin" src="public/assets/images/crowdin-dark.png?raw=true">
+        </picture>
+      </a>
+    </td>
+  </tr>
+  <tr height="187px">
+    <td align="center" width="33%">
+      <a href="https://sentry.io/for/nextjs/?utm_source=github&utm_medium=paid-community&utm_campaign=general-fy25q1-nextjs&utm_content=github-banner-nextjsboilerplate-logo">
+        <picture>
+          <source media="(prefers-color-scheme: dark)" srcset="public/assets/images/sentry-white.png?raw=true">
+          <source media="(prefers-color-scheme: light)" srcset="public/assets/images/sentry-dark.png?raw=true">
+          <img alt="Sentry" src="public/assets/images/sentry-dark.png?raw=true">
+        </picture>
+      </a>
+      <a href="https://about.codecov.io/codecov-free-trial/?utm_source=github&utm_medium=paid-community&utm_campaign=general-fy25q1-nextjs&utm_content=github-banner-nextjsboilerplate-logo">
+        <picture>
+          <source media="(prefers-color-scheme: dark)" srcset="public/assets/images/codecov-white.svg?raw=true">
+          <source media="(prefers-color-scheme: light)" srcset="public/assets/images/codecov-dark.svg?raw=true">
+          <img alt="Codecov" src="public/assets/images/codecov-dark.svg?raw=true">
         </picture>
       </a>
     </td>
@@ -66,7 +102,7 @@ Developer experience first, extremely flexible code structure and only keep what
 - 💡 Absolute Imports using `@` prefix
 - 🗂 VSCode configuration: Debug, Settings, Tasks and Extensions
 - 🤖 SEO metadata, JSON-LD and Open Graph tags
-- 🗺️ Sitemap.xml and robots.txt with next-sitemap
+- 🗺️ Sitemap.xml and robots.txt
 - ⌘ Database exploration with Drizzle Studio and CLI migration tool with Drizzle Kit
 - ⚙️ [Bundler Analyzer](https://www.npmjs.com/package/@next/bundle-analyzer)
 - 🌈 Include a FREE minimalist theme
@@ -88,7 +124,7 @@ Built-in feature from Next.js:
 
 ### Requirements
 
-- Node.js 18+ and npm
+- Node.js 20+ and npm
 
 ### Getting started
 
@@ -199,7 +235,6 @@ You can easily configure Next.js SaaS Boilerplate by making a search in the whol
 - `src/utils/AppConfig.ts`: configuration file
 - `src/templates/BaseTemplate.tsx`: default theme
 - `next.config.mjs`: Next.js configuration
-- `next-sitemap.config.js`: sitemap configuration
 - `.env`: default environment variables
 
 You have access to the whole code source if you need further customization. The provided code is only example for you to start your project. The sky is the limit 🚀.
@@ -242,7 +277,7 @@ The App Router folder is compatible with the Edge runtime. You can enable it by 
 For your information, the database migration is not compatible with the Edge runtime. So, you need to disable the automatic migration in `src/libs/DB.ts`:
 
 ```tsx
-if (process.env.NODE_ENV !== 'production') {
+if (process.env.NODE_ENV === 'development') {
   await migrate(db, { migrationsFolder: './migrations' });
 }
 ```
@@ -325,14 +360,6 @@ npm run db:studio
 
 Then, you can open https://local.drizzle.studio with your favorite browser to explore your database.
 
-### Known warnings
-
-#### webpack.cache.PackFileCacheStrategy
-
-Warning: webpack.cache.PackFileCacheStrategy Serializing big strings (104kiB) impacts deserialization performance (consider using Buffer instead and decode when needed)
-
-This warning is caused by using `Clerk` and `next-intl` middlewares. It only happens when both middlewares are used together.
-
 ### VSCode information (optional)
 
 If you are VSCode users, you can have a better integration with VSCode by installing the suggested extension in `.vscode/extension.json`. The starter code comes up with Settings for a seamless integration with VSCode. The Debug configuration is also provided for frontend and backend debugging experience.
@@ -361,6 +388,42 @@ See [LICENSE](LICENSE) for more information.
           <source media="(prefers-color-scheme: dark)" srcset="https://github.com/ixartz/SaaS-Boilerplate/assets/1328388/6fb61971-3bf1-4580-98a0-10bd3f1040a2">
           <source media="(prefers-color-scheme: light)" srcset="https://github.com/ixartz/SaaS-Boilerplate/assets/1328388/f80a8bb5-66da-4772-ad36-5fabc5b02c60">
           <img alt="Clerk – Authentication & User Management for Next.js" src="https://github.com/ixartz/SaaS-Boilerplate/assets/1328388/6fb61971-3bf1-4580-98a0-10bd3f1040a2">
+        </picture>
+      </a>
+    </td>
+    <td align="center" width="33%">
+      <a href="https://turso.tech/?utm_source=nextjsstarterbp">
+        <picture>
+          <source media="(prefers-color-scheme: dark)" srcset="public/assets/images/turso-light.png?raw=true">
+          <source media="(prefers-color-scheme: light)" srcset="public/assets/images/turso-dark.png?raw=true">
+          <img alt="Turso - SQLite for Production" src="public/assets/images/turso-dark.png?raw=true">
+        </picture>
+      </a>
+    </td>
+    <td align="center" width="33%">
+      <a href="https://l.crowdin.com/next-js">
+        <picture>
+          <source media="(prefers-color-scheme: dark)" srcset="public/assets/images/crowdin-white.png?raw=true">
+          <source media="(prefers-color-scheme: light)" srcset="public/assets/images/crowdin-dark.png?raw=true">
+          <img alt="Crowdin" src="public/assets/images/crowdin-dark.png?raw=true">
+        </picture>
+      </a>
+    </td>
+  </tr>
+  <tr height="187px">
+    <td align="center" width="33%">
+      <a href="https://sentry.io/for/nextjs/?utm_source=github&utm_medium=paid-community&utm_campaign=general-fy25q1-nextjs&utm_content=github-banner-nextjsboilerplate-logo">
+        <picture>
+          <source media="(prefers-color-scheme: dark)" srcset="public/assets/images/sentry-white.png?raw=true">
+          <source media="(prefers-color-scheme: light)" srcset="public/assets/images/sentry-dark.png?raw=true">
+          <img alt="Sentry" src="public/assets/images/sentry-dark.png?raw=true">
+        </picture>
+      </a>
+      <a href="https://about.codecov.io/codecov-free-trial/?utm_source=github&utm_medium=paid-community&utm_campaign=general-fy25q1-nextjs&utm_content=github-banner-nextjsboilerplate-logo">
+        <picture>
+          <source media="(prefers-color-scheme: dark)" srcset="public/assets/images/codecov-white.svg?raw=true">
+          <source media="(prefers-color-scheme: light)" srcset="public/assets/images/codecov-dark.svg?raw=true">
+          <img alt="Codecov" src="public/assets/images/codecov-dark.svg?raw=true">
         </picture>
       </a>
     </td>

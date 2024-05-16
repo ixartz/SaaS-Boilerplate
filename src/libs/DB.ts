@@ -4,7 +4,7 @@ import { migrate } from 'drizzle-orm/libsql/migrator';
 
 import * as schema from '@/models/Schema';
 
-import { Env } from './Env.mjs';
+import { Env } from './Env';
 
 const client = createClient({
   url: Env.DATABASE_URL,

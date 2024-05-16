@@ -32,6 +32,7 @@ const config: Config = {
       statements: 0,
     },
   },
+  testEnvironment: 'jest-environment-jsdom',
   testPathIgnorePatterns: ['<rootDir>/node_modules/', '<rootDir>/tests/'],
 };
 

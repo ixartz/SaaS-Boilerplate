@@ -1,12 +1,7 @@
-import { OrganizationSwitcher, UserButton } from '@clerk/nextjs';
-import Link from 'next/link';
 import { useTranslations } from 'next-intl';
 import { getTranslations } from 'next-intl/server';
 
-import { ActiveLink } from '@/components/ActiveLink';
-import LocaleSwitcher from '@/components/LocaleSwitcher';
-import { Logo } from '@/templates/Logo';
-import { getI18nPath } from '@/utils/Helpers';
+import { DashboardHeader } from '@/features/dashboard/DashboardHeader';
 
 export async function generateMetadata(props: { params: { locale: string } }) {
   const t = await getTranslations({
@@ -20,64 +15,29 @@ export async function generateMetadata(props: { params: { locale: string } }) {
   };
 }
 
-export default function DashboardLayout(props: {
-  children: React.ReactNode;
-  params: { locale: string };
-}) {
+export default function DashboardLayout(props: { children: React.ReactNode }) {
   const t = useTranslations('DashboardLayout');
 
   return (
     <>
       <div className="shadow-md">
-        <div className="mx-auto flex max-w-screen-xl items-center justify-between px-3 py-5">
-          <div className="flex items-center">
-            <Link href="/dashboard">
-              <Logo />
-            </Link>
-
-            <div className="ml-5 h-8">
-              <OrganizationSwitcher
-                organizationProfileMode="navigation"
-                organizationProfileUrl={getI18nPath(
-                  '/dashboard/organization-profile',
-                  props.params.locale,
-                )}
-                afterCreateOrganizationUrl="/dashboard"
-                hidePersonal
-                skipInvitationScreen
-              />
-            </div>
-
-            <nav className="ml-3">
-              <ul className="flex flex-row items-center gap-x-3 text-lg font-medium [&_li:hover]:opacity-100 [&_li]:opacity-75">
-                <li>
-                  <ActiveLink href="/dashboard">{t('home')}</ActiveLink>
-                </li>
-
-                <li>
-                  <ActiveLink href="/dashboard/organization-profile">
-                    {t('members')}
-                  </ActiveLink>
-                </li>
-
-                <li>
-                  <ActiveLink href="/dashboard/organization-profile/organization-settings">
-                    {t('settings')}
-                  </ActiveLink>
-                </li>
-              </ul>
-            </nav>
-          </div>
-
-          <div className="flex items-center gap-x-4">
-            <LocaleSwitcher />
-
-            <UserButton
-              userProfileMode="navigation"
-              userProfileUrl="/dashboard/user-profile"
-              afterSignOutUrl="/"
-            />
-          </div>
+        <div className="mx-auto flex max-w-screen-xl items-center justify-between px-3 py-4">
+          <DashboardHeader
+            menu={[
+              {
+                href: '/dashboard',
+                label: t('home'),
+              },
+              {
+                href: '/dashboard/organization-profile/organization-members',
+                label: t('members'),
+              },
+              {
+                href: '/dashboard/organization-profile',
+                label: t('settings'),
+              },
+            ]}
+          />
         </div>
       </div>
 

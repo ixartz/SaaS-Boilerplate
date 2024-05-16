@@ -14,22 +14,20 @@ const OrganizationProfilePage = (props: { params: { locale: string } }) => {
         description={t('title_bar_description')}
       />
 
-      <div className="flex justify-center">
-        <OrganizationProfile
-          routing="path"
-          path={getI18nPath(
-            '/dashboard/organization-profile',
-            props.params.locale,
-          )}
-          afterLeaveOrganizationUrl="/dashboard"
-          appearance={{
-            elements: {
-              rootBox: 'w-full',
-              card: 'w-full',
-            },
-          }}
-        />
-      </div>
+      <OrganizationProfile
+        routing="path"
+        path={getI18nPath(
+          '/dashboard/organization-profile',
+          props.params.locale,
+        )}
+        afterLeaveOrganizationUrl="/onboarding/organization-selection"
+        appearance={{
+          elements: {
+            rootBox: 'w-full',
+            cardBox: 'w-full flex',
+          },
+        }}
+      />
     </>
   );
 };

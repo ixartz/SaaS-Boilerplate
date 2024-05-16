@@ -3,10 +3,8 @@ import { AppConfig } from '@/utils/AppConfig';
 const Logo = () => (
   <div className="flex items-center text-xl font-semibold">
     <svg
-      className="mr-1 stroke-current stroke-2"
+      className="mr-1 size-8 stroke-current stroke-2"
       xmlns="http://www.w3.org/2000/svg"
-      width={32}
-      height={32}
       viewBox="0 0 24 24"
       fill="none"
       strokeLinecap="round"
