@@ -38,7 +38,8 @@ export default function middleware(
       if (
         authObj.userId &&
         !authObj.orgId &&
-        req.nextUrl.pathname.includes('/dashboard')
+        req.nextUrl.pathname.includes('/dashboard') &&
+        !req.nextUrl.pathname.endsWith('/organization-selection')
       ) {
         const orgSelection = new URL(
           '/onboarding/organization-selection',
