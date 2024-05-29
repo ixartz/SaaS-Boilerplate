@@ -12,7 +12,7 @@ const Sponsors = () => (
         rel="noopener noreferrer"
       >
         <Image
-          src="/assets/images/clerk.png"
+          src="/assets/images/clerk-logo-black.png"
           alt="Clerk"
           width="128"
           height="40"
