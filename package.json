@@ -26,8 +26,6 @@
     "prepare": "husky"
   },
   "dependencies": {
-    "@clerk/localizations": "^2.3.1",
-    "@clerk/nextjs": "^5.0.7",
     "@hookform/resolvers": "^3.3.4",
     "@libsql/client": "^0.6.0",
     "@logtail/pino": "^0.4.21",
@@ -37,7 +35,6 @@
     "@radix-ui/react-label": "^2.0.2",
     "@radix-ui/react-slot": "^1.0.2",
     "@radix-ui/react-tooltip": "^1.0.7",
-    "@sentry/nextjs": "^7.114.0",
     "@spotlightjs/spotlight": "^1.2.17",
     "@t3-oss/env-nextjs": "^0.10.1",
     "@tanstack/react-table": "^8.16.0",

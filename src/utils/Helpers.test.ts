@@ -1,11 +1,12 @@
-import { AppConfig } from './AppConfig';
+import { DEFAULT_LOCALE } from '@/i18n';
+
 import { getI18nPath } from './Helpers';
 
 describe('Helpers', () => {
   describe('getI18nPath function', () => {
     it('should not change the path for default language', () => {
       const url = '/random-url';
-      const locale = AppConfig.defaultLocale;
+      const locale = DEFAULT_LOCALE;
 
       expect(getI18nPath(url, locale)).toBe(url);
     });

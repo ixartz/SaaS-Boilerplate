@@ -10,8 +10,8 @@ import {
   DropdownMenuRadioItem,
   DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu';
+import { LOCALES } from '@/i18n';
 import { usePathname, useRouter } from '@/libs/i18nNavigation';
-import { AppConfig } from '@/utils/AppConfig';
 
 export default function LocaleSwitcher() {
   const router = useRouter();
@@ -43,7 +43,7 @@ export default function LocaleSwitcher() {
       </DropdownMenuTrigger>
       <DropdownMenuContent>
         <DropdownMenuRadioGroup value={locale} onValueChange={handleChange}>
-          {AppConfig.locales.map((elt) => (
+          {LOCALES.map((elt) => (
             <DropdownMenuRadioItem key={elt.id} value={elt.id}>
               {elt.name}
             </DropdownMenuRadioItem>

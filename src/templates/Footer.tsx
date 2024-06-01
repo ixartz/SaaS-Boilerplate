@@ -3,7 +3,7 @@ import { useTranslations } from 'next-intl';
 
 import { CenteredFooter } from '@/features/landing/CenteredFooter';
 import { Section } from '@/features/landing/Section';
-import { AppConfig } from '@/utils/AppConfig';
+import { Env } from '@/libs/Env';
 
 import { Logo } from './Logo';
 
@@ -14,7 +14,7 @@ const Footer = () => {
     <Section className="pb-16 pt-0">
       <CenteredFooter
         logo={<Logo />}
-        name={AppConfig.name}
+        name={Env.NEXT_PUBLIC_APP_NAME}
         iconList={
           <>
             <li>

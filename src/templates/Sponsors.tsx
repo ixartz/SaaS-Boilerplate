@@ -45,19 +45,6 @@ const Sponsors = () => (
         />
       </a>
 
-      <a
-        href="https://sentry.io/for/nextjs/?utm_source=github&utm_medium=paid-community&utm_campaign=general-fy25q1-nextjs&utm_content=github-banner-nextjsboilerplate-logo"
-        target="_blank"
-        rel="noopener noreferrer"
-      >
-        <Image
-          src="/assets/images/sentry-dark.png"
-          alt="Sentry"
-          width="128"
-          height="38"
-        />
-      </a>
-
       <a href="https://nextlessjs.com" target="_blank" rel="noopener">
         <Image
           src="/assets/images/nextlessjs.png"

@@ -1,4 +1,4 @@
-import { AppConfig } from '@/utils/AppConfig';
+import { Env } from '@/libs/Env';
 
 const Logo = () => (
   <div className="flex items-center text-xl font-semibold">
@@ -16,7 +16,7 @@ const Logo = () => (
       <rect x="15" y="4" width="6" height="16" rx="1" />
       <path d="M4 20h14" />
     </svg>
-    {AppConfig.name}
+    {Env.NEXT_PUBLIC_APP_NAME}
   </div>
 );
 

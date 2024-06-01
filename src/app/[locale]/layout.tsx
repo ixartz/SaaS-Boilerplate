@@ -4,7 +4,7 @@ import type { Metadata } from 'next';
 import { notFound } from 'next/navigation';
 import { NextIntlClientProvider, useMessages } from 'next-intl';
 
-import { AllLocales } from '@/utils/AppConfig';
+import { AllLocales } from '@/i18n';
 
 export const metadata: Metadata = {
   icons: [
@@ -40,7 +40,6 @@ export default function RootLayout(props: {
 
   // Using internationalization in Client Components
   const messages = useMessages();
-
   return (
     <html lang={props.params.locale}>
       <body className="bg-background text-foreground antialiased">

@@ -2,7 +2,7 @@ import Link from 'next/link';
 import { useTranslations } from 'next-intl';
 
 import LocaleSwitcher from '@/components/LocaleSwitcher';
-import { buttonVariants } from '@/components/ui/button';
+import { Button } from '@/components/ui/button';
 import { CenteredMenu } from '@/features/landing/CenteredMenu';
 import { Section } from '@/features/landing/Section';
 
@@ -21,36 +21,18 @@ const Navbar = () => {
               <LocaleSwitcher />
             </li>
             <li>
-              <Link href="/sign-in">{t('sign_in')}</Link>
+              <Button variant="link">
+                <Link href="/sign-in">{t('sign_in')}</Link>
+              </Button>
             </li>
             <li>
-              <Link className={buttonVariants()} href="/sign-up">
-                {t('sign_up')}
+              <Link href="/sign-up">
+                <Button>{t('sign_up')}</Button>
               </Link>
             </li>
           </>
         }
-      >
-        <li>
-          <Link href="/">{t('product')}</Link>
-        </li>
-
-        <li>
-          <Link href="/">{t('docs')}</Link>
-        </li>
-
-        <li>
-          <Link href="/">{t('blog')}</Link>
-        </li>
-
-        <li>
-          <Link href="/">{t('community')}</Link>
-        </li>
-
-        <li>
-          <Link href="/">{t('company')}</Link>
-        </li>
-      </CenteredMenu>
+      />
     </Section>
   );
 };

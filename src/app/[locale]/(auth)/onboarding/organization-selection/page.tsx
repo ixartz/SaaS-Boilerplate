@@ -1,4 +1,3 @@
-import { OrganizationList } from '@clerk/nextjs';
 import { getTranslations } from 'next-intl/server';
 
 export async function generateMetadata(props: { params: { locale: string } }) {
@@ -15,12 +14,7 @@ export async function generateMetadata(props: { params: { locale: string } }) {
 
 const OrganizationSelectionPage = () => (
   <div className="flex min-h-screen items-center justify-center">
-    <OrganizationList
-      afterSelectOrganizationUrl="/dashboard"
-      afterCreateOrganizationUrl="/dashboard"
-      hidePersonal
-      skipInvitationScreen
-    />
+    OrganizationList
   </div>
 );
 

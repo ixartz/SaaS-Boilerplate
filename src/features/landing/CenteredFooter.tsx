@@ -45,7 +45,7 @@ const CenteredFooter = (props: {
            */}
         </div>
 
-        <ul className="flex gap-x-4 font-medium [&_a:hover]:opacity-100 [&_a]:opacity-60">
+        <ul className="flex gap-x-2 font-medium [&_a:hover]:opacity-100 [&_a]:opacity-60">
           {props.legalLinks}
         </ul>
       </div>

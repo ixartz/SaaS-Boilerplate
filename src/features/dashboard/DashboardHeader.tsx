@@ -1,8 +1,6 @@
 'use client';
 
-import { OrganizationSwitcher, UserButton } from '@clerk/nextjs';
 import Link from 'next/link';
-import { useLocale } from 'next-intl';
 
 import { ActiveLink } from '@/components/ActiveLink';
 import LocaleSwitcher from '@/components/LocaleSwitcher';
@@ -14,7 +12,6 @@ import {
   DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu';
 import { Logo } from '@/templates/Logo';
-import { getI18nPath } from '@/utils/Helpers';
 
 const DashboardHeader = (props: {
   menu: {
@@ -22,8 +19,6 @@ const DashboardHeader = (props: {
     label: string;
   }[];
 }) => {
-  const locale = useLocale();
-
   return (
     <>
       <div className="flex items-center">
@@ -42,22 +37,7 @@ const DashboardHeader = (props: {
           <path stroke="none" d="M0 0h24v24H0z" />
           <path d="M17 5 7 19" />
         </svg>
-
-        <OrganizationSwitcher
-          organizationProfileMode="navigation"
-          organizationProfileUrl={getI18nPath(
-            '/dashboard/organization-profile',
-            locale,
-          )}
-          afterCreateOrganizationUrl="/dashboard"
-          hidePersonal
-          skipInvitationScreen
-          appearance={{
-            elements: {
-              organizationSwitcherTrigger: 'max-w-52',
-            },
-          }}
-        />
+        <div>OrganizationSwitcher</div>
 
         <nav className="ml-3 max-lg:hidden">
           <ul className="flex flex-row items-center gap-x-3 text-lg font-medium [&_a:hover]:opacity-100 [&_a]:opacity-75">
@@ -94,16 +74,17 @@ const DashboardHeader = (props: {
           </li>
 
           <li>
-            <UserButton
-              userProfileMode="navigation"
-              userProfileUrl="/dashboard/user-profile"
-              afterSignOutUrl="/"
-              appearance={{
-                elements: {
-                  rootBox: 'px-2 py-1.5',
-                },
-              }}
-            />
+            UserButton
+            {/* <UserButton
+							userProfileMode='navigation'
+							userProfileUrl='/dashboard/user-profile'
+							afterSignOutUrl='/'
+							appearance={{
+								elements: {
+									rootBox: 'px-2 py-1.5',
+								},
+							}}
+						/> */}
           </li>
         </ul>
       </div>
