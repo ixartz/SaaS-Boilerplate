@@ -53,7 +53,8 @@
     "feature_transfer": "{number} TB de transfert",
     "feature_email_support": "Support par e-mail",
     "plan_interval_month": "mois",
-    "plan_interval_year": "année"
+    "plan_interval_year": "année",
+    "next_renew_date": "Votre abonnement sera renouvelé le {date}"
   },
   "FAQ": {
     "question": "Lorem ipsum dolor sit amet, consectetur adipiscing elit?",
@@ -101,7 +102,7 @@
     "title_bar_description": "Bienvenue sur votre tableau de bord",
     "message_state_title": "C'est parti",
     "message_state_description": "Vous pouvez personnaliser cette page en modifiant le fichier dans <code>src/app/[locale]/(auth)/dashboard/page.tsx</code>",
-    "message_state_button": "Lire la documentation"
+    "message_state_button": "Besoin d'une intégration Stripe ? Découvrez Next.js Boilerplate Pro"
   },
   "UserProfile": {
     "title_bar": "Profil utilisateur",
@@ -121,9 +122,6 @@
   "BillingOptions": {
     "current_plan": "Plan actuel",
     "upgrade_plan": "Démarrer"
-  },
-  "CurrentPlanDetails": {
-    "next_renew_date": "Votre abonnement sera renouvelé le {date}"
   },
   "CheckoutConfirmation": {
     "title_bar": "Confirmation du paiement",
