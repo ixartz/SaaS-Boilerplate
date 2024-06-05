@@ -31,6 +31,7 @@ export const PricingPlanList: Array<PricingPlan> = [
     id: PLAN_ID.FREE,
     price: 0,
     interval: BILLING_INTERVAL.MONTH,
+    testPriceId: '',
     devPriceId: '',
     prodPriceId: '',
     features: {
@@ -44,6 +45,7 @@ export const PricingPlanList: Array<PricingPlan> = [
     id: PLAN_ID.PREMIUM,
     price: 79,
     interval: BILLING_INTERVAL.MONTH,
+    testPriceId: '',
     devPriceId: '',
     prodPriceId: '',
     features: {
@@ -57,6 +59,7 @@ export const PricingPlanList: Array<PricingPlan> = [
     id: PLAN_ID.ENTERPRISE,
     price: 199,
     interval: BILLING_INTERVAL.MONTH,
+    testPriceId: '',
     devPriceId: '',
     prodPriceId: '',
     features: {

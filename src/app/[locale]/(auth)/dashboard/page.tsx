@@ -1,11 +1,8 @@
-import { Protect } from '@clerk/nextjs';
 import { useTranslations } from 'next-intl';
 
 import { buttonVariants } from '@/components/ui/button';
-import { ProtectFallback } from '@/features/auth/ProtectFallback';
 import { MessageState } from '@/features/dashboard/MessageState';
 import { TitleBar } from '@/features/dashboard/TitleBar';
-import { ORG_ROLE } from '@/types/Auth';
 
 const DashboardIndexPage = () => {
   const t = useTranslations('DashboardIndex');
@@ -39,30 +36,12 @@ const DashboardIndexPage = () => {
           ),
         })}
         button={
-          <Protect
-            role={ORG_ROLE.ADMIN}
-            fallback={
-              <ProtectFallback
-                trigger={
-                  <div
-                    className={buttonVariants({
-                      size: 'lg',
-                      variant: 'secondary',
-                    })}
-                  >
-                    {t('message_state_button')}
-                  </div>
-                }
-              />
-            }
+          <a
+            className={buttonVariants({ size: 'lg' })}
+            href="https://nextjs-boilerplate.com/pro-saas-starter-kit"
           >
-            <a
-              className={buttonVariants({ size: 'lg' })}
-              href="https://github.com/ixartz/SaaS-Boilerplate"
-            >
-              {t('message_state_button')}
-            </a>
-          </Protect>
+            {t('message_state_button')}
+          </a>
         }
       />
     </>

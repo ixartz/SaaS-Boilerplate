@@ -53,7 +53,8 @@
     "feature_transfer": "{number} TB Transfer",
     "feature_email_support": "Email Support",
     "plan_interval_month": "month",
-    "plan_interval_year": "year"
+    "plan_interval_year": "year",
+    "next_renew_date": "Your subscription renews on {date}"
   },
   "FAQ": {
     "question": "Lorem ipsum dolor sit amet, consectetur adipiscing elit?",
@@ -100,8 +101,8 @@
     "title_bar": "Dashboard",
     "title_bar_description": "Welcome to your dashboard",
     "message_state_title": "Let's get started",
-    "message_state_description": "You can customize this page by editing the file at <code>dashboard/page.tsx</code>",
-    "message_state_button": "Read the documentation"
+    "message_state_description": "You can customize this page by editing the file at <code>dashboard/page.tsx</code>.",
+    "message_state_button": "Need Stripe Integration? Check out Next.js Boilerplate Pro"
   },
   "UserProfile": {
     "title_bar": "User Profile",
@@ -121,9 +122,6 @@
   "BillingOptions": {
     "current_plan": "Current Plan",
     "upgrade_plan": "Get Started"
-  },
-  "CurrentPlanDetails": {
-    "next_renew_date": "Your subscription renews on {date}"
   },
   "CheckoutConfirmation": {
     "title_bar": "Payment Confirmation",

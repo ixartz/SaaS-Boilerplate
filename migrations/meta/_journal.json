@@ -1,12 +1,12 @@
 {
-  "version": "5",
+  "version": "7",
   "dialect": "sqlite",
   "entries": [
     {
       "idx": 0,
-      "version": "5",
-      "when": 1711410457358,
-      "tag": "0000_vengeful_bill_hollister",
+      "version": "6",
+      "when": 1717543980997,
+      "tag": "0000_init_db",
       "breakpoints": true
     }
   ]
