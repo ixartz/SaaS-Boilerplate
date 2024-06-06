@@ -32,23 +32,23 @@ const Navbar = () => {
         }
       >
         <li>
-          <Link href="/">{t('product')}</Link>
+          <Link href="/sign-up">{t('product')}</Link>
         </li>
 
         <li>
-          <Link href="/">{t('docs')}</Link>
+          <Link href="/sign-up">{t('docs')}</Link>
         </li>
 
         <li>
-          <Link href="/">{t('blog')}</Link>
+          <Link href="/sign-up">{t('blog')}</Link>
         </li>
 
         <li>
-          <Link href="/">{t('community')}</Link>
+          <Link href="/sign-up">{t('community')}</Link>
         </li>
 
         <li>
-          <Link href="/">{t('company')}</Link>
+          <Link href="/sign-up">{t('company')}</Link>
         </li>
       </CenteredMenu>
     </Section>
