@@ -1,7 +1,7 @@
 {
   "Index": {
     "meta_title": "SaaS Template - The perfect SaaS template to build and scale your business with ease.",
-    "meta_description": "A free and open-source landing page template for your SaaS business, built with Next.js, TypeScript, Shadcn UI, and Tailwind CSS."
+    "meta_description": "A free and open-source landing page template for your SaaS business, built with React, TypeScript, Shadcn UI, and Tailwind CSS."
   },
   "Navbar": {
     "sign_in": "Sign In",
@@ -15,7 +15,7 @@
   "Hero": {
     "follow_twitter": "Follow @Ixartz on Twitter",
     "title": "The perfect <important>SaaS template</important> to build and scale your business with ease.",
-    "description": "A free and open-source landing page template for your SaaS business, built with Next.js, TypeScript, Shadcn UI, and Tailwind CSS.",
+    "description": "A free and open-source landing page template for your SaaS business, built with React, TypeScript, Shadcn UI, and Tailwind CSS.",
     "primary_button": "Get Started",
     "secondary_button": "Star on GitHub"
   },
@@ -25,19 +25,19 @@
   "Features": {
     "section_subtitle": "Features",
     "section_title": "Unlock the Full Potential of the SaaS Template",
-    "section_description": "A free and open-source landing page template for your SaaS business, built with Next.js, TypeScript, Shadcn UI, and Tailwind CSS.",
-    "feature1_title": "Next.js",
+    "section_description": "A free and open-source landing page template for your SaaS business, built with React, TypeScript, Shadcn UI, and Tailwind CSS.",
+    "feature1_title": "Node.js",
     "feature2_title": "React",
     "feature3_title": "Tailwind CSS",
     "feature4_title": "TypeScript",
     "feature5_title": "Shadcn UI",
     "feature6_title": "ESLint",
-    "feature_description": "A free and open-source landing page template for your SaaS business, built with Next.js, TypeScript, Shadcn UI, and Tailwind CSS."
+    "feature_description": "A free and open-source landing page template for your SaaS business, built with React, TypeScript, Shadcn UI, and Tailwind CSS."
   },
   "Pricing": {
     "section_subtitle": "Features",
     "section_title": "Unlock the Full Potential of the SaaS Template",
-    "section_description": "A free and open-source landing page template for your SaaS business, built with Next.js, TypeScript, Shadcn UI, and Tailwind CSS.",
+    "section_description": "A free and open-source landing page template for your SaaS business, built with React, TypeScript, Shadcn UI, and Tailwind CSS.",
     "button_text": "Get Started"
   },
   "PricingPlan": {
