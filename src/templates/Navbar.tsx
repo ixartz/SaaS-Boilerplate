@@ -48,7 +48,7 @@ const Navbar = () => {
         </li>
 
         <li>
-          <Link href="/sign-up">{t('company')}</Link>
+          <Link href="/testpage">Test Page</Link>
         </li>
       </CenteredMenu>
     </Section>
