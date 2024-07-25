@@ -20,19 +20,6 @@ const Sponsors = () => (
       </a>
 
       <a
-        href="https://turso.tech/?utm_source=nextjsstarterbp"
-        target="_blank"
-        rel="noopener noreferrer"
-      >
-        <Image
-          src="/assets/images/turso-dark.png"
-          alt="Turso"
-          width="128"
-          height="29"
-        />
-      </a>
-
-      <a
         href="https://l.crowdin.com/next-js"
         target="_blank"
         rel="noopener noreferrer"

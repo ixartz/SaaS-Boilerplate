@@ -1,21 +1,21 @@
-CREATE TABLE `organization` (
-	`id` text PRIMARY KEY NOT NULL,
-	`stripe_customer_id` text,
-	`stripe_subscription_id` text,
-	`stripe_subscription_price_id` text,
-	`stripe_subscription_status` text,
-	`stripe_subscription_current_period_end` integer,
-	`created_at` integer DEFAULT (strftime('%s', 'now')),
-	`updated_at` integer DEFAULT (strftime('%s', 'now'))
+CREATE TABLE IF NOT EXISTS "organization" (
+	"id" serial NOT NULL,
+	"stripe_customer_id" text,
+	"stripe_subscription_id" text,
+	"stripe_subscription_price_id" text,
+	"stripe_subscription_status" text,
+	"stripe_subscription_current_period_end" integer,
+	"updated_at" timestamp DEFAULT now() NOT NULL,
+	"created_at" timestamp DEFAULT now() NOT NULL
 );
 --> statement-breakpoint
-CREATE TABLE `todo` (
-	`id` integer PRIMARY KEY NOT NULL,
-	`owner_id` text NOT NULL,
-	`title` text NOT NULL,
-	`message` text NOT NULL,
-	`created_at` integer DEFAULT (strftime('%s', 'now')),
-	`updated_at` integer DEFAULT (strftime('%s', 'now'))
+CREATE TABLE IF NOT EXISTS "todo" (
+	"id" serial NOT NULL,
+	"owner_id" text NOT NULL,
+	"title" text NOT NULL,
+	"message" text NOT NULL,
+	"updated_at" timestamp DEFAULT now() NOT NULL,
+	"created_at" timestamp DEFAULT now() NOT NULL
 );
 --> statement-breakpoint
-CREATE UNIQUE INDEX `stripe_customer_id_idx` ON `organization` (`stripe_customer_id`);
+CREATE UNIQUE INDEX IF NOT EXISTS "stripe_customer_id_idx" ON "organization" USING btree ("stripe_customer_id");

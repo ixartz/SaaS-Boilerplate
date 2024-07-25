@@ -1,4 +1,4 @@
-import { getTranslations } from 'next-intl/server';
+import { getTranslations, unstable_setRequestLocale } from 'next-intl/server';
 
 import { CTA } from '@/templates/CTA';
 import { FAQ } from '@/templates/FAQ';
@@ -21,7 +21,9 @@ export async function generateMetadata(props: { params: { locale: string } }) {
   };
 }
 
-export default function IndexPage() {
+export default function IndexPage(props: { params: { locale: string } }) {
+  unstable_setRequestLocale(props.params.locale);
+
   return (
     <>
       <Navbar />
