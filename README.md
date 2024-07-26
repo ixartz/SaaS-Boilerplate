@@ -4,7 +4,7 @@
   <a href="https://creativedesignsguru.com/demo/Nextjs-Boilerplate/"><img height="300" src="public/assets/images/nextjs-starter-banner.png?raw=true" alt="Next js starter banner"></a>
 </p>
 
-🚀 Boilerplate and Starter for Next.js with App Router support, Tailwind CSS and TypeScript ⚡️ Made with developer experience first: Next.js, TypeScript, ESLint, Prettier, Husky, Lint-Staged, Vitest (replacing Jest), Testing Library, Commitlint, VSCode, PostCSS, Tailwind CSS, Authentication with [Clerk](https://go.clerk.com/zGlzydF), Database with DrizzleORM (SQLite, PostgreSQL, and MySQL) and [Turso](https://turso.tech/?utm_source=nextjsstarterbp), Error Monitoring with [Sentry](https://sentry.io/for/nextjs/?utm_source=github&utm_medium=paid-community&utm_campaign=general-fy25q1-nextjs&utm_content=github-banner-nextjsboilerplate-logo), Logging with Pino.js and Log Management, Monitoring as Code, Storybook, Multi-language (i18n), and more.
+🚀 Boilerplate and Starter for Next.js with App Router support, Tailwind CSS and TypeScript ⚡️ Made with developer experience first: Next.js, TypeScript, ESLint, Prettier, Husky, Lint-Staged, Vitest (replacing Jest), Testing Library, Commitlint, VSCode, PostCSS, Tailwind CSS, Authentication with [Clerk](https://go.clerk.com/zGlzydF), Database with DrizzleORM (PostgreSQL, SQLite, and MySQL), Error Monitoring with [Sentry](https://sentry.io/for/nextjs/?utm_source=github&utm_medium=paid-community&utm_campaign=general-fy25q1-nextjs&utm_content=github-banner-nextjsboilerplate-logo), Logging with Pino.js and Log Management, Monitoring as Code, Storybook, Multi-language (i18n), and more. Ready for Next.js 15.
 
 Clone this project and use it to create your own SaaS. You can check the live demo at [SaaS Boilerplate](https://react-saas.com).
 
@@ -22,15 +22,6 @@ Clone this project and use it to create your own SaaS. You can check the live de
       </a>
     </td>
     <td align="center" width="33%">
-      <a href="https://turso.tech/?utm_source=nextjsstarterbp">
-        <picture>
-          <source media="(prefers-color-scheme: dark)" srcset="public/assets/images/turso-light.png?raw=true">
-          <source media="(prefers-color-scheme: light)" srcset="public/assets/images/turso-dark.png?raw=true">
-          <img alt="Turso - SQLite for Production" src="public/assets/images/turso-dark.png?raw=true">
-        </picture>
-      </a>
-    </td>
-    <td align="center" width="33%">
       <a href="https://l.crowdin.com/next-js">
         <picture>
           <source media="(prefers-color-scheme: dark)" srcset="public/assets/images/crowdin-white.png?raw=true">
@@ -39,8 +30,6 @@ Clone this project and use it to create your own SaaS. You can check the live de
         </picture>
       </a>
     </td>
-  </tr>
-  <tr height="187px">
     <td align="center" width="33%">
       <a href="https://sentry.io/for/nextjs/?utm_source=github&utm_medium=paid-community&utm_campaign=general-fy25q1-nextjs&utm_content=github-banner-nextjsboilerplate-logo">
         <picture>
@@ -57,6 +46,8 @@ Clone this project and use it to create your own SaaS. You can check the live de
         </picture>
       </a>
     </td>
+  </tr>
+  <tr height="187px">
     <td align="center" width="33%">
       <a href="mailto:contact@creativedesignsguru.com">
         Add your logo here
@@ -78,8 +69,7 @@ Developer experience first, extremely flexible code structure and only keep what
 - 👥 Multi-tenancy & team support: create, switch, update organization and invite team members
 - 📝 Role-based access control and permissions
 - 👤 Multi-Factor Auth (MFA), Social Auth (Google, Facebook, Twitter, GitHub, Apple, and more), User Impersonation
-- 📦 Type-safe ORM with DrizzleORM, compatible with SQLite, PostgreSQL, and MySQL
-- 💽 Global Database with [Turso](https://turso.tech/?utm_source=nextjsstarterbp)
+- 📦 Type-safe ORM with DrizzleORM, compatible with PostgreSQL, SQLite, and MySQL
 - 🌐 Multi-language (i18n) with [next-intl](https://next-intl-docs.vercel.app/) and [Crowdin](https://l.crowdin.com/next-js)
 - ♻️ Type-safe environment variables with T3 Env
 - ⌨️ Form with React Hook Form
@@ -118,6 +108,7 @@ Built-in feature from Next.js:
 ### Philosophy
 
 - Nothing is hidden from you, so you have the freedom to make the necessary adjustments to fit your needs and preferences.
+- Dependencies are updated every month
 - Easy to customize
 - Minimal code
 - SEO-friendly
@@ -132,12 +123,14 @@ Built-in feature from Next.js:
 Run the following command on your local environment:
 
 ```shell
-git clone --depth=1 https://github.com/ixartz/SaaS-Boilerplate.git my-project-name
+git clone --depth=1 https://github.com/ixartz/Next-js-Boilerplate.git my-project-name
 cd my-project-name
 npm install
 ```
 
-Then, you can run locally in development mode with live reload:
+For your information, all dependencies are updated every month.
+
+Then, you can run the project locally in development mode with live reload by executing:
 
 ```shell
 npm run dev
@@ -158,38 +151,7 @@ Now, you can a fully working authentication system with Next.js: Sign up, Sign i
 
 ### Set up remote database
 
-The project uses DrizzleORM, a type-safe ORM compatible with SQLite, PostgreSQL, and MySQL databases. By default, the project is set up to work seamlessly with libSQL, and for production purposes, it's integrated with [Turso](https://turso.tech/?utm_source=nextjsstarterbp). The SaaS Boilerplate also enables a smooth transition to an alternative database provider if your project requires it.
-
-First, you need to create a Turso account at [Turso.tech](https://turso.tech/?utm_source=nextjsstarterbp) and install the Turso CLI:
-
-```shell
-brew install tursodatabase/tap/turso
-turso auth signup # Sign up to Turso
-```
-
-Then, create a new database:
-
-```shell
-turso db create nextjs-boilerplate
-```
-
-Now, you need to update the `DATABASE_URL` in `.env` file with the database URL provided by Turso:
-
-```shell
-turso db show nextjs-boilerplate --url
-
-# .env
-# DATABASE_URL=libsql://[RANDOM-CHARS]-[DB-NAME]-[ORG-NAME].turso.io
-```
-
-Finally, you also need to create a new environment variable `DATABASE_AUTH_TOKEN` in `.env.local` (not tracked by Git) with the auth token provided by Turso:
-
-```shell
-turso db tokens create nextjs-boilerplate
-
-# .env.local
-# DATABASE_AUTH_TOKEN=[your-auth-token]
-```
+The project uses DrizzleORM, a type-safe ORM compatible with PostgreSQL, SQLite, and MySQL databases. By default, the project is set up to work seamlessly with PostgreSQL and you can easily choose any PostgreSQL database provider.
 
 ### Translation (i18n) setup
 
@@ -269,18 +231,16 @@ npm run test:e2e
 
 ### Enable Edge runtime (optional)
 
-The App Router folder is compatible with the Edge runtime. You can enable it by uncommenting the following lines `src/app/layouts.tsx`:
+The App Router folder is compatible with the Edge runtime. You can enable it by adding the following lines `src/app/layouts.tsx`:
 
 ```tsx
-// export const runtime = 'edge';
+export const runtime = 'edge';
 ```
 
 For your information, the database migration is not compatible with the Edge runtime. So, you need to disable the automatic migration in `src/libs/DB.ts`:
 
 ```tsx
-if (process.env.NODE_ENV === 'development') {
-  await migrate(db, { migrationsFolder: './migrations' });
-}
+await migrate(db, { migrationsFolder: './migrations' });
 ```
 
 After disabling it, you are required to run the migration manually with:
@@ -293,7 +253,7 @@ You also require to run the command each time you want to update the database sc
 
 ### Deploy to production
 
-During the build process, the database migration is automatically executed. So, you don't need to run the migration manually. But, in your environment variable, `DATABASE_URL` and `DATABASE_AUTH_TOKEN` need to be defined.
+During the build process, the database migration is automatically executed. So, you don't need to run the migration manually. But, in your environment variable, `DATABASE_URL` need to be defined.
 
 Then, you can generate a production build with:
 
@@ -393,15 +353,6 @@ See [LICENSE](LICENSE) for more information.
       </a>
     </td>
     <td align="center" width="33%">
-      <a href="https://turso.tech/?utm_source=nextjsstarterbp">
-        <picture>
-          <source media="(prefers-color-scheme: dark)" srcset="public/assets/images/turso-light.png?raw=true">
-          <source media="(prefers-color-scheme: light)" srcset="public/assets/images/turso-dark.png?raw=true">
-          <img alt="Turso - SQLite for Production" src="public/assets/images/turso-dark.png?raw=true">
-        </picture>
-      </a>
-    </td>
-    <td align="center" width="33%">
       <a href="https://l.crowdin.com/next-js">
         <picture>
           <source media="(prefers-color-scheme: dark)" srcset="public/assets/images/crowdin-white.png?raw=true">
@@ -410,8 +361,6 @@ See [LICENSE](LICENSE) for more information.
         </picture>
       </a>
     </td>
-  </tr>
-  <tr height="187px">
     <td align="center" width="33%">
       <a href="https://sentry.io/for/nextjs/?utm_source=github&utm_medium=paid-community&utm_campaign=general-fy25q1-nextjs&utm_content=github-banner-nextjsboilerplate-logo">
         <picture>
@@ -428,6 +377,8 @@ See [LICENSE](LICENSE) for more information.
         </picture>
       </a>
     </td>
+  </tr>
+  <tr height="187px">
     <td align="center" width="33%">
       <a href="mailto:contact@creativedesignsguru.com">
         Add your logo here

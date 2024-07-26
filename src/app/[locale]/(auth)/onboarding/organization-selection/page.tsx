@@ -24,4 +24,6 @@ const OrganizationSelectionPage = () => (
   </div>
 );
 
+export const dynamic = 'force-dynamic';
+
 export default OrganizationSelectionPage;

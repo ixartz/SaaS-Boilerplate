@@ -1,15 +1,13 @@
-import type { Config } from 'drizzle-kit';
+/* eslint-disable import/no-extraneous-dependencies */
+import { defineConfig } from 'drizzle-kit';
 
-/** @type {import('drizzle-kit').Config} */
-export default {
+export default defineConfig({
   out: './migrations',
   schema: './src/models/Schema.ts',
-  dialect: 'sqlite',
-  driver: 'turso',
+  dialect: 'postgresql',
   dbCredentials: {
     url: process.env.DATABASE_URL ?? '',
-    authToken: process.env.DATABASE_AUTH_TOKEN ?? '',
   },
   verbose: true,
   strict: true,
-} satisfies Config;
+});
