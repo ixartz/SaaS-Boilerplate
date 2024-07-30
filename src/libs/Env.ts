@@ -18,7 +18,7 @@ export const Env = createEnv({
     NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY: z.string().min(1),
   },
   shared: {
-    NODE_ENV: z.enum(['development', 'production']),
+    NODE_ENV: z.enum(['test', 'development', 'production']),
   },
   // You need to destructure all the keys manually
   runtimeEnv: {

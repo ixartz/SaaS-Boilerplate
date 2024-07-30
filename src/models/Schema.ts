@@ -1,5 +1,5 @@
 import {
-  integer,
+  bigint,
   pgTable,
   serial,
   text,
@@ -10,13 +10,14 @@ import {
 export const organizationSchema = pgTable(
   'organization',
   {
-    id: serial('id'),
+    id: text('id').primaryKey(),
     stripeCustomerId: text('stripe_customer_id'),
     stripeSubscriptionId: text('stripe_subscription_id'),
     stripeSubscriptionPriceId: text('stripe_subscription_price_id'),
     stripeSubscriptionStatus: text('stripe_subscription_status'),
-    stripeSubscriptionCurrentPeriodEnd: integer(
+    stripeSubscriptionCurrentPeriodEnd: bigint(
       'stripe_subscription_current_period_end',
+      { mode: 'number' },
     ),
     updatedAt: timestamp('updated_at', { mode: 'date' })
       .defaultNow()
@@ -34,7 +35,7 @@ export const organizationSchema = pgTable(
 );
 
 export const todoSchema = pgTable('todo', {
-  id: serial('id'),
+  id: serial('id').primaryKey(),
   ownerId: text('owner_id').notNull(),
   title: text('title').notNull(),
   message: text('message').notNull(),
