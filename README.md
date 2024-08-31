@@ -56,6 +56,22 @@ Clone this project and use it to create your own SaaS. You can check the live de
   </tr>
 </table>
 
+### Demo
+
+**Live demo: [SaaS Boilerplate](https://react-saas.com)**
+
+| Landing Page | User Dashboard |
+| --- | --- |
+| ![Next.js Boilerplate SaaS Landing Page](public/assets/images/nextjs-boilerplate-saas-landing-page.png) | ![Next.js Boilerplate SaaS User Dashboard](public/assets/images/nextjs-boilerplate-saas-user-dashboard.png) |
+
+| Team Management | User Profile |
+| --- | --- |
+| ![Next.js Boilerplate SaaS Team Management](public/assets/images/nextjs-boilerplate-saas-multi-tenancy.png) | ![Next.js Boilerplate SaaS User Profile](public/assets/images/nextjs-boilerplate-saas-user-profile.png) |
+
+| Sign Up | Sign In |
+| --- | --- |
+| ![Next.js Boilerplate SaaS Sign Up](public/assets/images/nextjs-boilerplate-saas-sign-up.png) | ![Next.js Boilerplate SaaS Sign In](public/assets/images/nextjs-boilerplate-saas-sign-in.png) |
+
 ### Features
 
 Developer experience first, extremely flexible code structure and only keep what you need:
@@ -114,22 +130,6 @@ Built-in feature from Next.js:
 - SEO-friendly
 - Everything you need to build a SaaS
 - 🚀 Production-ready
-
-### Demo
-
-**Live demo: [SaaS Boilerplate](https://react-saas.com)**
-
-| Landing Page | User Dashboard |
-| --- | --- |
-| ![Next.js Boilerplate SaaS Landing Page](public/assets/images/nextjs-boilerplate-saas-landing-page.png) | ![Next.js Boilerplate SaaS User Dashboard](public/assets/images/nextjs-boilerplate-saas-user-dashboard.png) |
-
-| Team Management | User Profile |
-| --- | --- |
-| ![Next.js Boilerplate SaaS Team Management](public/assets/images/nextjs-boilerplate-saas-multi-tenancy.png) | ![Next.js Boilerplate SaaS User Profile](public/assets/images/nextjs-boilerplate-saas-user-profile.png) |
-
-| Sign Up | Sign In |
-| --- | --- |
-| ![Next.js Boilerplate SaaS Sign Up](public/assets/images/nextjs-boilerplate-saas-sign-up.png) | ![Next.js Boilerplate SaaS Sign In](public/assets/images/nextjs-boilerplate-saas-sign-in.png) |
 
 ### Requirements
 
