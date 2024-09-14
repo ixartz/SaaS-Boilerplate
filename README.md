@@ -79,7 +79,7 @@ Developer experience first, extremely flexible code structure and only keep what
 - ⚡ [Next.js](https://nextjs.org) with App Router support
 - 🔥 Type checking [TypeScript](https://www.typescriptlang.org)
 - 💎 Integrate with [Tailwind CSS](https://tailwindcss.com) and Shadcn UI
-- ✅ Strict Mode for TypeScript and [React 18](https://reactjs.org/)
+- ✅ Strict Mode for TypeScript and [React 18](https://react.dev)
 - 🔒 Authentication with [Clerk](https://go.clerk.com/zGlzydF): Sign up, Sign in, Sign out, Forgot password, Reset password, and more.
 - 👤 Passwordless Authentication with Magic Links, Multi-Factor Auth (MFA), Social Auth (Google, Facebook, Twitter, GitHub, Apple, and more), Passwordless login with Passkeys, User Impersonation
 - 👥 Multi-tenancy & team support: create, switch, update organization and invite team members
@@ -88,32 +88,32 @@ Developer experience first, extremely flexible code structure and only keep what
 - 📦 Type-safe ORM with DrizzleORM, compatible with PostgreSQL, SQLite, and MySQL
 - 🌐 Multi-language (i18n) with [next-intl](https://next-intl-docs.vercel.app/) and [Crowdin](https://l.crowdin.com/next-js)
 - ♻️ Type-safe environment variables with T3 Env
-- ⌨️ Form with [React Hook Form](https://www.react-hook-form.com/)
-- 🔴 Validation library with [Zod](https://zod.dev/)
+- ⌨️ Form with [React Hook Form](https://react-hook-form.com)
+- 🔴 Validation library with [Zod](https://zod.dev)
 - 📏 Linter with [ESLint](https://eslint.org) (default NextJS, NextJS Core Web Vitals, Tailwind CSS and Airbnb configuration)
 - 💖 Code Formatter with [Prettier](https://prettier.io)
-- 🦊 [Husky](https://typicode.github.io/husky/) for Git Hooks
+- 🦊 Husky for Git Hooks
 - 🚫 Lint-staged for running linters on Git staged files
-- 🚓 Lint git commit with [Commitlint](https://commitlint.js.org/)
-- 📓 Write standard compliant commit messages with [Commitizen](https://github.com/commitizen/cz-cli)
-- 🦺 Unit Testing with [Vitest](https://vitest.dev/) and [React Testing Library](https://testing-library.com/react)
-- 🧪 Integration and E2E Testing with [Playwright](https://playwright.dev/)
-- 👷 Run tests on pull requests with [GitHub Actions](https://github.com/features/actions)
-- 🎉 [Storybook](https://storybook.js.org/) for UI development
+- 🚓 Lint git commit with Commitlint
+- 📓 Write standard compliant commit messages with Commitizen
+- 🦺 Unit Testing with [Vitest](https://vitest.dev) and React Testing Library
+- 🧪 Integration and E2E Testing with [Playwright](https://playwright.dev)
+- 👷 Run tests on pull requests with GitHub Actions
+- 🎉 [Storybook](https://storybook.js.org) for UI development
 - 🚨 Error Monitoring with [Sentry](https://sentry.io/for/nextjs/?utm_source=github&utm_medium=paid-community&utm_campaign=general-fy25q1-nextjs&utm_content=github-banner-nextjsboilerplate-logo)
 - ☂️ Code coverage with [Codecov](https://about.codecov.io/codecov-free-trial/?utm_source=github&utm_medium=paid-community&utm_campaign=general-fy25q1-nextjs&utm_content=github-banner-nextjsboilerplate-logo)
-- 📝 Logging with [Pino.js](https://getpino.io/) and Log Management with [Better Stack](https://betterstack.com/?utm_source=github&utm_medium=sponsorship&utm_campaign=next-js-boilerplate)
+- 📝 Logging with [Pino.js](https://getpino.io) and Log Management with [Better Stack](https://betterstack.com/?utm_source=github&utm_medium=sponsorship&utm_campaign=next-js-boilerplate)
 - 🖥️ Monitoring as Code with [Checkly](https://www.checklyhq.com/?utm_source=github&utm_medium=sponsorship&utm_campaign=next-js-boilerplate)
-- 🎁 Automatic changelog generation with [Semantic Release](https://semantic-release.gitbook.io/semantic-release)
-- 🔍 Visual testing with [Percy](https://percy.io/) (Optional)
+- 🎁 Automatic changelog generation with Semantic Release
+- 🔍 Visual testing with Percy (Optional)
 - 💡 Absolute Imports using `@` prefix
 - 🗂 VSCode configuration: Debug, Settings, Tasks and Extensions
 - 🤖 SEO metadata, JSON-LD and Open Graph tags
-- 🗺️ [Sitemap.xml](https://www.sitemaps.org/) and [robots.txt](https://en.wikipedia.org/wiki/Robots.txt)
-- ⌘ Database exploration with [Drizzle Studio](https://orm.drizzle.team/drizzle-studio/overview) and CLI migration tool with [Drizzle Kit](https://orm.drizzle.team/)
+- 🗺️ Sitemap.xml and robots.txt
+- ⌘ Database exploration with Drizzle Studio and CLI migration tool with Drizzle Kit
 - ⚙️ [Bundler Analyzer](https://www.npmjs.com/package/@next/bundle-analyzer)
 - 🌈 Include a FREE minimalist theme
-- 💯 Maximize [lighthouse score](https://developer.chrome.com/docs/lighthouse)
+- 💯 Maximize lighthouse score
 
 Built-in feature from Next.js:
 
