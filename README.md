@@ -1,10 +1,16 @@
-# Boilerplate and Starter for Next JS 14+, Tailwind CSS 3.4 and TypeScript for building SaaS
+# Free and Open Source SaaS Boilerplate with Tailwind CSS and Shadcn UI
 
 <p align="center">
-  <a href="https://creativedesignsguru.com/demo/Nextjs-Boilerplate/"><img height="300" src="public/assets/images/nextjs-starter-banner.png?raw=true" alt="Next js starter banner"></a>
+  <a href="https://react-saas.com"><img height="300" src="public/assets/images/nextjs-starter-banner.png?raw=true" alt="Next.js SaaS Template"></a>
 </p>
 
-🚀 Boilerplate and Starter for building SaaS with Next.js using App Router, Tailwind CSS, and TypeScript ⚡️ Made with developer experience first: Next.js, TypeScript, ESLint, Prettier, Husky, Lint-Staged, Vitest (replacing Jest), Testing Library, Commitlint, VSCode, PostCSS, Tailwind CSS, Authentication with [Clerk](https://go.clerk.com/zGlzydF), Database with DrizzleORM (PostgreSQL, SQLite, and MySQL), Error Monitoring with [Sentry](https://sentry.io/for/nextjs/?utm_source=github&utm_medium=paid-community&utm_campaign=general-fy25q1-nextjs&utm_content=github-banner-nextjsboilerplate-logo), Logging with Pino.js and Log Management, Monitoring as Code, Storybook, Multi-language (i18n), and more. Ready for Next.js 15.
+🚀 **SaaS Boilerplate** is a powerful and fully customizable template to kickstart your SaaS applications. Built with **Next.js** and **Tailwind CSS**, and the modular UI components of **Shadcn UI**. This **Next.js SaaS Template** helps you to quickly build and launch SaaS with minimal effort.
+
+Packed with essential features like built-in **Authentication**, **Multi-Tenancy** with Team support, **Role & Permission**, Database, I18n (internationalization), Landing Page, User Dashboard, Form handling, SEO optimization, Logging, Error reporting with [Sentry](https://sentry.io/for/nextjs/?utm_source=github&utm_medium=paid-community&utm_campaign=general-fy25q1-nextjs&utm_content=github-banner-nextjsboilerplate-logo), Testing, Deployment, Monitoring, and **User Impersonation**, this **saas template** provides everything you need to get started.
+
+Designed with developers in mind, this **Next.js starter kit** uses TypeScript for type safety and integrates ESLint to maintain code quality, along with Prettier for consistent code formatting. The testing suite combines Vitest and React Testing Library for robust unit testing, while Playwright handles integration and E2E testing. Continuous integration and deployment are managed via GitHub Actions. For user management, authentication is handled by [Clerk](https://go.clerk.com/zGlzydF). For database operations, it uses Drizzle ORM for type-safe database management across popular databases like PostgreSQL, SQLite, and MySQL.
+
+Whether you're building a new SaaS app or looking for a flexible, **production-ready SaaS template**, this boilerplate has you covered. This free, open-source template has everything you need to accelerate your development and scale your product with ease.
 
 Clone this project and use it to create your own SaaS. You can check the live demo at [SaaS Boilerplate](https://react-saas.com), which is a demo with a working authentication and multi-tenancy system.
 
@@ -62,15 +68,15 @@ Clone this project and use it to create your own SaaS. You can check the live de
 
 | Landing Page | User Dashboard |
 | --- | --- |
-| ![Next.js Boilerplate SaaS Landing Page](public/assets/images/nextjs-boilerplate-saas-landing-page.png) | ![Next.js Boilerplate SaaS User Dashboard](public/assets/images/nextjs-boilerplate-saas-user-dashboard.png) |
+| [![Next.js Boilerplate SaaS Landing Page](public/assets/images/nextjs-boilerplate-saas-landing-page.png)](https://react-saas.com) | [![Next.js Boilerplate SaaS User Dashboard](public/assets/images/nextjs-boilerplate-saas-user-dashboard.png)](https://react-saas.com/dashboard) |
 
 | Team Management | User Profile |
 | --- | --- |
-| ![Next.js Boilerplate SaaS Team Management](public/assets/images/nextjs-boilerplate-saas-multi-tenancy.png) | ![Next.js Boilerplate SaaS User Profile](public/assets/images/nextjs-boilerplate-saas-user-profile.png) |
+| [![Next.js Boilerplate SaaS Team Management](public/assets/images/nextjs-boilerplate-saas-multi-tenancy.png)](https://react-saas.com/dashboard/organization-profile/organization-members) | [![Next.js Boilerplate SaaS User Profile](public/assets/images/nextjs-boilerplate-saas-user-profile.png)](https://react-saas.com/dashboard/user-profile) |
 
 | Sign Up | Sign In |
 | --- | --- |
-| ![Next.js Boilerplate SaaS Sign Up](public/assets/images/nextjs-boilerplate-saas-sign-up.png) | ![Next.js Boilerplate SaaS Sign In](public/assets/images/nextjs-boilerplate-saas-sign-in.png) |
+| [![Next.js Boilerplate SaaS Sign Up](public/assets/images/nextjs-boilerplate-saas-sign-up.png)](https://react-saas.com/sign-up) | [![Next.js Boilerplate SaaS Sign In](public/assets/images/nextjs-boilerplate-saas-sign-in.png)](https://react-saas.com/sign-in) |
 
 ### Features
 
@@ -125,6 +131,7 @@ Built-in feature from Next.js:
 
 - Nothing is hidden from you, so you have the freedom to make the necessary adjustments to fit your needs and preferences.
 - Dependencies are updated every month
+- Start for free without upfront costs
 - Easy to customize
 - Minimal code
 - SEO-friendly
