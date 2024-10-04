@@ -18,7 +18,7 @@ const emailChannel = new EmailAlertChannel('email-channel-1', {
 
 export const config = defineConfig({
   // FIXME: Add your own project name, logical ID, and repository URL
-  projectName: 'Next.js Boilerplate',
+  projectName: 'SaaS Boilerplate',
   logicalId: 'nextjs-boilerplate',
   repoUrl: 'https://github.com/ixartz/Next-js-Boilerplate',
   checks: {
