@@ -1,4 +1,4 @@
-const FeatureCard = (props: {
+export const FeatureCard = (props: {
   icon: React.ReactNode;
   title: string;
   children: React.ReactNode;
@@ -15,5 +15,3 @@ const FeatureCard = (props: {
     <div className="mt-2 text-muted-foreground">{props.children}</div>
   </div>
 );
-
-export { FeatureCard };

@@ -1,4 +1,4 @@
-const TitleBar = (props: {
+export const TitleBar = (props: {
   title: React.ReactNode;
   description?: React.ReactNode;
 }) => (
@@ -12,5 +12,3 @@ const TitleBar = (props: {
     )}
   </div>
 );
-
-export { TitleBar };

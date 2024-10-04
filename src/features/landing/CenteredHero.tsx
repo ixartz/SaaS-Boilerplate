@@ -1,6 +1,6 @@
-import { badgeVariants } from '@/components/ui/badge';
+import { badgeVariants } from '@/components/ui/badgeVariants';
 
-const CenteredHero = (props: {
+export const CenteredHero = (props: {
   banner: {
     href: string;
     text: React.ReactNode;
@@ -34,5 +34,3 @@ const CenteredHero = (props: {
     </div>
   </>
 );
-
-export { CenteredHero };

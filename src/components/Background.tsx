@@ -1,6 +1,6 @@
 import { cn } from '@/utils/Helpers';
 
-const Background = (props: {
+export const Background = (props: {
   children: React.ReactNode;
   className?: string;
 }) => (
@@ -8,5 +8,3 @@ const Background = (props: {
     {props.children}
   </div>
 );
-
-export { Background };

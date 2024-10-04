@@ -5,7 +5,7 @@ import Link from 'next/link';
 import { useLocale } from 'next-intl';
 
 import { ActiveLink } from '@/components/ActiveLink';
-import LocaleSwitcher from '@/components/LocaleSwitcher';
+import { LocaleSwitcher } from '@/components/LocaleSwitcher';
 import { ToggleMenuButton } from '@/components/ToggleMenuButton';
 import {
   DropdownMenu,
@@ -16,7 +16,7 @@ import {
 import { Logo } from '@/templates/Logo';
 import { getI18nPath } from '@/utils/Helpers';
 
-const DashboardHeader = (props: {
+export const DashboardHeader = (props: {
   menu: {
     href: string;
     label: string;
@@ -61,7 +61,7 @@ const DashboardHeader = (props: {
 
         <nav className="ml-3 max-lg:hidden">
           <ul className="flex flex-row items-center gap-x-3 text-lg font-medium [&_a:hover]:opacity-100 [&_a]:opacity-75">
-            {props.menu.map((item) => (
+            {props.menu.map(item => (
               <li key={item.href}>
                 <ActiveLink href={item.href}>{item.label}</ActiveLink>
               </li>
@@ -79,7 +79,7 @@ const DashboardHeader = (props: {
                   <ToggleMenuButton />
                 </DropdownMenuTrigger>
                 <DropdownMenuContent>
-                  {props.menu.map((item) => (
+                  {props.menu.map(item => (
                     <DropdownMenuItem key={item.href} asChild>
                       <Link href={item.href}>{item.label}</Link>
                     </DropdownMenuItem>
@@ -97,7 +97,6 @@ const DashboardHeader = (props: {
             <UserButton
               userProfileMode="navigation"
               userProfileUrl="/dashboard/user-profile"
-              afterSignOutUrl="/"
               appearance={{
                 elements: {
                   rootBox: 'px-2 py-1.5',
@@ -110,5 +109,3 @@ const DashboardHeader = (props: {
     </>
   );
 };
-
-export { DashboardHeader };

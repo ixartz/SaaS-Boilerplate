@@ -1,4 +1,4 @@
-const DashboardSection = (props: {
+export const DashboardSection = (props: {
   title: string;
   description: string;
   children: React.ReactNode;
@@ -15,5 +15,3 @@ const DashboardSection = (props: {
     </div>
   </div>
 );
-
-export { DashboardSection };

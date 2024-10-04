@@ -22,7 +22,7 @@ export async function generateMetadata(props: { params: { locale: string } }) {
   };
 }
 
-export default function IndexPage(props: { params: { locale: string } }) {
+const IndexPage = (props: { params: { locale: string } }) => {
   unstable_setRequestLocale(props.params.locale);
 
   return (
@@ -38,4 +38,6 @@ export default function IndexPage(props: { params: { locale: string } }) {
       <Footer />
     </>
   );
-}
+};
+
+export default IndexPage;

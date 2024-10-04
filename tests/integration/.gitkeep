@@ -1,0 +1,1 @@
+Place your integration tests in this folder by creating files with the `*.spec.ts` extension. These files will be automatically detected by Playwright. For a real-world example, you can check out the Next.js Boilerplate Pro at https://nextjs-boilerplate.com/pro-saas-starter-kit

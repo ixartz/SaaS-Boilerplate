@@ -8,7 +8,7 @@ import {
 } from '@/components/ui/accordion';
 import { Section } from '@/features/landing/Section';
 
-const FAQ = () => {
+export const FAQ = () => {
   const t = useTranslations('FAQ');
 
   return (
@@ -42,5 +42,3 @@ const FAQ = () => {
     </Section>
   );
 };
-
-export { FAQ };

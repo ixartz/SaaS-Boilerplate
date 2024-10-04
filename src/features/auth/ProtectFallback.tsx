@@ -7,7 +7,7 @@ import {
   TooltipTrigger,
 } from '@/components/ui/tooltip';
 
-const ProtectFallback = (props: { trigger: React.ReactNode }) => {
+export const ProtectFallback = (props: { trigger: React.ReactNode }) => {
   const t = useTranslations('ProtectFallback');
 
   return (
@@ -21,5 +21,3 @@ const ProtectFallback = (props: { trigger: React.ReactNode }) => {
     </TooltipProvider>
   );
 };
-
-export { ProtectFallback };

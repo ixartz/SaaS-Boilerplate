@@ -5,14 +5,14 @@ import { PricingFeature } from '@/features/billing/PricingFeature';
 import type { PlanId } from '@/types/Subscription';
 import { PricingPlanList } from '@/utils/AppConfig';
 
-const PricingInformation = (props: {
+export const PricingInformation = (props: {
   buttonList: Record<PlanId, React.ReactNode>;
 }) => {
   const t = useTranslations('PricingPlan');
 
   return (
     <div className="grid grid-cols-1 gap-x-6 gap-y-8 md:grid-cols-3">
-      {PricingPlanList.map((plan) => (
+      {PricingPlanList.map(plan => (
         <PricingCard
           key={plan.id}
           planId={plan.id}
@@ -50,5 +50,3 @@ const PricingInformation = (props: {
     </div>
   );
 };
-
-export { PricingInformation };

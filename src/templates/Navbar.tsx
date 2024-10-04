@@ -1,21 +1,21 @@
 import Link from 'next/link';
 import { useTranslations } from 'next-intl';
 
-import LocaleSwitcher from '@/components/LocaleSwitcher';
-import { buttonVariants } from '@/components/ui/button';
+import { LocaleSwitcher } from '@/components/LocaleSwitcher';
+import { buttonVariants } from '@/components/ui/buttonVariants';
 import { CenteredMenu } from '@/features/landing/CenteredMenu';
 import { Section } from '@/features/landing/Section';
 
 import { Logo } from './Logo';
 
-const Navbar = () => {
+export const Navbar = () => {
   const t = useTranslations('Navbar');
 
   return (
     <Section className="px-3 py-6">
       <CenteredMenu
         logo={<Logo />}
-        rightMenu={
+        rightMenu={(
           <>
             <li>
               <LocaleSwitcher />
@@ -29,7 +29,7 @@ const Navbar = () => {
               </Link>
             </li>
           </>
-        }
+        )}
       >
         <li>
           <Link href="/sign-up">{t('product')}</Link>
@@ -54,5 +54,3 @@ const Navbar = () => {
     </Section>
   );
 };
-
-export { Navbar };

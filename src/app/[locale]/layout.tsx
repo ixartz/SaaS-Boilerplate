@@ -33,7 +33,7 @@ export const metadata: Metadata = {
 };
 
 export function generateStaticParams() {
-  return AllLocales.map((locale) => ({ locale }));
+  return AllLocales.map(locale => ({ locale }));
 }
 
 export default function RootLayout(props: {
