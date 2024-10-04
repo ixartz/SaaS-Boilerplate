@@ -1,6 +1,6 @@
 import React from 'react';
 
-const MessageState = (props: {
+export const MessageState = (props: {
   icon: React.ReactNode;
   title: React.ReactNode;
   description: React.ReactNode;
@@ -21,5 +21,3 @@ const MessageState = (props: {
     </div>
   </div>
 );
-
-export { MessageState };

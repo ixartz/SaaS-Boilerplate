@@ -73,7 +73,7 @@
     "company": "Company",
     "terms_of_service": "Terms Of Service",
     "privacy_policy": "Privacy Policy",
-    "designed_by": "Designed by <author></author>"
+    "designed_by": "Designed by <author></author>."
   },
   "ProtectFallback": {
     "not_enough_permission": "You do not have the permissions to perform this action"

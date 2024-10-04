@@ -1,4 +1,4 @@
-const CTABanner = (props: {
+export const CTABanner = (props: {
   title: string;
   description: string;
   buttons: React.ReactNode;
@@ -15,5 +15,3 @@ const CTABanner = (props: {
     <div className="mt-6">{props.buttons}</div>
   </div>
 );
-
-export { CTABanner };

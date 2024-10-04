@@ -7,7 +7,7 @@ import { AppConfig } from '@/utils/AppConfig';
 
 import { Logo } from './Logo';
 
-const Footer = () => {
+export const Footer = () => {
   const t = useTranslations('Footer');
 
   return (
@@ -15,7 +15,7 @@ const Footer = () => {
       <CenteredFooter
         logo={<Logo />}
         name={AppConfig.name}
-        iconList={
+        iconList={(
           <>
             <li>
               <Link href="/">
@@ -73,8 +73,8 @@ const Footer = () => {
               </Link>
             </li>
           </>
-        }
-        legalLinks={
+        )}
+        legalLinks={(
           <>
             <li>
               <Link href="/sign-up">{t('terms_of_service')}</Link>
@@ -83,7 +83,7 @@ const Footer = () => {
               <Link href="/sign-up">{t('privacy_policy')}</Link>
             </li>
           </>
-        }
+        )}
       >
         <li>
           <Link href="/sign-up">{t('product')}</Link>
@@ -108,5 +108,3 @@ const Footer = () => {
     </Section>
   );
 };
-
-export { Footer };

@@ -1,6 +1,6 @@
 import { AppConfig } from '@/utils/AppConfig';
 
-const Logo = () => (
+export const Logo = () => (
   <div className="flex items-center text-xl font-semibold">
     <svg
       className="mr-1 size-8 stroke-current stroke-2"
@@ -19,5 +19,3 @@ const Logo = () => (
     {AppConfig.name}
   </div>
 );
-
-export { Logo };

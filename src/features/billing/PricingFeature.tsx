@@ -1,4 +1,4 @@
-const PricingFeature = (props: { children: React.ReactNode }) => (
+export const PricingFeature = (props: { children: React.ReactNode }) => (
   <li className="flex items-center text-muted-foreground">
     <svg
       className="mr-1 size-6 stroke-current stroke-2 text-purple-400"
@@ -14,5 +14,3 @@ const PricingFeature = (props: { children: React.ReactNode }) => (
     {props.children}
   </li>
 );
-
-export { PricingFeature };

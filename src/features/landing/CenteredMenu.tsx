@@ -6,7 +6,7 @@ import { ToggleMenuButton } from '@/components/ToggleMenuButton';
 import { useMenu } from '@/hooks/UseMenu';
 import { cn } from '@/utils/Helpers';
 
-const CenteredMenu = (props: {
+export const CenteredMenu = (props: {
   logo: React.ReactNode;
   children: React.ReactNode;
   rightMenu: React.ReactNode;
@@ -44,5 +44,3 @@ const CenteredMenu = (props: {
     </div>
   );
 };
-
-export { CenteredMenu };

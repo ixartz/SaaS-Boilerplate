@@ -1,3 +1,4 @@
+/* eslint-disable jsonc/sort-keys */
 {
   "compilerOptions": {
     "lib": ["dom", "dom.iterable", "esnext"],
@@ -52,7 +53,12 @@
       }
     ]
   },
-  "exclude": ["./out/**/*", "./node_modules/**/*"],
+  "exclude": [
+    "./out/**/*",
+    "./node_modules/**/*",
+    "**/*.spec.ts",
+    "**/*.e2e.ts"
+  ],
   "include": [
     "next-env.d.ts",
     "**/*.ts",

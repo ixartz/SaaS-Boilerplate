@@ -1,6 +1,6 @@
 import { cn } from '@/utils/Helpers';
 
-const Section = (props: {
+export const Section = (props: {
   children: React.ReactNode;
   title?: string;
   subtitle?: string;
@@ -31,5 +31,3 @@ const Section = (props: {
     <div className="mx-auto max-w-screen-lg">{props.children}</div>
   </div>
 );
-
-export { Section };

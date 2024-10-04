@@ -1,9 +1,9 @@
-/* eslint-disable import/no-extraneous-dependencies, global-require */
+/* eslint-disable ts/no-require-imports */
 import type { Config } from 'tailwindcss';
 
 const config = {
   darkMode: ['class'],
-  content: ['./src/**/*.{js,ts,jsx,tsx,json}'],
+  content: ['./src/**/*.{js,ts,jsx,tsx}'],
   prefix: '',
   theme: {
     extend: {

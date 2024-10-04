@@ -1,5 +1,5 @@
 {
-  "id": "d1cd6f13-4333-4bd1-8b3b-25f3f0128ef3",
+  "id": "400db9e7-780a-44b8-b0be-2db504f59104",
   "prevId": "00000000-0000-0000-0000-000000000000",
   "version": "7",
   "dialect": "postgresql",
@@ -10,8 +10,8 @@
       "columns": {
         "id": {
           "name": "id",
-          "type": "serial",
-          "primaryKey": false,
+          "type": "text",
+          "primaryKey": true,
           "notNull": true
         },
         "stripe_customer_id": {
@@ -40,7 +40,7 @@
         },
         "stripe_subscription_current_period_end": {
           "name": "stripe_subscription_current_period_end",
-          "type": "integer",
+          "type": "bigint",
           "primaryKey": false,
           "notNull": false
         },
@@ -87,7 +87,7 @@
         "id": {
           "name": "id",
           "type": "serial",
-          "primaryKey": false,
+          "primaryKey": true,
           "notNull": true
         },
         "owner_id": {

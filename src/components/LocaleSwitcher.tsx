@@ -13,7 +13,7 @@ import {
 import { usePathname, useRouter } from '@/libs/i18nNavigation';
 import { AppConfig } from '@/utils/AppConfig';
 
-export default function LocaleSwitcher() {
+export const LocaleSwitcher = () => {
   const router = useRouter();
   const pathname = usePathname();
   const locale = useLocale();
@@ -26,7 +26,7 @@ export default function LocaleSwitcher() {
   return (
     <DropdownMenu>
       <DropdownMenuTrigger asChild>
-        <Button className="p-2 focus-visible:ring-offset-0" variant="ghost">
+        <Button className="p-2 focus-visible:ring-offset-0" variant="ghost" aria-label="lang-switcher">
           <svg
             xmlns="http://www.w3.org/2000/svg"
             className="size-6 stroke-current stroke-2"
@@ -43,7 +43,7 @@ export default function LocaleSwitcher() {
       </DropdownMenuTrigger>
       <DropdownMenuContent>
         <DropdownMenuRadioGroup value={locale} onValueChange={handleChange}>
-          {AppConfig.locales.map((elt) => (
+          {AppConfig.locales.map(elt => (
             <DropdownMenuRadioItem key={elt.id} value={elt.id}>
               {elt.name}
             </DropdownMenuRadioItem>
@@ -52,4 +52,4 @@ export default function LocaleSwitcher() {
       </DropdownMenuContent>
     </DropdownMenu>
   );
-}
+};
