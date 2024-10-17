@@ -26,7 +26,7 @@ export const LocaleSwitcher = () => {
   return (
     <DropdownMenu>
       <DropdownMenuTrigger asChild>
-        <Button className="p-2 focus-visible:ring-offset-0" variant="ghost" aria-label="lang-switcher">
+        <Button className="p-2 focus-visible:ring-offset-0" variant="ghost" size="icon" aria-label="lang-switcher">
           <svg
             xmlns="http://www.w3.org/2000/svg"
             className="size-6 stroke-current stroke-2"

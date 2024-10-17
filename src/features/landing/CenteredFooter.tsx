@@ -1,4 +1,3 @@
-import Link from 'next/link';
 import { useTranslations } from 'next-intl';
 import React from 'react';
 
@@ -28,12 +27,12 @@ export const CenteredFooter = (props: {
           {`© Copyright ${new Date().getFullYear()} ${props.name}. `}
           {t.rich('designed_by', {
             author: () => (
-              <Link
+              <a
                 className="text-blue-500 hover:text-blue-600"
                 href="https://creativedesignsguru.com"
               >
                 Creative Designs Guru
-              </Link>
+              </a>
             ),
           })}
           {/*

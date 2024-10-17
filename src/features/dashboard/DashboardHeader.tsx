@@ -54,7 +54,7 @@ export const DashboardHeader = (props: {
           skipInvitationScreen
           appearance={{
             elements: {
-              organizationSwitcherTrigger: 'max-w-52',
+              organizationSwitcherTrigger: 'max-w-28 sm:max-w-52',
             },
           }}
         />
@@ -71,7 +71,7 @@ export const DashboardHeader = (props: {
       </div>
 
       <div>
-        <ul className="flex items-center gap-x-1 [&_li:not(:last-child):hover]:opacity-100 [&_li:not(:last-child)]:opacity-60">
+        <ul className="flex items-center gap-x-1.5 [&_li:not(:last-child):hover]:opacity-100 [&_li:not(:last-child)]:opacity-60">
           <li>
             <div className="lg:hidden">
               <DropdownMenu>
@@ -88,6 +88,8 @@ export const DashboardHeader = (props: {
               </DropdownMenu>
             </div>
           </li>
+
+          {/* PRO: Dark mode toggle button */}
 
           <li>
             <LocaleSwitcher />

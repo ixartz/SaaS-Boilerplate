@@ -1,3 +1,5 @@
+'use client';
+
 import { enUS, frFR } from '@clerk/localizations';
 import { ClerkProvider } from '@clerk/nextjs';
 
@@ -26,6 +28,7 @@ export default function AuthLayout(props: {
 
   return (
     <ClerkProvider
+      // PRO: Dark mode support for Clerk
       localization={clerkLocale}
       signInUrl={signInUrl}
       signUpUrl={signUpUrl}

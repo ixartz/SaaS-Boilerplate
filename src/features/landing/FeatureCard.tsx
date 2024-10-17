@@ -4,7 +4,7 @@ export const FeatureCard = (props: {
   children: React.ReactNode;
 }) => (
   <div className="rounded-xl border border-border bg-card p-5">
-    <div className="size-12 rounded-lg bg-gradient-to-br from-indigo-400 via-purple-400 to-pink-400 p-2 [&_svg]:stroke-primary-foreground [&_svg]:stroke-2">
+    <div className="size-12 rounded-lg bg-gradient-to-br from-indigo-400 via-purple-400 to-pink-400 p-2 [&_svg]:stroke-white [&_svg]:stroke-2">
       {props.icon}
     </div>
 

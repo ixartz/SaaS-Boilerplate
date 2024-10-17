@@ -101,7 +101,7 @@
     "title_bar": "Tableau de bord",
     "title_bar_description": "Bienvenue sur votre tableau de bord",
     "message_state_title": "C'est parti",
-    "message_state_description": "Vous pouvez personnaliser cette page en modifiant le fichier dans <code>src/app/[locale]/(auth)/dashboard/page.tsx</code>",
+    "message_state_description": "Vous pouvez personnaliser cette page en modifiant le fichier dans <code>dashboard/page.tsx</code>",
     "message_state_button": "Besoin d'une intégration Stripe ? Découvrez Next.js Boilerplate Pro"
   },
   "UserProfile": {
@@ -142,7 +142,8 @@
     "edit": "Modifier",
     "delete": "Supprimer",
     "title_header": "Titre",
-    "message_header": "Message"
+    "message_header": "Message",
+    "created_at_header": "Créé le"
   },
   "AddTodo": {
     "title_bar": "Ajouter une todo",

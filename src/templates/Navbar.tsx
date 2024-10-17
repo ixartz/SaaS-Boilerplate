@@ -17,6 +17,7 @@ export const Navbar = () => {
         logo={<Logo />}
         rightMenu={(
           <>
+            {/* PRO: Dark mode toggle button */}
             <li>
               <LocaleSwitcher />
             </li>
