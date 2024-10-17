@@ -26,8 +26,8 @@ export const PLAN_ID = {
   ENTERPRISE: 'enterprise',
 } as const;
 
-export const PricingPlanList: Array<PricingPlan> = [
-  {
+export const PricingPlanList: Record<string, PricingPlan> = {
+  [PLAN_ID.FREE]: {
     id: PLAN_ID.FREE,
     price: 0,
     interval: BILLING_INTERVAL.MONTH,
@@ -41,7 +41,7 @@ export const PricingPlanList: Array<PricingPlan> = [
       transfer: 2,
     },
   },
-  {
+  [PLAN_ID.PREMIUM]: {
     id: PLAN_ID.PREMIUM,
     price: 79,
     interval: BILLING_INTERVAL.MONTH,
@@ -56,7 +56,7 @@ export const PricingPlanList: Array<PricingPlan> = [
       transfer: 5,
     },
   },
-  {
+  [PLAN_ID.ENTERPRISE]: {
     id: PLAN_ID.ENTERPRISE,
     price: 199,
     interval: BILLING_INTERVAL.MONTH,
@@ -71,4 +71,4 @@ export const PricingPlanList: Array<PricingPlan> = [
       transfer: 100,
     },
   },
-];
+};

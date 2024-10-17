@@ -17,10 +17,11 @@ export const Navbar = () => {
         logo={<Logo />}
         rightMenu={(
           <>
+            {/* PRO: Dark mode toggle button */}
             <li>
               <LocaleSwitcher />
             </li>
-            <li>
+            <li className="ml-1 mr-2.5">
               <Link href="/sign-in">{t('sign_in')}</Link>
             </li>
             <li>
