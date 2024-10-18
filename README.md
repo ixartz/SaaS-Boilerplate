@@ -54,6 +54,13 @@ Clone this project and use it to create your own SaaS. You can check the live de
     </td>
   </tr>
   <tr height="187px">
+    <td align="center" style=width="33%">
+      <a href="https://nextjs-boilerplate.com/pro-saas-starter-kit">
+        <img src="public/assets/images/nextjs-boilerplate-saas.png?raw=true" alt="Next.js SaaS Boilerplate with React" />
+      </a>
+    </td>
+  </tr>
+  <tr height="187px">
     <td align="center" width="33%">
       <a href="mailto:contact@creativedesignsguru.com">
         Add your logo here
@@ -77,6 +84,10 @@ Clone this project and use it to create your own SaaS. You can check the live de
 | Sign Up | Sign In |
 | --- | --- |
 | [![Next.js Boilerplate SaaS Sign Up](public/assets/images/nextjs-boilerplate-saas-sign-up.png)](https://react-saas.com/sign-up) | [![Next.js Boilerplate SaaS Sign In](public/assets/images/nextjs-boilerplate-saas-sign-in.png)](https://react-saas.com/sign-in) |
+
+| Landing Page Dark Mode (Pro Version) | User Dashboard Dark Mode (Pro Version) |
+| --- | --- |
+| [![Next.js Boilerplate SaaS Landing Page Dark Mode](public/assets/images/nextjs-boilerplate-saas-landing-page-dark-mode.png)](https://pro-demo.nextjs-boilerplate.com) | [![Next.js Boilerplate SaaS User Dashboard Dark Mode](public/assets/images/nextjs-boilerplate-saas-user-dashboard-dark-mode.png)](https://pro-demo.nextjs-boilerplate.com/dashboard) |
 
 ### Features
 
@@ -452,6 +463,13 @@ See [LICENSE](LICENSE) for more information.
           <source media="(prefers-color-scheme: light)" srcset="public/assets/images/codecov-dark.svg?raw=true">
           <img alt="Codecov" src="public/assets/images/codecov-dark.svg?raw=true">
         </picture>
+      </a>
+    </td>
+  </tr>
+  <tr height="187px">
+    <td align="center" style=width="33%">
+      <a href="https://nextjs-boilerplate.com/pro-saas-starter-kit">
+        <img src="public/assets/images/nextjs-boilerplate-saas.png?raw=true" alt="Next.js SaaS Boilerplate with React" />
       </a>
     </td>
   </tr>
