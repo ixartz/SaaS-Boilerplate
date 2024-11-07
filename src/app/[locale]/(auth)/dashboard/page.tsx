@@ -1,8 +1,10 @@
+import { GitHubLogoIcon } from '@radix-ui/react-icons';
 import { useTranslations } from 'next-intl';
 
 import { buttonVariants } from '@/components/ui/buttonVariants';
 import { MessageState } from '@/features/dashboard/MessageState';
 import { TitleBar } from '@/features/dashboard/TitleBar';
+import { SponsorLogos } from '@/features/sponsors/SponsorLogos';
 
 const DashboardIndexPage = () => {
   const t = useTranslations('DashboardIndex');
@@ -36,12 +38,19 @@ const DashboardIndexPage = () => {
           ),
         })}
         button={(
-          <a
-            className={buttonVariants({ size: 'lg' })}
-            href="https://nextjs-boilerplate.com/pro-saas-starter-kit"
-          >
-            {t('message_state_button')}
-          </a>
+          <>
+            <a
+              className={buttonVariants({ size: 'lg' })}
+              href="https://github.com/ixartz/SaaS-Boilerplate"
+            >
+              <GitHubLogoIcon className="mr-2 size-5" />
+              {t('message_state_button')}
+            </a>
+
+            <div className="mt-7">
+              <SponsorLogos />
+            </div>
+          </>
         )}
       />
     </>

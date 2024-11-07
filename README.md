@@ -85,9 +85,13 @@ Clone this project and use it to create your own SaaS. You can check the live de
 | --- | --- |
 | [![Next.js Boilerplate SaaS Sign Up](public/assets/images/nextjs-boilerplate-saas-sign-up.png)](https://react-saas.com/sign-up) | [![Next.js Boilerplate SaaS Sign In](public/assets/images/nextjs-boilerplate-saas-sign-in.png)](https://react-saas.com/sign-in) |
 
-| Landing Page Dark Mode (Pro Version) | User Dashboard Dark Mode (Pro Version) |
+| Landing Page with Dark Mode (Pro Version) | User Dashboard with Dark Mode (Pro Version) |
 | --- | --- |
-| [![Next.js Boilerplate SaaS Landing Page Dark Mode](public/assets/images/nextjs-boilerplate-saas-landing-page-dark-mode.png)](https://pro-demo.nextjs-boilerplate.com) | [![Next.js Boilerplate SaaS User Dashboard Dark Mode](public/assets/images/nextjs-boilerplate-saas-user-dashboard-dark-mode.png)](https://pro-demo.nextjs-boilerplate.com/dashboard) |
+| [![Next.js Boilerplate SaaS Landing Page Dark Mode](public/assets/images/nextjs-boilerplate-saas-landing-page-dark-mode.png)](https://pro-demo.nextjs-boilerplate.com) | [![Next.js Boilerplate SaaS User Dashboard Dark Mode](public/assets/images/nextjs-boilerplate-saas-user-dashboard-sidebar-dark-mode.png)](https://pro-demo.nextjs-boilerplate.com/dashboard) |
+
+| User Dashboard with Sidebar (Pro Version) |
+| --- |
+| [![Next.js Boilerplate SaaS User Dashboard Sidebar](public/assets/images/nextjs-boilerplate-saas-user-dashboard-sidebar.png)](https://pro-demo.nextjs-boilerplate.com) |
 
 ### Features
 
@@ -485,5 +489,7 @@ See [LICENSE](LICENSE) for more information.
 ---
 
 Made with ♥ by [CreativeDesignsGuru](https://creativedesignsguru.com) [![Twitter](https://img.shields.io/twitter/url/https/twitter.com/cloudposse.svg?style=social&label=Follow%20%40Ixartz)](https://twitter.com/ixartz)
+
+Looking for a custom boilerplate to kick off your project? I'd be glad to discuss how I can help you build one. Feel free to reach out anytime at contact@creativedesignsguru.com!
 
 [![Sponsor Next JS Boilerplate](https://cdn.buymeacoffee.com/buttons/default-red.png)](https://github.com/sponsors/ixartz)
