@@ -53,14 +53,14 @@ export const SponsorLogos = () => (
       rel="noopener"
     >
       <Image
-        src="/assets/images/sentry-dark.png"
+        src="/assets/images/sentry-dark.svg"
         alt="Sentry logo dark"
         className="dark:hidden"
         width="128"
         height="38"
       />
       <Image
-        src="/assets/images/sentry-white.png"
+        src="/assets/images/sentry-white.svg"
         alt="Sentry logo light"
         className="hidden dark:block"
         width="128"
