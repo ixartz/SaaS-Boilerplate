@@ -74,14 +74,14 @@ export const SponsorLogos = () => (
       rel="noopener"
     >
       <Image
-        src="/assets/images/arcjet-dark.svg"
+        src="/assets/images/arcjet-light.svg"
         alt="Arcjet logo dark"
         className="dark:hidden"
         width="128"
         height="38"
       />
       <Image
-        src="/assets/images/arcjet-white.svg"
+        src="/assets/images/arcjet-dark.svg"
         alt="Arcjet logo light"
         className="hidden dark:block"
         width="128"
