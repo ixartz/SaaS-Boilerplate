@@ -54,6 +54,15 @@ Clone this project and use it to create your own SaaS. You can check the live de
     </td>
   </tr>
   <tr height="187px">
+    <td align="center" width="33%">
+      <a href="https://launch.arcjet.com/Q6eLbRE">
+        <picture>
+          <source media="(prefers-color-scheme: dark)" srcset="public/assets/images/arcjet-dark.svg?raw=true">
+          <source media="(prefers-color-scheme: light)" srcset="public/assets/images/arcjet-light.svg?raw=true">
+          <img alt="Arcjet" src="public/assets/images/arcjet-light.svg?raw=true">
+        </picture>
+      </a>
+    </td>
     <td align="center" style=width="33%">
       <a href="https://nextjs-boilerplate.com/pro-saas-starter-kit">
         <img src="public/assets/images/nextjs-boilerplate-saas.png?raw=true" alt="Next.js SaaS Boilerplate with React" />
@@ -471,6 +480,15 @@ See [LICENSE](LICENSE) for more information.
     </td>
   </tr>
   <tr height="187px">
+    <td align="center" width="33%">
+      <a href="https://launch.arcjet.com/Q6eLbRE">
+        <picture>
+          <source media="(prefers-color-scheme: dark)" srcset="public/assets/images/arcjet-dark.svg?raw=true">
+          <source media="(prefers-color-scheme: light)" srcset="public/assets/images/arcjet-light.svg?raw=true">
+          <img alt="Arcjet" src="public/assets/images/arcjet-light.svg?raw=true">
+        </picture>
+      </a>
+    </td>
     <td align="center" style=width="33%">
       <a href="https://nextjs-boilerplate.com/pro-saas-starter-kit">
         <img src="public/assets/images/nextjs-boilerplate-saas.png?raw=true" alt="Next.js SaaS Boilerplate with React" />

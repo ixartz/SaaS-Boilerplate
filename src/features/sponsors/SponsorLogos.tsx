@@ -69,6 +69,27 @@ export const SponsorLogos = () => (
     </a>
 
     <a
+      href="https://launch.arcjet.com/Q6eLbRE"
+      target="_blank"
+      rel="noopener"
+    >
+      <Image
+        src="/assets/images/arcjet-dark.png"
+        alt="Arcjet logo dark"
+        className="dark:hidden"
+        width="128"
+        height="38"
+      />
+      <Image
+        src="/assets/images/arcjet-white.png"
+        alt="Arcjet logo light"
+        className="hidden dark:block"
+        width="128"
+        height="38"
+      />
+    </a>
+
+    <a
       href="https://nextjs-boilerplate.com/pro-saas-starter-kit"
       target="_blank"
       rel="noopener"
