@@ -102,7 +102,8 @@
     "title_bar_description": "Welcome to your dashboard",
     "message_state_title": "Let's get started",
     "message_state_description": "You can customize this page by editing the file at <code>dashboard/page.tsx</code>",
-    "message_state_button": "Star on GitHub"
+    "message_state_button": "Star on GitHub",
+    "message_state_alternative": "Want more features using the same stack? Try <url></url>."
   },
   "UserProfile": {
     "title_bar": "User Profile",
