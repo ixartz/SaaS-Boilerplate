@@ -1,7 +1,5 @@
-import { GitHubLogoIcon } from '@radix-ui/react-icons';
 import { useTranslations } from 'next-intl';
 
-import { buttonVariants } from '@/components/ui/buttonVariants';
 import { MessageState } from '@/features/dashboard/MessageState';
 import { TitleBar } from '@/features/dashboard/TitleBar';
 import { SponsorLogos } from '@/features/sponsors/SponsorLogos';
@@ -39,13 +37,18 @@ const DashboardIndexPage = () => {
         })}
         button={(
           <>
-            <a
-              className={buttonVariants({ size: 'lg' })}
-              href="https://github.com/ixartz/SaaS-Boilerplate"
-            >
-              <GitHubLogoIcon className="mr-2 size-5" />
-              {t('message_state_button')}
-            </a>
+            <div className="mt-2 text-xs font-light text-muted-foreground">
+              {t.rich('message_state_alternative', {
+                url: () => (
+                  <a
+                    className="text-blue-500 hover:text-blue-600"
+                    href="https://nextjs-boilerplate.com/pro-saas-starter-kit"
+                  >
+                    Next.js Boilerplate SaaS
+                  </a>
+                ),
+              })}
+            </div>
 
             <div className="mt-7">
               <SponsorLogos />
