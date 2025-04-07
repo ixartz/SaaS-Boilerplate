@@ -28,11 +28,11 @@ Clone this project and use it to create your own SaaS. You can check the live de
       </a>
     </td>
     <td align="center" width="33%">
-      <a href="https://l.crowdin.com/next-js">
+      <a href="https://www.coderabbit.ai?utm_source=next_js_starter&utm_medium=github&utm_campaign=next_js_starter_oss_2025">
         <picture>
-          <source media="(prefers-color-scheme: dark)" srcset="public/assets/images/crowdin-white.png?raw=true">
-          <source media="(prefers-color-scheme: light)" srcset="public/assets/images/crowdin-dark.png?raw=true">
-          <img alt="Crowdin" src="public/assets/images/crowdin-dark.png?raw=true">
+          <source media="(prefers-color-scheme: dark)" srcset="public/assets/images/coderabbit-logo-dark.svg?raw=true">
+          <source media="(prefers-color-scheme: light)" srcset="public/assets/images/coderabbit-logo-light.svg?raw=true">
+          <img alt="CodeRabbit" src="public/assets/images/coderabbit-logo-light.svg?raw=true">
         </picture>
       </a>
     </td>
@@ -60,6 +60,15 @@ Clone this project and use it to create your own SaaS. You can check the live de
           <source media="(prefers-color-scheme: dark)" srcset="public/assets/images/arcjet-dark.svg?raw=true">
           <source media="(prefers-color-scheme: light)" srcset="public/assets/images/arcjet-light.svg?raw=true">
           <img alt="Arcjet" src="public/assets/images/arcjet-light.svg?raw=true">
+        </picture>
+      </a>
+    </td>
+    <td align="center" width="33%">
+      <a href="https://l.crowdin.com/next-js">
+        <picture>
+          <source media="(prefers-color-scheme: dark)" srcset="public/assets/images/crowdin-white.png?raw=true">
+          <source media="(prefers-color-scheme: light)" srcset="public/assets/images/crowdin-dark.png?raw=true">
+          <img alt="Crowdin" src="public/assets/images/crowdin-dark.png?raw=true">
         </picture>
       </a>
     </td>
@@ -454,11 +463,11 @@ See [LICENSE](LICENSE) for more information.
       </a>
     </td>
     <td align="center" width="33%">
-      <a href="https://l.crowdin.com/next-js">
+      <a href="https://www.coderabbit.ai?utm_source=next_js_starter&utm_medium=github&utm_campaign=next_js_starter_oss_2025">
         <picture>
-          <source media="(prefers-color-scheme: dark)" srcset="public/assets/images/crowdin-white.png?raw=true">
-          <source media="(prefers-color-scheme: light)" srcset="public/assets/images/crowdin-dark.png?raw=true">
-          <img alt="Crowdin" src="public/assets/images/crowdin-dark.png?raw=true">
+          <source media="(prefers-color-scheme: dark)" srcset="public/assets/images/coderabbit-logo-dark.svg?raw=true">
+          <source media="(prefers-color-scheme: light)" srcset="public/assets/images/coderabbit-logo-light.svg?raw=true">
+          <img alt="CodeRabbit" src="public/assets/images/coderabbit-logo-light.svg?raw=true">
         </picture>
       </a>
     </td>
@@ -486,6 +495,15 @@ See [LICENSE](LICENSE) for more information.
           <source media="(prefers-color-scheme: dark)" srcset="public/assets/images/arcjet-dark.svg?raw=true">
           <source media="(prefers-color-scheme: light)" srcset="public/assets/images/arcjet-light.svg?raw=true">
           <img alt="Arcjet" src="public/assets/images/arcjet-light.svg?raw=true">
+        </picture>
+      </a>
+    </td>
+    <td align="center" width="33%">
+      <a href="https://l.crowdin.com/next-js">
+        <picture>
+          <source media="(prefers-color-scheme: dark)" srcset="public/assets/images/crowdin-white.png?raw=true">
+          <source media="(prefers-color-scheme: light)" srcset="public/assets/images/crowdin-dark.png?raw=true">
+          <img alt="Crowdin" src="public/assets/images/crowdin-dark.png?raw=true">
         </picture>
       </a>
     </td>
