@@ -39,7 +39,7 @@ export default function middleware(
 
         const signInUrl = new URL(`${locale}/sign-in`, req.url);
 
-        auth.protect({
+        await auth.protect({
           // `unauthenticatedUrl` is needed to avoid error: "Unable to find `next-intl` locale because the middleware didn't run on this request"
           unauthenticatedUrl: signInUrl.toString(),
         });
