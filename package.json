@@ -26,8 +26,8 @@
     "prepare": "husky"
   },
   "dependencies": {
-    "@clerk/localizations": "^3.14.0",
-    "@clerk/nextjs": "^6.18.0",
+    "@clerk/localizations": "^3.14.2",
+    "@clerk/nextjs": "^6.18.3",
     "@clerk/themes": "^2.1.36",
     "@electric-sql/pglite": "^0.2.12",
     "@hookform/resolvers": "^3.9.0",
