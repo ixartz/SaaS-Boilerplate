@@ -1,6 +1,6 @@
 {
   "name": "saas-boilerplate",
-  "version": "1.7.4",
+  "version": "1.7.5",
   "scripts": {
     "dev:spotlight": "spotlight-sidecar",
     "dev:next": "next dev",
