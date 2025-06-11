@@ -42,7 +42,14 @@ export default async function RootLayout(props: {
   const params = await props.params;
 
   // Get messages for the locale
-  const messages = (await import(`@/locales/${params.locale}.json`)).default;
+  let messages;
+  try {
+    messages = (await import(`@/locales/${params.locale}.json`)).default;
+  } catch {
+    // Fallback to default locale if the requested locale is not found
+    console.warn(`Locale ${params.locale} not found, falling back to default locale`);
+    messages = (await import(`@/locales/en.json`)).default;
+  }
 
   // The `suppressHydrationWarning` in <html> is used to prevent hydration errors caused by `next-themes`.
   // Solution provided by the package itself: https://github.com/pacocoursey/next-themes?tab=readme-ov-file#with-app
