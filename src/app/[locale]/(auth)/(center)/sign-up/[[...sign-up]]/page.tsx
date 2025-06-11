@@ -3,9 +3,10 @@ import { getTranslations } from 'next-intl/server';
 
 import { getI18nPath } from '@/utils/Helpers';
 
-export async function generateMetadata(props: { params: { locale: string } }) {
+export async function generateMetadata(props: { params: Promise<{ locale: string }> }) {
+  const params = await props.params;
   const t = await getTranslations({
-    locale: props.params.locale,
+    locale: params.locale,
     namespace: 'SignUp',
   });
 
@@ -15,8 +16,9 @@ export async function generateMetadata(props: { params: { locale: string } }) {
   };
 }
 
-const SignUpPage = (props: { params: { locale: string } }) => (
-  <SignUp path={getI18nPath('/sign-up', props.params.locale)} />
-);
+const SignUpPage = async (props: { params: Promise<{ locale: string }> }) => {
+  const params = await props.params;
+  return <SignUp path={getI18nPath('/sign-up', params.locale)} />;
+};
 
 export default SignUpPage;
