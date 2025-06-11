@@ -1,5 +1,3 @@
-import { type ForwardedRef, forwardRef } from 'react';
-
 import { Button } from '@/components/ui/button';
 
 /**
@@ -7,18 +5,17 @@ import { Button } from '@/components/ui/button';
  * @component
  * @params props - Component props.
  * @params props.onClick - Function to run when the button is clicked.
+ * @params props.ref - Ref to the button element.
  */
-const ToggleMenuButtonInternal = (
-  props: {
-    onClick?: () => void;
-  },
-  ref?: ForwardedRef<HTMLButtonElement>,
-) => (
+const ToggleMenuButton = (props: {
+  onClick?: () => void;
+  ref?: React.RefObject<HTMLButtonElement | null>;
+}) => (
   <Button
     className="p-2 focus-visible:ring-offset-0"
     variant="ghost"
-    ref={ref}
-    {...props}
+    ref={props.ref}
+    onClick={props.onClick}
   >
     <svg
       className="size-6 stroke-current"
@@ -34,7 +31,5 @@ const ToggleMenuButtonInternal = (
     </svg>
   </Button>
 );
-
-const ToggleMenuButton = forwardRef(ToggleMenuButtonInternal);
 
 export { ToggleMenuButton };
