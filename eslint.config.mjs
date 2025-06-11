@@ -3,7 +3,6 @@ import nextPlugin from '@next/eslint-plugin-next';
 import jestDom from 'eslint-plugin-jest-dom';
 import jsxA11y from 'eslint-plugin-jsx-a11y';
 import playwright from 'eslint-plugin-playwright';
-import simpleImportSort from 'eslint-plugin-simple-import-sort';
 import tailwind from 'eslint-plugin-tailwindcss';
 import testingLibrary from 'eslint-plugin-testing-library';
 
@@ -35,14 +34,6 @@ export default antfu({
     ...nextPlugin.configs['core-web-vitals'].rules,
   },
 }, {
-  plugins: {
-    'simple-import-sort': simpleImportSort,
-  },
-  rules: {
-    'simple-import-sort/imports': 'error',
-    'simple-import-sort/exports': 'error',
-  },
-}, {
   files: [
     '**/*.test.ts?(x)',
   ],
@@ -64,5 +55,6 @@ export default antfu({
     'node/prefer-global/process': 'off', // Allow using `process.env`
     'test/padding-around-all': 'error', // Add padding in test files
     'test/prefer-lowercase-title': 'off', // Allow using uppercase titles in test titles
+    'antfu/no-top-level-await': 'off', // Allow top-level await
   },
 });

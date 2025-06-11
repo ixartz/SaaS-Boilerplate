@@ -1,8 +1,8 @@
 'use client';
 
 import { OrganizationSwitcher, UserButton } from '@clerk/nextjs';
-import Link from 'next/link';
 import { useLocale } from 'next-intl';
+import Link from 'next/link';
 
 import { ActiveLink } from '@/components/ActiveLink';
 import { LocaleSwitcher } from '@/components/LocaleSwitcher';

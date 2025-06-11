@@ -1,7 +1,7 @@
-import { useTranslations } from 'next-intl';
-import React from 'react';
-
 import type { BillingInterval } from '@/types/Subscription';
+import { useTranslations } from 'next-intl';
+
+import React from 'react';
 
 export const PricingCard = (props: {
   planId: string;
