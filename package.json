@@ -83,7 +83,7 @@
     "@testing-library/jest-dom": "^6.6.3",
     "@testing-library/react": "^16.3.0",
     "@testing-library/user-event": "^14.6.1",
-    "@types/node": "^24.0.0",
+    "@types/node": "^24.0.1",
     "@types/pg": "^8.15.4",
     "@types/react": "^19.1.8",
     "@vitejs/plugin-react": "^4.5.2",
