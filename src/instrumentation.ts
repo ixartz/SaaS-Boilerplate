@@ -35,3 +35,10 @@ export async function register() {
     });
   }
 }
+
+export async function onRequestError(err: unknown, request: Request, context: { routeInfo?: { route: string } }) {
+  Sentry.captureException(err, {
+    tags: { route: context.routeInfo?.route },
+    extra: { request: request.url },
+  });
+}
