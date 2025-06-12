@@ -32,11 +32,9 @@ export const organizationSchema = pgTable('organization', {
     .$onUpdate(() => new Date())
     .notNull(),
   createdAt: timestamp('created_at', { mode: 'date' }).defaultNow().notNull(),
-});
-
-export const stripeCustomerIdIdx = uniqueIndex('stripe_customer_id_idx').on(
-  organizationSchema.stripeCustomerId,
-);
+}, table => ({
+  stripeCustomerIdIdx: uniqueIndex('stripe_customer_id_idx').on(table.stripeCustomerId),
+}));
 
 export const todoSchema = pgTable('todo', {
   id: serial('id').primaryKey(),
