@@ -80,6 +80,24 @@ Clone this project and use it to create your own SaaS. You can check the live de
   </tr>
   <tr height="187px">
     <td align="center" width="33%">
+      <a href="https://surveyjs.io/?utm_source=nextjs_readme&utm_medium=banner&utm_campaign=q3_2025">
+        <picture>
+          <source media="(prefers-color-scheme: dark)" srcset="public/assets/images/surveyjs.svg?raw=true">
+          <source media="(prefers-color-scheme: light)" srcset="public/assets/images/surveyjs.svg?raw=true">
+          <img alt="SurveyJS" src="public/assets/images/surveyjs.svg?raw=true">
+        </picture>
+      </a>
+    </td>
+    <td align="center" width="33%">
+      <a href="https://www.nutrient.io/guides/web/nextjs/?utm_source=nextjs-boilerplate&utm_medium=referral">
+        <picture>
+          <source media="(prefers-color-scheme: dark)" srcset="public/assets/images/nutrient-dark.png?raw=true">
+          <source media="(prefers-color-scheme: light)" srcset="public/assets/images/nutrient-light.png?raw=true">
+          <img alt="Nutrient" src="public/assets/images/nutrient-light.png?raw=true">
+        </picture>
+      </a>
+    </td>
+    <td align="center" width="33%">
       <a href="mailto:contact@creativedesignsguru.com">
         Add your logo here
       </a>
@@ -514,6 +532,24 @@ See [LICENSE](LICENSE) for more information.
     </td>
   </tr>
   <tr height="187px">
+    <td align="center" width="33%">
+      <a href="https://surveyjs.io/?utm_source=nextjs_readme&utm_medium=banner&utm_campaign=q3_2025">
+        <picture>
+          <source media="(prefers-color-scheme: dark)" srcset="public/assets/images/surveyjs.svg?raw=true">
+          <source media="(prefers-color-scheme: light)" srcset="public/assets/images/surveyjs.svg?raw=true">
+          <img alt="SurveyJS" src="public/assets/images/surveyjs.svg?raw=true">
+        </picture>
+      </a>
+    </td>
+    <td align="center" width="33%">
+      <a href="https://www.nutrient.io/guides/web/nextjs/?utm_source=nextjs-boilerplate&utm_medium=referral">
+        <picture>
+          <source media="(prefers-color-scheme: dark)" srcset="public/assets/images/nutrient-dark.png?raw=true">
+          <source media="(prefers-color-scheme: light)" srcset="public/assets/images/nutrient-light.png?raw=true">
+          <img alt="Nutrient" src="public/assets/images/nutrient-light.png?raw=true">
+        </picture>
+      </a>
+    </td>
     <td align="center" width="33%">
       <a href="mailto:contact@creativedesignsguru.com">
         Add your logo here
