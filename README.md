@@ -162,6 +162,7 @@ Developer experience first, extremely flexible code structure and only keep what
 - ☂️ Code coverage with [Codecov](https://about.codecov.io/codecov-free-trial/?utm_source=github&utm_medium=paid-community&utm_campaign=general-fy25q1-nextjs&utm_content=github-banner-nextjsboilerplate-logo)
 - 📝 Logging with [Pino.js](https://getpino.io) and Log Management with [Better Stack](https://betterstack.com/?utm_source=github&utm_medium=sponsorship&utm_campaign=next-js-boilerplate)
 - 🖥️ Monitoring as Code with [Checkly](https://www.checklyhq.com/?utm_source=github&utm_medium=sponsorship&utm_campaign=next-js-boilerplate)
+- 📈 Business Intelligence with [Metabase](https://www.metabase.com)
 - 🎁 Automatic changelog generation with Semantic Release
 - 🔍 Visual testing with Percy (Optional)
 - 💡 Absolute Imports using `@` prefix
@@ -426,6 +427,18 @@ The project uses [Checkly](https://www.checklyhq.com/?utm_source=github&utm_medi
 To use Checkly, you must first create an account on [their website](https://www.checklyhq.com/?utm_source=github&utm_medium=sponsorship&utm_campaign=next-js-boilerplate). After creating an account, generate a new API key in the Checkly Dashboard and set the `CHECKLY_API_KEY` environment variable in GitHub Actions. Additionally, you will need to define the `CHECKLY_ACCOUNT_ID`, which can also be found in your Checkly Dashboard under User Settings > General.
 
 To complete the setup, update the `checkly.config.ts` file with your own email address and production URL.
+
+### Business Intelligence with Metabase
+
+[Metabase](https://www.metabase.com) is an open-source business intelligence platform. You can use it to ask questions about your data, or embed it in your app to let your customers explore data on their own.
+
+To run your own [free self-hosted Metabase](https://www.metabase.com/start/oss), use:
+
+```shell
+docker run -d --name metabase -p 3001:3000 metabase/metabase
+```
+
+Then open `http://localhost:3001` and [connect your PostgreSQL](https://www.metabase.com/docs/latest/databases/connections/postgresql) database using the credentials from your `DATABASE_URL` environment variable.
 
 ### Useful commands
 
