@@ -214,6 +214,44 @@ npm run dev
 
 Open http://localhost:3000 with your favorite browser to see your project.
 
+### Free vs Pro version
+
+This project offers both a free open-source version and a premium Pro version. Here's a detailed comparison:
+
+| Features | Free Version | Pro Version |
+|---------|:------------:|:-----------:|
+| **Authentication** | ✅ | ✅ |
+| **Social Login (Google, Facebook, GitHub, etc.)** | ✅ | ✅ |
+| **Multi-Factor Auth & User Impersonation** | ✅ | ✅ |
+| **Multi-tenancy & Team Support** | ✅ | ✅ |
+| **Role-based Access Control (RBAC)** | ✅ | ✅ |
+| **Landing Page (Hero, Features, Pricing)** | ✅ | ✅ |
+| **Internationalization (i18n)** | ✅ | ✅ |
+| **Drizzle ORM & Dev Database** | ✅ | ✅ |
+| **GitHub Actions** | ✅ | ✅ |
+| **VSCode Configuration** | ✅ | ✅ |
+| **[Sentry Error Monitoring](https://sentry.io/for/nextjs/?utm_source=github&utm_medium=paid-community&utm_campaign=general-fy25q1-nextjs&utm_content=github-banner-nextjsboilerplate-logo)** | ✅ | ✅ |
+| **Shadcn UI** | ✅ | ✅ |
+| **Next.js** | 14 | 15 |
+| **React** | 18 | 19 |
+| **Tailwind CSS** | 3 | 4 |
+| **ESLint** | 8 | 9 |
+| **User Dashboard** | Basic | Extended |
+| **Code Quality Tools** | Basic | Extended |
+| **Testing: Unit, Integration, E2E, Visual** | Basic | Extended |
+| **Stripe Integration** | ❌ | ✅ |
+| **Todo App Example (CRUD)** | ❌ | ✅ |
+| **End-to-End Typesafe APIs (oRPC)** | ❌ | ✅ |
+| **Dark Mode** | ❌ | ✅ |
+| **Latest version** | ❌ | ✅ |
+| **Email support (1 year)** | ❌ | ✅ |
+
+**Live Demos:**
+- Free Version: [https://react-saas.com](https://react-saas.com)
+- Pro Version: [https://pro-demo.nextjs-boilerplate.com](https://pro-demo.nextjs-boilerplate.com)
+
+**Note:** Some differences like Next.js 15/React 19 and Tailwind CSS 4 are currently temporary as the free version will eventually be updated. However, Pro version users always get access to the latest version first.
+
 ### Set up authentication
 
 Create a Clerk account at [Clerk.com](https://go.clerk.com/zGlzydF) and create a new application in the Clerk Dashboard. Then, copy the values of `NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY` and `CLERK_SECRET_KEY` into the `.env.local` file (which is not tracked by Git):
