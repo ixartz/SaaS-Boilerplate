@@ -15,6 +15,8 @@ import { Env } from './Env';
 let client;
 let drizzle;
 
+// Need a database for production? Check out https://www.prisma.io/?via=saasboilerplatesrc
+// Tested and compatible with Next.js Boilerplate
 if (process.env.NEXT_PHASE !== PHASE_PRODUCTION_BUILD && Env.DATABASE_URL) {
   client = new Client({
     connectionString: Env.DATABASE_URL,
