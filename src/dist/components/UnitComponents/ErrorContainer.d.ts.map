@@ -1,0 +1,1 @@
+{"version":3,"file":"ErrorContainer.d.ts","sourceRoot":"","sources":["../../../src/components/UnitComponents/ErrorContainer.tsx"],"names":[],"mappings":"AAEA,UAAU,mBAAmB;IAC3B,KAAK,EAAE,MAAM,CAAC;IACd,QAAQ,EAAE,CAAC,KAAK,EAAE,MAAM,GAAG,IAAI,KAAK,IAAI,CAAC;CAC1C;AAED,eAAO,MAAM,cAAc,wBAAyB,mBAAmB,4CA2CtE,CAAC"}
