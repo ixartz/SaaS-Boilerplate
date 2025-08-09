@@ -10,7 +10,7 @@ import {
   Settings,
   Lock
 } from 'lucide-react';
-import { Card, CardContent } from '../ui/Card';
+import { Card, CardContent } from '../ui/card';
 
 const features = [
   {

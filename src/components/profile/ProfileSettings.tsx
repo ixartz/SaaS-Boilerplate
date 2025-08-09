@@ -1,8 +1,8 @@
 import React, { useState } from 'react';
 import { User, Mail, Building2, Shield } from 'lucide-react';
-import { Card, CardHeader, CardContent } from '../ui/Card';
-import { Button } from '../ui/Button';
-import { Input } from '../ui/Input';
+import { Card, CardHeader, CardContent } from '../ui/card';
+import { Button } from '../ui/button';
+import { Input } from '../ui/input';
 import { useAuth } from '../../contexts/AuthContext';
 
 export const ProfileSettings: React.FC = () => {

@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { Building2, Menu, X } from 'lucide-react';
-import { Button } from '../ui/Button';
+import { Button } from '../ui/button';
 
 interface NavigationProps {
   onGetStarted: () => void;

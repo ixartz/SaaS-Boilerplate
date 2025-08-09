@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { Plus, Mail, MoreVertical, Crown, User, Eye } from 'lucide-react';
-import { Card, CardHeader, CardContent } from '../ui/Card';
-import { Button } from '../ui/Button';
+import { Card, CardHeader, CardContent } from '../ui/card';
+import { Button } from '../ui/button';
 import { TeamMember } from '../../types';
 
 const mockTeamMembers: TeamMember[] = [

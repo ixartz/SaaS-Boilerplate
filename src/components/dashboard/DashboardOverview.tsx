@@ -1,6 +1,6 @@
 import React from 'react';
 import { Users, Building2, UserPlus, TrendingUp } from 'lucide-react';
-import { Card, CardHeader, CardContent } from '../ui/Card';
+import { Card, CardHeader, CardContent } from '../ui/card';
 import { useAuth } from '../../contexts/AuthContext';
 
 export const DashboardOverview: React.FC = () => {
