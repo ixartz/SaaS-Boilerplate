@@ -1,6 +1,7 @@
+// C:\Users\Indrasen Kumar\Documents\GitHub\saas-starter-loginradius\src\App.tsx
 import React from 'react';
-import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-dom';
-import { useLRAuth } from './hooks/useLRAuth';
+import { BrowserRouter as Router, Routes, Route, Navigate, useLocation } from 'react-router-dom';
+import { useLRAuth } from './lib/loginradius-react-sdk';
 import { OrganizationProvider, useOrganization } from './contexts/OrganizationContext';
 import { LandingPage } from './components/LandingPage';
 import { AuthPage } from './components/AuthPage';
@@ -10,23 +11,21 @@ import { Dashboard } from './components/Dashboard';
 
 // Protected Route Component
 const ProtectedRoute: React.FC<{ children: React.ReactNode }> = ({ children }) => {
-  const { isAuthenticated, loading } = useLRAuth();
-  
-  if (loading) {
-    return (
-      <div className="min-h-screen flex items-center justify-center">
-        <div className="animate-spin rounded-full h-32 w-32 border-b-2 border-blue-600"></div>
-      </div>
-    );
+  const { isAuthenticated } = useLRAuth();
+  const location = useLocation();
+
+  if (!isAuthenticated) {
+    const redirect = encodeURIComponent(location.pathname + location.search);
+    return <Navigate to={`/auth?redirect=${redirect}`} replace />;
   }
-  
-  return isAuthenticated ? <>{children}</> : <Navigate to="/auth" replace />;
+
+  return <>{children}</>;
 };
 
 // Organization Required Route
 const OrganizationRoute: React.FC<{ children: React.ReactNode }> = ({ children }) => {
   const { hasOrganization, loading } = useOrganization();
-  
+
   if (loading) {
     return (
       <div className="min-h-screen flex items-center justify-center">
@@ -34,7 +33,7 @@ const OrganizationRoute: React.FC<{ children: React.ReactNode }> = ({ children }
       </div>
     );
   }
-  
+
   return hasOrganization ? <>{children}</> : <Navigate to="/create-organization" replace />;
 };
 
@@ -45,29 +44,29 @@ const AppContent: React.FC = () => {
       <Route path="/" element={<LandingPage />} />
       <Route path="/auth" element={<AuthPage />} />
       <Route path="/invitation" element={<InvitationAccept />} />
-      
+
       {/* Protected Routes */}
-      <Route 
-        path="/create-organization" 
+      <Route
+        path="/create-organization"
         element={
           <ProtectedRoute>
             <CreateOrganization />
           </ProtectedRoute>
-        } 
+        }
       />
-      
+
       {/* Dashboard Routes (require organization) */}
-      <Route 
-        path="/dashboard/*" 
+      <Route
+        path="/dashboard/*"
         element={
           <ProtectedRoute>
             <OrganizationRoute>
               <Dashboard />
             </OrganizationRoute>
           </ProtectedRoute>
-        } 
+        }
       />
-      
+
       {/* Redirect unknown routes */}
       <Route path="*" element={<Navigate to="/" replace />} />
     </Routes>
