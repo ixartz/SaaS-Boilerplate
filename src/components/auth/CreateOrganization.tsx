@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { Building2, Globe, Upload } from 'lucide-react';
-import { Card, CardHeader, CardContent } from '../ui/card';
+import { Card, CardHeader, CardContent } from '../ui/Card';
 import { Button } from '../ui/button';
 import { Input } from '../ui/input';
 import { useOrganization } from '../../contexts/OrganizationContext';

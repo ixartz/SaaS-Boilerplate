@@ -3,7 +3,7 @@ import { useNavigate } from 'react-router-dom';
 import { useLRAuth } from '../../hooks/useLRAuth';
 import { Button } from '../ui/button';
 import { Input } from '../ui/input';
-import { Card, CardContent } from '../ui/card';
+import { Card, CardContent } from '../ui/Card';
 
 interface RegisterFormProps {
   onToggleMode: () => void;
