@@ -1,28 +1,13 @@
-// C:\Users\Indrasen Kumar\Documents\GitHub\saas-starter-loginradius\src\App.tsx
+// src/App.tsx
 import React from 'react';
-import { BrowserRouter as Router, Routes, Route, Navigate, useLocation } from 'react-router-dom';
-import { useLRAuth } from './lib/loginradius-react-sdk';
+import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-dom';
 import { OrganizationProvider, useOrganization } from './contexts/OrganizationContext';
 import { LandingPage } from './components/LandingPage';
 import { AuthPage } from './components/AuthPage';
 import { CreateOrganization } from './components/auth/CreateOrganization';
 import { InvitationAccept } from './components/auth/InvitationAccept';
 import { Dashboard } from './components/Dashboard';
-
-// Protected Route Component
-const ProtectedRoute: React.FC<{ children: React.ReactNode }> = ({ children }) => {
-  const { isAuthenticated } = useLRAuth();
-  const location = useLocation();
-
-  if (!isAuthenticated) {
-    const redirect = encodeURIComponent(location.pathname + location.search);
-    return <Navigate to={`/auth?redirect=${redirect}`} replace />;
-  }
-
-  return <>{children}</>;
-};
-
-// Organization Required Route
+import { RequireAuth } from './components/utils/authGuards';
 const OrganizationRoute: React.FC<{ children: React.ReactNode }> = ({ children }) => {
   const { hasOrganization, loading } = useOrganization();
 
@@ -40,34 +25,30 @@ const OrganizationRoute: React.FC<{ children: React.ReactNode }> = ({ children }
 const AppContent: React.FC = () => {
   return (
     <Routes>
-      {/* Public Routes */}
       <Route path="/" element={<LandingPage />} />
       <Route path="/auth" element={<AuthPage />} />
       <Route path="/invitation" element={<InvitationAccept />} />
 
-      {/* Protected Routes */}
       <Route
         path="/create-organization"
         element={
-          <ProtectedRoute>
+          <RequireAuth>
             <CreateOrganization />
-          </ProtectedRoute>
+          </RequireAuth>
         }
       />
 
-      {/* Dashboard Routes (require organization) */}
       <Route
         path="/dashboard/*"
         element={
-          <ProtectedRoute>
+          <RequireAuth>
             <OrganizationRoute>
               <Dashboard />
             </OrganizationRoute>
-          </ProtectedRoute>
+          </RequireAuth>
         }
       />
 
-      {/* Redirect unknown routes */}
       <Route path="*" element={<Navigate to="/" replace />} />
     </Routes>
   );

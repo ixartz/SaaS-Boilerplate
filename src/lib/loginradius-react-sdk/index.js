@@ -4404,7 +4404,7 @@ const Di = (t, e, n) => {
 class la {
   constructor(e) {
     Q(this, "options"), Q(this, "api"), Q(this, "util"), Q(this, "cookie"), this.options = e, this.api = we.create({
-      baseURL: "https://devapi.lrinternal.com",
+      baseURL: "https://devapi.lrinternal.com/identity/v2",
       headers: {
         "Content-Type": "application/json",
         "X-Requested-With": "XMLHttpRequest"
@@ -4444,7 +4444,7 @@ class la {
     return this.api.get(e);
   }
   async ssoLogout() {
-    const e = `https://${this.options.customDomain || "https://dev-indrasen.devhub.lrinternal.com".replace("%s", this.options.appName)}/ssologin/logout`;
+    const e = `https://${this.options.customDomain || "dev-indrasen.devhub.lrinternal.com".replace("%s", this.options.appName)}/ssologin/logout`;
     return this.api.get(e);
   }
   async setSecureCookie(e) {
@@ -4811,7 +4811,7 @@ class Gi {
   }
   async setSecureTokenCookie(e) {
     try {
-      const n = navigator.userAgent.toLowerCase(), o = n.indexOf("crios") === -1 && n.indexOf("chrome") === -1 && n.indexOf("safari") >= 0, r = /ipad|iphone|ipod/.test(n) && !(typeof window < "u" && "MSStream" in window), i = n.indexOf("ucbrowser") >= 0, l = /crios/i.test(n), c = "https://dev-indrasen.devhub.lrinternal.com".replace("%s", this.options.appName), d = this.options.customDomain || `${c}`;
+      const n = navigator.userAgent.toLowerCase(), o = n.indexOf("crios") === -1 && n.indexOf("chrome") === -1 && n.indexOf("safari") >= 0, r = /ipad|iphone|ipod/.test(n) && !(typeof window < "u" && "MSStream" in window), i = n.indexOf("ucbrowser") >= 0, l = /crios/i.test(n), c = "dev-indrasen.devhub.lrinternal.com".replace("%s", this.options.appName), d = this.options.customDomain || `${c}`;
       let h = window.location.href;
       const u = this.util.getQueryParameterByName("vtype"), m = this.util.getQueryParameterByName("vtoken");
       u && (h = h.replace(`?vtype=${u}`, "").replace(`&vtype=${u}`, "")), m && (h = h.replace(`&vtoken=${m}`, "").replace(`?vtoken=${m}`, ""));
@@ -5841,7 +5841,7 @@ const Ji = { title: "Login", description: "Please enter your credentials to logi
   "account-suspended": { title: "Account Temporarily Suspended", timerText: "Try again in %s minutes, %s seconds", timerSecondsText: "Try again in %s seconds", description: "Your account has been temporarily locked due to multiple failed login attempts. Please follow the steps below to regain access.", footerText: "Need help? ", footerLinkText: "Contact Support" },
   "account-restricted": { title: "Account Temporarily Restricted", description: "Your account has been temporarily locked due to multiple failed login attempts. For security reasons, please complete the CAPTCHA below to prove you’re human.", footerText: "Need help? ", footerLinkText: "Contact Support" },
   profile: es
-}, ts = { BASE_URL: "/", DEV: !1, MODE: "development", PROD: !0, SSR: !1, VITE_API_DOMAIN: "https://devapi.lrinternal.com", VITE_CONFIG_API_URL: "https://config-dev.lrinternal.com", VITE_HUB_DOMAIN: "https://dev-indrasen.devhub.lrinternal.com", VITE_LR_CONTENT_DOMAIN: "https://cdn-dev.lrinternal.com" }, ns = {
+}, ts = { BASE_URL: "/", DEV: !1, MODE: "development", PROD: !0, SSR: !1, VITE_API_DOMAIN: "https://devapi.lrinternal.com/identity/v2", VITE_CONFIG_API_URL: "https://config-dev.lrinternal.com", VITE_HUB_DOMAIN: "dev-indrasen.devhub.lrinternal.com", VITE_LR_CONTENT_DOMAIN: "cdn-dev.lrinternal.com" }, ns = {
   developmentMode: !1,
   passwordlessLoginEmailTemplate: "",
   callbackUrl: typeof window < "u" ? window.location.href : "",
