@@ -21,9 +21,10 @@ export function getSessionToken(): string | null {
 }
 
 // Remove token from both
-export function clearSession() {
+export function logout() {
   Cookies.remove(COOKIE_KEY);
   sessionStorage.removeItem(SESSION_KEY);
+  window.location.reload();
 }
 
 // Check if the current session is valid

@@ -2,7 +2,7 @@
 import React from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
 import { setSession } from '../utils/sessionHelper';
-import { AuthFlow } from '../../lib/loginradius-react-sdk';
+import { AuthFlow, useLRAuth } from '../../lib/loginradius-react-sdk';
 
 interface LoginFormProps {
   onToggleMode: () => void;
@@ -15,9 +15,10 @@ interface ApiError {
 export const LoginForm: React.FC<LoginFormProps> = () => {
   const navigate = useNavigate();
   const location = useLocation();
-
+  const { setAccessToken } = useLRAuth();
   const handleLoginSuccess = (response: any) => {
     if (response?.access_token) {
+      setAccessToken(response.access_token);
       setSession(response.access_token);
       const params = new URLSearchParams(location.search);
       const redirect = params.get('redirect') || '/dashboard';
