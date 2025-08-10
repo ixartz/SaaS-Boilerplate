@@ -1,22 +1,22 @@
 import React, { useState } from 'react';
-import { useAuth } from '../../contexts/AuthContext';
-import { Button } from '../ui/button';
-import { Input } from '../ui/input';
-import { Card, CardContent } from '../ui/card';
-import { RegisterData } from '../../types';
+import { useNavigate } from 'react-router-dom';
+import { useLRAuth } from '../../hooks/useLRAuth';
+import { Button } from '../ui/Button';
+import { Input } from '../ui/Input';
+import { Card, CardContent } from '../ui/Card';
 
 interface RegisterFormProps {
   onToggleMode: () => void;
 }
 
 export const RegisterForm: React.FC<RegisterFormProps> = ({ onToggleMode }) => {
-  const { register } = useAuth();
-  const [formData, setFormData] = useState<RegisterData>({
+  const navigate = useNavigate();
+  const { register } = useLRAuth();
+  const [formData, setFormData] = useState({
     firstName: '',
     lastName: '',
     email: '',
-    password: '',
-    organizationName: ''
+    password: ''
   });
   const [errors, setErrors] = useState<Record<string, string>>({});
   const [loading, setLoading] = useState(false);
@@ -28,6 +28,7 @@ export const RegisterForm: React.FC<RegisterFormProps> = ({ onToggleMode }) => {
 
     try {
       await register(formData);
+      navigate('/create-organization');
     } catch (error) {
       setErrors({ general: 'Registration failed. Please try again.' });
     } finally {
@@ -96,16 +97,6 @@ export const RegisterForm: React.FC<RegisterFormProps> = ({ onToggleMode }) => {
             value={formData.password}
             onChange={handleChange}
             placeholder="••••••••"
-            required
-          />
-
-          <Input
-            label="Organization Name"
-            type="text"
-            name="organizationName"
-            value={formData.organizationName}
-            onChange={handleChange}
-            placeholder="Acme Corp"
             required
           />
 

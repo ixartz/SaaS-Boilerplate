@@ -1,10 +1,12 @@
 import React, { useState } from 'react';
 import { ChevronDown, LogOut, User, Bell } from 'lucide-react';
-import { useAuth } from '../../contexts/AuthContext';
+import { useLRAuth } from '../../hooks/useLRAuth';
+import { useOrganization } from '../../contexts/OrganizationContext';
 import { OrganizationSwitcher } from './OrganizationSwitcher';
 
 export const Header: React.FC = () => {
-  const { user, logout, currentOrganization } = useAuth();
+  const { user, logout } = useLRAuth();
+  const { currentOrganization } = useOrganization();
   const [showProfileMenu, setShowProfileMenu] = useState(false);
 
   return (

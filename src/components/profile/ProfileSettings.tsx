@@ -1,12 +1,14 @@
 import React, { useState } from 'react';
 import { User, Mail, Building2, Shield } from 'lucide-react';
-import { Card, CardHeader, CardContent } from '../ui/card';
-import { Button } from '../ui/button';
-import { Input } from '../ui/input';
-import { useAuth } from '../../contexts/AuthContext';
+import { Card, CardHeader, CardContent } from '../ui/Card';
+import { Button } from '../ui/Button';
+import { Input } from '../ui/Input';
+import { useLRAuth } from '../../hooks/useLRAuth';
+import { useOrganization } from '../../contexts/OrganizationContext';
 
 export const ProfileSettings: React.FC = () => {
-  const { user, currentOrganization } = useAuth();
+  const { user } = useLRAuth();
+  const { currentOrganization } = useOrganization();
   const [profileData, setProfileData] = useState({
     firstName: user?.firstName || '',
     lastName: user?.lastName || '',

@@ -16,7 +16,7 @@ interface SidebarProps {
 }
 
 const navigation = [
-  { name: 'Dashboard', icon: Home, id: 'dashboard' },
+  { name: 'Overview', icon: Home, id: 'overview' },
   { name: 'Team', icon: Users, id: 'team' },
   { name: 'Invitations', icon: UserPlus, id: 'invitations' },
   { name: 'Analytics', icon: BarChart3, id: 'analytics' },

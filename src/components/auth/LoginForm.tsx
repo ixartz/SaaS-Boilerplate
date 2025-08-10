@@ -1,47 +1,51 @@
-import React, { useState } from 'react';
-import { useAuth } from '../../contexts/AuthContext';
-import { Button } from '../ui/button';
-import { Input } from '../ui/input';
-import { Card, CardContent } from '../ui/card';
-import { AuthFlow } from '../../dist';
+import React, { useEffect } from 'react';
+import { useLocation, useNavigate } from 'react-router-dom';
+import { useLRAuth } from '../../hooks/useLRAuth';
+import { AuthFlow } from '../../lib/loginradius-react-sdk';
 
 interface LoginFormProps {
   onToggleMode: () => void;
 }
 
-export const LoginForm: React.FC<LoginFormProps> = ({ onToggleMode }) => {
-  const { login } = useAuth();
-  const [formData, setFormData] = useState({
-    email: '',
-    password: ''
-  });
-  const [errors, setErrors] = useState<Record<string, string>>({});
-  const [loading, setLoading] = useState(false);
+interface ApiError {
+  error: string;
+}
 
-  const handleSubmit = async (e: React.FormEvent) => {
-    e.preventDefault();
-    setErrors({});
-    setLoading(true);
-
-    try {
-      await login(formData.email, formData.password);
-    } catch (error) {
-      setErrors({ general: 'Invalid email or password' });
-    } finally {
-      setLoading(false);
+export const LoginForm: React.FC<LoginFormProps> = () => {
+  const navigate = useNavigate();
+  const location = useLocation();
+  const { isAuthenticated } = useLRAuth();
+  console.log("is auth tyririr ",isAuthenticated)
+  useEffect(() => {
+    if (isAuthenticated) {
+      const searchParams = new URLSearchParams(location.search);
+      navigate({
+        pathname: '/dashboard',
+        search: searchParams.toString(),
+      });
+    } else {
+      const searchParams = new URLSearchParams(location.search);
+      navigate({
+        pathname: '/auth',
+        search: searchParams.toString(),
+      });
     }
+  }, [isAuthenticated, location.search, navigate]);
+  
+
+const handleLoginSuccess = (response: any) => {
+  if (response?.access_token) {
+    console.log('Login successful:', response);
+  }
+};
+
+
+  const handleError = (error: ApiError) => {
+    console.error('Error:', error.error);
   };
 
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setFormData(prev => ({
-      ...prev,
-      [e.target.name]: e.target.value
-    }));
-  };
 
   return (
-   <AuthFlow
-   onSuccess={() => console.log('Login successful')}
-   ></AuthFlow>
+    <AuthFlow onSuccess={handleLoginSuccess} onError={handleError} />
   );
 };

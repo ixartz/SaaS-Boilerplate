@@ -1,6 +1,6 @@
 import React from 'react';
 import { ArrowRight, CheckCircle } from 'lucide-react';
-import { Button } from '../ui/button';
+import { Button } from '../ui/Button';
 
 interface CTAProps {
   onGetStarted: () => void;

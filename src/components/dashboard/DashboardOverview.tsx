@@ -1,10 +1,10 @@
 import React from 'react';
 import { Users, Building2, UserPlus, TrendingUp } from 'lucide-react';
-import { Card, CardHeader, CardContent } from '../ui/card';
-import { useAuth } from '../../contexts/AuthContext';
+import { Card, CardHeader, CardContent } from '../ui/Card';
+import { useOrganization } from '../../contexts/OrganizationContext';
 
 export const DashboardOverview: React.FC = () => {
-  const { currentOrganization } = useAuth();
+  const { currentOrganization } = useOrganization();
 
   const stats = [
     {

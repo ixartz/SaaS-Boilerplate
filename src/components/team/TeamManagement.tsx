@@ -1,8 +1,9 @@
 import React, { useState } from 'react';
 import { Plus, Mail, MoreVertical, Crown, User, Eye } from 'lucide-react';
-import { Card, CardHeader, CardContent } from '../ui/card';
-import { Button } from '../ui/button';
+import { Card, CardHeader, CardContent } from '../ui/Card';
+import { Button } from '../ui/Button';
 import { TeamMember } from '../../types';
+import { useOrganization } from '../../contexts/OrganizationContext';
 
 const mockTeamMembers: TeamMember[] = [
   {
@@ -59,6 +60,12 @@ const mockTeamMembers: TeamMember[] = [
 export const TeamManagement: React.FC = () => {
   const [teamMembers] = useState<TeamMember[]>(mockTeamMembers);
   const [showInviteForm, setShowInviteForm] = useState(false);
+  const [inviteData, setInviteData] = useState({
+    email: '',
+    role: 'member'
+  });
+  const [inviteLoading, setInviteLoading] = useState(false);
+  const { currentOrganization } = useOrganization();
 
   const getRoleIcon = (role: string) => {
     switch (role) {
@@ -87,6 +94,36 @@ export const TeamManagement: React.FC = () => {
     );
   };
 
+  const handleInvite = async (e: React.FormEvent) => {
+    e.preventDefault();
+    setInviteLoading(true);
+    
+    // Simulate sending invitation
+    await new Promise(resolve => setTimeout(resolve, 1000));
+    
+    // Generate invitation URL (in real app, this would come from backend)
+    const invitationToken = 'inv_' + Date.now();
+    const invitationUrl = `${window.location.origin}/invitation?invitation_token=${invitationToken}`;
+    
+    console.log('Invitation sent to:', inviteData.email);
+    console.log('Invitation URL:', invitationUrl);
+    
+    // Reset form
+    setInviteData({ email: '', role: 'member' });
+    setShowInviteForm(false);
+    setInviteLoading(false);
+    
+    // In a real app, you would send this URL via email
+    alert(`Invitation sent! URL: ${invitationUrl}`);
+  };
+
+  const handleInviteChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
+    setInviteData(prev => ({
+      ...prev,
+      [e.target.name]: e.target.value
+    }));
+  };
+
   return (
     <div className="space-y-6">
       <div className="flex items-center justify-between">
@@ -106,24 +143,37 @@ export const TeamManagement: React.FC = () => {
             <h3 className="text-lg font-semibold text-gray-900">Invite Team Member</h3>
           </CardHeader>
           <CardContent>
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-              <input
-                type="email"
-                placeholder="Email address"
-                className="px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
-              />
-              <select className="px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500">
-                <option value="viewer">Viewer</option>
-                <option value="member">Member</option>
-                <option value="admin">Admin</option>
-              </select>
-              <div className="flex space-x-2">
-                <Button>Send Invite</Button>
-                <Button variant="outline" onClick={() => setShowInviteForm(false)}>
-                  Cancel
-                </Button>
+            <form onSubmit={handleInvite}>
+              <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+                <input
+                  type="email"
+                  name="email"
+                  value={inviteData.email}
+                  onChange={handleInviteChange}
+                  placeholder="Email address"
+                  className="px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+                  required
+                />
+                <select 
+                  name="role"
+                  value={inviteData.role}
+                  onChange={handleInviteChange}
+                  className="px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+                >
+                  <option value="viewer">Viewer</option>
+                  <option value="member">Member</option>
+                  <option value="admin">Admin</option>
+                </select>
+                <div className="flex space-x-2">
+                  <Button type="submit" loading={inviteLoading}>
+                    Send Invite
+                  </Button>
+                  <Button type="button" variant="outline" onClick={() => setShowInviteForm(false)}>
+                    Cancel
+                  </Button>
+                </div>
               </div>
-            </div>
+            </form>
           </CardContent>
         </Card>
       )}

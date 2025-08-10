@@ -4404,7 +4404,7 @@ const Vi = (t, e, n) => {
 class io {
   constructor(e) {
     Q(this, "options"), Q(this, "api"), Q(this, "util"), Q(this, "cookie"), this.options = e, this.api = we.create({
-      baseURL: "https://devapi.lrinternal.com/",
+      baseURL: "https://devapi.lrinternal.com/identity/v2/",
       headers: {
         "Content-Type": "application/json",
         "X-Requested-With": "XMLHttpRequest"

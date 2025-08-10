@@ -1,9 +1,9 @@
 import React, { useState } from 'react';
 import { ChevronDown, Plus, Building2 } from 'lucide-react';
-import { useAuth } from '../../contexts/AuthContext';
+import { useOrganization } from '../../contexts/OrganizationContext';
 
 export const OrganizationSwitcher: React.FC = () => {
-  const { organizations, currentOrganization, switchOrganization } = useAuth();
+  const { organizations, currentOrganization, switchOrganization } = useOrganization();
   const [showSwitcher, setShowSwitcher] = useState(false);
 
   return (
