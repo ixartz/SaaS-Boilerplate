@@ -58,10 +58,39 @@
 }
 
 
-/* Hide LR's built-in loaders everywhere by default */
+/* 5a) Kill LR's default loaders everywhere (we'll use our own if needed) */
 .loginradius-loading-container,
-.loginradius-loading-visible{
+.loginradius-loading-visible,
+.loginradius-loading-input-skeleton {
   display: none !important;
   visibility: hidden !important;
   opacity: 0 !important;
 }
+
+/* 5b) Hide any LR UI unless the Auth page explicitly enables it */
+:root .lr-auth-wrapper,
+:root [data-lr-ui],
+:root [data-lr-widget],
+:root [data-lr-container] {
+  display: none !important;
+}
+body.show-lr-ui .lr-auth-wrapper,
+body.show-lr-ui [data-lr-ui],
+body.show-lr-ui [data-lr-widget],
+body.show-lr-ui [data-lr-container] {
+  display: revert !important;
+}
+
+/* 5c) (Optional) your own centered loader if you ever need it */
+.app-fullscreen-loader {
+  position: fixed; inset: 0;
+  display: flex; align-items: center; justify-content: center;
+  background: rgba(255,255,255,.85); z-index: 9999;
+}
+.app-fullscreen-loader::after {
+  content: "";
+  width: 3.5rem; height: 3.5rem;
+  border: 4px solid #3b82f6; border-top-color: transparent;
+  border-radius: 50%; animation: appSpin .8s linear infinite;
+}
+@keyframes appSpin { to { transform: rotate(360deg); } }
