@@ -1,9 +1,9 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useLRAuth } from '../../hooks/useLRAuth';
-import { Button } from '../ui/Button';
-import { Input } from '../ui/Input';
-import { Card, CardContent } from '../ui/Card';
+import { Button } from '../ui/button';
+import { Input } from '../ui/input';
+import { Card, CardContent } from '../ui/card';
 
 interface RegisterFormProps {
   onToggleMode: () => void;

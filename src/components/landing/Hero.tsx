@@ -1,6 +1,6 @@
 import React from 'react';
 import { ArrowRight, Play, CheckCircle } from 'lucide-react';
-import { Button } from '../ui/Button';
+import { Button } from '../ui/button';
 
 interface HeroProps {
   onGetStarted: () => void;
