@@ -9,6 +9,7 @@ export interface Organization {
 
 export interface CreateOrganizationDto {
   name: string;
+  domain: string;
 }
 
 export const OrganizationAPI = {
