@@ -121,7 +121,7 @@ export { ConsentManagement } from './ParentComponents/ConsentManagement';
 export { ConsentEditor } from './ParentComponents/ConsentEditor';
 export { BusinessLogin } from './ParentComponents/BusinessLogin';
 export { BusinessSSOLogin } from './ParentComponents/BusinessSSOLogin';
-export { MagicLinkLogin } from './ParentComponents/MagicLinkLogin';
+export { default as MagicLinkLogin } from './ParentComponents/MagicLinkLogin';
 export { default as OTPLogin } from './ParentComponents/OTPLogin';
 export { default as EmailOTPLogin } from './ParentComponents/EmailOTPLogin';
 export { default as AuthenticatorLogin } from './ParentComponents/AuthenticatorLogin';

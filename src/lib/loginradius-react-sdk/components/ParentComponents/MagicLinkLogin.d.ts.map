@@ -1,1 +1,1 @@
-{"version":3,"file":"MagicLinkLogin.d.ts","sourceRoot":"","sources":["../../../src/components/ParentComponents/MagicLinkLogin.tsx"],"names":[],"mappings":"AACA,OAAO,EAAY,YAAY,EAAE,mBAAmB,EAAE,MAAM,UAAU,CAAC;AAavE,eAAO,MAAM,cAAc,uFAQxB,mBAAmB,GAAG,YAAY,4CAiGpC,CAAC;;AACF,wBAAyE"}
+{"version":3,"file":"MagicLinkLogin.d.ts","sourceRoot":"","sources":["../../../src/components/ParentComponents/MagicLinkLogin.tsx"],"names":[],"mappings":"AACA,OAAO,EAA0B,mBAAmB,EAAE,MAAM,UAAU,CAAC;;AAuHvE,wBAAyE"}
