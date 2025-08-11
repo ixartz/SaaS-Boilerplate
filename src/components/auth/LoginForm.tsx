@@ -11,6 +11,7 @@ export const LoginForm: React.FC<LoginFormProps> = () => {
   const location = useLocation();
 
   const handleLoginSuccess = (response: any) => {
+    console.log("Passkey Login successful:", response);
     if (!response?.access_token) return;
     setSession(response.access_token);
 
