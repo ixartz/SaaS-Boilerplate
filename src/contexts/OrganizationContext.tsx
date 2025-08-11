@@ -1,36 +1,50 @@
-// src/contexts/OrganizationContext.tsx
 import React, { createContext, useContext, useEffect, useState } from "react";
 import { Organization } from "../types";
-import { OrganizationAPI } from "../services/organization"; // <-- uses API helper
+import { OrganizationAPI } from "../services/organization";
+import { API } from "../services/http"; // we'll call /users/config via API here
 
 interface OrganizationContextType {
   organizations: Organization[];
   currentOrganization: Organization | null;
   hasOrganization: boolean;
+  loading: boolean;
+
   createOrganization: (orgData: CreateOrgData) => Promise<void>;
   switchOrganization: (orgId: string) => void;
-  loading: boolean;
+
+  /** Fetches /users/config, updates org state, and returns hasOrganization */
+  refreshFromServer: () => Promise<boolean>;
 }
 
 interface CreateOrgData {
   name: string;
-  domain: string; // kept for your UI; not sent if your API doesn't need it
+  domain: string; // UI-only; not required by backend create
 }
 
-const OrganizationContext = createContext<OrganizationContextType | undefined>(
-  undefined
-);
+type UserConfigResponse = {
+  organizations: { Id: string; Name: string }[];
+  tenantRoles: { Id: string; Name: string }[];
+};
 
-export const OrganizationProvider: React.FC<{ children: React.ReactNode }> = ({
-  children,
-}) => {
+const OrganizationContext = createContext<OrganizationContextType | undefined>(undefined);
+
+export const OrganizationProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
   const [organizations, setOrganizations] = useState<Organization[]>([]);
-  const [currentOrganization, setCurrentOrganization] =
-    useState<Organization | null>(null);
+  const [currentOrganization, setCurrentOrganization] = useState<Organization | null>(null);
   const [loading, setLoading] = useState(true);
 
+  // map API org → app Organization type
+  const mapOrg = (o: { Id: string; Name: string }): Organization => ({
+    id: o.Id,
+    name: o.Name,
+    slug: o.Name.toLowerCase().replace(/\s+/g, "-").replace(/[^a-z0-9-]/g, ""),
+    plan: "free",
+    memberCount: 1,
+    createdAt: new Date().toISOString(),
+  });
+
+  // Initial load from localStorage (so UI can render quickly on refresh)
   useEffect(() => {
-    // Load from localStorage for now (you can swap to GET /organization later)
     const storedOrgs = localStorage.getItem("user_organizations");
     const storedCurrentOrg = localStorage.getItem("current_organization");
 
@@ -39,8 +53,8 @@ export const OrganizationProvider: React.FC<{ children: React.ReactNode }> = ({
       setOrganizations(orgs);
 
       if (storedCurrentOrg) {
-        const currentOrg = orgs.find((org) => org.id === storedCurrentOrg);
-        setCurrentOrganization(currentOrg || orgs[0] || null);
+        const current = orgs.find((o) => o.id === storedCurrentOrg) ?? orgs[0] ?? null;
+        setCurrentOrganization(current);
       } else if (orgs.length > 0) {
         setCurrentOrganization(orgs[0]);
       }
@@ -48,25 +62,53 @@ export const OrganizationProvider: React.FC<{ children: React.ReactNode }> = ({
     setLoading(false);
   }, []);
 
+  const refreshFromServer = async (): Promise<boolean> => {
+    setLoading(true);
+    try {
+      const cfg = await API.get<UserConfigResponse>("/users/config");
+      const mapped = (cfg.organizations ?? []).map(mapOrg);
+
+      setOrganizations(mapped);
+
+      const storedCurrentOrg = localStorage.getItem("current_organization");
+      if (storedCurrentOrg) {
+        const found = mapped.find((o) => o.id === storedCurrentOrg) ?? mapped[0] ?? null;
+        setCurrentOrganization(found);
+        if (found) localStorage.setItem("current_organization", found.id);
+      } else {
+        const first = mapped[0] ?? null;
+        setCurrentOrganization(first);
+        if (first) localStorage.setItem("current_organization", first.id);
+      }
+
+      localStorage.setItem("user_organizations", JSON.stringify(mapped));
+      return mapped.length > 0;
+    } finally {
+      setLoading(false);
+    }
+  };
+
   const createOrganization = async (orgData: CreateOrgData): Promise<void> => {
     setLoading(true);
     try {
-      // ✅ Call your API. Your curl showed only "name" is required.
       const created = await OrganizationAPI.create({ name: orgData.name });
-
-      // If API doesn't return slug/domain, fall back to UI-entered domain
       const newOrg: Organization = {
-        ...created,
-        slug: (created as any).slug ?? orgData.domain,
-        plan: "free",
-        memberCount: 0
+        ...(created as any),
+        id: (created as any).id ?? (created as any).Id ?? crypto.randomUUID(),
+        name: (created as any).name ?? (created as any).Name ?? orgData.name,
+        slug:
+          (created as any).slug ??
+          orgData.name.toLowerCase().replace(/\s+/g, "-").replace(/[^a-z0-9-]/g, ""),
+        plan: (created as any).plan ?? "free",
+        memberCount: (created as any).memberCount ?? 1,
+        createdAt: (created as any).createdAt ?? new Date().toISOString(),
       };
 
-      const updatedOrgs = [...organizations, newOrg];
-      setOrganizations(updatedOrgs);
+      const updated = [...organizations, newOrg];
+      setOrganizations(updated);
       setCurrentOrganization(newOrg);
 
-      localStorage.setItem("user_organizations", JSON.stringify(updatedOrgs));
+      localStorage.setItem("user_organizations", JSON.stringify(updated));
       localStorage.setItem("current_organization", newOrg.id);
     } finally {
       setLoading(false);
@@ -87,9 +129,10 @@ export const OrganizationProvider: React.FC<{ children: React.ReactNode }> = ({
         organizations,
         currentOrganization,
         hasOrganization: organizations.length > 0,
+        loading,
         createOrganization,
         switchOrganization,
-        loading,
+        refreshFromServer,
       }}
     >
       {children}
@@ -98,11 +141,7 @@ export const OrganizationProvider: React.FC<{ children: React.ReactNode }> = ({
 };
 
 export const useOrganization = () => {
-  const context = useContext(OrganizationContext);
-  if (context === undefined) {
-    throw new Error(
-      "useOrganization must be used within an OrganizationProvider"
-    );
-  }
-  return context;
+  const ctx = useContext(OrganizationContext);
+  if (!ctx) throw new Error("useOrganization must be used within an OrganizationProvider");
+  return ctx;
 };
