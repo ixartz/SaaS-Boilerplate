@@ -5,6 +5,7 @@ import { Sidebar } from './layout/Sidebar';
 import { DashboardOverview } from './dashboard/DashboardOverview';
 import { TeamManagement } from './team/TeamManagement';
 import { ProfileSettings } from './profile/ProfileSettings';
+import { OrganizationManagement } from './organization/OrganizationManagement';
 
 export const Dashboard: React.FC = () => {
   const navigate = useNavigate();
@@ -45,12 +46,7 @@ export const Dashboard: React.FC = () => {
                   <p>Document management coming soon...</p>
                 </div>
               } />
-              <Route path="/organization" element={
-                <div className="text-center text-gray-500">
-                  <h3 className="text-lg font-medium">Organization Settings</h3>
-                  <p>Organization management coming soon...</p>
-                </div>
-              } />
+              <Route path="/organization" element={<OrganizationManagement/>}/>
             </Routes>
           </div>
         </main>
