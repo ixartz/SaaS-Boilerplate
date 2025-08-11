@@ -1,135 +1,183 @@
-import React, { useState } from 'react';
-import { Plus, Mail, MoreVertical, Crown, User, Eye } from 'lucide-react';
+import React, { useEffect, useMemo, useState } from 'react';
+import { Plus, MoreVertical, Crown, User, Eye } from 'lucide-react';
 import { Card, CardHeader, CardContent } from '../ui/Card';
 import { Button } from '../ui/button';
-import { TeamMember } from '../../types';
 import { useOrganization } from '../../contexts/OrganizationContext';
+import { InviteAPI, InvitationWire } from '../../services/invite';
+import { showToast } from '../utils/showToast';
 
-const mockTeamMembers: TeamMember[] = [
-  {
-    id: '1',
-    userId: '1',
-    organizationId: '1',
-    role: 'admin',
-    status: 'active',
-    invitedAt: '2024-01-15T08:00:00Z',
-    joinedAt: '2024-01-15T08:00:00Z',
-    user: {
-      id: '1',
-      email: 'john@company.com',
-      firstName: 'John',
-      lastName: 'Doe',
-      avatar: 'https://images.pexels.com/photos/614810/pexels-photo-614810.jpeg?w=150&h=150&fit=crop&crop=face',
-      role: 'admin'
-    }
-  },
-  {
-    id: '2',
-    userId: '2',
-    organizationId: '1',
-    role: 'member',
-    status: 'active',
-    invitedAt: '2024-01-20T09:00:00Z',
-    joinedAt: '2024-01-20T09:30:00Z',
-    user: {
-      id: '2',
-      email: 'sarah@company.com',
-      firstName: 'Sarah',
-      lastName: 'Johnson',
-      avatar: 'https://images.pexels.com/photos/415829/pexels-photo-415829.jpeg?w=150&h=150&fit=crop&crop=face',
-      role: 'member'
-    }
-  },
-  {
-    id: '3',
-    userId: '3',
-    organizationId: '1',
-    role: 'viewer',
-    status: 'pending',
-    invitedAt: '2024-01-25T10:00:00Z',
-    user: {
-      id: '3',
-      email: 'mike@company.com',
-      firstName: 'Mike',
-      lastName: 'Wilson',
-      role: 'viewer'
-    }
+type NormalizedInvite = {
+  id: string;
+  role: string;
+  status: string;
+  email: string;
+  invitedAt: string;
+};
+
+function normalizeInvitation(i: any): NormalizedInvite {
+  // Defensive mapping with sane defaults
+  const id = typeof i?.Id === 'string' && i.Id.trim() ? i.Id : crypto.randomUUID();
+  const role = typeof i?.Role === 'string' && i.Role.trim() ? i.Role : 'Member';
+  const status = typeof i?.Status === 'string' && i.Status.trim() ? i.Status : 'Invited';
+  const email = typeof i?.Email === 'string' ? i.Email : '';
+  const invitedAt = typeof i?.InvitedDate === 'string' && i.InvitedDate
+    ? i.InvitedDate
+    : new Date().toISOString();
+  return { id, role, status, email, invitedAt };
+}
+
+function safeDateLabel(iso: string): string {
+  const t = Date.parse(iso);
+  if (Number.isNaN(t)) return '—';
+  try {
+    return new Date(t).toLocaleString();
+  } catch {
+    return '—';
   }
-];
+}
 
 export const TeamManagement: React.FC = () => {
-  const [teamMembers] = useState<TeamMember[]>(mockTeamMembers);
+  // Invite form state
   const [showInviteForm, setShowInviteForm] = useState(false);
-  const [inviteData, setInviteData] = useState({
+  const [inviteData, setInviteData] = useState<{ email: string; roleId: string }>({
     email: '',
-    role: 'member'
+    roleId: ''
   });
   const [inviteLoading, setInviteLoading] = useState(false);
-  const { currentOrganization } = useOrganization();
 
-  const getRoleIcon = (role: string) => {
-    switch (role) {
-      case 'admin':
-        return <Crown className="w-4 h-4 text-amber-600" />;
-      case 'member':
-        return <User className="w-4 h-4 text-blue-600" />;
-      case 'viewer':
-        return <Eye className="w-4 h-4 text-gray-600" />;
-      default:
-        return <User className="w-4 h-4 text-gray-600" />;
+  // From Organization context
+  const { currentOrganization, tenantRoles, inviteMember, loading: orgLoading } = useOrganization();
+
+  // Invitations list state
+  const [invites, setInvites] = useState<NormalizedInvite[]>([]);
+  const [invitesLoading, setInvitesLoading] = useState(false);
+  const [invitesError, setInvitesError] = useState<string | null>(null);
+
+  // Default role once roles arrive
+  useEffect(() => {
+    if (!inviteData.roleId && tenantRoles.length > 0) {
+      setInviteData((d) => ({ ...d, roleId: tenantRoles[0].id }));
     }
-  };
+  }, [tenantRoles, inviteData.roleId]);
 
-  const getStatusBadge = (status: string) => {
-    const styles = {
+  // Fetch invitations when org changes
+  useEffect(() => {
+    const orgId = currentOrganization?.id;
+    if (!orgId) {
+      setInvites([]);
+      return;
+    }
+
+    let mounted = true;
+    (async () => {
+      setInvitesLoading(true);
+      setInvitesError(null);
+      try {
+        const res = await InviteAPI.list(orgId);
+        const mapped = (res.invitations ?? [])
+          .filter(Boolean)
+          .map((i: InvitationWire) => normalizeInvitation(i));
+        if (mounted) setInvites(mapped);
+      } catch (e: any) {
+        if (mounted) setInvitesError(e?.message || 'Failed to load invitations.');
+      } finally {
+        if (mounted) setInvitesLoading(false);
+      }
+    })();
+
+    return () => { mounted = false; };
+  }, [currentOrganization?.id]);
+  
+  const getStatusBadge = (status?: string) => {
+    const s = (status || 'invited').toLowerCase();
+    const styles: Record<string, string> = {
       active: 'bg-green-100 text-green-800',
       pending: 'bg-amber-100 text-amber-800',
+      invited: 'bg-amber-100 text-amber-800',
       inactive: 'bg-gray-100 text-gray-800'
     };
-
+    const cls = styles[s] || 'bg-gray-100 text-gray-800';
+    const label = s.charAt(0).toUpperCase() + s.slice(1);
     return (
-      <span className={`inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium ${styles[status as keyof typeof styles]}`}>
-        {status.charAt(0).toUpperCase() + status.slice(1)}
+      <span className={`inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium ${cls}`}>
+        {label}
       </span>
     );
+  };
+
+  const roleNameById = useMemo(() => {
+    const map = new Map<string, string>();
+    tenantRoles.forEach(r => map.set(r.id, r.name));
+    return map;
+  }, [tenantRoles]);
+
+  const reloadInvites = async () => {
+    if (!currentOrganization?.id) return;
+    setInvitesLoading(true);
+    setInvitesError(null);
+    try {
+      const res = await InviteAPI.list(currentOrganization.id);
+      const mapped = (res.invitations ?? [])
+        .filter(Boolean)
+        .map((i: InvitationWire) => normalizeInvitation(i));
+      setInvites(mapped);
+    } catch (e: any) {
+      setInvitesError(e?.message || 'Failed to load invitations.');
+    } finally {
+      setInvitesLoading(false);
+    }
   };
 
   const handleInvite = async (e: React.FormEvent) => {
     e.preventDefault();
     setInviteLoading(true);
-    
-    // Simulate sending invitation
-    await new Promise(resolve => setTimeout(resolve, 1000));
-    
-    // Generate invitation URL (in real app, this would come from backend)
-    const invitationToken = 'inv_' + Date.now();
-    const invitationUrl = `${window.location.origin}/invitation?invitation_token=${invitationToken}`;
-    
-    console.log('Invitation sent to:', inviteData.email);
-    console.log('Invitation URL:', invitationUrl);
-    
-    // Reset form
-    setInviteData({ email: '', role: 'member' });
-    setShowInviteForm(false);
-    setInviteLoading(false);
-    
-    // In a real app, you would send this URL via email
-    alert(`Invitation sent! URL: ${invitationUrl}`);
+
+    try {
+      if (!currentOrganization?.id) {
+        throw new Error('No current organization selected.');
+      }
+      const email = inviteData.email.trim();
+      if (!email) throw new Error('Email is required.');
+      if (!inviteData.roleId) throw new Error('Role is required.');
+
+      const res = await inviteMember({ email, roleId: inviteData.roleId });
+      if(res?.success){
+        showToast('Invitation sent successfully', 'success');
+      }else{
+        showToast('Failed to send invitation', 'error');
+      }
+      // Reset UI + refresh invites
+      const defaultRole = tenantRoles[0]?.id ?? '';
+      setInviteData({ email: '', roleId: defaultRole });
+      setShowInviteForm(false);
+      await reloadInvites();
+    } catch (err: any) {
+      showToast(err?.message || 'Failed to send invitation', 'error');
+    } finally {
+      setInviteLoading(false);
+    }
   };
 
   const handleInviteChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
-    setInviteData(prev => ({
-      ...prev,
-      [e.target.name]: e.target.value
-    }));
+    const { name, value } = e.target;
+    setInviteData(prev => ({ ...prev, [name]: value }));
   };
+
+  const rolesLoading = orgLoading && tenantRoles.length === 0;
 
   return (
     <div className="space-y-6">
       <div className="flex items-center justify-between">
         <div>
           <h2 className="text-2xl font-bold text-gray-900">Team Management</h2>
-          <p className="text-gray-600">Manage your team members and their permissions</p>
+          <p className="text-gray-600">
+            Manage your team members and invitations
+            {currentOrganization ? (
+              <span className="ml-1 text-gray-500">
+                (Org: <b>{currentOrganization.name}</b>)
+              </span>
+            ) : null}
+          </p>
         </div>
         <Button onClick={() => setShowInviteForm(true)}>
           <Plus className="w-4 h-4 mr-2" />
@@ -154,18 +202,29 @@ export const TeamManagement: React.FC = () => {
                   className="px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
                   required
                 />
-                <select 
-                  name="role"
-                  value={inviteData.role}
+
+                <select
+                  name="roleId"
+                  value={inviteData.roleId}
                   onChange={handleInviteChange}
                   className="px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+                  disabled={rolesLoading}
+                  required
                 >
-                  <option value="viewer">Viewer</option>
-                  <option value="member">Member</option>
-                  <option value="admin">Admin</option>
+                  {rolesLoading && <option value="">Loading roles…</option>}
+                  {!rolesLoading && tenantRoles.length === 0 && (
+                    <option value="">No roles available</option>
+                  )}
+                  {!rolesLoading &&
+                    tenantRoles.map((r) => (
+                      <option key={r.id} value={r.id}>
+                        {r.name}
+                      </option>
+                    ))}
                 </select>
+
                 <div className="flex space-x-2">
-                  <Button type="submit" loading={inviteLoading}>
+                  <Button type="submit" loading={inviteLoading || rolesLoading}>
                     Send Invite
                   </Button>
                   <Button type="button" variant="outline" onClick={() => setShowInviteForm(false)}>
@@ -179,74 +238,67 @@ export const TeamManagement: React.FC = () => {
       )}
 
       <Card>
+        <CardHeader>
+          <h3 className="text-lg font-semibold text-gray-900">Invitations</h3>
+        </CardHeader>
         <CardContent className="p-0">
-          <div className="overflow-x-auto">
-            <table className="w-full">
-              <thead className="bg-gray-50 border-b border-gray-200">
-                <tr>
-                  <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                    Member
-                  </th>
-                  <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                    Role
-                  </th>
-                  <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                    Status
-                  </th>
-                  <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                    Joined
-                  </th>
-                  <th className="px-6 py-3 text-right text-xs font-medium text-gray-500 uppercase tracking-wider">
-                    Actions
-                  </th>
-                </tr>
-              </thead>
-              <tbody className="bg-white divide-y divide-gray-200">
-                {teamMembers.map((member) => (
-                  <tr key={member.id} className="hover:bg-gray-50 transition-colors">
-                    <td className="px-6 py-4 whitespace-nowrap">
-                      <div className="flex items-center">
-                        {member.user.avatar ? (
-                          <img
-                            className="w-10 h-10 rounded-full object-cover"
-                            src={member.user.avatar}
-                            alt={`${member.user.firstName} ${member.user.lastName}`}
-                          />
-                        ) : (
-                          <div className="w-10 h-10 bg-gray-300 rounded-full flex items-center justify-center">
-                            <User className="w-5 h-5 text-gray-600" />
-                          </div>
-                        )}
-                        <div className="ml-4">
-                          <div className="text-sm font-medium text-gray-900">
-                            {member.user.firstName} {member.user.lastName}
-                          </div>
-                          <div className="text-sm text-gray-500">{member.user.email}</div>
-                        </div>
-                      </div>
-                    </td>
-                    <td className="px-6 py-4 whitespace-nowrap">
-                      <div className="flex items-center">
-                        {getRoleIcon(member.role)}
-                        <span className="ml-2 text-sm text-gray-900 capitalize">{member.role}</span>
-                      </div>
-                    </td>
-                    <td className="px-6 py-4 whitespace-nowrap">
-                      {getStatusBadge(member.status)}
-                    </td>
-                    <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
-                      {member.joinedAt ? new Date(member.joinedAt).toLocaleDateString() : 'Pending'}
-                    </td>
-                    <td className="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
-                      <button className="text-gray-400 hover:text-gray-600 p-1 rounded">
-                        <MoreVertical className="w-4 h-4" />
-                      </button>
-                    </td>
+          {invitesLoading ? (
+            <div className="p-6 text-gray-600">Loading invitations…</div>
+          ) : invitesError ? (
+            <div className="p-6 text-red-600">{invitesError}</div>
+          ) : invites.length === 0 ? (
+            <div className="p-6 text-gray-600">No invitations yet.</div>
+          ) : (
+            <div className="overflow-x-auto">
+              <table className="w-full">
+                <thead className="bg-gray-50 border-b border-gray-200">
+                  <tr>
+                    <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                      Email
+                    </th>
+                    <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                      Role
+                    </th>
+                    <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                      Status
+                    </th>
+                    <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                      Invited On
+                    </th>
+                    <th className="px-6 py-3 text-right text-xs font-medium text-gray-500 uppercase tracking-wider">
+                      Actions
+                    </th>
                   </tr>
-                ))}
-              </tbody>
-            </table>
-          </div>
+                </thead>
+                <tbody className="bg-white divide-y divide-gray-200">
+                  {invites.filter(Boolean).map((inv) => (
+                    <tr key={inv.id} className="hover:bg-gray-50 transition-colors">
+                      <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
+                        {inv.email || '—'}
+                      </td>
+                      <td className="px-6 py-4 whitespace-nowrap">
+                        <div className="flex items-center">
+                         <User className="w-4 h-4 text-blue-600" />
+                          <span className="ml-2 text-sm text-gray-900">{inv.role}</span>
+                        </div>
+                      </td>
+                      <td className="px-6 py-4 whitespace-nowrap">
+                        {getStatusBadge(inv.status)}
+                      </td>
+                      <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
+                        {safeDateLabel(inv.invitedAt)}
+                      </td>
+                      <td className="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
+                        <button className="text-gray-400 hover:text-gray-600 p-1 rounded">
+                          <MoreVertical className="w-4 h-4" />
+                        </button>
+                      </td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+            </div>
+          )}
         </CardContent>
       </Card>
     </div>

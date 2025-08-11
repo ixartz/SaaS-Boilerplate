@@ -5,6 +5,7 @@ import App from './App.tsx';
 import './index.css';
 
 import { LoginRadiusProvider } from './lib/loginradius-react-sdk';
+import { ToastProvider } from './components/ui/toastProvider.tsx';
 
 const loginRadiusOptions = {
    apiKey: '8b95fe7e-6dd1-4157-8e5c-f49de4257930',
@@ -17,6 +18,7 @@ const loginRadiusOptions = {
 createRoot(document.getElementById('root')!).render(
   <StrictMode>
     <LoginRadiusProvider options={loginRadiusOptions}>
+       <ToastProvider />
       <App />
     </LoginRadiusProvider>
   </StrictMode>

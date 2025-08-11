@@ -2,6 +2,7 @@ import React, { createContext, useContext, useEffect, useMemo, useRef, useState 
 import { useAuth } from "./AuthContext";
 import { OrganizationAPI } from "../services/organization";
 import { UserConfigAPI, UserConfigResponse } from "../services/userConfig";
+import { InviteAPI, InviteResponse } from "../services/invite";
 
 type Organization = {
   id: string;
@@ -13,15 +14,19 @@ type Organization = {
 };
 
 type CreateOrgData = { name: string; domain?: string };
+type SimpleRole = { id: string; name: string };
 
 type OrgContextType = {
   organizations: Organization[];
   currentOrganization: Organization | null;
   hasOrganization: boolean;
   loading: boolean;
+  tenantRoles: SimpleRole[]; // <— NEW
   refresh: () => Promise<void>;
-  createOrganization: (org: CreateOrgData) => Promise<void>;
+  createOrganization: (org: CreateOrgData) => Promise<any>;
   switchOrganization: (orgId: string) => void;
+  inviteMember: (args: { email: string; roleId: string; organizationId?: string }) => Promise<any>; // <— NEW
+
 };
 
 const OrganizationContext = createContext<OrgContextType | undefined>(undefined);
@@ -40,6 +45,8 @@ export const OrganizationProvider: React.FC<{ children: React.ReactNode }> = ({ 
 
   const [organizations, setOrganizations] = useState<Organization[]>([]);
   const [currentOrganization, setCurrentOrganization] = useState<Organization | null>(null);
+  const [tenantRoles, setTenantRoles] = useState<SimpleRole[]>([]); // <— NEW
+
   const [loading, setLoading] = useState(true);
 
   const bootstrapped = useRef(false);
@@ -56,12 +63,18 @@ export const OrganizationProvider: React.FC<{ children: React.ReactNode }> = ({ 
     }
   }, []);
 
-  const refresh = async () => {
-    setLoading(true);
+  // change refresh to support a quiet mode
+  const refresh = async (opts?: { quiet?: boolean }) => {
+    if (!opts?.quiet) setLoading(true);
     try {
-      const cfg = await UserConfigAPI.get(); // 200 with orgs OR throws (e.g., 404 when none)
+      const cfg = await UserConfigAPI.get();
       const mapped = (cfg.organizations ?? []).map(mapOrg);
       setOrganizations(mapped);
+
+
+      // map roles from userconfig
+      const mappedRoles: SimpleRole[] = (cfg.tenantRoles ?? []).map(r => ({ id: r.Id, name: r.Name }));
+      setTenantRoles(mappedRoles);
 
       const storedCurrent = localStorage.getItem("current_organization");
       const nextCur =
@@ -71,17 +84,17 @@ export const OrganizationProvider: React.FC<{ children: React.ReactNode }> = ({ 
       localStorage.setItem("user_organizations", JSON.stringify(mapped));
       if (nextCur) localStorage.setItem("current_organization", nextCur.id);
     } catch (e: any) {
-      // If API returns 404 when user has no orgs, normalize to empty state
       if (e?.status === 404) {
         setOrganizations([]);
         setCurrentOrganization(null);
+        setTenantRoles([]); // <— clear roles as well
         localStorage.removeItem("user_organizations");
         localStorage.removeItem("current_organization");
       } else {
         throw e;
       }
     } finally {
-      setLoading(false);
+      if (!opts?.quiet) setLoading(false);
     }
   };
 
@@ -93,6 +106,7 @@ export const OrganizationProvider: React.FC<{ children: React.ReactNode }> = ({ 
       // logged out
       setOrganizations([]);
       setCurrentOrganization(null);
+      setTenantRoles([]);
       setLoading(false);
       bootstrapped.current = false;
       return;
@@ -109,14 +123,21 @@ export const OrganizationProvider: React.FC<{ children: React.ReactNode }> = ({ 
     })();
   }, [authReady, isAuthenticated]);
 
-  const createOrganization = async (data: CreateOrgData): Promise<void> => {
-    setLoading(true);
+  type CreateOrgResponse = { success?: boolean; ErrorCode?: number; Message?: string };
+
+  const createOrganization = async (data: CreateOrgData): Promise<CreateOrgResponse | null> => {
     try {
-      await OrganizationAPI.create({ name: data.name });
-      // after creation, always re-sync authoritative view
-      await refresh();
-    } finally {
-      setLoading(false);
+      const res = await OrganizationAPI.create({
+        name: data.name,
+        domain: data.domain?.toString() ?? "",
+      });
+      await refresh({ quiet: true }); // don't flash the global loader
+      return res as CreateOrgResponse;
+    } catch (e) {
+      console.error("OrganizationAPI.create failed", e);
+      // log and let caller show error toast
+      console.error("OrganizationAPI.create failed", e);
+      return e as CreateOrgResponse;
     }
   };
 
@@ -128,15 +149,36 @@ export const OrganizationProvider: React.FC<{ children: React.ReactNode }> = ({ 
     }
   };
 
+
+  // NEW: invite helper using current org by default
+  const inviteMember = async (args: { email: string; roleId: string; organizationId?: string }): Promise<InviteResponse | null>  => {
+    const orgId = args.organizationId || currentOrganization?.id;
+    if (!orgId) throw new Error("No current organization selected.");
+    try {
+      const res = await InviteAPI.send(orgId, {
+        email: args.email,
+        roleId: args.roleId,          // backend expects snake_case
+
+      });
+      return res as InviteResponse;
+
+    } catch (error) {
+      console.error("Failed to send invitation", error);
+      return error as InviteResponse; // normalize error
+    }
+  };
+
   const value = useMemo<OrgContextType>(() => ({
     organizations,
     currentOrganization,
     hasOrganization: organizations.length > 0,
     loading,
+    tenantRoles,
     refresh,
     createOrganization,
     switchOrganization,
-  }), [organizations, currentOrganization, loading]);
+    inviteMember, // <— NEW
+  }), [organizations, currentOrganization, loading, tenantRoles]);
 
   return <OrganizationContext.Provider value={value}>{children}</OrganizationContext.Provider>;
 };
@@ -146,3 +188,6 @@ export const useOrganization = () => {
   if (!ctx) throw new Error("useOrganization must be used within OrganizationProvider");
   return ctx;
 };
+
+
+
