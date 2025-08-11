@@ -1,8 +1,8 @@
 import Cookies from 'js-cookie';
 
 
-const COOKIE_KEY = 'lr_access_token';
-const SESSION_KEY = 'LrTokenKey';
+const COOKIE_KEY = 'lr-session-token';
+const SESSION_KEY = 'LRTokenKey';
 
 // Store the access token in cookies + sessionStorage
 export function setSession(accessToken: string) {

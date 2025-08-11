@@ -7,9 +7,10 @@ import './index.css';
 import { LoginRadiusProvider } from './lib/loginradius-react-sdk';
 
 const loginRadiusOptions = {
-  apiKey: '56064a30-784d-40c2-81b4-d653388c1518',
-  sott: 'pNC/XINvERtlz8R4w+qjug/llFKDdZ7VTXIxkM71nDNP/GmCXItMyyl2TS8x7qXFSKz3RNvdIrqNsiR/T5MhpindePfYlqxIFDsDxcxX1tk=*ad476480097c85cf2f0013efcfbc8380',
-  brandName: 'saasdemo'
+   apiKey: '8b95fe7e-6dd1-4157-8e5c-f49de4257930',
+   sott: 'KFxRgAWck1rOYuxSu72meSEXU4LYOps2GtcTF+kqCf/113kEgmE5JnhFRqhXT1EM5kc55DbKX064PsD+fwxIEoQoCtzeSRIxCV7FLFxVdLU=*78bc2db2a7a04453e037d4b2a110b854',
+   isCrossDeviceSSOEnabled: true,
+   brandName:"dev-auth-ignite"
 };
 
 createRoot(document.getElementById('root')!).render(

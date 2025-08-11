@@ -8,14 +8,18 @@ import { logout } from '../utils/sessionHelper';
 import { useLRAuth } from '../../lib/loginradius-react-sdk';
 export const Header: React.FC = () => {
   const { getUser } = useLRAuth();
-  const user = getUser().then(user => {
-    return user || {
-      firstName: 'Guest',
-      lastName: '',
-      role: 'guest',
-      avatar: null
-    };
+  const [user, setUser] = useState<{
+    firstName: string;
+    lastName: string;
+    role: string;
+    avatar: string | null;
+  }>({
+    firstName: 'Guest',
+    lastName: '',
+    role: 'guest',
+    avatar: null
   });
+
 
 
   const { currentOrganization } = useOrganization();

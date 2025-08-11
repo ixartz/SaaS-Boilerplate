@@ -1,5 +1,7 @@
-import React, { createContext, useContext, useEffect, useState } from 'react';
-import { Organization } from '../types';
+// src/contexts/OrganizationContext.tsx
+import React, { createContext, useContext, useEffect, useState } from "react";
+import { Organization } from "../types";
+import { OrganizationAPI } from "../services/organization"; // <-- uses API helper
 
 interface OrganizationContextType {
   organizations: Organization[];
@@ -12,48 +14,33 @@ interface OrganizationContextType {
 
 interface CreateOrgData {
   name: string;
-  domain: string;
-  logo?: string;
+  domain: string; // kept for your UI; not sent if your API doesn't need it
 }
 
-const OrganizationContext = createContext<OrganizationContextType | undefined>(undefined);
+const OrganizationContext = createContext<OrganizationContextType | undefined>(
+  undefined
+);
 
-const mockOrganizations: Organization[] = [
-  {
-    id: '1',
-    name: 'Acme Corp',
-    slug: 'acme-corp',
-    plan: 'pro',
-    memberCount: 12,
-    createdAt: '2024-01-15T08:00:00Z'
-  },
-  {
-    id: '2',
-    name: 'TechStart Inc',
-    slug: 'techstart-inc',
-    plan: 'enterprise',
-    memberCount: 25,
-    createdAt: '2024-02-01T09:30:00Z'
-  }
-];
-
-export const OrganizationProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
+export const OrganizationProvider: React.FC<{ children: React.ReactNode }> = ({
+  children,
+}) => {
   const [organizations, setOrganizations] = useState<Organization[]>([]);
-  const [currentOrganization, setCurrentOrganization] = useState<Organization | null>(null);
+  const [currentOrganization, setCurrentOrganization] =
+    useState<Organization | null>(null);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    // Load organizations from localStorage or API
-    const storedOrgs = localStorage.getItem('user_organizations');
-    const storedCurrentOrg = localStorage.getItem('current_organization');
-    
+    // Load from localStorage for now (you can swap to GET /organization later)
+    const storedOrgs = localStorage.getItem("user_organizations");
+    const storedCurrentOrg = localStorage.getItem("current_organization");
+
     if (storedOrgs) {
-      const orgs = JSON.parse(storedOrgs);
+      const orgs: Organization[] = JSON.parse(storedOrgs);
       setOrganizations(orgs);
-      
+
       if (storedCurrentOrg) {
-        const currentOrg = orgs.find((org: Organization) => org.id === storedCurrentOrg);
-        setCurrentOrganization(currentOrg || orgs[0]);
+        const currentOrg = orgs.find((org) => org.id === storedCurrentOrg);
+        setCurrentOrganization(currentOrg || orgs[0] || null);
       } else if (orgs.length > 0) {
         setCurrentOrganization(orgs[0]);
       }
@@ -63,32 +50,34 @@ export const OrganizationProvider: React.FC<{ children: React.ReactNode }> = ({ 
 
   const createOrganization = async (orgData: CreateOrgData): Promise<void> => {
     setLoading(true);
-    // Simulate API call
-    await new Promise(resolve => setTimeout(resolve, 1000));
-    
-    const newOrg: Organization = {
-      id: Date.now().toString(),
-      name: orgData.name,
-      slug: orgData.domain,
-      plan: 'free',
-      memberCount: 1,
-      createdAt: new Date().toISOString()
-    };
+    try {
+      // ✅ Call your API. Your curl showed only "name" is required.
+      const created = await OrganizationAPI.create({ name: orgData.name });
 
-    const updatedOrgs = [...organizations, newOrg];
-    setOrganizations(updatedOrgs);
-    setCurrentOrganization(newOrg);
-    
-    localStorage.setItem('user_organizations', JSON.stringify(updatedOrgs));
-    localStorage.setItem('current_organization', newOrg.id);
-    setLoading(false);
+      // If API doesn't return slug/domain, fall back to UI-entered domain
+      const newOrg: Organization = {
+        ...created,
+        slug: (created as any).slug ?? orgData.domain,
+        plan: "free",
+        memberCount: 0
+      };
+
+      const updatedOrgs = [...organizations, newOrg];
+      setOrganizations(updatedOrgs);
+      setCurrentOrganization(newOrg);
+
+      localStorage.setItem("user_organizations", JSON.stringify(updatedOrgs));
+      localStorage.setItem("current_organization", newOrg.id);
+    } finally {
+      setLoading(false);
+    }
   };
 
   const switchOrganization = (orgId: string) => {
-    const org = organizations.find(o => o.id === orgId);
+    const org = organizations.find((o) => o.id === orgId);
     if (org) {
       setCurrentOrganization(org);
-      localStorage.setItem('current_organization', orgId);
+      localStorage.setItem("current_organization", orgId);
     }
   };
 
@@ -100,7 +89,7 @@ export const OrganizationProvider: React.FC<{ children: React.ReactNode }> = ({ 
         hasOrganization: organizations.length > 0,
         createOrganization,
         switchOrganization,
-        loading
+        loading,
       }}
     >
       {children}
@@ -111,7 +100,9 @@ export const OrganizationProvider: React.FC<{ children: React.ReactNode }> = ({ 
 export const useOrganization = () => {
   const context = useContext(OrganizationContext);
   if (context === undefined) {
-    throw new Error('useOrganization must be used within an OrganizationProvider');
+    throw new Error(
+      "useOrganization must be used within an OrganizationProvider"
+    );
   }
   return context;
 };

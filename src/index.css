@@ -58,39 +58,65 @@
 }
 
 
-/* 5a) Kill LR's default loaders everywhere (we'll use our own if needed) */
-.loginradius-loading-container,
-.loginradius-loading-visible,
-.loginradius-loading-input-skeleton {
-  display: none !important;
-  visibility: hidden !important;
-  opacity: 0 !important;
+/* Fullscreen overlay, center loader */
+.loginradius-loading-container[aria-hidden="false"] {
+  position: fixed;
+  inset: 0;
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  background: transparent !important;
+  z-index: 9999;
+  width: 100% !important;
+  height: 100% !important;
 }
 
-/* 5b) Hide any LR UI unless the Auth page explicitly enables it */
-:root .lr-auth-wrapper,
-:root [data-lr-ui],
-:root [data-lr-widget],
-:root [data-lr-container] {
-  display: none !important;
-}
-body.show-lr-ui .lr-auth-wrapper,
-body.show-lr-ui [data-lr-ui],
-body.show-lr-ui [data-lr-widget],
-body.show-lr-ui [data-lr-container] {
-  display: revert !important;
+/* Force all intermediate wrappers to fill & center */
+.loginradius-loading-form-wrapper,
+.loginradius-loading-content {
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  width: 100% !important;
+  height: 100% !important;
+  background: transparent !important;
 }
 
-/* 5c) (Optional) your own centered loader if you ever need it */
-.app-fullscreen-loader {
-  position: fixed; inset: 0;
-  display: flex; align-items: center; justify-content: center;
-  background: rgba(255,255,255,.85); z-index: 9999;
+/* Remove backgrounds and boxes from all inner elements except spinner */
+.loginradius-loading-container *:not(.loginradius-loading-spinner) {
+  background: transparent !important;
+  box-shadow: none !important;
+  border: none !important;
 }
-.app-fullscreen-loader::after {
-  content: "";
-  width: 3.5rem; height: 3.5rem;
-  border: 4px solid #3b82f6; border-top-color: transparent;
-  border-radius: 50%; animation: appSpin .8s linear infinite;
+
+/* Hide all skeleton/form elements */
+.loginradius-loading-form,
+.loginradius-loading-field,
+.loginradius-loading-label-skeleton,
+.loginradius-loading-input-skeleton,
+.loginradius-loading-button-skeleton {
+  display: none !important;
 }
-@keyframes appSpin { to { transform: rotate(360deg); } }
+
+/* Style the spinner */
+.loginradius-loading-spinner {
+  display: block !important;
+  width: 64px;
+  height: 64px;
+  background: transparent !important;
+  border: 4px solid rgba(0,0,0,0.1);
+  border-top-color: #2563eb;
+  border-radius: 50%;
+  animation: lr-spin 1s linear infinite;
+}
+
+/* Hide loader when not active */
+.loginradius-loading-container[aria-hidden="true"] {
+  display: none !important;
+}
+
+@keyframes lr-spin {
+  to {
+    transform: rotate(360deg);
+  }
+}

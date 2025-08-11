@@ -1,18 +1,17 @@
-import React, { useState } from 'react';
-import { useNavigate } from 'react-router-dom';
-import { Building2, Globe, Upload } from 'lucide-react';
-import { Card, CardHeader, CardContent } from '../ui/Card';
-import { Button } from '../ui/button';
-import { Input } from '../ui/input';
-import { useOrganization } from '../../contexts/OrganizationContext';
+import React, { useState } from "react";
+import { useNavigate } from "react-router-dom";
+import { Building2, Globe } from "lucide-react";
+import { Card, CardHeader, CardContent } from "../ui/Card";
+import { Button } from "../ui/button";
+import { Input } from "../ui/input";
+import { useOrganization } from "../../contexts/OrganizationContext";
 
 export const CreateOrganization: React.FC = () => {
   const navigate = useNavigate();
   const { createOrganization } = useOrganization();
   const [formData, setFormData] = useState({
-    name: '',
-    domain: '',
-    logo: ''
+    name: "",
+    domain: "",
   });
   const [errors, setErrors] = useState<Record<string, string>>({});
   const [loading, setLoading] = useState(false);
@@ -24,9 +23,11 @@ export const CreateOrganization: React.FC = () => {
 
     try {
       await createOrganization(formData);
-      navigate('/dashboard');
+      navigate("/dashboard");
     } catch (error) {
-      setErrors({ general: 'Failed to create organization. Please try again.' });
+      setErrors({
+        general: "Failed to create organization. Please try again.",
+      });
     } finally {
       setLoading(false);
     }
@@ -34,16 +35,19 @@ export const CreateOrganization: React.FC = () => {
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
-    setFormData(prev => ({
+    setFormData((prev) => ({
       ...prev,
-      [name]: value
+      [name]: value,
     }));
 
     // Auto-generate domain from name
-    if (name === 'name') {
-      setFormData(prev => ({
+    if (name === "name") {
+      setFormData((prev) => ({
         ...prev,
-        domain: value.toLowerCase().replace(/\s+/g, '-').replace(/[^a-z0-9-]/g, '')
+        domain: value
+          .toLowerCase()
+          .replace(/\s+/g, "-")
+          .replace(/[^a-z0-9-]/g, ""),
       }));
     }
   };
@@ -55,8 +59,12 @@ export const CreateOrganization: React.FC = () => {
           <div className="w-16 h-16 bg-blue-600 rounded-2xl flex items-center justify-center mx-auto mb-4">
             <Building2 className="w-8 h-8 text-white" />
           </div>
-          <h2 className="text-2xl font-bold text-gray-900">Create Your Organization</h2>
-          <p className="text-gray-600 mt-2">Set up your workspace to get started</p>
+          <h2 className="text-2xl font-bold text-gray-900">
+            Create Your Organization
+          </h2>
+          <p className="text-gray-600 mt-2">
+            Set up your workspace to get started
+          </p>
         </CardHeader>
 
         <CardContent className="px-8 pb-8">
@@ -98,24 +106,6 @@ export const CreateOrganization: React.FC = () => {
                   This will be your organization's unique identifier
                 </p>
               </div>
-
-              <div className="space-y-2">
-                <label className="block text-sm font-medium text-gray-700">
-                  Organization Logo (Optional)
-                </label>
-                <div className="flex items-center space-x-4">
-                  <div className="w-16 h-16 bg-gray-100 rounded-lg flex items-center justify-center">
-                    {formData.logo ? (
-                      <img src={formData.logo} alt="Logo" className="w-full h-full object-cover rounded-lg" />
-                    ) : (
-                      <Upload className="w-6 h-6 text-gray-400" />
-                    )}
-                  </div>
-                  <Button type="button" variant="outline" size="sm">
-                    Upload Logo
-                  </Button>
-                </div>
-              </div>
             </div>
 
             <div className="pt-4">
@@ -130,7 +120,8 @@ export const CreateOrganization: React.FC = () => {
 
             <div className="text-center">
               <p className="text-sm text-gray-600">
-                You can always change these settings later in your organization dashboard.
+                You can always change these settings later in your organization
+                dashboard.
               </p>
             </div>
           </form>

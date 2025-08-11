@@ -11,6 +11,7 @@
   },
   "dependencies": {
     "@types/react-router-dom": "^5.3.3",
+    "axios": "^1.11.0",
     "js-cookie": "^3.0.5",
     "lucide-react": "^0.344.0",
     "react": "^18.3.1",
