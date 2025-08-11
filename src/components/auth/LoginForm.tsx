@@ -12,9 +12,14 @@ export const LoginForm: React.FC<LoginFormProps> = () => {
 
   const handleLoginSuccess = (response: any) => {
     console.log("Passkey Login successful:", response);
-    if (!response?.access_token) return;
-    setSession(response.access_token);
 
+    const token = response?.access_token || response?.data?.access_token;
+    if (token) {
+      setSession(token);
+    } else {
+      console.error("No access token found");
+      return;
+    }
     // Prefer returning user to intended route
     const params = new URLSearchParams(location.search);
     const redirect = params.get("redirect");
