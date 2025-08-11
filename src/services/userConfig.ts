@@ -1,4 +1,4 @@
-import { API } from "../services/http";
+import { API } from "./http";
 
 export interface UserOrg { Id: string; Name: string }
 export interface TenantRole { Id: string; Name: string }

@@ -2,54 +2,52 @@ import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { Building2, Globe } from "lucide-react";
 import { Card, CardHeader, CardContent } from "../ui/Card";
-import { Button } from "../ui/button";
 import { Input } from "../ui/input";
 import { useOrganization } from "../../contexts/OrganizationContext";
 
 export const CreateOrganization: React.FC = () => {
   const navigate = useNavigate();
-  const { createOrganization } = useOrganization();
-  const [formData, setFormData] = useState({
-    name: "",
-    domain: "",
-  });
-  const [errors, setErrors] = useState<Record<string, string>>({});
-  const [loading, setLoading] = useState(false);
+  const { createOrganization, loading } = useOrganization();
 
-  const handleSubmit = async (e: React.FormEvent) => {
+  const [name, setName] = useState("");
+  const [domain, setDomain] = useState(""); // UI only (not sent if backend doesn’t accept it)
+  const [error, setError] = useState<string | null>(null);
+
+  const onSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    setErrors({});
-    setLoading(true);
+    setError(null);
+
+    const trimmed = name.trim();
+    if (!trimmed) {
+      setError("Please enter an organization name.");
+      return;
+    }
 
     try {
-      await createOrganization(formData);
-      navigate("/dashboard");
-    } catch (error) {
-      setErrors({
-        general: "Failed to create organization. Please try again.",
-      });
-    } finally {
-      setLoading(false);
+      // BACKEND expects only { name }. If/when your API supports domain, pass it there.
+      await createOrganization({ name: trimmed });
+      // createOrganization in the context already refreshes state → now we can go to dashboard
+      navigate("/dashboard", { replace: true });
+    } catch (err: any) {
+      const msg =
+        err?.message ||
+        err?.error ||
+        "Failed to create organization. Please try again.";
+      setError(msg);
+      // Optional: console for dev visibility
+      console.error("createOrganization error:", err);
     }
   };
 
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const { name, value } = e.target;
-    setFormData((prev) => ({
-      ...prev,
-      [name]: value,
-    }));
-
-    // Auto-generate domain from name
-    if (name === "name") {
-      setFormData((prev) => ({
-        ...prev,
-        domain: value
-          .toLowerCase()
-          .replace(/\s+/g, "-")
-          .replace(/[^a-z0-9-]/g, ""),
-      }));
-    }
+  const onNameChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const v = e.target.value;
+    setName(v);
+    setDomain(
+      v
+        .toLowerCase()
+        .replace(/\s+/g, "-")
+        .replace(/[^a-z0-9-]/g, "")
+    );
   };
 
   return (
@@ -59,19 +57,15 @@ export const CreateOrganization: React.FC = () => {
           <div className="w-16 h-16 bg-blue-600 rounded-2xl flex items-center justify-center mx-auto mb-4">
             <Building2 className="w-8 h-8 text-white" />
           </div>
-          <h2 className="text-2xl font-bold text-gray-900">
-            Create Your Organization
-          </h2>
-          <p className="text-gray-600 mt-2">
-            Set up your workspace to get started
-          </p>
+          <h2 className="text-2xl font-bold text-gray-900">Create Your Organization</h2>
+          <p className="text-gray-600 mt-2">Set up your workspace to get started</p>
         </CardHeader>
 
         <CardContent className="px-8 pb-8">
-          <form onSubmit={handleSubmit} className="space-y-6">
-            {errors.general && (
+          <form onSubmit={onSubmit} className="space-y-6">
+            {error && (
               <div className="bg-red-50 border border-red-200 rounded-lg p-3">
-                <p className="text-sm text-red-600">{errors.general}</p>
+                <p className="text-sm text-red-600">{error}</p>
               </div>
             )}
 
@@ -79,8 +73,8 @@ export const CreateOrganization: React.FC = () => {
               <Input
                 label="Organization Name"
                 name="name"
-                value={formData.name}
-                onChange={handleChange}
+                value={name}
+                onChange={onNameChange}
                 placeholder="Acme Corporation"
                 required
                 className="text-lg"
@@ -94,34 +88,33 @@ export const CreateOrganization: React.FC = () => {
                   <Globe className="w-5 h-5 text-gray-400" />
                   <Input
                     name="domain"
-                    value={formData.domain}
-                    onChange={handleChange}
+                    value={domain}
+                    onChange={(e) => setDomain(e.target.value)}
                     placeholder="acme-corporation"
-                    required
                     className="flex-1"
                   />
                   <span className="text-sm text-gray-500">.company.com</span>
                 </div>
                 <p className="text-xs text-gray-500">
-                  This will be your organization's unique identifier
+                  This is your organization’s identifier (not sent to the server yet).
                 </p>
               </div>
             </div>
 
             <div className="pt-4">
-              <Button
+              {/* Use native button to guarantee submit behavior */}
+              <button
                 type="submit"
-                loading={loading}
-                className="w-full py-3 text-lg font-semibold"
+                disabled={loading || !name.trim()}
+                className="w-full py-3 text-lg font-semibold rounded bg-blue-600 text-white disabled:opacity-50"
               >
-                Create Organization
-              </Button>
+                {loading ? "Creating..." : "Create Organization"}
+              </button>
             </div>
 
             <div className="text-center">
               <p className="text-sm text-gray-600">
-                You can always change these settings later in your organization
-                dashboard.
+                You can change these later in your organization settings.
               </p>
             </div>
           </form>
