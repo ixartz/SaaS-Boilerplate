@@ -9,12 +9,13 @@ interface ApiError { error: string }
 export const LoginForm: React.FC<LoginFormProps> = () => {
   const navigate = useNavigate();
   const location = useLocation();
-
+  
   const handleLoginSuccess = (response: any) => {
     console.log("Passkey Login successful:", response);
 
     const token = response?.access_token || response?.data?.access_token;
     if (token) {
+      
       setSession(token);
     } else {
       console.error("No access token found");

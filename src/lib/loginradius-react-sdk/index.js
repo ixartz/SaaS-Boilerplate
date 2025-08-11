@@ -4395,7 +4395,7 @@ const Di = (t, e, n) => {
 class so {
   constructor(e) {
     Q(this, "options"), Q(this, "api"), Q(this, "util"), Q(this, "cookie"), this.options = e, this.api = we.create({
-      baseURL: "https://devapi.lrinternalv.com/identity/v2",
+      baseURL: "https://devapi.lrinternal.com/identity/v2",
       headers: {
         "Content-Type": "application/json",
         "X-Requested-With": "XMLHttpRequest"
