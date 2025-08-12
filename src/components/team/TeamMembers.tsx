@@ -36,17 +36,17 @@ function baseNormalizeMember(m: MemberWire): NormalizedMember {
 }
 
 export const TeamMembers: React.FC = () => {
-  const { currentOrganization, tenantRoles, inviteMember } = useOrganization();
-
+  const { currentOrganization, tenantRoles, inviteMember, viewerUid, viewerEmail } = useOrganization();
+    console
   const [inviteOpen, setInviteOpen] = useState(false);
   const [members, setMembers] = useState<NormalizedMember[]>([]);
   const [membersLoading, setMembersLoading] = useState(false);
   const [membersError, setMembersError] = useState<string | null>(null);
 
-  // NEW: fallback meta from backend (in case isSelf tagging fails)
+  // Fallback meta from backend (in case isSelf tagging fails)
   const [viewerPerms, setViewerPerms] = useState<string[]>([]);
   const [viewerRoleName, setViewerRoleName] = useState<string>('');
-
+    console.log(viewerUid)
   // Load members and tag the current viewer via uid or email, plus capture meta
   const loadMembers = async (orgId: string) => {
     setMembersLoading(true);
@@ -55,7 +55,8 @@ export const TeamMembers: React.FC = () => {
       const res = await OrganizationAPI.memberList(orgId);
       const data = (res as any)?.data ?? res ?? {};
 
-      const viewerUid: string =
+      // Try to read viewer identity from API meta first...
+      const apiViewerUid: string =
         data.viewerUid ??
         data.currentUid ??
         data.viewer_uid ??
@@ -64,12 +65,17 @@ export const TeamMembers: React.FC = () => {
         data.me?.UID ??
         '';
 
-      const viewerEmail: string =
+      const apiViewerEmail: string =
         data.viewerEmail ??
         data.viewer_email ??
         data.me?.Email ??
         data.profile?.Email ??
         '';
+
+        console.log(data.currentUid)
+      // ...then fall back to context if API didn't provide it
+      const vUid = apiViewerUid || viewerUid || '';
+      const vEmail = (apiViewerEmail || viewerEmail || '').toLowerCase();
 
       // Capture fallback meta for viewer role/permissions, if provided
       const metaPerms: string[] = Array.isArray(data.viewerPermissions) ? data.viewerPermissions : [];
@@ -80,10 +86,17 @@ export const TeamMembers: React.FC = () => {
       const raw = data.members ?? [];
       const mapped: NormalizedMember[] = raw.map((mw: MemberWire) => {
         const n = baseNormalizeMember(mw);
-        if (viewerUid && n.uid) n.isSelf = n.uid === viewerUid;
-        if (!n.isSelf && viewerEmail && n.email) {
-          n.isSelf = n.email.toLowerCase() === viewerEmail.toLowerCase();
+
+        // tag self by API meta first
+        if (apiViewerUid && n.uid) n.isSelf = n.uid === apiViewerUid;
+        if (!n.isSelf && apiViewerEmail && n.email) {
+          n.isSelf = n.email.toLowerCase() === apiViewerEmail.toLowerCase();
         }
+
+        // fallback to context if still not tagged
+        if (!n.isSelf && vUid && n.uid) n.isSelf = n.uid === vUid;
+        if (!n.isSelf && vEmail && n.email) n.isSelf = n.email.toLowerCase() === vEmail;
+
         return n;
       });
 
@@ -111,13 +124,16 @@ export const TeamMembers: React.FC = () => {
     return () => {
       mounted = false;
     };
-  }, [currentOrganization?.id]);
+  }, [currentOrganization?.id, viewerUid, viewerEmail]);
 
   // Viewer flags: try from "me" row first, fall back to meta
   const me = useMemo(() => members.find(m => m.isSelf), [members]);
+
+  // Accept several common permission spellings, case-insensitive
   const viewerHasTeamDelete = useMemo(() => {
     const perms = me?.permissions ?? viewerPerms;
-    return !!perms?.includes('team:delete');
+    const norm = (perms || []).map(p => (p || '').toLowerCase());
+    return norm.includes('team:delete') || norm.includes('member:delete') || norm.includes('org:members:delete');
   }, [me, viewerPerms]);
 
   const viewerIsOwner = useMemo(() => {
@@ -125,15 +141,14 @@ export const TeamMembers: React.FC = () => {
     return (role || '').toLowerCase() === 'owner';
   }, [me, viewerRoleName]);
 
-  // Single-source-of-truth helpers
+  // Allow delete if Owner OR has delete permission; never allow self-delete
   const canDelete = (target: NormalizedMember) =>
-    viewerIsOwner && viewerHasTeamDelete && !target.isSelf;
+    !target.isSelf && (viewerIsOwner || viewerHasTeamDelete);
 
   const noPermReason = (target: NormalizedMember) => {
     if (target.isSelf) return "You can't delete yourself";
-    if (!viewerIsOwner) return 'Only owners can delete members';
-    if (!viewerHasTeamDelete) return "You don't have team:delete permission";
-    return 'No permission';
+    if (viewerIsOwner || viewerHasTeamDelete) return '';
+    return 'You do not have permission to remove members';
   };
 
   const reloadMembers = async () => {
@@ -144,10 +159,10 @@ export const TeamMembers: React.FC = () => {
   const onInvite = async ({ email, roleId }: { email: string; roleId: string }) => {
     try {
       const res = await inviteMember({ email, roleId });
-      if (res?.success) {
+      if ((res as any)?.success) {
         showToast('Invitation sent successfully', 'success');
       } else {
-        showToast(res?.Message || 'Failed to send invitation', 'error');
+        showToast((res as any)?.Message || 'Failed to send invitation', 'error');
       }
       return res;
     } catch (err: any) {
@@ -158,6 +173,11 @@ export const TeamMembers: React.FC = () => {
 
   const handleDeleteMember = async (m: NormalizedMember) => {
     if (!currentOrganization?.id) return;
+    if (!canDelete(m)) {
+      const reason = noPermReason(m);
+      if (reason) showToast(reason, 'error');
+      return;
+    }
     try {
       await OrganizationAPI.removeMember(currentOrganization.id, m.uid);
       showToast('Member removed', 'success');
@@ -227,9 +247,7 @@ export const TeamMembers: React.FC = () => {
                     return (
                       <tr
                         key={m.uid}
-                        className={`transition-colors ${
-                          m.isSelf ? 'bg-blue-50 border-l-4 border-blue-400' : 'hover:bg-gray-50'
-                        }`}
+                        className={`transition-colors hover:bg-gray-50`}
                       >
                         {/* Email + avatar + (You) */}
                         <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
@@ -239,7 +257,6 @@ export const TeamMembers: React.FC = () => {
                             </div>
                             <div>
                               <div className="font-medium text-gray-900">{m.email || '—'}</div>
-                              {m.isSelf && <div className="text-xs text-blue-600 font-medium">(You)</div>}
                             </div>
                           </div>
                         </td>

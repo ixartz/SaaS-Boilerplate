@@ -120,3 +120,15 @@
     transform: rotate(360deg);
   }
 }
+
+
+/* Give the table body a fixed min height */
+.table-body-minheight {
+  min-height: 400px; /* adjust based on your row height & pageSize */
+}
+
+/* Optional: keep table width consistent */
+.table-fixed-width {
+  table-layout: fixed;
+  width: 100%;
+}

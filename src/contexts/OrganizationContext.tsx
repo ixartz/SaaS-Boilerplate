@@ -27,6 +27,10 @@ type OrgContextType = {
   createOrganization: (org: CreateOrgData) => Promise<any>;
   switchOrganization: (orgId: string) => void;
   inviteMember: (args: { email: string; roleId: string; organizationId?: string }) => Promise<any>;
+
+  // NEW: current viewer info from UserConfigAPI
+  viewerUid: string | null;
+  viewerEmail: string | null;
 };
 
 const OrganizationContext = createContext<OrgContextType | undefined>(undefined);
@@ -49,6 +53,10 @@ export const OrganizationProvider: React.FC<{ children: React.ReactNode }> = ({ 
   const [loading, setLoading] = useState(false);   // start false so no overlay on first paint
   const [hydrating, setHydrating] = useState(true); // show skeleton on first load
 
+  // NEW: viewer info
+  const [viewerUid, setViewerUid] = useState<string | null>(null);
+  const [viewerEmail, setViewerEmail] = useState<string | null>(null);
+
   const bootstrapped = useRef(false);
 
   // Fast boot from cache (optional)
@@ -69,6 +77,9 @@ export const OrganizationProvider: React.FC<{ children: React.ReactNode }> = ({ 
     if (!opts?.quiet) setLoading(true);
     try {
       const cfg = await UserConfigAPI.get();
+
+      console.log(cfg)
+
       const mapped = (cfg.organizations ?? []).map(mapOrg);
       setOrganizations(mapped);
 
@@ -77,6 +88,10 @@ export const OrganizationProvider: React.FC<{ children: React.ReactNode }> = ({ 
         name: r.Name,
       }));
       setTenantRoles(mappedRoles);
+      console.log(cfg)
+      // NEW: set current viewer info (uid/email)
+      setViewerUid(cfg.userInfo?.Uid ?? null);
+      setViewerEmail(cfg.userInfo?.Email ?? null);
 
       const storedCurrent = localStorage.getItem("current_organization");
       const nextCur =
@@ -90,6 +105,8 @@ export const OrganizationProvider: React.FC<{ children: React.ReactNode }> = ({ 
         setOrganizations([]);
         setCurrentOrganization(null);
         setTenantRoles([]);
+        setViewerUid(null);
+        setViewerEmail(null);
         localStorage.removeItem("user_organizations");
         localStorage.removeItem("current_organization");
       } else {
@@ -108,6 +125,8 @@ export const OrganizationProvider: React.FC<{ children: React.ReactNode }> = ({ 
       setOrganizations([]);
       setCurrentOrganization(null);
       setTenantRoles([]);
+      setViewerUid(null);
+      setViewerEmail(null);
       setLoading(false);
       setHydrating(false);
       bootstrapped.current = false;
@@ -185,8 +204,20 @@ export const OrganizationProvider: React.FC<{ children: React.ReactNode }> = ({ 
       createOrganization,
       switchOrganization,
       inviteMember,
+
+      // NEW
+      viewerUid,
+      viewerEmail,
     }),
-    [organizations, currentOrganization, loading, hydrating, tenantRoles]
+    [
+      organizations,
+      currentOrganization,
+      loading,
+      hydrating,
+      tenantRoles,
+      viewerUid,
+      viewerEmail,
+    ]
   );
 
   return <OrganizationContext.Provider value={value}>{children}</OrganizationContext.Provider>;
