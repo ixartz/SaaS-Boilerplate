@@ -25,7 +25,7 @@ export const CreateOrganization: React.FC = () => {
 
     try {
       // BACKEND expects only { name }. If/when your API supports domain, pass it there.
-      await createOrganization({ name: trimmed });
+      await createOrganization({ name: trimmed ,domain});
       // createOrganization in the context already refreshes state → now we can go to dashboard
       navigate("/dashboard", { replace: true });
     } catch (err: any) {
