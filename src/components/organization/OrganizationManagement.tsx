@@ -3,7 +3,6 @@ import { Building2, MoreVertical, Pencil, Trash, Plus } from "lucide-react";
 import { Card, CardHeader, CardContent } from "../ui/Card";
 import { Button } from "../ui/button";
 import { useOrganization } from "../../contexts/OrganizationContext";
-import { useNavigate } from "react-router-dom";
 import CreateOrganizationModal from "../dashboard/CreateOrganizationModal";
 import SkeletonTable from "../ui/SkeletonTable";
 
@@ -15,7 +14,6 @@ export const OrganizationManagement: React.FC = () => {
   const { organizations, hydrating } = useOrganization(); // ← use hydrating only
   const [showCreate, setShowCreate] = useState(false);
 
-  const navigate = useNavigate();
   const [open, setOpen] = useState(false);
 
   const [menuFor, setMenuFor] = useState<string | null>(null);

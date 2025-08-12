@@ -12,7 +12,7 @@ const loginRadiusOptions = {
    sott: 'KFxRgAWck1rOYuxSu72meSEXU4LYOps2GtcTF+kqCf/113kEgmE5JnhFRqhXT1EM5kc55DbKX064PsD+fwxIEoQoCtzeSRIxCV7FLFxVdLU=*78bc2db2a7a04453e037d4b2a110b854',
    isCrossDeviceSSOEnabled: true,
    brandName:"dev-auth-ignite",
-   verificationUrl: "https://saas-starter-loginradius.vercel.app/",
+   verificationUrl: "https://saas-starter-loginradius.vercel.app/auth",
 };
 
 createRoot(document.getElementById('root')!).render(

@@ -89,11 +89,10 @@ export const CreateOrganization: React.FC = () => {
                   <Input
                     name="domain"
                     value={domain}
-                    onChange={(e) => setDomain(e.target.value)}
+                    onChange={(e) => setDomain(e.target.value )}
                     placeholder="acme-corporation"
                     className="flex-1"
                   />
-                  <span className="text-sm text-gray-500">.company.com</span>
                 </div>
                 <p className="text-xs text-gray-500">
                   This is your organization’s identifier (not sent to the server yet).
