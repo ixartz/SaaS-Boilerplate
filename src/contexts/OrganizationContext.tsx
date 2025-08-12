@@ -1,7 +1,7 @@
 import React, { createContext, useContext, useEffect, useMemo, useRef, useState } from "react";
 import { useAuth } from "./AuthContext";
 import { OrganizationAPI } from "../services/organization";
-import { UserConfigAPI, UserConfigResponse } from "../services/userConfig";
+import { UserConfigAPI } from "../services/userConfig";
 import { InviteAPI, InviteResponse } from "../services/invite";
 
 type Organization = {
@@ -20,13 +20,13 @@ type OrgContextType = {
   organizations: Organization[];
   currentOrganization: Organization | null;
   hasOrganization: boolean;
-  loading: boolean;
-  tenantRoles: SimpleRole[]; // <— NEW
-  refresh: () => Promise<void>;
+  loading: boolean;              // keep for non-quiet ops / other screens
+  hydrating: boolean;            // first-load page skeleton trigger
+  tenantRoles: SimpleRole[];
+  refresh: (opts?: { quiet?: boolean }) => Promise<void>; // supports quiet mode
   createOrganization: (org: CreateOrgData) => Promise<any>;
   switchOrganization: (orgId: string) => void;
-  inviteMember: (args: { email: string; roleId: string; organizationId?: string }) => Promise<any>; // <— NEW
-
+  inviteMember: (args: { email: string; roleId: string; organizationId?: string }) => Promise<any>;
 };
 
 const OrganizationContext = createContext<OrgContextType | undefined>(undefined);
@@ -45,9 +45,9 @@ export const OrganizationProvider: React.FC<{ children: React.ReactNode }> = ({ 
 
   const [organizations, setOrganizations] = useState<Organization[]>([]);
   const [currentOrganization, setCurrentOrganization] = useState<Organization | null>(null);
-  const [tenantRoles, setTenantRoles] = useState<SimpleRole[]>([]); // <— NEW
-
-  const [loading, setLoading] = useState(true);
+  const [tenantRoles, setTenantRoles] = useState<SimpleRole[]>([]);
+  const [loading, setLoading] = useState(false);   // start false so no overlay on first paint
+  const [hydrating, setHydrating] = useState(true); // show skeleton on first load
 
   const bootstrapped = useRef(false);
 
@@ -58,12 +58,13 @@ export const OrganizationProvider: React.FC<{ children: React.ReactNode }> = ({ 
     if (storedOrgs) {
       const orgs: Organization[] = JSON.parse(storedOrgs);
       setOrganizations(orgs);
-      const cur = storedCurrent ? orgs.find(o => o.id === storedCurrent) ?? orgs[0] ?? null : orgs[0] ?? null;
+      const cur =
+        storedCurrent ? orgs.find((o) => o.id === storedCurrent) ?? orgs[0] ?? null : orgs[0] ?? null;
       setCurrentOrganization(cur);
     }
   }, []);
 
-  // change refresh to support a quiet mode
+  // Supports quiet mode to avoid global overlay when you want skeletons instead
   const refresh = async (opts?: { quiet?: boolean }) => {
     if (!opts?.quiet) setLoading(true);
     try {
@@ -71,14 +72,15 @@ export const OrganizationProvider: React.FC<{ children: React.ReactNode }> = ({ 
       const mapped = (cfg.organizations ?? []).map(mapOrg);
       setOrganizations(mapped);
 
-
-      // map roles from userconfig
-      const mappedRoles: SimpleRole[] = (cfg.tenantRoles ?? []).map(r => ({ id: r.Id, name: r.Name }));
+      const mappedRoles: SimpleRole[] = (cfg.tenantRoles ?? []).map((r) => ({
+        id: r.Id,
+        name: r.Name,
+      }));
       setTenantRoles(mappedRoles);
 
       const storedCurrent = localStorage.getItem("current_organization");
       const nextCur =
-        (storedCurrent && mapped.find(o => o.id === storedCurrent)) || mapped[0] || null;
+        (storedCurrent && mapped.find((o) => o.id === storedCurrent)) || mapped[0] || null;
 
       setCurrentOrganization(nextCur);
       localStorage.setItem("user_organizations", JSON.stringify(mapped));
@@ -87,7 +89,7 @@ export const OrganizationProvider: React.FC<{ children: React.ReactNode }> = ({ 
       if (e?.status === 404) {
         setOrganizations([]);
         setCurrentOrganization(null);
-        setTenantRoles([]); // <— clear roles as well
+        setTenantRoles([]);
         localStorage.removeItem("user_organizations");
         localStorage.removeItem("current_organization");
       } else {
@@ -98,27 +100,31 @@ export const OrganizationProvider: React.FC<{ children: React.ReactNode }> = ({ 
     }
   };
 
-  // Single fetch after auth is ready and user is logged in
+  // First load: fetch quietly so pages show skeleton instead of overlay
   useEffect(() => {
     if (!authReady) return;
 
     if (!isAuthenticated) {
-      // logged out
       setOrganizations([]);
       setCurrentOrganization(null);
       setTenantRoles([]);
       setLoading(false);
+      setHydrating(false);
       bootstrapped.current = false;
       return;
     }
 
     if (bootstrapped.current) {
       setLoading(false);
+      setHydrating(false);
       return;
     }
 
     (async () => {
-      await refresh();
+      setHydrating(true);
+      await refresh({ quiet: true }); // do not flip global overlay on first load
+      setHydrating(false);
+      setLoading(false);              // ensure any overlay is off
       bootstrapped.current = true;
     })();
   }, [authReady, isAuthenticated]);
@@ -131,54 +137,57 @@ export const OrganizationProvider: React.FC<{ children: React.ReactNode }> = ({ 
         name: data.name,
         domain: data.domain?.toString() ?? "",
       });
-      await refresh({ quiet: true }); // don't flash the global loader
+      // Re-sync quietly so the page just updates (no overlay)
+      await refresh({ quiet: true });
       return res as CreateOrgResponse;
     } catch (e) {
-      console.error("OrganizationAPI.create failed", e);
-      // log and let caller show error toast
       console.error("OrganizationAPI.create failed", e);
       return e as CreateOrgResponse;
     }
   };
 
   const switchOrganization = (orgId: string) => {
-    const org = organizations.find(o => o.id === orgId);
+    const org = organizations.find((o) => o.id === orgId);
     if (org) {
       setCurrentOrganization(org);
       localStorage.setItem("current_organization", orgId);
     }
   };
 
-
-  // NEW: invite helper using current org by default
-  const inviteMember = async (args: { email: string; roleId: string; organizationId?: string }): Promise<InviteResponse | null>  => {
+  const inviteMember = async (args: {
+    email: string;
+    roleId: string;
+    organizationId?: string;
+  }): Promise<InviteResponse | null> => {
     const orgId = args.organizationId || currentOrganization?.id;
     if (!orgId) throw new Error("No current organization selected.");
     try {
       const res = await InviteAPI.send(orgId, {
         email: args.email,
-        roleId: args.roleId,          // backend expects snake_case
-
+        roleId: args.roleId,
       });
       return res as InviteResponse;
-
     } catch (error) {
       console.error("Failed to send invitation", error);
-      return error as InviteResponse; // normalize error
+      return error as InviteResponse;
     }
   };
 
-  const value = useMemo<OrgContextType>(() => ({
-    organizations,
-    currentOrganization,
-    hasOrganization: organizations.length > 0,
-    loading,
-    tenantRoles,
-    refresh,
-    createOrganization,
-    switchOrganization,
-    inviteMember, // <— NEW
-  }), [organizations, currentOrganization, loading, tenantRoles]);
+  const value = useMemo<OrgContextType>(
+    () => ({
+      organizations,
+      currentOrganization,
+      hasOrganization: organizations.length > 0,
+      loading,
+      hydrating, // expose for skeletons
+      tenantRoles,
+      refresh,
+      createOrganization,
+      switchOrganization,
+      inviteMember,
+    }),
+    [organizations, currentOrganization, loading, hydrating, tenantRoles]
+  );
 
   return <OrganizationContext.Provider value={value}>{children}</OrganizationContext.Provider>;
 };
@@ -188,6 +197,3 @@ export const useOrganization = () => {
   if (!ctx) throw new Error("useOrganization must be used within OrganizationProvider");
   return ctx;
 };
-
-
-

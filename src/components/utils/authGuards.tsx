@@ -26,9 +26,9 @@ export const RequireAuth: React.FC<{ children: React.ReactNode }> = ({ children 
 
 // Gate 2: Must have an organization
 export const RequireOrg: React.FC<{ children: React.ReactNode }> = ({ children }) => {
-  const { loading, hasOrganization } = useOrganization();
+  const { hydrating, hasOrganization } = useOrganization();
 
-  if (loading) {
+  if (hydrating) {
     return (
       <div className="min-h-screen flex items-center justify-center">
         <div className="animate-spin rounded-full h-14 w-14 border-b-2 border-blue-600" />
@@ -44,12 +44,11 @@ export const RequireOrg: React.FC<{ children: React.ReactNode }> = ({ children }
 };
 
 // Redirect away from /auth if already logged-in
-// If has org -> /dashboard, else -> /create-organization
 export const RedirectIfAuthenticated: React.FC<{ children: React.ReactNode }> = ({ children }) => {
   const { isReady, isAuthenticated } = useAuth();
-  const { loading, hasOrganization } = useOrganization();
+  const { hydrating, hasOrganization } = useOrganization();
 
-  if (!isReady || loading) {
+  if (!isReady || hydrating) {
     return (
       <div className="min-h-screen flex items-center justify-center">
         <div className="animate-spin rounded-full h-14 w-14 border-b-2 border-blue-600" />
@@ -67,9 +66,9 @@ export const RedirectIfAuthenticated: React.FC<{ children: React.ReactNode }> = 
 // Only allow /create-organization when logged-in AND no org
 export const AllowCreateOrgOnlyWhenNeeded: React.FC<{ children: React.ReactNode }> = ({ children }) => {
   const { isReady, isAuthenticated } = useAuth();
-  const { loading, hasOrganization } = useOrganization();
+  const { hydrating, hasOrganization } = useOrganization();
 
-  if (!isReady || loading) {
+  if (!isReady || hydrating) {
     return (
       <div className="min-h-screen flex items-center justify-center">
         <div className="animate-spin rounded-full h-14 w-14 border-b-2 border-blue-600" />

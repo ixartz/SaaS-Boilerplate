@@ -1,4 +1,3 @@
-import React from "react";
 import { BrowserRouter as Router, Routes, Route, Navigate } from "react-router-dom";
 import { AuthProvider } from "./contexts/AuthContext";
 import { OrganizationProvider } from "./contexts/OrganizationContext";
@@ -7,8 +6,6 @@ import { LandingPage } from "./components/LandingPage";
 import AuthPage from "./components/AuthPage";
 import { CreateOrganization } from "./components/auth/CreateOrganization";
 import { Dashboard } from "./components/Dashboard";
-import { InvitationAccept } from "./components/auth/InvitationAccept";
-
 import {
   RequireAuth,
   RequireOrg,
@@ -31,11 +28,6 @@ function App() {
                   <AuthPage />
                 </RedirectIfAuthenticated>
               }
-            />
-
-            <Route
-              path="/invitation"
-              element={<InvitationAccept />}
             />
 
             <Route

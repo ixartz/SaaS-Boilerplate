@@ -28,12 +28,7 @@ export const Dashboard: React.FC = () => {
               <Route path="/overview" element={<DashboardOverview />} />
               <Route path="/team" element={<TeamManagement />} />
               <Route path="/settings" element={<ProfileSettings />} />
-              <Route path="/invitations" element={
-                <div className="text-center text-gray-500">
-                  <h3 className="text-lg font-medium">Invitations</h3>
-                  <p>Invitation management coming soon...</p>
-                </div>
-              } />
+              
               <Route path="/analytics" element={
                 <div className="text-center text-gray-500">
                   <h3 className="text-lg font-medium">Analytics</h3>
