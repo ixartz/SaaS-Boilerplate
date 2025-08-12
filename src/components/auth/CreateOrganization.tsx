@@ -5,13 +5,25 @@ import { Card, CardHeader, CardContent } from "../ui/Card";
 import { Input } from "../ui/input";
 import { useOrganization } from "../../contexts/OrganizationContext";
 
+function slugify(v: string) {
+  return v
+    .toLowerCase()
+    .trim()
+    .replace(/\s+/g, "-")
+    .replace(/[^a-z0-9-]/g, "")
+    .replace(/-+/g, "-")
+    .replace(/^-|-$/g, "");
+}
+
 export const CreateOrganization: React.FC = () => {
   const navigate = useNavigate();
-  const { createOrganization, loading } = useOrganization();
+  const { createOrganization, loading: orgLoading } = useOrganization();
 
   const [name, setName] = useState("");
-  const [domain, setDomain] = useState(""); // UI only (not sent if backend doesn’t accept it)
+  const [domain, setDomain] = useState("");          // UI-only (unless your API accepts it)
+  const [domainDirty, setDomainDirty] = useState(false); // has user edited domain manually?
   const [error, setError] = useState<string | null>(null);
+  const [submitting, setSubmitting] = useState(false);
 
   const onSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -24,9 +36,8 @@ export const CreateOrganization: React.FC = () => {
     }
 
     try {
-      // BACKEND expects only { name }. If/when your API supports domain, pass it there.
-      await createOrganization({ name: trimmed ,domain});
-      // createOrganization in the context already refreshes state → now we can go to dashboard
+      setSubmitting(true);
+      await createOrganization({ name: trimmed, domain });
       navigate("/dashboard", { replace: true });
     } catch (err: any) {
       const msg =
@@ -34,21 +45,27 @@ export const CreateOrganization: React.FC = () => {
         err?.error ||
         "Failed to create organization. Please try again.";
       setError(msg);
-      // Optional: console for dev visibility
       console.error("createOrganization error:", err);
+    } finally {
+      setSubmitting(false);
     }
   };
 
   const onNameChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const v = e.target.value;
     setName(v);
-    setDomain(
-      v
-        .toLowerCase()
-        .replace(/\s+/g, "-")
-        .replace(/[^a-z0-9-]/g, "")
-    );
+    // Only auto-generate the domain from name until the user edits domain manually
+    if (!domainDirty) {
+      setDomain(slugify(v));
+    }
   };
+
+  const onDomainChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setDomainDirty(true);
+    setDomain(slugify(e.target.value));
+  };
+
+  const isBusy = submitting || orgLoading;
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-blue-50 to-indigo-100 flex items-center justify-center p-4">
@@ -72,12 +89,13 @@ export const CreateOrganization: React.FC = () => {
             <div className="space-y-4">
               <Input
                 label="Organization Name"
-                name="name"
+                name="orgName"
                 value={name}
                 onChange={onNameChange}
                 placeholder="Acme Corporation"
                 required
                 className="text-lg"
+                disabled={isBusy}
               />
 
               <div className="space-y-2">
@@ -87,27 +105,34 @@ export const CreateOrganization: React.FC = () => {
                 <div className="flex items-center space-x-2">
                   <Globe className="w-5 h-5 text-gray-400" />
                   <Input
-                    name="domain"
+                    name="orgDomain"
                     value={domain}
-                    onChange={(e) => setDomain(e.target.value )}
+                    onChange={onDomainChange}
                     placeholder="acme-corporation"
                     className="flex-1"
+                    disabled={isBusy}
                   />
                 </div>
                 <p className="text-xs text-gray-500">
-                  This is your organization’s identifier (not sent to the server yet).
+                  This is your organization’s identifier.
                 </p>
               </div>
             </div>
 
             <div className="pt-4">
-              {/* Use native button to guarantee submit behavior */}
               <button
                 type="submit"
-                disabled={loading || !name.trim()}
-                className="w-full py-3 text-lg font-semibold rounded bg-blue-600 text-white disabled:opacity-50"
+                disabled={isBusy || !name.trim()}
+                className="w-full py-3 text-lg font-semibold rounded bg-blue-600 text-white disabled:opacity-50 flex items-center justify-center"
               >
-                {loading ? "Creating..." : "Create Organization"}
+                {isBusy ? (
+                  <>
+                    <span className="mr-2 inline-block h-5 w-5 animate-spin rounded-full border-2 border-white border-t-transparent" />
+                    Creating...
+                  </>
+                ) : (
+                  "Create Organization"
+                )}
               </button>
             </div>
 

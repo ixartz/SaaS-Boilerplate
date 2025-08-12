@@ -1,50 +1,93 @@
-import React, { useEffect, useRef, useState } from "react";
-import { Building2, MoreVertical, Pencil, Trash, Plus } from "lucide-react";
+import React, { useEffect, useState } from "react";
+import { Building2, Plus, Loader2 } from "lucide-react";
 import { Card, CardHeader, CardContent } from "../ui/Card";
 import { Button } from "../ui/button";
 import { useOrganization } from "../../contexts/OrganizationContext";
 import CreateOrganizationModal from "../dashboard/CreateOrganizationModal";
 import SkeletonTable from "../ui/SkeletonTable";
+import { OrganizationAPI } from "../../services/organization";
+import { showToast } from "../utils/showToast";
 
+type OrgLike = {
+  id?: string; Id?: string;
+  name?: string; Name?: string;
+  plan?: string; createdAt?: string;
+  MFAMandatory?: boolean;
+};
 
-type OrgLike = { id?: string; Id?: string; name?: string; Name?: string; plan?: string; createdAt?: string };
 const getId = (o: OrgLike) => o?.id ?? o?.Id ?? "";
 const getName = (o: OrgLike) => o?.name ?? o?.Name ?? "—";
 
+// Minimal switch: green when enabled, no label text
+const Switch: React.FC<{
+  checked: boolean;
+  disabled?: boolean;
+  onChange: (val: boolean) => void;
+  "aria-label"?: string;
+}> = ({ checked, disabled, onChange, ...a11y }) => {
+  return (
+    <button
+      type="button"
+      role="switch"
+      aria-checked={checked}
+      disabled={disabled}
+      onClick={() => !disabled && onChange(!checked)}
+      className={[
+        "relative inline-flex h-6 w-11 items-center rounded-full transition-colors",
+        disabled ? "opacity-60 cursor-not-allowed" : "cursor-pointer",
+        checked ? "bg-green-600" : "bg-gray-300"
+      ].join(" ")}
+      {...a11y}
+    >
+      <span
+        className={[
+          "inline-block h-5 w-5 transform rounded-full bg-white transition-transform",
+          checked ? "translate-x-5" : "translate-x-1"
+        ].join(" ")}
+      />
+    </button>
+  );
+};
+
 export const OrganizationManagement: React.FC = () => {
-  const { organizations, hydrating } = useOrganization(); // ← use hydrating only
+  const { organizations, hydrating } = useOrganization();
   const [showCreate, setShowCreate] = useState(false);
 
-  const [open, setOpen] = useState(false);
+  // MFA local state per org (value + loading)
+  const [mfaState, setMfaState] = useState<Record<string, { value: boolean; loading: boolean }>>({});
 
-  const [menuFor, setMenuFor] = useState<string | null>(null);
-  const menuRef = useRef<HTMLDivElement>(null);
-
-  // Close menus on outside click
+  // Seed MFA state from the list once (if MFAMandatory is present)
   useEffect(() => {
-    const onClick = (e: MouseEvent) => {
-      if (menuRef.current && !menuRef.current.contains(e.target as Node)) {
-        setMenuFor(null);
+    if (!organizations?.length) return;
+    setMfaState((prev) => {
+      const next = { ...prev };
+      for (const o of organizations as OrgLike[]) {
+        const id = getId(o);
+        if (!id || next[id]) continue;
+        next[id] = { value: typeof o.MFAMandatory === "boolean" ? o.MFAMandatory : false, loading: false };
       }
-    };
-    document.addEventListener("mousedown", onClick);
-    return () => document.removeEventListener("mousedown", onClick);
-  }, []);
+      return next;
+    });
+  }, [organizations]);
 
-  // Dummy actions (replace with real API later)
-  const onEdit = (orgId: string) => {
-    console.log("Edit org (dummy):", orgId);
-    alert(`Edit organization ${orgId} (dummy)`);
-    setMenuFor(null);
-  };
-  const onRemove = (orgId: string) => {
-    console.log("Remove org (dummy):", orgId);
-    alert(`Remove organization ${orgId} (dummy)`);
-    setMenuFor(null);
+  const toggleMFA = async (orgId: string, nextVal: boolean) => {
+    setMfaState((s) => ({ ...s, [orgId]: { value: nextVal, loading: true } }));
+    try {
+      const res = await OrganizationAPI.manageMFA(orgId, nextVal);
+      const ok = (res as any)?.data?.success ?? (res as any)?.success ?? true;
+      const confirmed = (res as any)?.data?.MFAMandatory ?? (res as any)?.MFAMandatory ?? nextVal;
+      if (!ok) throw new Error("Request failed");
+      setMfaState((s) => ({ ...s, [orgId]: { value: confirmed, loading: false } }));
+      showToast(confirmed ? "MFA enabled." : "MFA disabled.","success");
+    } catch (err: any) {
+      setMfaState((s) => ({ ...s, [orgId]: { value: !nextVal, loading: false } }));
+      showToast(err?.message || "Failed to update MFA.", "error");
+    }
   };
 
-  const items = (organizations ?? []).filter(Boolean);
-  const showSkeleton = hydrating; // skeleton on initial page load
+
+  const items = (organizations ?? []).filter(Boolean) as OrgLike[];
+  const showSkeleton = hydrating;
 
   return (
     <>
@@ -55,12 +98,7 @@ export const OrganizationManagement: React.FC = () => {
             <p className="text-gray-600">View and manage organizations linked to your account</p>
           </div>
           <div className="flex gap-2">
-            <Button
-              onClick={() => {
-                setOpen(false);
-                setShowCreate(true);
-              }}
-            >
+            <Button onClick={() => setShowCreate(true)}>
               <Plus className="w-4 h-4 mr-2" />
               Create Organization
             </Button>
@@ -73,16 +111,14 @@ export const OrganizationManagement: React.FC = () => {
           </CardHeader>
           <CardContent className="p-0">
             {showSkeleton ? (
-              <SkeletonTable columns={["Organization", "Organization ID", "Actions"]} rows={6} />
+              <SkeletonTable columns={["Organization", "Organization ID", "MFA", "Delete"]} rows={6} />
             ) : items.length === 0 ? (
               <div className="p-10 text-center text-gray-600">
                 <div className="mx-auto mb-3 w-12 h-12 rounded-2xl bg-gray-100 flex items-center justify-center">
                   <Building2 className="w-6 h-6 text-gray-500" />
                 </div>
                 <p className="text-gray-800 font-medium mb-1">No organizations yet</p>
-                <p className="text-gray-500 mb-4">
-                  Click <b>Create Organization</b> to add your first one.
-                </p>
+                <p className="text-gray-500 mb-4">Click <b>Create Organization</b> to add your first one.</p>
                 <Button onClick={() => setShowCreate(true)}>
                   <Plus className="w-4 h-4 mr-2" />
                   Create Organization
@@ -93,22 +129,18 @@ export const OrganizationManagement: React.FC = () => {
                 <table className="w-full">
                   <thead className="bg-gray-50 border-b border-gray-200">
                     <tr>
-                      <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                        Organization
-                      </th>
-                      <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                        Organization ID
-                      </th>
-                      <th className="px-6 py-3 text-right text-xs font-medium text-gray-500 uppercase tracking-wider">
-                        Actions
-                      </th>
+                      <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Organization</th>
+                      <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Organization ID</th>
+                      <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">MFA</th>
                     </tr>
                   </thead>
                   <tbody className="bg-white divide-y divide-gray-200">
                     {items.map((org) => {
-                      const id = getId(org as OrgLike);
-                      const name = getName(org as OrgLike);
+                      const id = getId(org);
+                      const name = getName(org);
                       const key = id || name;
+                      const mfa = mfaState[id] ?? { value: org.MFAMandatory ?? false, loading: false };
+
                       return (
                         <tr key={key} className="hover:bg-gray-50 transition-colors">
                           <td className="px-6 py-4 whitespace-nowrap">
@@ -120,35 +152,21 @@ export const OrganizationManagement: React.FC = () => {
                             </div>
                           </td>
                           <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">{id}</td>
-                          <td className="px-6 py-4 whitespace-nowrap text-right">
-                            <div className="relative inline-block" ref={menuRef}>
-                              <button
-                                className="p-2 rounded hover:bg-gray-100"
-                                onClick={() => setMenuFor(menuFor === key ? null : key)}
-                                aria-haspopup="menu"
-                                aria-expanded={menuFor === key}
-                              >
-                                <MoreVertical className="w-4 h-4 text-gray-500" />
-                              </button>
 
-                              {menuFor === key && (
-                                <div className="absolute right-0 mt-2 w-40 bg-white border border-gray-200 rounded-md shadow-lg z-10">
-                                  <button
-                                    className="w-full flex items-center px-3 py-2 text-sm hover:bg-gray-50"
-                                    onClick={() => onEdit(key)}
-                                  >
-                                    <Pencil className="w-4 h-4 mr-2" /> Edit
-                                  </button>
-                                  <button
-                                    className="w-full flex items-center px-3 py-2 text-sm hover:bg-gray-50 text-red-600"
-                                    onClick={() => onRemove(key)}
-                                  >
-                                    <Trash className="w-4 h-4 mr-2" /> Remove
-                                  </button>
-                                </div>
-                              )}
+                          {/* MFA toggle – green when enabled, no text labels */}
+                          <td className="px-6 py-4 whitespace-nowrap">
+                            <div className="flex items-center gap-3">
+                              <Switch
+                                checked={!!mfa.value}
+                                disabled={mfa.loading}
+                                onChange={(val) => toggleMFA(id, val)}
+                                aria-label={`Enable/Disable MFA for ${name}`}
+                              />
+                              {mfa.loading && <Loader2 className="w-4 h-4 animate-spin text-gray-500" />}
                             </div>
                           </td>
+
+                        
                         </tr>
                       );
                     })}

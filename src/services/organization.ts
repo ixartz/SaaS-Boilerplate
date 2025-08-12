@@ -1,4 +1,5 @@
-import { API } from "./http";
+import { APIClient } from "./http";
+const OrganizationAPIClient = new APIClient(import.meta.env.VITE_LOGINRADIUS_WRAPPER_BASE_URL);
 
 export interface Organization {
   id: string;
@@ -29,6 +30,12 @@ export interface OrganizationMember {
   Permissions: Permission[];
 }
 
+
+export interface ManageMFAResponse {
+  success: boolean;
+  MFAMandatory: boolean;
+}
+
 export interface InvitationListResponse {
   sucess: boolean; // keep same spelling as API — if typo in backend, TS will match
   members: OrganizationMember[];
@@ -36,18 +43,27 @@ export interface InvitationListResponse {
 
 export const OrganizationAPI = {
   create: (data: CreateOrganizationDto) =>
-    API.post<Organization, CreateOrganizationDto>("/organization", data),
+    OrganizationAPIClient.post<Organization, CreateOrganizationDto>("/organization", data),
 
   memberList: (orgId: string) => {
     const qs = new URLSearchParams({ org_id: orgId });
-    return API.get<InvitationListResponse>(
+    return OrganizationAPIClient.get<InvitationListResponse>(
       `/organization/members?${qs.toString()}`
     );
   },
 
   removeMember: (orgId: string, memberId: string) => {
-    return API.delete(`/organization/members/${memberId}`, {
+    return OrganizationAPIClient.delete(`/organization/members/${memberId}`, {
       params: { org_id: orgId }
     });
+  },
+
+ 
+  manageMFA: (orgId: string, MFAMandatory: boolean) => {
+    const qs = new URLSearchParams({ org_id: orgId });
+    return OrganizationAPIClient.put<ManageMFAResponse>(
+      `/organization/mfa?${qs.toString()}`,
+      { MFAMandatory }
+    );
   }
 };

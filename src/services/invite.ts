@@ -1,5 +1,6 @@
 // src/services/invite.ts
-import { API } from "./http";
+import { APIClient } from "./http";
+const InviteAPIClient = new APIClient(import.meta.env.VITE_LOGINRADIUS_WRAPPER_BASE_URL);
 
 export interface InviteRequest {
     email: string;
@@ -26,7 +27,7 @@ export interface InvitationListResponse {
 export const InviteAPI = {
     send: (orgId: string, data: InviteRequest) => {
         const qs = new URLSearchParams({ org_id: orgId });
-        return API.post<InviteResponse, InviteRequest>(
+        return InviteAPIClient.post<InviteResponse, InviteRequest>(
             `/organization/invite?${qs.toString()}`,
             data
         );
@@ -34,20 +35,20 @@ export const InviteAPI = {
 
     list: (orgId: string) => {
         const qs = new URLSearchParams({ org_id: orgId });
-        return API.get<InvitationListResponse>(
+        return InviteAPIClient.get<InvitationListResponse>(
             `/invitation?${qs.toString()}`
         );
     },
 
     delete: (invitationId: string, orgId: string) => {
         const qs = new URLSearchParams({ org_id: orgId });
-        return API.delete<InviteResponse>(
+        return InviteAPIClient.delete<InviteResponse>(
             `/invitation/${encodeURIComponent(invitationId)}?${qs.toString()}`
         );
     },
      resend: (invitationId: string, orgId: string) => {
         const qs = new URLSearchParams({ org_id: orgId });
-        return API.put<InviteResponse>(
+        return InviteAPIClient.put<InviteResponse>(
             `/invitation/${encodeURIComponent(invitationId)}?${qs.toString()}`
         );
     }
