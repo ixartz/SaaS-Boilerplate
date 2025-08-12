@@ -6,6 +6,7 @@ import { useOrganization } from "../../contexts/OrganizationContext";
 import CreateOrganizationModal from "../dashboard/CreateOrganizationModal";
 import SkeletonTable from "../ui/SkeletonTable";
 
+
 type OrgLike = { id?: string; Id?: string; name?: string; Name?: string; plan?: string; createdAt?: string };
 const getId = (o: OrgLike) => o?.id ?? o?.Id ?? "";
 const getName = (o: OrgLike) => o?.name ?? o?.Name ?? "—";
