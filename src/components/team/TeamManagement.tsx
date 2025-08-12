@@ -9,7 +9,6 @@ import { showToast } from '../utils/showToast';
 import InviteMemberModal from './InviteMemberModal';
 import Pagination from './Pagination';
 import SkeletonTable from '../ui/SkeletonTable';
-
 type NormalizedInvite = {
   id: string;
   role: string;
