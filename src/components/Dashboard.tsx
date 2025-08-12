@@ -6,6 +6,7 @@ import { DashboardOverview } from './dashboard/DashboardOverview';
 import { TeamManagement } from './team/TeamManagement';
 import { ProfileSettings } from './profile/ProfileSettings';
 import { OrganizationManagement } from './organization/OrganizationManagement';
+import { TeamMembers } from './team/TeamMembers';
 
 export const Dashboard: React.FC = () => {
   const navigate = useNavigate();
@@ -26,7 +27,8 @@ export const Dashboard: React.FC = () => {
             <Routes>
               <Route path="/" element={<Navigate to="/dashboard/overview" replace />} />
               <Route path="/overview" element={<DashboardOverview />} />
-              <Route path="/team" element={<TeamManagement />} />
+              <Route path="/invitations" element={<TeamManagement />} />
+              <Route path="/members" element={<TeamMembers />} />
               <Route path="/settings" element={<ProfileSettings />} />
               
               <Route path="/analytics" element={
