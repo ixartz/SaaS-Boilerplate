@@ -591,6 +591,21 @@ See [LICENSE](LICENSE) for more information.
   </tr>
 </table>
 
+## Article Generator Setup
+
+1. Create a Stripe account and obtain publishable and secret keys.
+2. Set the keys in `.env.local`:
+
+```
+STRIPE_SECRET_KEY=your_stripe_secret
+NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY=your_stripe_publishable
+STRIPE_PRICE_ID=price_from_stripe
+```
+
+3. Run `npm install` and `npm run dev` to start the Next.js app.
+4. Python is used to generate articles. Ensure Python 3 is installed. The API route `api/generate` executes `scripts/generate_article.py`.
+5. Link your social and WordPress accounts from the dashboard **Connections** page. Saved connections and configurations are stored in the browser.
+
 ---
 
 Made with ♥ by [CreativeDesignsGuru](https://creativedesignsguru.com) [![Twitter](https://img.shields.io/twitter/url/https/twitter.com/cloudposse.svg?style=social&label=Follow%20%40Ixartz)](https://twitter.com/ixartz)
