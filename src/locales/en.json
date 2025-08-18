@@ -91,6 +91,8 @@
     "todos": "Todos",
     "members": "Members",
     "billing": "Billing",
+    "connections": "Connections",
+    "configurations": "Configurations",
     "settings": "Settings"
   },
   "Dashboard": {

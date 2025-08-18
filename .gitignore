@@ -47,5 +47,8 @@ yarn-error.log*
 # local folder
 local
 
+# IDE
+.vs
+
 # vercel
 .vercel

@@ -1,57 +1,32 @@
 import Link from 'next/link';
-import { useTranslations } from 'next-intl';
 
 import { buttonVariants } from '@/components/ui/buttonVariants';
-import { PricingInformation } from '@/features/billing/PricingInformation';
 import { Section } from '@/features/landing/Section';
-import { PLAN_ID } from '@/utils/AppConfig';
 
 export const Pricing = () => {
-  const t = useTranslations('Pricing');
-
   return (
     <Section
-      subtitle={t('section_subtitle')}
-      title={t('section_title')}
-      description={t('section_description')}
+      subtitle="Pricing"
+      title="Simple pricing"
+      description="Start your 14 day free trial."
     >
-      <PricingInformation
-        buttonList={{
-          [PLAN_ID.FREE]: (
-            <Link
-              className={buttonVariants({
-                size: 'sm',
-                className: 'mt-5 w-full',
-              })}
-              href="/sign-up"
-            >
-              {t('button_text')}
-            </Link>
-          ),
-          [PLAN_ID.PREMIUM]: (
-            <Link
-              className={buttonVariants({
-                size: 'sm',
-                className: 'mt-5 w-full',
-              })}
-              href="/sign-up"
-            >
-              {t('button_text')}
-            </Link>
-          ),
-          [PLAN_ID.ENTERPRISE]: (
-            <Link
-              className={buttonVariants({
-                size: 'sm',
-                className: 'mt-5 w-full',
-              })}
-              href="/sign-up"
-            >
-              {t('button_text')}
-            </Link>
-          ),
-        }}
-      />
+      <div className="mx-auto max-w-sm rounded-xl border border-border p-8 text-center">
+        <div className="text-lg font-semibold">Pro Plan</div>
+        <div className="mt-3 flex items-center justify-center gap-2">
+          <span className="text-muted-foreground line-through">$20</span>
+          <span className="text-5xl font-bold">$10</span>
+          <span className="text-muted-foreground">/ month</span>
+        </div>
+        <div className="mt-2 text-sm text-muted-foreground">
+          14 day free trial then $10 per month.
+        </div>
+        <Link
+          href="/sign-up"
+          className={buttonVariants({ size: 'sm', className: 'mt-5 w-full' })}
+        >
+          Start Free Trial
+        </Link>
+      </div>
     </Section>
   );
 };
