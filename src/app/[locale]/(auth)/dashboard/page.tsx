@@ -1,5 +1,7 @@
+import Link from 'next/link';
 import { useTranslations } from 'next-intl';
 
+import { Button } from '@/components/ui/button';
 import { MessageState } from '@/features/dashboard/MessageState';
 import { TitleBar } from '@/features/dashboard/TitleBar';
 import { SponsorLogos } from '@/features/sponsors/SponsorLogos';
@@ -37,6 +39,10 @@ const DashboardIndexPage = () => {
         })}
         button={(
           <>
+            <Link href="/sign-up">
+              <Button size="lg">{t('message_state_button')}</Button>
+            </Link>
+
             <div className="mt-2 text-xs font-light text-muted-foreground">
               {t.rich('message_state_alternative', {
                 url: () => (
