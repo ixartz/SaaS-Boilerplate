@@ -13,19 +13,18 @@
     "company": "Company"
   },
   "Hero": {
-    "follow_twitter": "Follow @Ixartz on Twitter",
-    "title": "The perfect <important>SaaS template</important> to build and scale your business with ease.",
-    "description": "A free and open-source landing page template for your SaaS business, built with React, TypeScript, Shadcn UI, and Tailwind CSS.",
-    "primary_button": "Get Started",
-    "secondary_button": "Star on GitHub"
+    "follow_twitter": "Follow @Ixartz on X",
+    "title": "From Community Buzz to Blog Post—on <important>Autopilot</important>",
+    "description": "Tap into Reddit’s hottest conversations, capture authentic community sentiment, and let AI deliver WordPress-ready content that keeps your audience coming back.",
+    "primary_button": "Start your free 14 day trial"
   },
   "Sponsors": {
     "title": "Sponsored by"
   },
   "Features": {
     "section_subtitle": "Features",
-    "section_title": "Unlock the Full Potential of the SaaS Template",
-    "section_description": "A free and open-source landing page template for your SaaS business, built with React, TypeScript, Shadcn UI, and Tailwind CSS.",
+    "section_title": "Real Conversations. Real Insights. Ready to Publish.",
+    "section_description": "Stay ahead of the conversation—AI converts trending topics into WordPress posts with no writing required.",
     "feature1_title": "Node.js",
     "feature2_title": "React",
     "feature3_title": "Tailwind CSS",
@@ -38,7 +37,7 @@
     "section_subtitle": "Features",
     "section_title": "Unlock the Full Potential of the SaaS Template",
     "section_description": "A free and open-source landing page template for your SaaS business, built with React, TypeScript, Shadcn UI, and Tailwind CSS.",
-    "button_text": "Get Started"
+    "button_text": "Start Free Trial"
   },
   "PricingPlan": {
     "free_plan_name": "Free",
@@ -63,7 +62,7 @@
   "CTA": {
     "title": "You are ready?",
     "description": "Lorem ipsum dolor sit amet, consectetur adipiscing elit.",
-    "button_text": "Star on GitHub"
+    "button_text": "Launch your free trial"
   },
   "Footer": {
     "product": "Product",
@@ -104,7 +103,7 @@
     "title_bar_description": "Welcome to your dashboard",
     "message_state_title": "Let's get started",
     "message_state_description": "You can customize this page by editing the file at <code>dashboard/page.tsx</code>",
-    "message_state_button": "Star on GitHub",
+    "message_state_button": "Start Your Free Trial",
     "message_state_alternative": "Want more features using the same stack? Try <url></url>."
   },
   "UserProfile": {
@@ -124,7 +123,7 @@
   },
   "BillingOptions": {
     "current_plan": "Current Plan",
-    "upgrade_plan": "Get Started"
+    "upgrade_plan": "Start Free Trial"
   },
   "CheckoutConfirmation": {
     "title_bar": "Payment Confirmation",
