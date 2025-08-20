@@ -8,7 +8,11 @@ import { Section } from '@/features/landing/Section';
 export const Hero = () => {
   const t = useTranslations('Hero');
   const title = t.rich('title', {
-    important: chunks => <span className="text-primary">{chunks}</span>,
+    important: chunks => (
+      <span className="bg-gradient-to-r from-blue-500 via-purple-500 to-pink-500 bg-clip-text font-semibold text-transparent">
+        {chunks}
+      </span>
+    ),
   });
 
   return (
