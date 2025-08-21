@@ -6,7 +6,7 @@
 
 🚀 **SaaS Boilerplate** is a powerful and fully customizable template to kickstart your SaaS applications. Built with **Next.js** and **Tailwind CSS**, and the modular UI components of **Shadcn UI**. This **Next.js SaaS Template** helps you to quickly build and launch SaaS with minimal effort.
 
-Packed with essential features like built-in **Authentication**, **Multi-Tenancy** with Team support, **Role & Permission**, Database, I18n (internationalization), Landing Page, User Dashboard, Form handling, SEO optimization, Logging, Error reporting with [Sentry](https://sentry.io/for/nextjs/?utm_source=github&utm_medium=paid-community&utm_campaign=general-fy25q1-nextjs&utm_content=github-banner-nextjsboilerplate-logo), Testing, Deployment, Monitoring, and **User Impersonation**, this SaaS template provides everything you need to get started.
+Packed with essential features like built-in **Authentication**, Database, I18n (internationalization), Landing Page, User Dashboard, Form handling, SEO optimization, Logging, Error reporting with [Sentry](https://sentry.io/for/nextjs/?utm_source=github&utm_medium=paid-community&utm_campaign=general-fy25q1-nextjs&utm_content=github-banner-nextjsboilerplate-logo), Testing, Deployment, Monitoring, and **User Impersonation**, this SaaS template provides everything you need to get started.
 
 Designed with developers in mind, this **Next.js Starter Kit** uses TypeScript for type safety and integrates ESLint to maintain code quality, along with Prettier for consistent code formatting. The testing suite combines Vitest and React Testing Library for robust unit testing, while Playwright handles integration and E2E testing. Continuous integration and deployment are managed via GitHub Actions. For user management, authentication is handled by [Clerk](https://go.clerk.com/zGlzydF). For database operations, it uses Drizzle ORM for type-safe database management across popular databases like PostgreSQL, SQLite, and MySQL. One recommended option is to use [Prisma PostgreSQL](https://www.prisma.io/?via=saasboilerplatetop), which provides a free PostgreSQL database that is compatible and has been tested with SaaS Boilerplate.
 
@@ -104,9 +104,9 @@ Clone this project and use it to create your own SaaS. You can check the live de
 | --- | --- |
 | [![Next.js Boilerplate SaaS Landing Page](public/assets/images/nextjs-boilerplate-saas-landing-page.png)](https://react-saas.com) | [![Next.js Boilerplate SaaS User Dashboard](public/assets/images/nextjs-boilerplate-saas-user-dashboard.png)](https://react-saas.com/dashboard) |
 
-| Team Management | User Profile |
-| --- | --- |
-| [![Next.js Boilerplate SaaS Team Management](public/assets/images/nextjs-boilerplate-saas-multi-tenancy.png)](https://react-saas.com/dashboard/organization-profile/organization-members) | [![Next.js Boilerplate SaaS User Profile](public/assets/images/nextjs-boilerplate-saas-user-profile.png)](https://react-saas.com/dashboard/user-profile) |
+| User Profile |
+| --- |
+| [![Next.js Boilerplate SaaS User Profile](public/assets/images/nextjs-boilerplate-saas-user-profile.png)](https://react-saas.com/dashboard/user-profile) |
 
 | Sign Up | Sign In |
 | --- | --- |
@@ -130,7 +130,6 @@ Developer experience first, extremely flexible code structure and only keep what
 - ✅ Strict Mode for TypeScript and [React](https://react.dev)
 - 🔒 Authentication with [Clerk](https://go.clerk.com/zGlzydF): Sign up, Sign in, Sign out, Forgot password, Reset password, and more.
 - 👤 Passwordless Authentication with Magic Links, Multi-Factor Auth (MFA), Social Auth (Google, Facebook, Twitter, GitHub, Apple, and more), Passwordless login with Passkeys, User Impersonation
-- 👥 Multi-tenancy & team support: create, switch, update organization and invite team members
 - 📝 Role-based access control and permissions
 - 👤 Multi-Factor Auth (MFA), Social Auth (Google, Facebook, Twitter, GitHub, Apple, and more), User Impersonation
 - 📦 Type-safe ORM with DrizzleORM, compatible with PostgreSQL, SQLite, and MySQL
@@ -217,7 +216,6 @@ This project offers both a free open-source version and a premium Pro version. H
 | **Authentication** | ✅ | ✅ |
 | **Social Login (Google, Facebook, GitHub, etc.)** | ✅ | ✅ |
 | **Multi-Factor Auth & User Impersonation** | ✅ | ✅ |
-| **Multi-tenancy & Team Support** | ✅ | ✅ |
 | **Role-based Access Control (RBAC)** | ✅ | ✅ |
 | **Landing Page (Hero, Features, Pricing)** | ✅ | ✅ |
 | **Internationalization (i18n)** | ✅ | ✅ |
@@ -255,7 +253,6 @@ NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY=your_clerk_pub_key
 CLERK_SECRET_KEY=your_clerk_secret_key
 ```
 
-In your Clerk Dashboard, you also need to `Enable Organization` by navigating to `Organization management` > `Settings` > `Enable organization`.
 
 Now, you have a fully working authentication system with Next.js: Sign up, Sign in, Sign out, Forgot password, Reset password, Update profile, Update password, Update email, Delete account, and more.
 

@@ -51,8 +51,7 @@ export default defineConfig({
     // `setup` and `teardown` are used to run code before and after all E2E tests.
     // These functions can be used to configure Clerk for testing purposes. For example, bypassing bot detection.
     // In the `setup` file, you can create an account in `Test mode`.
-    // For each test, an organization can be created within this account to ensure total isolation.
-    // After all tests are completed, the `teardown` file can delete the account and all associated organizations.
+    // After all tests are completed, the `teardown` file can delete the account.
     // You can find the `setup` and `teardown` files at: https://nextjs-boilerplate.com/pro-saas-starter-kit
     { name: 'setup', testMatch: /.*\.setup\.ts/, teardown: 'teardown' },
     { name: 'teardown', testMatch: /.*\.teardown\.ts/ },

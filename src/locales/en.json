@@ -89,9 +89,7 @@
   "DashboardLayout": {
     "home": "Home",
     "todos": "Todos",
-    "members": "Members",
-    "billing": "Billing",
-    "settings": "Settings"
+    "billing": "Billing"
   },
   "Dashboard": {
     "meta_title": "SaaS Template Dashboard",
@@ -108,10 +106,6 @@
   "UserProfile": {
     "title_bar": "User Profile",
     "title_bar_description": "View and manage your user profile"
-  },
-  "OrganizationProfile": {
-    "title_bar": "Organization Management",
-    "title_bar_description": "Manage your organization"
   },
   "Billing": {
     "title_bar": "Billing",
