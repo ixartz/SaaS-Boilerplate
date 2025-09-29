@@ -3,21 +3,5 @@
   "devCommand": "pnpm dev",
   "installCommand": "pnpm install",
   "framework": "nextjs",
-  "regions": ["sin1"],
-  "env": {
-    "DATABASE_URL": "@database_url",
-    "CLERK_SECRET_KEY": "@clerk_secret_key",
-    "NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY": "@next_public_clerk_publishable_key",
-    "NEXTAUTH_URL": "@nextauth_url",
-    "NEXTAUTH_SECRET": "@nextauth_secret",
-    "CLOUDINARY_CLOUD_NAME": "@cloudinary_cloud_name",
-    "CLOUDINARY_API_KEY": "@cloudinary_api_key",
-    "CLOUDINARY_API_SECRET": "@cloudinary_api_secret"
-  },
-  "build": {
-    "env": {
-      "DATABASE_URL": "@database_url",
-      "CLERK_SECRET_KEY": "@clerk_secret_key"
-    }
-  }
+  "regions": ["sin1"]
 }
