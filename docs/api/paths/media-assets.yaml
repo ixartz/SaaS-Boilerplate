@@ -1,0 +1,42 @@
+get:
+  summary: List media assets
+  tags: [Media Assets]
+  security: [{BearerAuth: []}]
+  parameters:
+    - name: limit
+      in: query
+      schema: {type: integer, minimum: 1, maximum: 100, default: 20}
+    - name: cursor
+      in: query
+      schema: {type: string}
+  responses:
+    '200':
+      description: List of media assets
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ListResponse'
+    '401': {$ref: '#/components/responses/Unauthorized'}
+    '403': {$ref: '#/components/responses/Forbidden'}
+    '500': {$ref: '#/components/responses/ServerError'}
+
+post:
+  summary: Create media asset
+  tags: [Media Assets]
+  security: [{BearerAuth: []}]
+  requestBody:
+    required: true
+    content:
+      application/json:
+        schema: {$ref: '#/components/schemas/CreateMediaAssetRequest'}
+  responses:
+    '201':
+      description: Media asset created
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/SingleItemResponse'
+    '401': {$ref: '#/components/responses/Unauthorized'}
+    '403': {$ref: '#/components/responses/Forbidden'}
+    '422': {$ref: '#/components/responses/ValidationError'}
+    '500': {$ref: '#/components/responses/ServerError'}

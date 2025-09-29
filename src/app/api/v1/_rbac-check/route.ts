@@ -1,105 +1,53 @@
-import { NextRequest, NextResponse } from 'next/server';
+import type { NextRequest } from 'next/server';
+import { z } from 'zod';
 
 import { requireMembership } from '@/lib/auth';
+import { runWithOrgContext } from '@/lib/db-context';
+import { badRequest, forbidden, problemJson } from '@/libs/api/errors';
+
+const querySchema = z.object({
+  role: z.enum(['OWNER', 'ADMIN', 'PM', 'ENGINEER', 'ACCOUNTANT', 'VIEWER']),
+  orgId: z.string().min(1),
+});
 
 export async function GET(req: NextRequest) {
-  try {
-    // Get role from query parameter
-    const searchParams = req.nextUrl.searchParams;
-    const requiredRole = searchParams.get('role');
-
-    if (!requiredRole) {
-      return NextResponse.json(
-        {
-          ok: false,
-          error: 'Role parameter is required',
-          example: '/api/v1/_rbac-check?role=OWNER&orgId=your-org-id',
-        },
-        { status: 400 },
-      );
-    }
-
-    // Define valid roles
-    const validRoles = ['OWNER', 'ADMIN', 'PM', 'ENGINEER', 'ACCOUNTANT', 'VIEWER'];
-
-    if (!validRoles.includes(requiredRole)) {
-      return NextResponse.json(
-        {
-          ok: false,
-          error: `Invalid role. Must be one of: ${validRoles.join(', ')}`,
-        },
-        { status: 400 },
-      );
-    }
-
-    // Check membership with required role
-    const authResult = await requireMembership(req, [requiredRole]);
-
-    return NextResponse.json({
-      ok: true,
-      role: authResult.membership.role,
-      user: {
-        id: authResult.user.id,
-        email: authResult.user.email,
-        displayName: authResult.user.displayName,
-      },
-      organization: {
-        id: authResult.orgId,
-        name: authResult.org.name,
-        slug: authResult.org.slug,
-      },
-      membership: {
-        id: authResult.membership.id,
-        isActive: authResult.membership.isActive,
-      },
-      timestamp: new Date().toISOString(),
+  const url = new URL(req.url);
+  const params = Object.fromEntries(url.searchParams.entries());
+  const parsed = querySchema.safeParse(params);
+  if (!parsed.success) {
+    return problemJson({
+      title: 'Validation failed',
+      status: 422,
+      detail: 'Invalid query parameters',
+      extensions: { issues: parsed.error.issues },
     });
-  } catch (error) {
-    console.error('RBAC check failed:', error);
-
-    return NextResponse.json(
-      {
-        ok: false,
-        error: error instanceof Error ? error.message : 'Authentication failed',
-        timestamp: new Date().toISOString(),
-      },
-      { status: 403 },
-    );
   }
-}
 
-// Test endpoint for different roles
-export async function POST(req: NextRequest) {
   try {
-    const body = await req.json();
-    const { role, orgId } = body;
+    const { role, orgId } = parsed.data;
+    const { user, membership, org } = await requireMembership(req, [role], orgId);
 
-    if (!role || !orgId) {
-      return NextResponse.json(
-        {
-          ok: false,
-          error: 'Both role and orgId are required',
-        },
-        { status: 400 },
-      );
+    const contextResult = await runWithOrgContext(
+      { orgId: org.id, userId: user.id, role: membership.role },
+      async () => ({ ok: true }),
+    );
+
+    return new Response(
+      JSON.stringify({
+        ok: true,
+        role: membership.role,
+        user: { id: user.id, email: user.email },
+        org: { id: org.id, name: org.name },
+        contextResult,
+        timestamp: new Date().toISOString(),
+      }),
+      { headers: { 'content-type': 'application/json' } },
+    );
+  } catch (e: any) {
+    const msg = typeof e?.message === 'string' ? e.message : 'Forbidden';
+    if (msg.toLowerCase().includes('unauthorized')) {
+      return forbidden(msg);
     }
-
-    // Create a new request with orgId in query params
-    const testReq = new NextRequest(
-      `${req.nextUrl.origin}/api/v1/_rbac-check?role=${role}&orgId=${orgId}`,
-      { method: 'GET' },
-    );
-
-    return await GET(testReq);
-  } catch (error) {
-    console.error('RBAC test failed:', error);
-
-    return NextResponse.json(
-      {
-        ok: false,
-        error: error instanceof Error ? error.message : 'Test failed',
-      },
-      { status: 500 },
-    );
+    return badRequest(msg);
   }
 }

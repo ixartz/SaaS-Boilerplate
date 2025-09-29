@@ -1,0 +1,31 @@
+openapi: 3.0.3
+info:
+  title: SiteFlow API v1
+  description: Construction project management API with RBAC
+  version: 1.0.0
+  contact:
+    name: SiteFlow API Support
+    email: support@siteflow.com
+
+servers:
+  - url: https://api.siteflow.com/api/v1
+    description: Production server
+  - url: http://localhost:3000/api/v1
+    description: Development server
+
+security:
+  - BearerAuth: []
+
+paths:
+  $ref: ./paths/index.yaml
+
+components:
+  securitySchemes:
+    BearerAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT
+  schemas:
+    $ref: ./schemas/index.yaml
+  responses:
+    $ref: ./responses/index.yaml

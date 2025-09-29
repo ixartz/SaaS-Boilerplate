@@ -1,0 +1,330 @@
+# Common schemas
+PaginationInfo:
+  type: object
+  properties:
+    hasMore:
+      type: boolean
+    nextCursor:
+      type: string
+
+SuccessResponse:
+  type: object
+  properties:
+    ok:
+      type: boolean
+      example: true
+
+SingleItemResponse:
+  type: object
+  properties:
+    ok:
+      type: boolean
+      example: true
+    item:
+      type: object
+
+ListResponse:
+  type: object
+  properties:
+    ok:
+      type: boolean
+      example: true
+    items:
+      type: array
+    pageInfo:
+      $ref: '#/components/schemas/PaginationInfo'
+
+# Project schemas
+Project:
+  type: object
+  properties:
+    id:
+      type: string
+      format: uuid
+    orgId:
+      type: string
+    name:
+      type: string
+      example: Residential Building Project
+    description:
+      type: string
+      nullable: true
+      example: Construction of 5-story residential building
+    status:
+      type: string
+      enum: [PLANNING, IN_PROGRESS, ON_HOLD, COMPLETED, CANCELLED]
+      example: PLANNING
+    budget:
+      type: string
+      nullable: true
+      example: '500000.00'
+    startDate:
+      type: string
+      format: date-time
+      nullable: true
+    endDate:
+      type: string
+      format: date-time
+      nullable: true
+    address:
+      type: string
+      nullable: true
+    clientName:
+      type: string
+      nullable: true
+    clientContact:
+      type: string
+      nullable: true
+    createdAt:
+      type: string
+      format: date-time
+    updatedAt:
+      type: string
+      format: date-time
+    deletedAt:
+      type: string
+      format: date-time
+      nullable: true
+
+CreateProjectRequest:
+  type: object
+  required: [name]
+  properties:
+    name:
+      type: string
+      minLength: 1
+    description:
+      type: string
+    status:
+      type: string
+      enum: [PLANNING, IN_PROGRESS, ON_HOLD, COMPLETED, CANCELLED]
+    budget:
+      type: string
+    startDate:
+      type: string
+      format: date-time
+    endDate:
+      type: string
+      format: date-time
+    address:
+      type: string
+    clientName:
+      type: string
+    clientContact:
+      type: string
+
+UpdateProjectRequest:
+  type: object
+  properties:
+    name:
+      type: string
+      minLength: 1
+    description:
+      type: string
+    status:
+      type: string
+      enum: [PLANNING, IN_PROGRESS, ON_HOLD, COMPLETED, CANCELLED]
+    budget:
+      type: string
+    startDate:
+      type: string
+      format: date-time
+    endDate:
+      type: string
+      format: date-time
+    address:
+      type: string
+    clientName:
+      type: string
+    clientContact:
+      type: string
+
+# Category schemas
+Category:
+  type: object
+  properties:
+    id:
+      type: string
+      format: uuid
+    orgId:
+      type: string
+    projectId:
+      type: string
+      format: uuid
+    name:
+      type: string
+    description:
+      type: string
+      nullable: true
+    budget:
+      type: string
+      nullable: true
+    order:
+      type: integer
+    createdAt:
+      type: string
+      format: date-time
+    updatedAt:
+      type: string
+      format: date-time
+    deletedAt:
+      type: string
+      format: date-time
+      nullable: true
+
+CreateCategoryRequest:
+  type: object
+  required: [projectId, name]
+  properties:
+    projectId:
+      type: string
+      format: uuid
+    name:
+      type: string
+      minLength: 1
+    description:
+      type: string
+    budget:
+      type: string
+    order:
+      type: integer
+      minimum: 0
+
+UpdateCategoryRequest:
+  type: object
+  properties:
+    projectId:
+      type: string
+      format: uuid
+    name:
+      type: string
+      minLength: 1
+    description:
+      type: string
+    budget:
+      type: string
+    order:
+      type: integer
+      minimum: 0
+
+# Task schemas
+Task:
+  type: object
+  properties:
+    id:
+      type: string
+      format: uuid
+    orgId:
+      type: string
+    projectId:
+      type: string
+      format: uuid
+    categoryId:
+      type: string
+      format: uuid
+    name:
+      type: string
+    description:
+      type: string
+      nullable: true
+    status:
+      type: string
+      enum: [WAITING, IN_PROGRESS, DONE, CANCELLED]
+    priority:
+      type: integer
+      minimum: 0
+      maximum: 2
+    estimatedHours:
+      type: string
+      nullable: true
+    actualHours:
+      type: string
+      nullable: true
+    dueDate:
+      type: string
+      format: date-time
+      nullable: true
+    assignedTo:
+      type: string
+      nullable: true
+    order:
+      type: integer
+    createdAt:
+      type: string
+      format: date-time
+    updatedAt:
+      type: string
+      format: date-time
+    deletedAt:
+      type: string
+      format: date-time
+      nullable: true
+
+CreateTaskRequest:
+  type: object
+  required: [projectId, categoryId, name]
+  properties:
+    projectId:
+      type: string
+      format: uuid
+    categoryId:
+      type: string
+      format: uuid
+    name:
+      type: string
+      minLength: 1
+    description:
+      type: string
+    status:
+      type: string
+      enum: [WAITING, IN_PROGRESS, DONE, CANCELLED]
+    priority:
+      type: integer
+      minimum: 0
+      maximum: 2
+    estimatedHours:
+      type: string
+    actualHours:
+      type: string
+    dueDate:
+      type: string
+      format: date-time
+    assignedTo:
+      type: string
+    order:
+      type: integer
+      minimum: 0
+
+UpdateTaskRequest:
+  type: object
+  properties:
+    projectId:
+      type: string
+      format: uuid
+    categoryId:
+      type: string
+      format: uuid
+    name:
+      type: string
+      minLength: 1
+    description:
+      type: string
+    status:
+      type: string
+      enum: [WAITING, IN_PROGRESS, DONE, CANCELLED]
+    priority:
+      type: integer
+      minimum: 0
+      maximum: 2
+    estimatedHours:
+      type: string
+    actualHours:
+      type: string
+    dueDate:
+      type: string
+      format: date-time
+    assignedTo:
+      type: string
+    order:
+      type: integer
+      minimum: 0

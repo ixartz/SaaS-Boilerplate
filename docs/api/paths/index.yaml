@@ -1,0 +1,32 @@
+/projects:
+  $ref: ./projects.yaml
+/projects/{id}:
+  $ref: ./projects-id.yaml
+/categories:
+  $ref: ./categories.yaml
+/categories/{id}:
+  $ref: ./categories-id.yaml
+/tasks:
+  $ref: ./tasks.yaml
+/tasks/{id}:
+  $ref: ./tasks-id.yaml
+/daily-logs:
+  $ref: ./daily-logs.yaml
+/daily-logs/{id}:
+  $ref: ./daily-logs-id.yaml
+/daily-log-tasks:
+  $ref: ./daily-log-tasks.yaml
+/daily-log-tasks/{id}:
+  $ref: ./daily-log-tasks-id.yaml
+/transactions:
+  $ref: ./transactions.yaml
+/transactions/{id}:
+  $ref: ./transactions-id.yaml
+/share-links:
+  $ref: ./share-links.yaml
+/share-links/{id}:
+  $ref: ./share-links-id.yaml
+/media-assets:
+  $ref: ./media-assets.yaml
+/media-assets/{id}:
+  $ref: ./media-assets-id.yaml

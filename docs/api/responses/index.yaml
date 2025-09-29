@@ -1,0 +1,103 @@
+Unauthorized:
+  description: Unauthorized - Authentication required
+  content:
+    application/problem+json:
+      schema:
+        type: object
+        properties:
+          type:
+            type: string
+            example: 'about:blank'
+          title:
+            type: string
+            example: Unauthorized
+          status:
+            type: integer
+            example: 401
+          detail:
+            type: string
+            example: Authentication required
+
+Forbidden:
+  description: Forbidden - Insufficient permissions
+  content:
+    application/problem+json:
+      schema:
+        type: object
+        properties:
+          type:
+            type: string
+            example: 'about:blank'
+          title:
+            type: string
+            example: Forbidden
+          status:
+            type: integer
+            example: 403
+          detail:
+            type: string
+            example: Insufficient permissions
+
+NotFound:
+  description: Resource not found
+  content:
+    application/problem+json:
+      schema:
+        type: object
+        properties:
+          type:
+            type: string
+            example: 'about:blank'
+          title:
+            type: string
+            example: Not Found
+          status:
+            type: integer
+            example: 404
+          detail:
+            type: string
+            example: Resource not found
+
+ValidationError:
+  description: Validation error
+  content:
+    application/problem+json:
+      schema:
+        type: object
+        properties:
+          type:
+            type: string
+            example: 'about:blank'
+          title:
+            type: string
+            example: Unprocessable Content
+          status:
+            type: integer
+            example: 422
+          detail:
+            type: string
+            example: Validation failed
+          issues:
+            type: array
+            items:
+              type: object
+
+ServerError:
+  description: Internal server error
+  content:
+    application/problem+json:
+      schema:
+        type: object
+        properties:
+          type:
+            type: string
+            example: 'about:blank'
+          title:
+            type: string
+            example: Internal Server Error
+          status:
+            type: integer
+            example: 500
+          detail:
+            type: string
+            example: An unexpected error occurred

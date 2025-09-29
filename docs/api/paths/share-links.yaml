@@ -1,0 +1,42 @@
+get:
+  summary: List share links
+  tags: [Share Links]
+  security: [{BearerAuth: []}]
+  parameters:
+    - name: limit
+      in: query
+      schema: {type: integer, minimum: 1, maximum: 100, default: 20}
+    - name: cursor
+      in: query
+      schema: {type: string}
+  responses:
+    '200':
+      description: List of share links
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ListResponse'
+    '401': {$ref: '#/components/responses/Unauthorized'}
+    '403': {$ref: '#/components/responses/Forbidden'}
+    '500': {$ref: '#/components/responses/ServerError'}
+
+post:
+  summary: Create share link
+  tags: [Share Links]
+  security: [{BearerAuth: []}]
+  requestBody:
+    required: true
+    content:
+      application/json:
+        schema: {$ref: '#/components/schemas/CreateShareLinkRequest'}
+  responses:
+    '201':
+      description: Share link created
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/SingleItemResponse'
+    '401': {$ref: '#/components/responses/Unauthorized'}
+    '403': {$ref: '#/components/responses/Forbidden'}
+    '422': {$ref: '#/components/responses/ValidationError'}
+    '500': {$ref: '#/components/responses/ServerError'}

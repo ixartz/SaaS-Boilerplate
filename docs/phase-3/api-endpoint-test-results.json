@@ -1,0 +1,65 @@
+[
+  {
+    "endpoint": "/api/health",
+    "method": "GET",
+    "status": 200,
+    "description": "✅ 200 OK",
+    "response": "{\"ok\":true,\"version\":\"1.0.1\",\"timestamp\":\"2025-09-29T11:52:02.300Z\",\"env\":\"development\",\"status\":\"he"
+  },
+  {
+    "endpoint": "/api/v1/projects",
+    "method": "GET",
+    "status": 401,
+    "description": "🔒 401 Unauthorized (expected - no auth)",
+    "response": "{\"type\":\"about:blank\",\"title\":\"Unauthorized\",\"status\":401,\"detail\":\"Authentication required\"}"
+  },
+  {
+    "endpoint": "/api/v1/categories",
+    "method": "GET",
+    "status": 401,
+    "description": "🔒 401 Unauthorized (expected - no auth)",
+    "response": "{\"type\":\"about:blank\",\"title\":\"Unauthorized\",\"status\":401,\"detail\":\"Authentication required\"}"
+  },
+  {
+    "endpoint": "/api/v1/tasks",
+    "method": "GET",
+    "status": 401,
+    "description": "🔒 401 Unauthorized (expected - no auth)",
+    "response": "{\"type\":\"about:blank\",\"title\":\"Unauthorized\",\"status\":401,\"detail\":\"Authentication required\"}"
+  },
+  {
+    "endpoint": "/api/v1/daily-logs",
+    "method": "GET",
+    "status": 401,
+    "description": "🔒 401 Unauthorized (expected - no auth)",
+    "response": "{\"type\":\"about:blank\",\"title\":\"Unauthorized\",\"status\":401,\"detail\":\"Authentication required\"}"
+  },
+  {
+    "endpoint": "/api/v1/daily-log-tasks",
+    "method": "GET",
+    "status": 401,
+    "description": "🔒 401 Unauthorized (expected - no auth)",
+    "response": "{\"type\":\"about:blank\",\"title\":\"Unauthorized\",\"status\":401,\"detail\":\"Authentication required\"}"
+  },
+  {
+    "endpoint": "/api/v1/transactions",
+    "method": "GET",
+    "status": 401,
+    "description": "🔒 401 Unauthorized (expected - no auth)",
+    "response": "{\"type\":\"about:blank\",\"title\":\"Unauthorized\",\"status\":401,\"detail\":\"Authentication required\"}"
+  },
+  {
+    "endpoint": "/api/v1/share-links",
+    "method": "GET",
+    "status": 401,
+    "description": "🔒 401 Unauthorized (expected - no auth)",
+    "response": "{\"type\":\"about:blank\",\"title\":\"Unauthorized\",\"status\":401,\"detail\":\"Authentication required\"}"
+  },
+  {
+    "endpoint": "/api/v1/media-assets",
+    "method": "GET",
+    "status": 401,
+    "description": "🔒 401 Unauthorized (expected - no auth)",
+    "response": "{\"type\":\"about:blank\",\"title\":\"Unauthorized\",\"status\":401,\"detail\":\"Authentication required\"}"
+  }
+]

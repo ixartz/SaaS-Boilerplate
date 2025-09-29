@@ -1,0 +1,67 @@
+get:
+  summary: Get task by ID
+  tags: [Tasks]
+  security: [{BearerAuth: []}]
+  parameters:
+    - name: id
+      in: path
+      required: true
+      schema: {type: string, format: uuid}
+  responses:
+    '200':
+      description: Task details
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/SingleItemResponse'
+    '401': {$ref: '#/components/responses/Unauthorized'}
+    '403': {$ref: '#/components/responses/Forbidden'}
+    '404': {$ref: '#/components/responses/NotFound'}
+    '500': {$ref: '#/components/responses/ServerError'}
+
+patch:
+  summary: Update task
+  tags: [Tasks]
+  security: [{BearerAuth: []}]
+  parameters:
+    - name: id
+      in: path
+      required: true
+      schema: {type: string, format: uuid}
+  requestBody:
+    required: true
+    content:
+      application/json:
+        schema: {$ref: '#/components/schemas/UpdateTaskRequest'}
+  responses:
+    '200':
+      description: Task updated
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/SingleItemResponse'
+    '401': {$ref: '#/components/responses/Unauthorized'}
+    '403': {$ref: '#/components/responses/Forbidden'}
+    '404': {$ref: '#/components/responses/NotFound'}
+    '422': {$ref: '#/components/responses/ValidationError'}
+    '500': {$ref: '#/components/responses/ServerError'}
+
+delete:
+  summary: Delete task
+  tags: [Tasks]
+  security: [{BearerAuth: []}]
+  parameters:
+    - name: id
+      in: path
+      required: true
+      schema: {type: string, format: uuid}
+  responses:
+    '204':
+      description: Task deleted
+      content:
+        application/json:
+          schema: {$ref: '#/components/schemas/SuccessResponse'}
+    '401': {$ref: '#/components/responses/Unauthorized'}
+    '403': {$ref: '#/components/responses/Forbidden'}
+    '404': {$ref: '#/components/responses/NotFound'}
+    '500': {$ref: '#/components/responses/ServerError'}

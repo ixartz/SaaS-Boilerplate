@@ -19,34 +19,57 @@ const isProtectedRoute = createRouteMatcher([
   '/:locale/dashboard(.*)',
   '/onboarding(.*)',
   '/:locale/onboarding(.*)',
-  '/api/projects(.*)',
-  '/api/categories(.*)',
-  '/api/tasks(.*)',
-  '/api/daily-logs(.*)',
-  '/api/transactions(.*)',
-  '/api/share-links(.*)',
-  '/api/media-assets(.*)',
-  '/:locale/api/projects(.*)',
-  '/:locale/api/categories(.*)',
-  '/:locale/api/tasks(.*)',
-  '/:locale/api/daily-logs(.*)',
-  '/:locale/api/transactions(.*)',
-  '/:locale/api/share-links(.*)',
-  '/:locale/api/media-assets(.*)',
+  '/api/v1/projects(.*)',
+  '/api/v1/categories(.*)',
+  '/api/v1/tasks(.*)',
+  '/api/v1/daily-logs(.*)',
+  '/api/v1/daily-log-tasks(.*)',
+  '/api/v1/transactions(.*)',
+  '/api/v1/share-links(.*)',
+  '/api/v1/media-assets(.*)',
 ]);
 
 export default function middleware(
   request: NextRequest,
   event: NextFetchEvent,
 ) {
-  // Skip auth for public API endpoints
-  if (
-    request.nextUrl.pathname === '/api/health'
-    || request.nextUrl.pathname === '/api/test'
-    || request.nextUrl.pathname === '/api/v1/_rbac-check'
-    || request.nextUrl.pathname === '/api/v1/mock-rbac'
-    || request.nextUrl.pathname === '/api/v1/test-rbac'
-  ) {
+  // Skip intl middleware for API routes
+  if (request.nextUrl.pathname.startsWith('/api/')) {
+    // Skip auth for public API endpoints
+    if (
+      request.nextUrl.pathname === '/api/health'
+      || request.nextUrl.pathname === '/api/v1/_rbac-check'
+    ) {
+      return NextResponse.next();
+    }
+
+    // Handle protected API routes
+    if (isProtectedRoute(request)) {
+      return clerkMiddleware(async (auth, req) => {
+        // For API routes, return 401 JSON instead of redirect
+        if (req.nextUrl.pathname.startsWith('/api/')) {
+          const authObj = await auth();
+          if (!authObj.userId) {
+            return new NextResponse(
+              JSON.stringify({
+                type: 'about:blank',
+                title: 'Unauthorized',
+                status: 401,
+                detail: 'Authentication required',
+              }),
+              {
+                status: 401,
+                headers: {
+                  'Content-Type': 'application/problem+json',
+                },
+              },
+            );
+          }
+        }
+        return NextResponse.next();
+      })(request, event);
+    }
+
     return NextResponse.next();
   }
 
@@ -57,6 +80,7 @@ export default function middleware(
   ) {
     return clerkMiddleware(async (auth, req) => {
       if (isProtectedRoute(req)) {
+        // For web routes, redirect to sign-in
         const locale
           = req.nextUrl.pathname.match(/(\/.*)\/dashboard/)?.at(1) ?? '';
 

@@ -1,0 +1,72 @@
+get:
+  summary: List projects
+  description: Get paginated list of projects with cursor pagination
+  tags: [Projects]
+  security:
+    - BearerAuth: []
+  parameters:
+    - name: limit
+      in: query
+      schema:
+        type: integer
+        minimum: 1
+        maximum: 100
+        default: 20
+    - name: cursor
+      in: query
+      schema:
+        type: string
+  responses:
+    '200':
+      description: List of projects
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              ok:
+                type: boolean
+                example: true
+              items:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Project'
+              pageInfo:
+                $ref: '#/components/schemas/PaginationInfo'
+    '401':
+      $ref: '#/components/responses/Unauthorized'
+    '403':
+      $ref: '#/components/responses/Forbidden'
+    '500':
+      $ref: '#/components/responses/ServerError'
+
+post:
+  summary: Create project
+  description: Create a new project
+  tags: [Projects]
+  security:
+    - BearerAuth: []
+  requestBody:
+    required: true
+    content:
+      application/json:
+        schema:
+          $ref: '#/components/schemas/CreateProjectRequest'
+  responses:
+    '201':
+      description: Project created successfully
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/SingleItemResponse'
+            properties:
+              item:
+                $ref: '#/components/schemas/Project'
+    '401':
+      $ref: '#/components/responses/Unauthorized'
+    '403':
+      $ref: '#/components/responses/Forbidden'
+    '422':
+      $ref: '#/components/responses/ValidationError'
+    '500':
+      $ref: '#/components/responses/ServerError'
