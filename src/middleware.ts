@@ -19,14 +19,34 @@ const isProtectedRoute = createRouteMatcher([
   '/:locale/dashboard(.*)',
   '/onboarding(.*)',
   '/:locale/onboarding(.*)',
-  '/api(.*)',
-  '/:locale/api(.*)',
+  '/api/projects(.*)',
+  '/api/categories(.*)',
+  '/api/tasks(.*)',
+  '/api/daily-logs(.*)',
+  '/api/transactions(.*)',
+  '/api/share-links(.*)',
+  '/api/media-assets(.*)',
+  '/:locale/api/projects(.*)',
+  '/:locale/api/categories(.*)',
+  '/:locale/api/tasks(.*)',
+  '/:locale/api/daily-logs(.*)',
+  '/:locale/api/transactions(.*)',
+  '/:locale/api/share-links(.*)',
+  '/:locale/api/media-assets(.*)',
 ]);
 
 export default function middleware(
   request: NextRequest,
   event: NextFetchEvent,
 ) {
+  // Skip auth for public API endpoints
+  if (
+    request.nextUrl.pathname === '/api/health'
+    || request.nextUrl.pathname === '/api/v1/_rbac-check'
+  ) {
+    return NextResponse.next();
+  }
+
   if (
     request.nextUrl.pathname.includes('/sign-in')
     || request.nextUrl.pathname.includes('/sign-up')
@@ -69,5 +89,5 @@ export default function middleware(
 }
 
 export const config = {
-  matcher: ['/((?!.+\\.[\\w]+$|_next|monitoring).*)', '/', '/(api|trpc)(.*)'], // Also exclude tunnelRoute used in Sentry from the matcher
+  matcher: ['/((?!.+\\.[\\w]+$|_next|monitoring).*)', '/'], // Include API routes but exclude specific ones in isProtectedRoute
 };
