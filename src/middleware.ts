@@ -42,7 +42,10 @@ export default function middleware(
   // Skip auth for public API endpoints
   if (
     request.nextUrl.pathname === '/api/health'
+    || request.nextUrl.pathname === '/api/test'
     || request.nextUrl.pathname === '/api/v1/_rbac-check'
+    || request.nextUrl.pathname === '/api/v1/mock-rbac'
+    || request.nextUrl.pathname === '/api/v1/test-rbac'
   ) {
     return NextResponse.next();
   }
