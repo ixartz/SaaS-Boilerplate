@@ -59,6 +59,7 @@ export default antfu({
     'import/order': 'off', // Avoid conflicts with `simple-import-sort` plugin
     'sort-imports': 'off', // Avoid conflicts with `simple-import-sort` plugin
     'style/brace-style': ['error', '1tbs'], // Use the default brace style
+    'style/indent': 'off', // Disable due to recursion issues in nested JSX structures
     'ts/consistent-type-definitions': ['error', 'type'], // Use `type` instead of `interface`
     'react/prefer-destructuring-assignment': 'off', // Vscode doesn't support automatically destructuring, it's a pain to add a new variable
     'node/prefer-global/process': 'off', // Allow using `process.env`
