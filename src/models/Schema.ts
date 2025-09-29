@@ -51,6 +51,15 @@ export const transactionTypeEnum = pgEnum('transaction_type', [
   'EXPENSE',
 ]);
 
+export const roleEnum = pgEnum('role_enum', [
+  'OWNER',
+  'ADMIN',
+  'PM',
+  'ENGINEER',
+  'ACCOUNTANT',
+  'VIEWER',
+]);
+
 // ============================================================================
 // ORGANIZATION (giữ nguyên từ boilerplate)
 // ============================================================================
@@ -59,6 +68,8 @@ export const organizationSchema = pgTable(
   'organization',
   {
     id: text('id').primaryKey(),
+    name: varchar('name', { length: 255 }).notNull(),
+    slug: varchar('slug', { length: 100 }).notNull(),
     stripeCustomerId: text('stripe_customer_id'),
     stripeSubscriptionId: text('stripe_subscription_id'),
     stripeSubscriptionPriceId: text('stripe_subscription_price_id'),
@@ -78,6 +89,64 @@ export const organizationSchema = pgTable(
       stripeCustomerIdIdx: uniqueIndex('stripe_customer_id_idx').on(
         table.stripeCustomerId,
       ),
+      slugIdx: uniqueIndex('organization_slug_idx').on(table.slug),
+    };
+  },
+);
+
+// ============================================================================
+// USERS (RBAC)
+// ============================================================================
+
+export const usersSchema = pgTable(
+  'users',
+  {
+    id: uuid('id').primaryKey().defaultRandom(),
+    clerkUserId: text('clerk_user_id').notNull().unique(),
+    email: varchar('email', { length: 255 }).notNull(),
+    displayName: varchar('display_name', { length: 255 }),
+    createdAt: timestamp('created_at', { mode: 'date' }).defaultNow().notNull(),
+    updatedAt: timestamp('updated_at', { mode: 'date' })
+      .defaultNow()
+      .$onUpdate(() => new Date())
+      .notNull(),
+  },
+  (table) => {
+    return {
+      clerkUserIdIdx: uniqueIndex('users_clerk_user_id_idx').on(table.clerkUserId),
+      emailIdx: index('users_email_idx').on(table.email),
+    };
+  },
+);
+
+// ============================================================================
+// MEMBERSHIPS (RBAC)
+// ============================================================================
+
+export const membershipsSchema = pgTable(
+  'memberships',
+  {
+    id: uuid('id').primaryKey().defaultRandom(),
+    userId: uuid('user_id')
+      .notNull()
+      .references(() => usersSchema.id, { onDelete: 'cascade' }),
+    orgId: text('org_id')
+      .notNull()
+      .references(() => organizationSchema.id, { onDelete: 'cascade' }),
+    role: roleEnum('role').notNull(),
+    isActive: boolean('is_active').default(true).notNull(),
+    createdAt: timestamp('created_at', { mode: 'date' }).defaultNow().notNull(),
+    updatedAt: timestamp('updated_at', { mode: 'date' })
+      .defaultNow()
+      .$onUpdate(() => new Date())
+      .notNull(),
+  },
+  (table) => {
+    return {
+      userOrgIdx: uniqueIndex('memberships_user_org_idx').on(table.userId, table.orgId),
+      userIdIdx: index('memberships_user_id_idx').on(table.userId),
+      orgIdIdx: index('memberships_org_id_idx').on(table.orgId),
+      roleIdx: index('memberships_role_idx').on(table.role),
     };
   },
 );
