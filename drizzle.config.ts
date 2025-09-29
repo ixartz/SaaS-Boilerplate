@@ -9,4 +9,8 @@ export default defineConfig({
   },
   verbose: true,
   strict: true,
+  // Skip interactive prompts
+  introspect: {
+    casing: 'camel',
+  },
 });
