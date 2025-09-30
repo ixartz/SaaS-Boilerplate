@@ -6,7 +6,6 @@ import {
 } from '@clerk/nextjs';
 import {
   Bell,
-  Building2,
   Calendar,
   Menu,
   Moon,
@@ -35,8 +34,8 @@ export function AdminHeader({
     <header
       className={`flex h-16 items-center justify-between border-b bg-background px-6 ${className}`}
     >
-      {/* Left section - Logo and Mobile Menu */}
-      <div className="flex items-center space-x-4">
+      {/* Left section - Mobile Menu */}
+      <div className="flex items-center">
         <Button
           variant="ghost"
           size="icon"
@@ -45,17 +44,6 @@ export function AdminHeader({
         >
           <Menu className="size-5" />
         </Button>
-
-        {/* Logo */}
-        <div className="flex items-center space-x-2">
-          <div className="flex size-8 items-center justify-center rounded-lg bg-primary">
-            <Building2 className="size-5 text-primary-foreground" />
-          </div>
-          <div className="hidden md:block">
-            <h1 className="text-lg font-semibold">SiteFlow</h1>
-            <p className="text-xs text-muted-foreground">Construction Management</p>
-          </div>
-        </div>
       </div>
 
       {/* Center section - Search and Actions */}

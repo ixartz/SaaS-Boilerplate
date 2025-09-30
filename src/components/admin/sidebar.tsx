@@ -78,17 +78,20 @@ export function AdminSidebar({
     >
       {/* Header */}
       <div className="flex h-16 items-center justify-between border-b px-4">
-        {!isCollapsed && (
-          <div className="flex items-center space-x-2">
-            <div className="flex size-8 items-center justify-center rounded-lg bg-primary">
-              <Building2 className="size-5 text-primary-foreground" />
-            </div>
+        <Link
+          href="/en/dashboard"
+          className="flex items-center space-x-2 transition-opacity hover:opacity-80"
+        >
+          <div className="flex size-8 items-center justify-center rounded-lg bg-primary">
+            <Building2 className="size-5 text-primary-foreground" />
+          </div>
+          {!isCollapsed && (
             <div>
               <span className="text-lg font-semibold">SiteFlow</span>
               <p className="text-xs text-muted-foreground">Construction</p>
             </div>
-          </div>
-        )}
+          )}
+        </Link>
         <Button
           variant="ghost"
           size="icon"
