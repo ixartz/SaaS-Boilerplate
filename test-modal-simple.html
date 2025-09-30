@@ -1,0 +1,211 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Test Create Project Modal - Simple</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            max-width: 600px;
+            margin: 0 auto;
+            padding: 20px;
+            background-color: #f5f5f5;
+        }
+        .test-section {
+            background: white;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            padding: 20px;
+            margin: 20px 0;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+        .status {
+            padding: 8px 12px;
+            border-radius: 4px;
+            font-weight: bold;
+            margin: 10px 0;
+        }
+        .pass { background-color: #d4edda; color: #155724; }
+        .fail { background-color: #f8d7da; color: #721c24; }
+        .pending { background-color: #fff3cd; color: #856404; }
+        .steps {
+            background-color: #f8f9fa;
+            padding: 15px;
+            border-radius: 4px;
+            margin: 10px 0;
+        }
+        .steps ol {
+            margin: 0;
+            padding-left: 20px;
+        }
+        .screenshot {
+            border: 2px dashed #ccc;
+            padding: 20px;
+            text-align: center;
+            margin: 10px 0;
+            background-color: #f9f9f9;
+        }
+        .button {
+            background-color: #007bff;
+            color: white;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            margin: 5px;
+        }
+        .button:hover {
+            background-color: #0056b3;
+        }
+    </style>
+</head>
+<body>
+    <h1>🧪 Create Project Modal Test</h1>
+    <p><strong>Test Date:</strong> <span id="testDate"></span></p>
+    
+    <div class="test-section">
+        <h3>📋 Test Instructions</h3>
+        <div class="steps">
+            <ol>
+                <li>Open dashboard: <a href="http://localhost:3000/en/dashboard" target="_blank">http://localhost:3000/en/dashboard</a></li>
+                <li>Set cookie: <code>e2e-auth-bypass=1</code> (for testing)</li>
+                <li>Click "Create Project" button in header</li>
+                <li>Test the modal functionality</li>
+            </ol>
+        </div>
+    </div>
+
+    <div class="test-section">
+        <h3>✅ Test Case 1: Modal Disabled State</h3>
+        <div class="status pending">PENDING</div>
+        <div class="steps">
+            <strong>Expected:</strong>
+            <ul>
+                <li>Modal opens when clicking "Create Project"</li>
+                <li>"Create Project" button is disabled (grayed out)</li>
+                <li>No manager selected</li>
+                <li>No thumbnail uploaded</li>
+                <li>Form fields are empty</li>
+            </ul>
+        </div>
+        <div class="screenshot">
+            📸 <strong>Screenshot Required:</strong><br>
+            Modal open with disabled "Create Project" button
+        </div>
+    </div>
+
+    <div class="test-section">
+        <h3>✅ Test Case 2: Form Validation</h3>
+        <div class="status pending">PENDING</div>
+        <div class="steps">
+            <strong>Test Steps:</strong>
+            <ol>
+                <li>Select a manager from dropdown</li>
+                <li>Upload a thumbnail image</li>
+                <li>Enter Project Name with less than 3 characters</li>
+                <li>Verify "Create Project" button is still disabled</li>
+                <li>Verify red border on Project Name field</li>
+                <li>Verify error message appears</li>
+            </ol>
+        </div>
+        <div class="screenshot">
+            📸 <strong>Screenshot Required:</strong><br>
+            Modal with validation errors showing
+        </div>
+    </div>
+
+    <div class="test-section">
+        <h3>✅ Test Case 3: Valid Form Submission</h3>
+        <div class="status pending">PENDING</div>
+        <div class="steps">
+            <strong>Test Steps:</strong>
+            <ol>
+                <li>Fill in all required fields:
+                    <ul>
+                        <li>Project Name: "Test Project" (3+ characters)</li>
+                        <li>Budget: 1000000 (greater than 0)</li>
+                        <li>Start Date: Select today's date</li>
+                        <li>Status: Select "Planning"</li>
+                        <li>Manager: Select any manager</li>
+                        <li>Thumbnail: Upload an image</li>
+                    </ul>
+                </li>
+                <li>Verify "Create Project" button becomes enabled</li>
+                <li>Click "Create Project" button</li>
+                <li>Verify loading state shows "Creating..."</li>
+                <li>Verify success toast appears</li>
+                <li>Verify modal closes automatically</li>
+            </ol>
+        </div>
+        <div class="screenshot">
+            📸 <strong>Screenshot Required:</strong><br>
+            Success toast notification after project creation
+        </div>
+    </div>
+
+    <div class="test-section">
+        <h3>🎨 UI Polish Tests</h3>
+        <div class="status pending">PENDING</div>
+        <div class="steps">
+            <strong>Tests:</strong>
+            <ul>
+                <li><strong>Responsive Design:</strong> Resize browser to mobile size</li>
+                <li><strong>Focus Trap:</strong> Tab through form fields</li>
+                <li><strong>Escape Key:</strong> Press Escape key to close modal</li>
+                <li><strong>Close Button:</strong> Click X button to close modal</li>
+                <li><strong>Cancel Button:</strong> Click Cancel button to close modal</li>
+                <li><strong>Loading State:</strong> Button shows "Creating..." during submission</li>
+            </ul>
+        </div>
+    </div>
+
+    <div class="test-section">
+        <h3>🔍 Console Logs</h3>
+        <div class="status pending">PENDING</div>
+        <div class="steps">
+            <strong>Check Browser Console:</strong>
+            <ol>
+                <li>Open Developer Tools (F12)</li>
+                <li>Go to Console tab</li>
+                <li>Verify no errors or warnings</li>
+                <li>Verify clean console output</li>
+            </ol>
+        </div>
+    </div>
+
+    <div class="test-section">
+        <h3>📊 Test Results Summary</h3>
+        <div class="steps">
+            <p><strong>Overall Status:</strong> <span class="status pending">PENDING TESTING</span></p>
+            <p><strong>Modal Functionality:</strong> <span class="status pending">PENDING</span></p>
+            <p><strong>Form Validation:</strong> <span class="status pending">PENDING</span></p>
+            <p><strong>Toast Notifications:</strong> <span class="status pending">PENDING</span></p>
+            <p><strong>UI Polish:</strong> <span class="status pending">PENDING</span></p>
+            <p><strong>Console Clean:</strong> <span class="status pending">PENDING</span></p>
+        </div>
+    </div>
+
+    <script>
+        document.getElementById('testDate').textContent = new Date().toLocaleString();
+        
+        // Auto-open dashboard in new tab
+        function openDashboard() {
+            window.open('http://localhost:3000/en/dashboard', '_blank');
+        }
+        
+        // Add click handler to open dashboard
+        document.addEventListener('DOMContentLoaded', function() {
+            const links = document.querySelectorAll('a[href*="localhost:3000"]');
+            links.forEach(link => {
+                link.addEventListener('click', function(e) {
+                    e.preventDefault();
+                    openDashboard();
+                });
+            });
+        });
+    </script>
+</body>
+</html>
+
+

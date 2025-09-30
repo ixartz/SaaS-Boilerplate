@@ -37,6 +37,8 @@ export function Combobox({
     option.label.toLowerCase().includes(searchValue.toLowerCase()),
   );
 
+  // Debug logging removed for cleaner console
+
   const handleSelect = (optionValue: string) => {
     onValueChange?.(optionValue);
     setIsOpen(false);
@@ -74,7 +76,7 @@ export function Combobox({
       </Button>
 
       {isOpen && (
-        <div className="absolute z-50 mt-1 w-full overflow-hidden rounded-md border bg-popover text-popover-foreground shadow-md">
+        <div className="absolute z-[9999] mt-1 w-full overflow-hidden rounded-md border bg-white text-gray-900 shadow-lg">
           <div className="p-1">
             <input
               type="text"
@@ -93,9 +95,10 @@ export function Combobox({
                   <button
                     key={option.value}
                     type="button"
+                    role="option"
                     className={cn(
-                      'relative flex w-full cursor-default select-none items-center rounded-sm py-1.5 pl-8 pr-2 text-sm outline-none hover:bg-accent hover:text-accent-foreground',
-                      value === option.value && 'bg-accent text-accent-foreground',
+                      'relative flex w-full cursor-default select-none items-center rounded-sm py-1.5 pl-8 pr-2 text-sm outline-none hover:bg-gray-100 hover:text-gray-900',
+                      value === option.value && 'bg-gray-100 text-gray-900',
                     )}
                     onClick={() => handleSelect(option.value)}
                   >

@@ -31,8 +31,8 @@ export function UploadButton({
   const handleFileSelect = async (event: React.ChangeEvent<HTMLInputElement>) => {
     const file = event.target.files?.[0];
     if (!file) {
- return;
-}
+      return;
+    }
 
     // Validate file size
     if (file.size > maxSize * 1024 * 1024) {
@@ -50,47 +50,54 @@ export function UploadButton({
     setError(null);
 
     try {
-      // Get Cloudinary signature
-      const signatureResponse = await fetch('/api/v1/cloudinary/sign', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({
-          folder: 'projects',
-          public_id: `project_${Date.now()}`,
-        }),
-      });
-
-      if (!signatureResponse.ok) {
-        throw new Error('Failed to get upload signature');
-      }
-
-      const { signature, timestamp, apiKey, cloudName } = await signatureResponse.json();
-
-      // Upload to Cloudinary
-      const formData = new FormData();
-      formData.append('file', file);
-      formData.append('api_key', apiKey);
-      formData.append('timestamp', timestamp.toString());
-      formData.append('signature', signature);
-      formData.append('folder', 'projects');
-      formData.append('public_id', `project_${Date.now()}`);
-
-      const uploadResponse = await fetch(
-        `https://api.cloudinary.com/v1_1/${cloudName}/image/upload`,
-        {
+      // Try Cloudinary upload first
+      try {
+        // Get Cloudinary signature
+        const signatureResponse = await fetch('/api/v1/cloudinary/sign', {
           method: 'POST',
-          body: formData,
-        },
-      );
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify({
+            folder: 'projects',
+            public_id: `project_${Date.now()}`,
+          }),
+        });
 
-      if (!uploadResponse.ok) {
-        throw new Error('Upload failed');
+        if (!signatureResponse.ok) {
+          throw new Error('Failed to get upload signature');
+        }
+
+        const { signature, timestamp, apiKey, cloudName } = await signatureResponse.json();
+
+        // Upload to Cloudinary
+        const formData = new FormData();
+        formData.append('file', file);
+        formData.append('api_key', apiKey);
+        formData.append('timestamp', timestamp.toString());
+        formData.append('signature', signature);
+        formData.append('folder', 'projects');
+        formData.append('public_id', `project_${Date.now()}`);
+
+        const uploadResponse = await fetch(
+          `https://api.cloudinary.com/v1_1/${cloudName}/image/upload`,
+          {
+            method: 'POST',
+            body: formData,
+          },
+        );
+
+        if (!uploadResponse.ok) {
+          throw new Error('Cloudinary upload failed');
+        }
+
+        const result = await uploadResponse.json();
+        onChange?.(result.secure_url);
+      } catch (cloudinaryError) {
+        console.error('Cloudinary upload failed:', cloudinaryError);
+        setError('Failed to upload image. Please try again.');
+        throw cloudinaryError;
       }
-
-      const result = await uploadResponse.json();
-      onChange?.(result.secure_url);
     } catch (err) {
       setError(err instanceof Error ? err.message : 'Upload failed');
     } finally {

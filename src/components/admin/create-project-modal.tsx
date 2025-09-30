@@ -1,10 +1,12 @@
 'use client';
 
 import { zodResolver } from '@hookform/resolvers/zod';
+import React from 'react';
 import { useForm } from 'react-hook-form';
 import { z } from 'zod';
 
 import { Button } from '@/components/ui/button';
+import { CloudinaryUpload } from '@/components/ui/cloudinary-upload';
 import { Combobox, type ComboboxOption } from '@/components/ui/combobox-simple';
 import {
   Dialog,
@@ -26,40 +28,82 @@ import { Input } from '@/components/ui/input';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select-simple';
 import { Textarea } from '@/components/ui/textarea';
 import { useToast } from '@/components/ui/toast';
-import { UploadButton } from '@/components/ui/upload';
 
 const createProjectSchema = z.object({
   name: z.string().min(3, 'Project name must be at least 3 characters'),
   description: z.string().optional(),
-  budget: z.coerce.number().min(1, 'Budget must be greater than 0'),
-  startDate: z.string().min(1, 'Start date is required'),
-  status: z.enum(['Planning', 'In Progress', 'Completed'], {
-    required_error: 'Please select a status',
-  }),
-  assignedTo: z.string().min(1, 'Please assign a manager'),
-  thumbnailUrl: z.string().min(1, 'Please upload a project thumbnail'),
+  budget: z.coerce.number().min(1, 'Budget must be greater than 0').optional(),
+  startDate: z.string().optional(),
+  endDate: z.string().optional(),
+  status: z.enum(['Planning', 'In Progress', 'Completed']).optional(),
+  managerId: z.string().optional(),
+  thumbnailUrl: z.string()
+    .url('Please enter a valid URL')
+    .refine((url) => {
+      if (!url) {
+ return true;
+} // Optional field
+      // Must be Cloudinary URL, not base64
+      return url.startsWith('https://res.cloudinary.com/') && !url.startsWith('data:');
+    }, {
+      message: 'Please upload image to Cloudinary (base64 not allowed)',
+    })
+    .optional(),
+}).refine((data) => {
+  if (data.startDate && data.endDate) {
+    return new Date(data.startDate) <= new Date(data.endDate);
+  }
+  return true;
+}, {
+  message: 'Start date must be before or equal to end date',
+  path: ['endDate'],
 });
 
 type CreateProjectFormData = z.infer<typeof createProjectSchema>;
 
-// Mock data for organization members
-const mockManagers: ComboboxOption[] = [
-  {
-    value: 'user_1',
-    label: 'John Doe',
-    avatar: 'https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?w=32&h=32&fit=crop&crop=face',
-  },
-  {
-    value: 'user_2',
-    label: 'Jane Smith',
-    avatar: 'https://images.unsplash.com/photo-1494790108755-2616b612b786?w=32&h=32&fit=crop&crop=face',
-  },
-  {
-    value: 'user_3',
-    label: 'Mike Johnson',
-    avatar: 'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=32&h=32&fit=crop&crop=face',
-  },
-];
+// Hook to fetch organization users from Clerk
+function useOrganizationUsers() {
+  const [users, setUsers] = React.useState<ComboboxOption[]>([]);
+  const [loading, setLoading] = React.useState(true);
+
+  React.useEffect(() => {
+        async function fetchUsers() {
+          try {
+            const response = await fetch('/api/test-users');
+
+            if (response.ok) {
+              const data = await response.json();
+
+              if (data.ok && data.items && data.items.length > 0) {
+                const userOptions: ComboboxOption[] = data.items.map((user: any) => ({
+                  value: user.clerkUserId, // Use Clerk user ID
+                  label: user.name || user.displayName || user.email,
+                  avatar: user.avatarUrl || `https://ui-avatars.com/api/?name=${encodeURIComponent(user.name || user.email)}&background=random`,
+                }));
+                setUsers(userOptions);
+              } else {
+                console.error('No users found in database');
+                setUsers([]);
+              }
+            } else {
+              console.error('Failed to fetch users:', response.status);
+              const errorData = await response.json();
+              console.error('Error details:', errorData);
+              setUsers([]);
+            }
+          } catch (error) {
+            console.error('Error fetching users:', error);
+            setUsers([]);
+          } finally {
+            setLoading(false);
+          }
+        }
+
+    fetchUsers();
+  }, []);
+
+  return { users, loading };
+}
 
 type CreateProjectModalProps = {
   open: boolean;
@@ -73,6 +117,8 @@ export function CreateProjectModal({
   onSubmit,
 }: CreateProjectModalProps) {
   const { addToast } = useToast();
+  const { users: organizationUsers, loading: usersLoading } = useOrganizationUsers();
+
   const form = useForm<CreateProjectFormData>({
     resolver: zodResolver(createProjectSchema),
     defaultValues: {
@@ -80,38 +126,44 @@ export function CreateProjectModal({
       description: '',
       budget: undefined,
       startDate: '',
-      status: 'Planning',
-      assignedTo: '',
+      endDate: '',
+      status: undefined,
+      managerId: '',
       thumbnailUrl: '',
     },
     mode: 'onChange', // Enable real-time validation
   });
 
-  const handleSubmit = async (data: CreateProjectFormData) => {
-    try {
-      await onSubmit(data);
-      form.reset();
-      onOpenChange(false);
-      addToast({
-        type: 'success',
-        title: 'Project Created',
-        description: 'Project has been created successfully!',
-      });
-    } catch (error) {
-      addToast({
-        type: 'error',
-        title: 'Failed to Create Project',
-        description: error instanceof Error ? error.message : 'An error occurred while creating the project.',
-      });
-    }
-  };
+      const handleSubmit = async (data: CreateProjectFormData) => {
+        try {
+          await onSubmit(data);
+          form.reset();
+          onOpenChange(false);
+          addToast({
+            type: 'success',
+            title: 'Project Created',
+            description: 'Project has been created successfully!',
+          });
+        } catch (error) {
+          console.error('Form submit error:', error);
+          addToast({
+            type: 'error',
+            title: 'Failed to Create Project',
+            description: error instanceof Error ? error.message : 'An error occurred while creating the project.',
+          });
+          // Don't close modal on error
+        }
+      };
 
-  // Check if form is valid for submit button
-  const isFormValid = form.formState.isValid && form.watch('thumbnailUrl');
+  // Check if form is valid for submit button - only name is required
+  const watchedValues = form.watch();
+  const isFormValid
+    = watchedValues.name
+      && watchedValues.name.length >= 3;
 
   return (
     <Dialog open={open} onOpenChange={onOpenChange}>
-      <DialogContent className="max-h-[90vh] overflow-y-auto sm:max-w-[500px]">
+        <DialogContent className="mx-4 max-h-[90vh] w-full max-w-2xl overflow-y-auto sm:mx-0">
         <DialogHeader>
           <DialogTitle>Create New Project</DialogTitle>
           <DialogDescription>
@@ -119,163 +171,214 @@ export function CreateProjectModal({
           </DialogDescription>
         </DialogHeader>
 
-        <Form {...form}>
-          <form onSubmit={form.handleSubmit(handleSubmit)} className="space-y-4">
-            <FormField
-              control={form.control}
-              name="name"
-              render={({ field }) => (
-                <FormItem>
-                  <FormLabel>Project Name</FormLabel>
-                  <FormControl>
-                    <Input placeholder="Enter project name" {...field} />
-                  </FormControl>
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
-
-            <FormField
-              control={form.control}
-              name="description"
-              render={({ field }) => (
-                <FormItem>
-                  <FormLabel>Description</FormLabel>
-                  <FormControl>
-                    <Textarea
-                      placeholder="Enter project description"
-                      className="resize-none"
-                      {...field}
-                    />
-                  </FormControl>
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
-
-            <div className="grid grid-cols-2 gap-4">
-              <FormField
-                control={form.control}
-                name="budget"
-                render={({ field }) => (
-                  <FormItem>
-                    <FormLabel>Budget (₫)</FormLabel>
-                    <FormControl>
-                      <div className="relative">
-                        <Input
-                          type="number"
-                          placeholder="0"
-                          {...field}
-                          onChange={e => field.onChange(e.target.value ? Number(e.target.value) : undefined)}
-                        />
-                        <span className="absolute right-3 top-1/2 -translate-y-1/2 text-sm text-muted-foreground">
-                          ₫
-                        </span>
-                      </div>
-                    </FormControl>
-                    <FormMessage />
-                  </FormItem>
-                )}
-              />
-
-              <FormField
-                control={form.control}
-                name="startDate"
-                render={({ field }) => (
-                  <FormItem>
-                    <FormLabel>Start Date</FormLabel>
-                    <FormControl>
-                      <Input type="date" {...field} />
-                    </FormControl>
-                    <FormMessage />
-                  </FormItem>
-                )}
-              />
-            </div>
-
-            <div className="grid grid-cols-2 gap-4">
-              <FormField
-                control={form.control}
-                name="status"
-                render={({ field }) => (
-                  <FormItem>
-                    <FormLabel>Status</FormLabel>
-                    <Select onValueChange={field.onChange} defaultValue={field.value}>
+            <Form {...form}>
+              <form onSubmit={form.handleSubmit(handleSubmit)} className="space-y-6">
+                {/* Project Name - Full width */}
+                <FormField
+                  control={form.control}
+                  name="name"
+                  render={({ field }) => (
+                    <FormItem>
+                      <FormLabel>Project Name *</FormLabel>
                       <FormControl>
-                        <SelectTrigger>
-                          <SelectValue placeholder="Select status" />
-                        </SelectTrigger>
+                        <Input
+                          placeholder="Enter project name"
+                          {...field}
+                          className={form.formState.errors.name ? 'border-destructive' : ''}
+                        />
                       </FormControl>
-                      <SelectContent>
-                        <SelectItem value="Planning">Planning</SelectItem>
-                        <SelectItem value="In Progress">In Progress</SelectItem>
-                        <SelectItem value="Completed">Completed</SelectItem>
-                      </SelectContent>
-                    </Select>
-                    <FormMessage />
-                  </FormItem>
-                )}
-              />
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
 
-              <FormField
-                control={form.control}
-                name="assignedTo"
-                render={({ field }) => (
-                  <FormItem>
-                    <FormLabel>Assign Manager</FormLabel>
-                    <FormControl>
-                      <Combobox
-                        options={mockManagers}
-                        value={field.value}
-                        onValueChange={field.onChange}
-                        placeholder="Select manager"
-                      />
-                    </FormControl>
-                    <FormMessage />
-                  </FormItem>
-                )}
-              />
-            </div>
+                {/* Description - Full width */}
+                <FormField
+                  control={form.control}
+                  name="description"
+                  render={({ field }) => (
+                    <FormItem>
+                      <FormLabel>Description (Optional)</FormLabel>
+                      <FormControl>
+                        <Textarea
+                          placeholder="Enter project description"
+                          className="resize-none"
+                          rows={3}
+                          {...field}
+                        />
+                      </FormControl>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
 
-            <FormField
-              control={form.control}
-              name="thumbnailUrl"
-              render={({ field }) => (
-                <FormItem>
-                  <FormLabel>Avatar/Thumbnail</FormLabel>
-                  <FormControl>
-                    <UploadButton
-                      value={field.value}
-                      onChange={field.onChange}
-                      onRemove={() => field.onChange('')}
-                      accept="image/*"
-                      maxSize={5}
-                    />
-                  </FormControl>
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
+                {/* Budget and Start Date - Grid 2 columns */}
+                <div className="grid grid-cols-1 gap-4 md:grid-cols-2">
+                  <FormField
+                    control={form.control}
+                    name="budget"
+                    render={({ field }) => (
+                      <FormItem>
+                        <FormLabel>Budget (₫) (Optional)</FormLabel>
+                        <FormControl>
+                          <div className="relative">
+                            <Input
+                              type="number"
+                              placeholder="0"
+                              {...field}
+                              onChange={e => field.onChange(e.target.value ? Number(e.target.value) : undefined)}
+                              className={form.formState.errors.budget ? 'border-destructive' : ''}
+                            />
+                            <span className="absolute right-3 top-1/2 -translate-y-1/2 text-sm text-muted-foreground">
+                              ₫
+                            </span>
+                          </div>
+                        </FormControl>
+                        <FormMessage />
+                      </FormItem>
+                    )}
+                  />
 
-            <DialogFooter>
+                  <FormField
+                    control={form.control}
+                    name="startDate"
+                    render={({ field }) => (
+                      <FormItem>
+                        <FormLabel>Start Date (Optional)</FormLabel>
+                        <FormControl>
+                          <Input
+                            type="date"
+                            {...field}
+                            className={form.formState.errors.startDate ? 'border-destructive' : ''}
+                          />
+                        </FormControl>
+                        <FormMessage />
+                      </FormItem>
+                    )}
+                  />
+                </div>
+
+                {/* End Date - Full width */}
+                <FormField
+                  control={form.control}
+                  name="endDate"
+                  render={({ field }) => (
+                    <FormItem>
+                      <FormLabel>Estimated End Date (Optional)</FormLabel>
+                      <FormControl>
+                        <Input
+                          type="date"
+                          {...field}
+                          className={form.formState.errors.endDate ? 'border-destructive' : ''}
+                        />
+                      </FormControl>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
+
+                {/* Status and Manager - Grid 2 columns */}
+                <div className="grid grid-cols-1 gap-4 md:grid-cols-2">
+                  <FormField
+                    control={form.control}
+                    name="status"
+                    render={({ field }) => (
+                      <FormItem>
+                        <FormLabel>Status (Optional)</FormLabel>
+                        <Select onValueChange={field.onChange} defaultValue={field.value}>
+                          <FormControl>
+                            <SelectTrigger className={form.formState.errors.status ? 'border-destructive' : ''}>
+                              <SelectValue placeholder="Select status" />
+                            </SelectTrigger>
+                          </FormControl>
+                          <SelectContent>
+                            <SelectItem value="Planning">Planning</SelectItem>
+                            <SelectItem value="In Progress">In Progress</SelectItem>
+                            <SelectItem value="Completed">Completed</SelectItem>
+                          </SelectContent>
+                        </Select>
+                        <FormMessage />
+                      </FormItem>
+                    )}
+                  />
+
+                  <FormField
+                    control={form.control}
+                    name="managerId"
+                    render={({ field }) => {
+                      return (
+                        <FormItem>
+                          <FormLabel>Assign Manager (Optional)</FormLabel>
+                          <FormControl>
+                            <Combobox
+                              options={organizationUsers}
+                              value={field.value}
+                              onValueChange={field.onChange}
+                              placeholder={usersLoading ? 'Loading users...' : 'Select manager'}
+                              disabled={usersLoading}
+                              className={form.formState.errors.managerId ? 'border-destructive' : ''}
+                            />
+                          </FormControl>
+                          <FormMessage />
+                        </FormItem>
+                      );
+                    }}
+                  />
+                </div>
+
+                {/* Avatar/Thumbnail - Full width */}
+                <FormField
+                  control={form.control}
+                  name="thumbnailUrl"
+                  render={({ field }) => (
+                    <FormItem>
+                      <FormLabel>Project Thumbnail (Optional)</FormLabel>
+                      <FormControl>
+                        <CloudinaryUpload
+                          value={field.value}
+                          onChange={field.onChange}
+                          onRemove={() => field.onChange('')}
+                          accept="image/*"
+                          maxSize={5}
+                          folder="projects"
+                          publicId={`project_${Date.now()}`}
+                        />
+                      </FormControl>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
+
+            <DialogFooter className="flex flex-col gap-2 sm:flex-row">
               <Button
                 type="button"
                 variant="outline"
                 onClick={() => onOpenChange(false)}
                 disabled={form.formState.isSubmitting}
+                className="w-full sm:w-auto"
               >
                 Cancel
               </Button>
               <Button
                 type="submit"
                 disabled={!isFormValid || form.formState.isSubmitting}
+                className="w-full sm:w-auto"
               >
-                {form.formState.isSubmitting ? 'Creating...' : 'Create Project'}
+                {form.formState.isSubmitting
+? (
+                  <>
+                    <div className="mr-2 size-4 animate-spin rounded-full border-2 border-background border-t-transparent" />
+                    Creating...
+                  </>
+                )
+: (
+                  'Create Project'
+                )}
               </Button>
             </DialogFooter>
-          </form>
-        </Form>
-      </DialogContent>
+              </form>
+            </Form>
+        </DialogContent>
     </Dialog>
   );
 }

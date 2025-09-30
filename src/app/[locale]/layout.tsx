@@ -53,8 +53,20 @@ export default function RootLayout(props: {
   // The `suppressHydrationWarning` attribute in <body> is used to prevent hydration errors caused by Sentry Overlay,
   // which dynamically adds a `style` attribute to the body tag.
   return (
-    <ClerkProvider>
+    <ClerkProvider
+      appearance={{
+        variables: {
+          colorPrimary: '#000000',
+        },
+      }}
+    >
       <html lang={props.params.locale} suppressHydrationWarning>
+        <head>
+          <script
+            src="https://widget.cloudinary.com/v2.0/global/all.js"
+            type="text/javascript"
+          />
+        </head>
         <body className="bg-background text-foreground antialiased" suppressHydrationWarning>
           {/* PRO: Dark mode support for Shadcn UI */}
           <ThemeProvider

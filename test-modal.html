@@ -1,0 +1,185 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Test Create Project Modal</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+            background-color: #f5f5f5;
+        }
+        .test-case {
+            background: white;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            padding: 20px;
+            margin: 20px 0;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+        .test-case h3 {
+            margin-top: 0;
+            color: #333;
+        }
+        .status {
+            padding: 8px 12px;
+            border-radius: 4px;
+            font-weight: bold;
+            margin: 10px 0;
+        }
+        .pass { background-color: #d4edda; color: #155724; }
+        .fail { background-color: #f8d7da; color: #721c24; }
+        .pending { background-color: #fff3cd; color: #856404; }
+        .steps {
+            background-color: #f8f9fa;
+            padding: 15px;
+            border-radius: 4px;
+            margin: 10px 0;
+        }
+        .steps ol {
+            margin: 0;
+            padding-left: 20px;
+        }
+        .screenshot {
+            border: 2px dashed #ccc;
+            padding: 20px;
+            text-align: center;
+            margin: 10px 0;
+            background-color: #f9f9f9;
+        }
+    </style>
+</head>
+<body>
+    <h1>🧪 Create Project Modal Test Results</h1>
+    <p><strong>Test Date:</strong> <span id="testDate"></span></p>
+    <p><strong>Dashboard URL:</strong> <a href="http://localhost:3000/en/dashboard" target="_blank">http://localhost:3000/en/dashboard</a></p>
+
+    <div class="test-case">
+        <h3>✅ Test Case 1: Modal Disabled State</h3>
+        <div class="status pending">PENDING - Need Screenshot</div>
+        <div class="steps">
+            <strong>Steps:</strong>
+            <ol>
+                <li>Open dashboard at <a href="http://localhost:3000/en/dashboard" target="_blank">http://localhost:3000/en/dashboard</a></li>
+                <li>Click "Create Project" button in header</li>
+                <li>Verify modal opens</li>
+                <li>Verify "Create Project" button is disabled (grayed out)</li>
+                <li>Verify no manager selected</li>
+                <li>Verify no thumbnail uploaded</li>
+                <li>Verify form fields are empty</li>
+            </ol>
+        </div>
+        <div class="screenshot">
+            📸 <strong>Screenshot Required:</strong><br>
+            Modal open with disabled "Create Project" button
+        </div>
+    </div>
+
+    <div class="test-case">
+        <h3>✅ Test Case 2: Partial Form Validation</h3>
+        <div class="status pending">PENDING - Need Screenshot</div>
+        <div class="steps">
+            <strong>Steps:</strong>
+            <ol>
+                <li>In the modal, select a manager from dropdown</li>
+                <li>Upload a thumbnail image</li>
+                <li>Leave Project Name field empty or with less than 3 characters</li>
+                <li>Verify "Create Project" button is still disabled</li>
+                <li>Verify red border on Project Name field</li>
+                <li>Verify error message appears</li>
+            </ol>
+        </div>
+        <div class="screenshot">
+            📸 <strong>Screenshot Required:</strong><br>
+            Modal with manager selected, thumbnail uploaded, but invalid Project Name
+        </div>
+    </div>
+
+    <div class="test-case">
+        <h3>✅ Test Case 3: Valid Form Submission</h3>
+        <div class="status pending">PENDING - Need Screenshot</div>
+        <div class="steps">
+            <strong>Steps:</strong>
+            <ol>
+                <li>Fill in all required fields:
+                    <ul>
+                        <li>Project Name: "Test Project" (3+ characters)</li>
+                        <li>Budget: 1000000 (greater than 0)</li>
+                        <li>Start Date: Select today's date</li>
+                        <li>Status: Select "Planning"</li>
+                        <li>Manager: Select any manager</li>
+                        <li>Thumbnail: Upload an image</li>
+                    </ul>
+                </li>
+                <li>Verify "Create Project" button becomes enabled</li>
+                <li>Click "Create Project" button</li>
+                <li>Verify loading state shows "Creating..."</li>
+                <li>Verify success toast appears</li>
+                <li>Verify modal closes automatically</li>
+            </ol>
+        </div>
+        <div class="screenshot">
+            📸 <strong>Screenshot Required:</strong><br>
+            Success toast notification after project creation
+        </div>
+    </div>
+
+    <div class="test-case">
+        <h3>✅ Test Case 4: Error Handling</h3>
+        <div class="status pending">PENDING - Need Screenshot</div>
+        <div class="steps">
+            <strong>Steps:</strong>
+            <ol>
+                <li>Fill in all fields with valid data</li>
+                <li>In assignedTo field, enter an invalid user ID (not in org)</li>
+                <li>Click "Create Project" button</li>
+                <li>Verify error toast appears</li>
+                <li>Verify modal stays open</li>
+                <li>Verify form data is preserved</li>
+            </ol>
+        </div>
+        <div class="screenshot">
+            📸 <strong>Screenshot Required:</strong><br>
+            Error toast notification when API fails
+        </div>
+    </div>
+
+    <div class="test-case">
+        <h3>🎨 UI Polish Tests</h3>
+        <div class="status pending">PENDING - Need Verification</div>
+        <div class="steps">
+            <strong>Tests:</strong>
+            <ol>
+                <li><strong>Responsive Design:</strong> Resize browser to mobile size, verify modal is full screen</li>
+                <li><strong>Focus Trap:</strong> Tab through form fields, verify focus stays within modal</li>
+                <li><strong>Escape Key:</strong> Press Escape key, verify modal closes</li>
+                <li><strong>Close Button:</strong> Click X button, verify modal closes</li>
+                <li><strong>Cancel Button:</strong> Click Cancel button, verify modal closes</li>
+                <li><strong>Loading State:</strong> During submission, verify button shows "Creating..."</li>
+            </ol>
+        </div>
+    </div>
+
+    <div class="test-case">
+        <h3>🔍 Console Logs</h3>
+        <div class="status pending">PENDING - Need Verification</div>
+        <div class="steps">
+            <strong>Check Browser Console:</strong>
+            <ol>
+                <li>Open Developer Tools (F12)</li>
+                <li>Go to Console tab</li>
+                <li>Verify no errors or warnings</li>
+                <li>Verify clean console output</li>
+            </ol>
+        </div>
+    </div>
+
+    <script>
+        document.getElementById('testDate').textContent = new Date().toLocaleString();
+    </script>
+</body>
+</html>
+

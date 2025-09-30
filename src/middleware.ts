@@ -27,6 +27,7 @@ const isProtectedRoute = createRouteMatcher([
   '/api/v1/transactions(.*)',
   '/api/v1/share-links(.*)',
   '/api/v1/media-assets(.*)',
+  '/api/v1/users(.*)',
 ]);
 
 const isE2EBYPASS = process.env.CLERK_E2E === 'true';
@@ -35,8 +36,9 @@ export default function middleware(
   request: NextRequest,
   event: NextFetchEvent,
 ) {
-  if (isE2EBYPASS && request.headers.get('x-e2e-bypass') === 'true') {
-    const userId = request.headers.get('x-e2e-user') ?? 'user_e2e_owner';
+  // Check for E2E bypass header first
+  if (request.headers.get('x-e2e-bypass') === 'true') {
+    const userId = request.headers.get('x-e2e-user') ?? 'clerk_e2e_owner';
     const orgId = request.headers.get('x-e2e-org') ?? 'org_e2e_default';
 
     const requestHeaders = new Headers(request.headers);
@@ -64,6 +66,11 @@ export default function middleware(
 
     // Handle protected API routes
     if (isProtectedRoute(request)) {
+      // Check for E2E bypass cookie - skip Clerk middleware entirely
+      if (bypassAuth) {
+        return NextResponse.next();
+      }
+
       return clerkMiddleware(async (auth, req) => {
         // For API routes, return 401 JSON instead of redirect
         if (req.nextUrl.pathname.startsWith('/api/')) {

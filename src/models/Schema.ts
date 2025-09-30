@@ -104,6 +104,8 @@ export const usersSchema = pgTable(
     id: uuid('id').primaryKey().defaultRandom(),
     clerkUserId: text('clerk_user_id').notNull().unique(),
     email: varchar('email', { length: 255 }).notNull(),
+    name: varchar('name', { length: 255 }),
+    avatarUrl: text('avatar_url'),
     displayName: varchar('display_name', { length: 255 }),
     createdAt: timestamp('created_at', { mode: 'date' }).defaultNow().notNull(),
     updatedAt: timestamp('updated_at', { mode: 'date' })
@@ -169,7 +171,6 @@ export const projectsSchema = pgTable(
     address: text('address'),
     clientName: varchar('client_name', { length: 255 }),
     clientContact: varchar('client_contact', { length: 255 }),
-    assignedTo: uuid('assigned_to').references(() => usersSchema.id, { onDelete: 'set null' }),
     thumbnailUrl: text('thumbnail_url'),
     // Audit fields
     createdAt: timestamp('created_at', { mode: 'date' }).defaultNow().notNull(),
@@ -184,6 +185,35 @@ export const projectsSchema = pgTable(
       orgIdIdx: index('projects_org_id_idx').on(table.orgId),
       statusIdx: index('projects_status_idx').on(table.status),
       createdAtIdx: index('projects_created_at_idx').on(table.createdAt),
+    };
+  },
+);
+
+// ============================================================================
+// PROJECT MEMBERS
+// ============================================================================
+
+export const projectMembersSchema = pgTable(
+  'project_members',
+  {
+    id: uuid('id').primaryKey().defaultRandom(),
+    projectId: uuid('project_id').notNull().references(() => projectsSchema.id, { onDelete: 'cascade' }),
+    userId: text('user_id').notNull(), // Clerk user ID
+    role: varchar('role', { length: 50 }).notNull().default('member'), // manager, member, viewer
+    // Audit fields
+    createdAt: timestamp('created_at', { mode: 'date' }).defaultNow().notNull(),
+    updatedAt: timestamp('updated_at', { mode: 'date' })
+      .defaultNow()
+      .$onUpdate(() => new Date())
+      .notNull(),
+    deletedAt: timestamp('deleted_at', { mode: 'date' }),
+  },
+  (table) => {
+    return {
+      projectUserIdx: uniqueIndex('project_members_project_user_idx').on(table.projectId, table.userId),
+      projectIdIdx: index('project_members_project_id_idx').on(table.projectId),
+      userIdIdx: index('project_members_user_id_idx').on(table.userId),
+      roleIdx: index('project_members_role_idx').on(table.role),
     };
   },
 );

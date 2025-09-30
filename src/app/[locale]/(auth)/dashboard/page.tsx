@@ -7,49 +7,64 @@ import {
   TrendingUp,
   Users,
 } from 'lucide-react';
+import React from 'react';
 
 import { CreateProjectModal } from '@/components/admin/create-project-modal';
 import { KPICard } from '@/components/admin/kpi-card';
 import { useProject } from '@/components/admin/project-context';
 import { AdminTable } from '@/components/admin/table';
+import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
+import { CloudinaryImage } from '@/components/ui/cloudinary-image';
 
-// Mock data for demonstration
-const mockProjects = [
-  {
-    id: '1',
-    name: 'Residential Complex Alpha',
-    status: 'In Progress',
-    progress: 65,
-    budget: 5000000000,
-    spent: 3200000000,
-    startDate: '2024-01-15',
-    endDate: '2024-12-31',
-  },
-  {
-    id: '2',
-    name: 'Office Building Beta',
-    status: 'Planning',
-    progress: 15,
-    budget: 8000000000,
-    spent: 1200000000,
-    startDate: '2024-03-01',
-    endDate: '2025-06-30',
-  },
-  {
-    id: '3',
-    name: 'Shopping Mall Gamma',
-    status: 'Completed',
-    progress: 100,
-    budget: 12000000000,
-    spent: 11500000000,
-    startDate: '2023-06-01',
-    endDate: '2024-02-28',
-  },
-];
+// Project type definition
+type Project = {
+  id: string;
+  name: string;
+  description?: string;
+  status: string;
+  budget?: string;
+  startDate?: string;
+  endDate?: string;
+  address?: string;
+  clientName?: string;
+  clientContact?: string;
+  thumbnailUrl?: string;
+  createdAt: string;
+  updatedAt: string;
+  deletedAt?: string;
+  // Manager info
+  managerId?: string;
+  managerName?: string;
+  managerEmail?: string;
+  managerAvatar?: string;
+};
 
 const projectColumns = [
+  {
+    key: 'thumbnailUrl' as const,
+    label: 'Thumbnail',
+    render: (value: string) => (
+      <div className="h-12 w-16 overflow-hidden rounded-lg border">
+        {value
+? (
+          <CloudinaryImage
+            src={value}
+            alt="Project thumbnail"
+            width={64}
+            height={48}
+            className="size-full object-cover"
+          />
+        )
+: (
+          <div className="flex size-full items-center justify-center bg-gray-200 text-xs text-gray-500">
+            No Image
+          </div>
+        )}
+      </div>
+    ),
+  },
   {
     key: 'name' as const,
     label: 'Project Name',
@@ -61,31 +76,30 @@ const projectColumns = [
     render: (value: string) => (
       <span
         className={`inline-flex items-center rounded-full px-2.5 py-0.5 text-xs font-medium ${
-          value === 'Completed'
+          value === 'COMPLETED'
             ? 'bg-green-100 text-green-800'
-            : value === 'In Progress'
+            : value === 'IN_PROGRESS'
               ? 'bg-blue-100 text-blue-800'
               : 'bg-yellow-100 text-yellow-800'
         }`}
       >
-        {value}
+        {value === 'PLANNING' ? 'Planning' : value === 'IN_PROGRESS' ? 'In Progress' : value === 'COMPLETED' ? 'Completed' : value}
       </span>
     ),
   },
   {
-    key: 'progress' as const,
-    label: 'Progress',
-    render: (value: number) => (
+    key: 'managerName' as const,
+    label: 'Manager',
+    render: (_value: string, project: Project) => (
       <div className="flex items-center space-x-2">
-        <div className="h-2 w-16 rounded-full bg-gray-200">
-          <div
-            className="h-2 rounded-full bg-blue-600"
-            style={{ width: `${value}%` }}
-          />
-        </div>
+        <Avatar className="size-6">
+          <AvatarImage src={project.managerAvatar} />
+          <AvatarFallback className="text-xs">
+            {project.managerName?.charAt(0) || 'M'}
+          </AvatarFallback>
+        </Avatar>
         <span className="text-sm font-medium">
-{value}
-%
+          {project.managerName || 'Unassigned'}
         </span>
       </div>
     ),
@@ -93,56 +107,107 @@ const projectColumns = [
   {
     key: 'budget' as const,
     label: 'Budget',
-    render: (value: number) => (
+    render: (value: string) => (
       <span className="font-mono">
-        {new Intl.NumberFormat('vi-VN', {
+        {value
+? new Intl.NumberFormat('vi-VN', {
           style: 'currency',
           currency: 'VND',
-        }).format(value)}
-      </span>
-    ),
-  },
-  {
-    key: 'spent' as const,
-    label: 'Spent',
-    render: (value: number) => (
-      <span className="font-mono">
-        {new Intl.NumberFormat('vi-VN', {
-          style: 'currency',
-          currency: 'VND',
-        }).format(value)}
+        }).format(Number(value))
+: 'N/A'}
       </span>
     ),
   },
   {
     key: 'startDate' as const,
     label: 'Start Date',
-    render: (value: string) => new Date(value).toLocaleDateString('vi-VN'),
+    render: (value: string) => value ? new Date(value).toLocaleDateString('vi-VN') : 'N/A',
+  },
+  {
+    key: 'endDate' as const,
+    label: 'End Date',
+    render: (value: string) => value ? new Date(value).toLocaleDateString('vi-VN') : 'N/A',
   },
 ];
 
+// Hook to fetch projects
+function useProjects() {
+  const [projects, setProjects] = React.useState<Project[]>([]);
+  const [loading, setLoading] = React.useState(true);
+  const [error, setError] = React.useState<string | null>(null);
+
+  React.useEffect(() => {
+    async function fetchProjects() {
+      try {
+        setLoading(true);
+        const response = await fetch('/api/test-projects-frontend');
+
+        if (!response.ok) {
+          throw new Error('Failed to fetch projects');
+        }
+
+        const data = await response.json();
+        if (data.ok && data.items) {
+          setProjects(data.items);
+        } else {
+          setProjects([]);
+        }
+      } catch (err) {
+        console.error('Error fetching projects:', err);
+        setError(err instanceof Error ? err.message : 'Unknown error');
+        setProjects([]);
+      } finally {
+        setLoading(false);
+      }
+    }
+
+    fetchProjects();
+  }, []);
+
+  const refetch = React.useCallback(() => {
+    setLoading(true);
+    setError(null);
+    // Re-trigger the effect
+    setProjects([]);
+  }, []);
+
+  return { projects, loading, error, refetch };
+}
+
 const DashboardIndexPage = () => {
   const { isCreateModalOpen, setIsCreateModalOpen } = useProject();
+  const { projects, loading, error, refetch } = useProjects();
 
   const handleCreateProject = async (data: any) => {
-    const response = await fetch('/api/v1/projects', {
+    const payload = {
+      name: data.name,
+      description: data.description,
+      budget: data.budget,
+      startDate: data.startDate ? new Date(data.startDate).toISOString() : undefined,
+      endDate: data.endDate ? new Date(data.endDate).toISOString() : undefined,
+      status: data.status,
+      managerId: data.managerId,
+      thumbnailUrl: data.thumbnailUrl,
+    };
+
+    const response = await fetch('/api/test-projects-frontend', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
       },
-      body: JSON.stringify({
-        ...data,
-        startDate: data.startDate ? new Date(data.startDate).toISOString() : undefined,
-      }),
+      body: JSON.stringify(payload),
     });
 
     if (!response.ok) {
       const error = await response.json();
+      console.error('API Error:', error);
       throw new Error(error.detail || 'Failed to create project');
     }
 
     await response.json();
-    // Project created successfully - toast will be shown by modal
+
+    // Refresh the projects list
+    refetch();
   };
 
   const handleEditProject = (_project: any) => {
@@ -167,7 +232,7 @@ const DashboardIndexPage = () => {
       <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-4">
         <KPICard
           title="Total Projects"
-          value={mockProjects.length}
+          value={loading ? '...' : projects.length}
           description="Active construction projects"
           icon={Building2}
           trend={{ value: 12, label: 'from last month' }}
@@ -175,24 +240,34 @@ const DashboardIndexPage = () => {
         />
         <KPICard
           title="Total Budget"
-          value="25B VND"
+          value={loading
+? '...'
+: projects.reduce((total, project) => {
+            const budget = project.budget ? Number(project.budget) : 0;
+            return total + budget;
+          }, 0).toLocaleString('vi-VN', {
+            style: 'currency',
+            currency: 'VND',
+            notation: 'compact',
+            maximumFractionDigits: 1,
+          })}
           description="Combined project budgets"
           icon={DollarSign}
           trend={{ value: 8, label: 'from last month' }}
           className="rounded-2xl shadow-sm transition-shadow hover:shadow-md"
         />
         <KPICard
-          title="Active Tasks"
-          value="47"
-          description="Tasks in progress"
+          title="Active Projects"
+          value={loading ? '...' : projects.filter(p => p.status === 'IN_PROGRESS').length}
+          description="Projects in progress"
           icon={Calendar}
           trend={{ value: -3, label: 'from last week' }}
           className="rounded-2xl shadow-sm transition-shadow hover:shadow-md"
         />
         <KPICard
           title="Team Members"
-          value="12"
-          description="Active team members"
+          value={loading ? '...' : new Set(projects.map(p => p.managerId).filter(Boolean)).size}
+          description="Active managers"
           icon={Users}
           trend={{ value: 2, label: 'new this month' }}
           className="rounded-2xl shadow-sm transition-shadow hover:shadow-md"
@@ -215,13 +290,43 @@ const DashboardIndexPage = () => {
           </div>
         </CardHeader>
         <CardContent className="p-0">
-          <AdminTable
-            data={mockProjects}
-            columns={projectColumns}
-            onEdit={handleEditProject}
-            onDelete={handleDeleteProject}
-            className="border-0"
-          />
+          {loading
+? (
+            <div className="flex items-center justify-center py-8">
+              <div className="text-center">
+                <div className="mx-auto mb-2 size-8 animate-spin rounded-full border-2 border-primary border-t-transparent" />
+                <p className="text-sm text-muted-foreground">Loading projects...</p>
+              </div>
+            </div>
+          )
+: error
+? (
+            <div className="flex items-center justify-center py-8">
+              <div className="text-center">
+                <p className="mb-2 text-sm text-destructive">Error loading projects</p>
+                <p className="text-xs text-muted-foreground">{error}</p>
+              </div>
+            </div>
+          )
+: projects.length === 0
+? (
+            <div className="flex items-center justify-center py-8">
+              <div className="text-center">
+                <Building2 className="mx-auto mb-2 size-8 text-muted-foreground" />
+                <p className="text-sm text-muted-foreground">No projects found</p>
+                <p className="text-xs text-muted-foreground">Create your first project to get started</p>
+              </div>
+            </div>
+          )
+: (
+            <AdminTable
+              data={projects}
+              columns={projectColumns}
+              onEdit={handleEditProject}
+              onDelete={handleDeleteProject}
+              className="border-0"
+            />
+          )}
         </CardContent>
       </Card>
 

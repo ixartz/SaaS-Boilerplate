@@ -1,8 +1,33 @@
-CREATE TYPE "public"."log_task_status" AS ENUM('WAITING', 'IN_PROGRESS', 'DONE', 'CANCELLED');--> statement-breakpoint
-CREATE TYPE "public"."media_kind" AS ENUM('IMAGE', 'VIDEO', 'DOCUMENT', 'AUDIO');--> statement-breakpoint
-CREATE TYPE "public"."project_status" AS ENUM('PLANNING', 'IN_PROGRESS', 'ON_HOLD', 'COMPLETED', 'CANCELLED');--> statement-breakpoint
-CREATE TYPE "public"."task_status" AS ENUM('WAITING', 'IN_PROGRESS', 'DONE', 'CANCELLED');--> statement-breakpoint
-CREATE TYPE "public"."transaction_type" AS ENUM('ADVANCE', 'EXPENSE');--> statement-breakpoint
+DO $$ BEGIN
+ CREATE TYPE "public"."log_task_status" AS ENUM('WAITING', 'IN_PROGRESS', 'DONE', 'CANCELLED');
+EXCEPTION
+ WHEN duplicate_object THEN null;
+END $$;--> statement-breakpoint
+DO $$ BEGIN
+ CREATE TYPE "public"."media_kind" AS ENUM('IMAGE', 'VIDEO', 'DOCUMENT', 'AUDIO');
+EXCEPTION
+ WHEN duplicate_object THEN null;
+END $$;--> statement-breakpoint
+DO $$ BEGIN
+ CREATE TYPE "public"."project_status" AS ENUM('PLANNING', 'IN_PROGRESS', 'ON_HOLD', 'COMPLETED', 'CANCELLED');
+EXCEPTION
+ WHEN duplicate_object THEN null;
+END $$;--> statement-breakpoint
+DO $$ BEGIN
+ CREATE TYPE "public"."role_enum" AS ENUM('OWNER', 'ADMIN', 'PM', 'ENGINEER', 'ACCOUNTANT', 'VIEWER');
+EXCEPTION
+ WHEN duplicate_object THEN null;
+END $$;--> statement-breakpoint
+DO $$ BEGIN
+ CREATE TYPE "public"."task_status" AS ENUM('WAITING', 'IN_PROGRESS', 'DONE', 'CANCELLED');
+EXCEPTION
+ WHEN duplicate_object THEN null;
+END $$;--> statement-breakpoint
+DO $$ BEGIN
+ CREATE TYPE "public"."transaction_type" AS ENUM('ADVANCE', 'EXPENSE');
+EXCEPTION
+ WHEN duplicate_object THEN null;
+END $$;--> statement-breakpoint
 CREATE TABLE IF NOT EXISTS "categories" (
 	"id" uuid PRIMARY KEY DEFAULT gen_random_uuid() NOT NULL,
 	"org_id" text NOT NULL,
@@ -65,8 +90,20 @@ CREATE TABLE IF NOT EXISTS "media_assets" (
 	"deleted_at" timestamp
 );
 --> statement-breakpoint
+CREATE TABLE IF NOT EXISTS "memberships" (
+	"id" uuid PRIMARY KEY DEFAULT gen_random_uuid() NOT NULL,
+	"user_id" uuid NOT NULL,
+	"org_id" text NOT NULL,
+	"role" "role_enum" NOT NULL,
+	"is_active" boolean DEFAULT true NOT NULL,
+	"created_at" timestamp DEFAULT now() NOT NULL,
+	"updated_at" timestamp DEFAULT now() NOT NULL
+);
+--> statement-breakpoint
 CREATE TABLE IF NOT EXISTS "organization" (
 	"id" text PRIMARY KEY NOT NULL,
+	"name" varchar(255) NOT NULL,
+	"slug" varchar(100) NOT NULL,
 	"stripe_customer_id" text,
 	"stripe_subscription_id" text,
 	"stripe_subscription_price_id" text,
@@ -74,6 +111,15 @@ CREATE TABLE IF NOT EXISTS "organization" (
 	"stripe_subscription_current_period_end" bigint,
 	"updated_at" timestamp DEFAULT now() NOT NULL,
 	"created_at" timestamp DEFAULT now() NOT NULL
+);
+--> statement-breakpoint
+CREATE TABLE IF NOT EXISTS "project_members" (
+	"id" uuid PRIMARY KEY DEFAULT gen_random_uuid() NOT NULL,
+	"project_id" uuid NOT NULL,
+	"user_id" text NOT NULL,
+	"role" varchar(50) DEFAULT 'member' NOT NULL,
+	"created_at" timestamp DEFAULT now() NOT NULL,
+	"updated_at" timestamp DEFAULT now() NOT NULL
 );
 --> statement-breakpoint
 CREATE TABLE IF NOT EXISTS "projects" (
@@ -88,6 +134,7 @@ CREATE TABLE IF NOT EXISTS "projects" (
 	"address" text,
 	"client_name" varchar(255),
 	"client_contact" varchar(255),
+	"thumbnail_url" text,
 	"created_at" timestamp DEFAULT now() NOT NULL,
 	"updated_at" timestamp DEFAULT now() NOT NULL,
 	"deleted_at" timestamp
@@ -148,6 +195,18 @@ CREATE TABLE IF NOT EXISTS "transactions" (
 	"deleted_at" timestamp
 );
 --> statement-breakpoint
+CREATE TABLE IF NOT EXISTS "users" (
+	"id" uuid PRIMARY KEY DEFAULT gen_random_uuid() NOT NULL,
+	"clerk_user_id" text NOT NULL,
+	"email" varchar(255) NOT NULL,
+	"name" varchar(255),
+	"avatar_url" text,
+	"display_name" varchar(255),
+	"created_at" timestamp DEFAULT now() NOT NULL,
+	"updated_at" timestamp DEFAULT now() NOT NULL,
+	CONSTRAINT "users_clerk_user_id_unique" UNIQUE("clerk_user_id")
+);
+--> statement-breakpoint
 DO $$ BEGIN
  ALTER TABLE "categories" ADD CONSTRAINT "categories_org_id_organization_id_fk" FOREIGN KEY ("org_id") REFERENCES "public"."organization"("id") ON DELETE cascade ON UPDATE no action;
 EXCEPTION
@@ -204,6 +263,24 @@ END $$;
 --> statement-breakpoint
 DO $$ BEGIN
  ALTER TABLE "media_assets" ADD CONSTRAINT "media_assets_daily_log_id_daily_logs_id_fk" FOREIGN KEY ("daily_log_id") REFERENCES "public"."daily_logs"("id") ON DELETE cascade ON UPDATE no action;
+EXCEPTION
+ WHEN duplicate_object THEN null;
+END $$;
+--> statement-breakpoint
+DO $$ BEGIN
+ ALTER TABLE "memberships" ADD CONSTRAINT "memberships_user_id_users_id_fk" FOREIGN KEY ("user_id") REFERENCES "public"."users"("id") ON DELETE cascade ON UPDATE no action;
+EXCEPTION
+ WHEN duplicate_object THEN null;
+END $$;
+--> statement-breakpoint
+DO $$ BEGIN
+ ALTER TABLE "memberships" ADD CONSTRAINT "memberships_org_id_organization_id_fk" FOREIGN KEY ("org_id") REFERENCES "public"."organization"("id") ON DELETE cascade ON UPDATE no action;
+EXCEPTION
+ WHEN duplicate_object THEN null;
+END $$;
+--> statement-breakpoint
+DO $$ BEGIN
+ ALTER TABLE "project_members" ADD CONSTRAINT "project_members_project_id_projects_id_fk" FOREIGN KEY ("project_id") REFERENCES "public"."projects"("id") ON DELETE cascade ON UPDATE no action;
 EXCEPTION
  WHEN duplicate_object THEN null;
 END $$;
@@ -274,7 +351,16 @@ CREATE INDEX IF NOT EXISTS "media_assets_org_id_idx" ON "media_assets" USING btr
 CREATE INDEX IF NOT EXISTS "media_assets_daily_log_id_idx" ON "media_assets" USING btree ("daily_log_id");--> statement-breakpoint
 CREATE INDEX IF NOT EXISTS "media_assets_kind_idx" ON "media_assets" USING btree ("kind");--> statement-breakpoint
 CREATE INDEX IF NOT EXISTS "media_assets_created_at_idx" ON "media_assets" USING btree ("created_at");--> statement-breakpoint
+CREATE UNIQUE INDEX IF NOT EXISTS "memberships_user_org_idx" ON "memberships" USING btree ("user_id","org_id");--> statement-breakpoint
+CREATE INDEX IF NOT EXISTS "memberships_user_id_idx" ON "memberships" USING btree ("user_id");--> statement-breakpoint
+CREATE INDEX IF NOT EXISTS "memberships_org_id_idx" ON "memberships" USING btree ("org_id");--> statement-breakpoint
+CREATE INDEX IF NOT EXISTS "memberships_role_idx" ON "memberships" USING btree ("role");--> statement-breakpoint
 CREATE UNIQUE INDEX IF NOT EXISTS "stripe_customer_id_idx" ON "organization" USING btree ("stripe_customer_id");--> statement-breakpoint
+CREATE UNIQUE INDEX IF NOT EXISTS "organization_slug_idx" ON "organization" USING btree ("slug");--> statement-breakpoint
+CREATE UNIQUE INDEX IF NOT EXISTS "project_members_project_user_idx" ON "project_members" USING btree ("project_id","user_id");--> statement-breakpoint
+CREATE INDEX IF NOT EXISTS "project_members_project_id_idx" ON "project_members" USING btree ("project_id");--> statement-breakpoint
+CREATE INDEX IF NOT EXISTS "project_members_user_id_idx" ON "project_members" USING btree ("user_id");--> statement-breakpoint
+CREATE INDEX IF NOT EXISTS "project_members_role_idx" ON "project_members" USING btree ("role");--> statement-breakpoint
 CREATE INDEX IF NOT EXISTS "projects_org_id_idx" ON "projects" USING btree ("org_id");--> statement-breakpoint
 CREATE INDEX IF NOT EXISTS "projects_status_idx" ON "projects" USING btree ("status");--> statement-breakpoint
 CREATE INDEX IF NOT EXISTS "projects_created_at_idx" ON "projects" USING btree ("created_at");--> statement-breakpoint
@@ -292,4 +378,6 @@ CREATE INDEX IF NOT EXISTS "transactions_org_id_idx" ON "transactions" USING btr
 CREATE INDEX IF NOT EXISTS "transactions_project_id_idx" ON "transactions" USING btree ("project_id");--> statement-breakpoint
 CREATE INDEX IF NOT EXISTS "transactions_type_idx" ON "transactions" USING btree ("type");--> statement-breakpoint
 CREATE INDEX IF NOT EXISTS "transactions_transaction_date_idx" ON "transactions" USING btree ("transaction_date");--> statement-breakpoint
-CREATE INDEX IF NOT EXISTS "transactions_created_at_idx" ON "transactions" USING btree ("created_at");
+CREATE INDEX IF NOT EXISTS "transactions_created_at_idx" ON "transactions" USING btree ("created_at");--> statement-breakpoint
+CREATE UNIQUE INDEX IF NOT EXISTS "users_clerk_user_id_idx" ON "users" USING btree ("clerk_user_id");--> statement-breakpoint
+CREATE INDEX IF NOT EXISTS "users_email_idx" ON "users" USING btree ("email");

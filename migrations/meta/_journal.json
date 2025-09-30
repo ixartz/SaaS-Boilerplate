@@ -5,16 +5,16 @@
     {
       "idx": 0,
       "version": "7",
-      "when": 1759133578749,
-      "tag": "0000_late_madelyne_pryor",
+      "when": 1759227390096,
+      "tag": "0000_brief_hellfire_club",
       "breakpoints": true
     },
     {
       "idx": 1,
       "version": "7",
-      "when": 1759136303139,
-      "tag": "0001_fix_organization",
+      "when": 1759227540273,
+      "tag": "0001_redundant_cloak",
       "breakpoints": true
-    },
+    }
   ]
 }
