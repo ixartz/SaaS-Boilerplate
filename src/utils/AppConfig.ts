@@ -10,6 +10,7 @@ export const AppConfig = {
       id: 'en',
       name: 'English',
     },
+    { id: 'vi', name: 'Tiếng Việt' },
     { id: 'fr', name: 'Français' },
   ],
   defaultLocale: 'en',

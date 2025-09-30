@@ -1,0 +1,75 @@
+{
+  "common": {
+    "loading": "Đang tải...",
+    "error": "Lỗi",
+    "success": "Thành công",
+    "cancel": "Hủy",
+    "save": "Lưu",
+    "delete": "Xóa",
+    "edit": "Chỉnh sửa",
+    "create": "Tạo mới",
+    "update": "Cập nhật",
+    "search": "Tìm kiếm",
+    "filter": "Lọc",
+    "sort": "Sắp xếp",
+    "actions": "Hành động",
+    "name": "Tên",
+    "description": "Mô tả",
+    "status": "Trạng thái",
+    "date": "Ngày",
+    "time": "Thời gian"
+  },
+  "dashboard": {
+    "title": "Bảng điều khiển",
+    "welcome": "Chào mừng đến với SiteFlow",
+    "projects": "Dự án",
+    "totalProjects": "Tổng dự án",
+    "activeProjects": "Dự án đang hoạt động",
+    "completedProjects": "Dự án hoàn thành",
+    "totalBudget": "Tổng ngân sách",
+    "createProject": "Tạo dự án mới"
+  },
+  "projects": {
+    "title": "Dự án",
+    "createProject": "Tạo dự án",
+    "projectName": "Tên dự án",
+    "projectDescription": "Mô tả dự án",
+    "budget": "Ngân sách",
+    "startDate": "Ngày bắt đầu",
+    "endDate": "Ngày kết thúc",
+    "status": "Trạng thái",
+    "manager": "Quản lý",
+    "thumbnail": "Hình đại diện",
+    "planning": "Lập kế hoạch",
+    "inProgress": "Đang thực hiện",
+    "completed": "Hoàn thành",
+    "optional": "(Tùy chọn)"
+  },
+  "auth": {
+    "signIn": "Đăng nhập",
+    "signUp": "Đăng ký",
+    "signOut": "Đăng xuất",
+    "email": "Email",
+    "password": "Mật khẩu",
+    "confirmPassword": "Xác nhận mật khẩu",
+    "forgotPassword": "Quên mật khẩu?",
+    "rememberMe": "Ghi nhớ đăng nhập"
+  },
+  "navigation": {
+    "dashboard": "Bảng điều khiển",
+    "projects": "Dự án",
+    "members": "Thành viên",
+    "settings": "Cài đặt",
+    "profile": "Hồ sơ"
+  },
+  "errors": {
+    "required": "Trường này là bắt buộc",
+    "minLength": "Tối thiểu {min} ký tự",
+    "maxLength": "Tối đa {max} ký tự",
+    "invalidEmail": "Email không hợp lệ",
+    "passwordMismatch": "Mật khẩu không khớp",
+    "networkError": "Lỗi kết nối mạng",
+    "serverError": "Lỗi máy chủ",
+    "notFound": "Không tìm thấy"
+  }
+}

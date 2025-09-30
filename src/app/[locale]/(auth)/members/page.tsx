@@ -11,11 +11,7 @@ export default function MembersPage() {
   const [loading, setLoading] = React.useState(true);
   const [totalCount, setTotalCount] = React.useState(0);
 
-  React.useEffect(() => {
-    fetchMembers();
-  }, []);
-
-  const fetchMembers = async () => {
+  const fetchMembers = React.useCallback(async () => {
     try {
       setLoading(true);
       const response = await fetch('/api/v1/clerk-members');
@@ -24,9 +20,8 @@ export default function MembersPage() {
       if (data.ok) {
         setMembers(data.members);
         setTotalCount(data.totalCount);
-        console.log('✅ Fetched members:', data.members);
+        // Members fetched successfully
       } else {
-        console.error('Failed to fetch members:', data.error);
         addToast({
           type: 'error',
           title: 'Error',
@@ -34,7 +29,7 @@ export default function MembersPage() {
         });
       }
     } catch (error) {
-      console.error('Error fetching members:', error);
+      // Error handling
       addToast({
         type: 'error',
         title: 'Error',
@@ -43,7 +38,11 @@ export default function MembersPage() {
     } finally {
       setLoading(false);
     }
-  };
+  }, []);
+
+  React.useEffect(() => {
+    fetchMembers();
+  }, [fetchMembers]);
 
   const handleInvite = () => {
     addToast({
@@ -56,7 +55,7 @@ export default function MembersPage() {
   const handleRoleChange = async (memberId: string, newRole: string) => {
     try {
       // Here you would call an API to update the role
-      console.log(`Changing role for ${memberId} to ${newRole}`);
+      // Changing role
 
       // Update local state
       setMembers(prev => prev.map(member =>
@@ -71,7 +70,7 @@ export default function MembersPage() {
         description: `Member role changed to ${newRole}`,
       });
     } catch (error) {
-      console.error('Error updating role:', error);
+      // Error handling
       addToast({
         type: 'error',
         title: 'Error',

@@ -65,6 +65,7 @@ export default function RootLayout(props: {
           <script
             src="https://widget.cloudinary.com/v2.0/global/all.js"
             type="text/javascript"
+            async
           />
         </head>
         <body className="bg-background text-foreground antialiased" suppressHydrationWarning>
