@@ -21,11 +21,13 @@ import { Input } from '@/components/ui/input';
 
 type AdminHeaderProps = {
   onToggleSidebar: () => void;
+  onCreateProject?: () => void;
   className?: string;
 };
 
 export function AdminHeader({
   onToggleSidebar,
+  onCreateProject,
   className,
 }: AdminHeaderProps) {
   const { theme, setTheme } = useTheme();
@@ -60,10 +62,10 @@ export function AdminHeader({
             <Calendar className="mr-2 size-4" />
             View Calendar
           </Button>
-          <Button size="sm">
-            <Plus className="mr-2 size-4" />
-            Create Project
-          </Button>
+              <Button size="sm" onClick={onCreateProject}>
+                <Plus className="mr-2 size-4" />
+                Create Project
+              </Button>
         </div>
       </div>
 

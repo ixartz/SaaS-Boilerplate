@@ -2,6 +2,7 @@
 
 import type { ReactNode } from 'react';
 
+import { ProjectProvider } from '@/components/admin/project-context';
 import { ShellLayout } from '@/components/admin/shell-layout';
 
 type AuthLayoutProps = {
@@ -10,8 +11,10 @@ type AuthLayoutProps = {
 
 export default function AuthShellLayout({ children }: AuthLayoutProps) {
   return (
-    <ShellLayout>
-      {children}
-    </ShellLayout>
+    <ProjectProvider>
+      <ShellLayout>
+        {children}
+      </ShellLayout>
+    </ProjectProvider>
   );
 }

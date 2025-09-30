@@ -169,6 +169,8 @@ export const projectsSchema = pgTable(
     address: text('address'),
     clientName: varchar('client_name', { length: 255 }),
     clientContact: varchar('client_contact', { length: 255 }),
+    assignedTo: uuid('assigned_to').references(() => usersSchema.id, { onDelete: 'set null' }),
+    thumbnailUrl: text('thumbnail_url'),
     // Audit fields
     createdAt: timestamp('created_at', { mode: 'date' }).defaultNow().notNull(),
     updatedAt: timestamp('updated_at', { mode: 'date' })

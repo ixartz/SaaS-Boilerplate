@@ -7,10 +7,10 @@ import {
   TrendingUp,
   Users,
 } from 'lucide-react';
-import { useState } from 'react';
 
 import { CreateProjectModal } from '@/components/admin/create-project-modal';
 import { KPICard } from '@/components/admin/kpi-card';
+import { useProject } from '@/components/admin/project-context';
 import { AdminTable } from '@/components/admin/table';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
@@ -122,12 +122,36 @@ const projectColumns = [
 ];
 
 const DashboardIndexPage = () => {
-  const [isCreateModalOpen, setIsCreateModalOpen] = useState(false);
+  const { isCreateModalOpen, setIsCreateModalOpen } = useProject();
 
-  const handleCreateProject = async (_data: any) => {
-    // Mock API call
-    // In real app, this would call the API
-    await new Promise(resolve => setTimeout(resolve, 1000));
+  const handleCreateProject = async (data: any) => {
+    try {
+      const response = await fetch('/api/v1/projects', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          ...data,
+          startDate: data.startDate ? new Date(data.startDate).toISOString() : undefined,
+        }),
+      });
+
+      if (!response.ok) {
+        const error = await response.json();
+        throw new Error(error.detail || 'Failed to create project');
+      }
+
+      await response.json();
+      // Project created successfully
+
+      // In a real app, you would refresh the project list here
+      // For now, we'll just show success
+      // Success notification would go here
+    } catch {
+      // Failed to create project
+      // Error notification would go here
+    }
   };
 
   const handleEditProject = (_project: any) => {

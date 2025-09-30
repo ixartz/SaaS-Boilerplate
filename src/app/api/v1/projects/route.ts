@@ -11,15 +11,17 @@ import { db } from '@/libs/DB';
 import { projectsSchema, projectStatusEnum } from '@/models/Schema';
 
 const createSchema = z.object({
-  name: z.string().min(1),
+  name: z.string().min(3, 'Project name must be at least 3 characters'),
   description: z.string().optional(),
   status: z.enum(projectStatusEnum.enumValues).optional(),
-  budget: z.string().transform(v => (v === undefined ? undefined : v)).optional(),
+  budget: z.number().min(1, 'Budget must be greater than 0'),
   startDate: z.string().datetime().optional(),
   endDate: z.string().datetime().optional(),
   address: z.string().optional(),
   clientName: z.string().optional(),
   clientContact: z.string().optional(),
+  assignedTo: z.string().uuid().optional(),
+  thumbnailUrl: z.string().url().optional(),
 });
 
 export async function GET(req: NextRequest) {
@@ -90,12 +92,14 @@ export async function POST(req: NextRequest) {
           name: payload.name,
           description: payload.description,
           status: (payload.status as any) ?? 'PLANNING',
-          budget: payload.budget as any,
+          budget: payload.budget?.toString() ?? null,
           startDate: payload.startDate ? new Date(payload.startDate) : null,
           endDate: payload.endDate ? new Date(payload.endDate) : null,
           address: payload.address ?? null,
           clientName: payload.clientName ?? null,
           clientContact: payload.clientContact ?? null,
+          assignedTo: payload.assignedTo ?? null,
+          thumbnailUrl: payload.thumbnailUrl ?? null,
         })
         .returning();
 
