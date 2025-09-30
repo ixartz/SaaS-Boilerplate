@@ -4,7 +4,6 @@ import {
   Building2,
   Calendar,
   DollarSign,
-  Plus,
   TrendingUp,
   Users,
 } from 'lucide-react';
@@ -140,25 +139,13 @@ const DashboardIndexPage = () => {
   };
 
   return (
-    <div className="space-y-8">
+    <div className="space-y-6">
       {/* Header */}
-      <div className="flex flex-col space-y-4 md:flex-row md:items-center md:justify-between md:space-y-0">
-        <div className="space-y-1">
-          <h1 className="text-3xl font-bold tracking-tight">Dashboard</h1>
-          <p className="text-muted-foreground">
-            Welcome back! Here's what's happening with your construction projects.
-          </p>
-        </div>
-        <div className="flex items-center space-x-2">
-          <Button variant="outline" size="sm">
-            <Calendar className="mr-2 size-4" />
-            View Calendar
-          </Button>
-          <Button onClick={() => setIsCreateModalOpen(true)}>
-            <Plus className="mr-2 size-4" />
-            Create Project
-          </Button>
-        </div>
+      <div className="space-y-1">
+        <h1 className="text-3xl font-bold tracking-tight">Dashboard</h1>
+        <p className="text-muted-foreground">
+          Welcome back! Here's what's happening with your construction projects.
+        </p>
       </div>
 
       {/* KPI Cards */}
@@ -169,7 +156,7 @@ const DashboardIndexPage = () => {
           description="Active construction projects"
           icon={Building2}
           trend={{ value: 12, label: 'from last month' }}
-          className="transition-shadow hover:shadow-md"
+          className="rounded-2xl shadow-sm transition-shadow hover:shadow-md"
         />
         <KPICard
           title="Total Budget"
@@ -177,7 +164,7 @@ const DashboardIndexPage = () => {
           description="Combined project budgets"
           icon={DollarSign}
           trend={{ value: 8, label: 'from last month' }}
-          className="transition-shadow hover:shadow-md"
+          className="rounded-2xl shadow-sm transition-shadow hover:shadow-md"
         />
         <KPICard
           title="Active Tasks"
@@ -185,7 +172,7 @@ const DashboardIndexPage = () => {
           description="Tasks in progress"
           icon={Calendar}
           trend={{ value: -3, label: 'from last week' }}
-          className="transition-shadow hover:shadow-md"
+          className="rounded-2xl shadow-sm transition-shadow hover:shadow-md"
         />
         <KPICard
           title="Team Members"
@@ -193,12 +180,12 @@ const DashboardIndexPage = () => {
           description="Active team members"
           icon={Users}
           trend={{ value: 2, label: 'new this month' }}
-          className="transition-shadow hover:shadow-md"
+          className="rounded-2xl shadow-sm transition-shadow hover:shadow-md"
         />
       </div>
 
       {/* Recent Projects */}
-      <Card className="shadow-sm">
+      <Card className="rounded-2xl shadow-sm">
         <CardHeader className="pb-4">
           <div className="flex items-center justify-between">
             <div>
@@ -225,7 +212,7 @@ const DashboardIndexPage = () => {
 
       {/* Quick Actions & Overview */}
       <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
-        <Card className="transition-shadow hover:shadow-md">
+        <Card className="rounded-2xl shadow-sm transition-shadow hover:shadow-md">
           <CardHeader className="pb-4">
             <div className="flex items-center space-x-2">
               <TrendingUp className="size-5 text-primary" />
@@ -248,7 +235,7 @@ const DashboardIndexPage = () => {
           </CardContent>
         </Card>
 
-        <Card className="transition-shadow hover:shadow-md">
+        <Card className="rounded-2xl shadow-sm transition-shadow hover:shadow-md">
           <CardHeader className="pb-4">
             <div className="flex items-center space-x-2">
               <Calendar className="size-5 text-primary" />
@@ -283,7 +270,7 @@ const DashboardIndexPage = () => {
           </CardContent>
         </Card>
 
-        <Card className="transition-shadow hover:shadow-md">
+        <Card className="rounded-2xl shadow-sm transition-shadow hover:shadow-md">
           <CardHeader className="pb-4">
             <div className="flex items-center space-x-2">
               <DollarSign className="size-5 text-primary" />

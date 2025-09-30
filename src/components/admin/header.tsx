@@ -1,27 +1,23 @@
 'use client';
 
 import {
+  OrganizationSwitcher,
+  UserButton,
+} from '@clerk/nextjs';
+import {
   Bell,
   Building2,
-  ChevronDown,
+  Calendar,
   Menu,
   Moon,
+  Plus,
   Search,
-  Settings,
   Sun,
-  UserCircle,
 } from 'lucide-react';
 import { useTheme } from 'next-themes';
 
 import { LocaleSwitcher } from '@/components/LocaleSwitcher';
 import { Button } from '@/components/ui/button';
-import {
-  DropdownMenu,
-  DropdownMenuContent,
-  DropdownMenuItem,
-  DropdownMenuSeparator,
-  DropdownMenuTrigger,
-} from '@/components/ui/dropdown-menu';
 import { Input } from '@/components/ui/input';
 
 type AdminHeaderProps = {
@@ -62,19 +58,29 @@ export function AdminHeader({
         </div>
       </div>
 
-      {/* Center section - Search */}
-      <div className="mx-4 max-w-md flex-1">
-        <div className="relative">
+      {/* Center section - Search and Actions */}
+      <div className="mx-4 flex max-w-2xl flex-1 items-center gap-4">
+        <div className="relative flex-1">
           <Search className="absolute left-3 top-1/2 size-4 -translate-y-1/2 text-muted-foreground" />
           <Input
             placeholder="Search projects, tasks, logs..."
             className="w-full pl-10"
           />
         </div>
+        <div className="flex items-center gap-2">
+          <Button variant="outline" size="sm">
+            <Calendar className="mr-2 size-4" />
+            View Calendar
+          </Button>
+          <Button size="sm">
+            <Plus className="mr-2 size-4" />
+            Create Project
+          </Button>
+        </div>
       </div>
 
       {/* Right section - Actions and User */}
-      <div className="flex items-center space-x-2">
+      <div className="flex items-center justify-end gap-2">
         {/* Language Switcher */}
         <LocaleSwitcher />
 
@@ -97,40 +103,27 @@ export function AdminHeader({
           <span className="sr-only">Notifications</span>
         </Button>
 
-        {/* User Menu */}
-        <DropdownMenu>
-          <DropdownMenuTrigger asChild>
-            <Button variant="ghost" className="flex items-center space-x-2 px-3">
-              <div className="flex size-8 items-center justify-center rounded-full bg-gradient-to-br from-blue-500 to-purple-600">
-                <span className="text-sm font-medium text-white">AU</span>
-              </div>
-              <div className="hidden text-left md:block">
-                <p className="text-sm font-medium">Admin User</p>
-                <p className="text-xs text-muted-foreground">admin@siteflow.com</p>
-              </div>
-              <ChevronDown className="size-4" />
-            </Button>
-          </DropdownMenuTrigger>
-          <DropdownMenuContent align="end" className="w-64">
-            <div className="px-3 py-2">
-              <p className="text-sm font-medium">Admin User</p>
-              <p className="text-xs text-muted-foreground">admin@siteflow.com</p>
-            </div>
-            <DropdownMenuSeparator />
-            <DropdownMenuItem className="flex items-center space-x-2">
-              <UserCircle className="size-4" />
-              <span>Profile</span>
-            </DropdownMenuItem>
-            <DropdownMenuItem className="flex items-center space-x-2">
-              <Settings className="size-4" />
-              <span>Settings</span>
-            </DropdownMenuItem>
-            <DropdownMenuSeparator />
-            <DropdownMenuItem className="text-red-600">
-              Sign out
-            </DropdownMenuItem>
-          </DropdownMenuContent>
-        </DropdownMenu>
+        {/* Organization Switcher */}
+        <OrganizationSwitcher
+          appearance={{
+            elements: {
+              organizationSwitcherTrigger: 'flex items-center gap-2 px-3 py-2 text-sm font-medium text-foreground hover:bg-accent hover:text-accent-foreground rounded-md transition-colors',
+              organizationSwitcherTriggerIcon: 'size-4',
+              organizationSwitcherPopoverCard: 'w-64',
+            },
+          }}
+        />
+
+        {/* User Button */}
+        <UserButton
+          appearance={{
+            elements: {
+              userButtonAvatarBox: 'size-8',
+              userButtonPopoverCard: 'w-64',
+              userButtonPopoverActionButton: 'text-sm',
+            },
+          }}
+        />
       </div>
     </header>
   );

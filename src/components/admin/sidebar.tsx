@@ -10,7 +10,6 @@ import {
   LayoutDashboard,
   ListChecks,
   Settings,
-  SquareKanban,
 } from 'lucide-react';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
@@ -21,37 +20,37 @@ import { cn } from '@/lib/utils';
 const navigation = [
   {
     name: 'Dashboard',
-    href: '/dashboard',
+    href: '/en/dashboard',
     icon: LayoutDashboard,
   },
   {
     name: 'Projects',
-    href: '/projects',
-    icon: SquareKanban,
+    href: '/en/projects',
+    icon: Building2,
   },
   {
     name: 'Tasks',
-    href: '/tasks',
+    href: '/en/tasks',
     icon: ListChecks,
   },
   {
     name: 'Daily Logs',
-    href: '/daily-logs',
+    href: '/en/daily-logs',
     icon: Calendar,
   },
   {
     name: 'Finance',
-    href: '/finance',
+    href: '/en/finance',
     icon: DollarSign,
   },
   {
     name: 'Analytics',
-    href: '/analytics',
+    href: '/en/analytics',
     icon: BarChart3,
   },
   {
     name: 'Settings',
-    href: '/settings',
+    href: '/en/settings',
     icon: Settings,
   },
 ];
