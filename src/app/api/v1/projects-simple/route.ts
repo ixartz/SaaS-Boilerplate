@@ -25,7 +25,7 @@ const createSchema = z.object({
   path: ['endDate'],
 });
 
-export async function GET(req: NextRequest) {
+export async function GET(_req: NextRequest) {
   try {
     console.log('🔄 Simple GET projects...');
 

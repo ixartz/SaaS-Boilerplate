@@ -209,7 +209,7 @@ export async function POST(req: NextRequest) {
         await db
           .insert(projectMembersSchema)
           .values({
-            projectId: project.id,
+            projectId: project?.id,
             userId: payload.managerId,
             role: 'manager',
           });
@@ -245,7 +245,7 @@ export async function POST(req: NextRequest) {
           eq(projectMembersSchema.role, 'manager'),
         ))
         .leftJoin(usersSchema, eq(usersSchema.clerkUserId, projectMembersSchema.userId))
-        .where(eq(projectsSchema.id, project.id));
+        .where(eq(projectsSchema.id, project?.id));
 
       return new Response(JSON.stringify({ ok: true, item: projectWithManager }), {
         status: 201,

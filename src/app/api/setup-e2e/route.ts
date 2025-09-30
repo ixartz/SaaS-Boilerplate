@@ -4,9 +4,9 @@ import type { NextRequest } from 'next/server';
 import { db } from '@/libs/DB';
 import { membershipsSchema, organizationSchema, usersSchema } from '@/models/Schema';
 
-export async function POST(req: NextRequest) {
+export async function POST(_req: NextRequest) {
   try {
-    console.log('🔧 Setting up E2E data...');
+    // console.log('🔧 Setting up E2E data...');
 
     // Create E2E organization
     const [org] = await db
@@ -19,7 +19,7 @@ export async function POST(req: NextRequest) {
       .onConflictDoNothing()
       .returning();
 
-    console.log('✅ Organization:', org?.id || 'already exists');
+    // console.log('✅ Organization:', org?.id || 'already exists');
 
     // Create E2E user with proper UUID
     const userId = '00000000-0000-0000-0000-000000000001';
@@ -34,7 +34,7 @@ export async function POST(req: NextRequest) {
       .onConflictDoNothing()
       .returning();
 
-    console.log('✅ User:', user?.id || 'already exists');
+    // console.log('✅ User:', user?.id || 'already exists');
 
     // Create E2E membership
     const [membership] = await db
@@ -48,7 +48,7 @@ export async function POST(req: NextRequest) {
       .onConflictDoNothing()
       .returning();
 
-    console.log('✅ Membership:', membership?.id || 'already exists');
+    // console.log('✅ Membership:', membership?.id || 'already exists');
 
     return new Response(JSON.stringify({
       ok: true,

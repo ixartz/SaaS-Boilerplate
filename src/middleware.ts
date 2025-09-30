@@ -30,7 +30,7 @@ const isProtectedRoute = createRouteMatcher([
   '/api/v1/users(.*)',
 ]);
 
-const isE2EBYPASS = process.env.CLERK_E2E === 'true';
+// const _isE2EBYPASS = process.env.CLERK_E2E === 'true';
 
 export default function middleware(
   request: NextRequest,

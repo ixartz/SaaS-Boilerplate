@@ -24,7 +24,7 @@ const createSchema = z.object({
   path: ['endDate'],
 });
 
-export async function GET(req: NextRequest) {
+export async function GET(_req: NextRequest) {
   try {
     console.log('🔄 Basic GET projects...');
 
@@ -110,10 +110,10 @@ export async function POST(req: NextRequest) {
       })
       .returning();
 
-    console.log('✅ Project created:', project.id);
+    console.log('✅ Project created:', project?.id);
 
     // 2. Sync manager to users table (upsert) - only if managerId provided
-    if (payload.managerId) {
+    if (payload.managerId && project?.id) {
       // First check if user exists
       const existingUser = await db.query.usersSchema.findFirst({
         where: eq(usersSchema.clerkUserId, payload.managerId),
@@ -142,6 +142,13 @@ export async function POST(req: NextRequest) {
     }
 
     // 3. Get project with manager info
+    if (!project?.id) {
+      return new Response(
+        JSON.stringify({ error: 'Project creation failed' }),
+        { status: 500, headers: { 'content-type': 'application/json' } },
+      );
+    }
+
     const [projectWithManager] = await db
       .select({
         id: projectsSchema.id,

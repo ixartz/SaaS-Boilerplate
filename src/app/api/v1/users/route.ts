@@ -27,7 +27,7 @@ export async function GET(req: NextRequest) {
     }
 
     // Regular Clerk authentication
-    const { orgId, user, membership } = await requireMembership(req, [
+    const { orgId } = await requireMembership(req, [
       'OWNER',
       'ADMIN',
       'PM',
