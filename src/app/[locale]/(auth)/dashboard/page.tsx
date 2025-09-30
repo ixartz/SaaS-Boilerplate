@@ -125,33 +125,24 @@ const DashboardIndexPage = () => {
   const { isCreateModalOpen, setIsCreateModalOpen } = useProject();
 
   const handleCreateProject = async (data: any) => {
-    try {
-      const response = await fetch('/api/v1/projects', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({
-          ...data,
-          startDate: data.startDate ? new Date(data.startDate).toISOString() : undefined,
-        }),
-      });
+    const response = await fetch('/api/v1/projects', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({
+        ...data,
+        startDate: data.startDate ? new Date(data.startDate).toISOString() : undefined,
+      }),
+    });
 
-      if (!response.ok) {
-        const error = await response.json();
-        throw new Error(error.detail || 'Failed to create project');
-      }
-
-      await response.json();
-      // Project created successfully
-
-      // In a real app, you would refresh the project list here
-      // For now, we'll just show success
-      // Success notification would go here
-    } catch {
-      // Failed to create project
-      // Error notification would go here
+    if (!response.ok) {
+      const error = await response.json();
+      throw new Error(error.detail || 'Failed to create project');
     }
+
+    await response.json();
+    // Project created successfully - toast will be shown by modal
   };
 
   const handleEditProject = (_project: any) => {

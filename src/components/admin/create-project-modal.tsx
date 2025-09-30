@@ -25,6 +25,7 @@ import {
 import { Input } from '@/components/ui/input';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select-simple';
 import { Textarea } from '@/components/ui/textarea';
+import { useToast } from '@/components/ui/toast';
 import { UploadButton } from '@/components/ui/upload';
 
 const createProjectSchema = z.object({
@@ -36,7 +37,7 @@ const createProjectSchema = z.object({
     required_error: 'Please select a status',
   }),
   assignedTo: z.string().min(1, 'Please assign a manager'),
-  thumbnailUrl: z.string().optional(),
+  thumbnailUrl: z.string().min(1, 'Please upload a project thumbnail'),
 });
 
 type CreateProjectFormData = z.infer<typeof createProjectSchema>;
@@ -71,6 +72,7 @@ export function CreateProjectModal({
   onOpenChange,
   onSubmit,
 }: CreateProjectModalProps) {
+  const { addToast } = useToast();
   const form = useForm<CreateProjectFormData>({
     resolver: zodResolver(createProjectSchema),
     defaultValues: {
@@ -82,6 +84,7 @@ export function CreateProjectModal({
       assignedTo: '',
       thumbnailUrl: '',
     },
+    mode: 'onChange', // Enable real-time validation
   });
 
   const handleSubmit = async (data: CreateProjectFormData) => {
@@ -89,14 +92,26 @@ export function CreateProjectModal({
       await onSubmit(data);
       form.reset();
       onOpenChange(false);
+      addToast({
+        type: 'success',
+        title: 'Project Created',
+        description: 'Project has been created successfully!',
+      });
     } catch (error) {
-      console.error('Failed to create project:', error);
+      addToast({
+        type: 'error',
+        title: 'Failed to Create Project',
+        description: error instanceof Error ? error.message : 'An error occurred while creating the project.',
+      });
     }
   };
 
+  // Check if form is valid for submit button
+  const isFormValid = form.formState.isValid && form.watch('thumbnailUrl');
+
   return (
     <Dialog open={open} onOpenChange={onOpenChange}>
-      <DialogContent className="sm:max-w-[425px]">
+      <DialogContent className="max-h-[90vh] overflow-y-auto sm:max-w-[500px]">
         <DialogHeader>
           <DialogTitle>Create New Project</DialogTitle>
           <DialogDescription>
@@ -247,10 +262,14 @@ export function CreateProjectModal({
                 type="button"
                 variant="outline"
                 onClick={() => onOpenChange(false)}
+                disabled={form.formState.isSubmitting}
               >
                 Cancel
               </Button>
-              <Button type="submit" disabled={form.formState.isSubmitting}>
+              <Button
+                type="submit"
+                disabled={!isFormValid || form.formState.isSubmitting}
+              >
                 {form.formState.isSubmitting ? 'Creating...' : 'Create Project'}
               </Button>
             </DialogFooter>
