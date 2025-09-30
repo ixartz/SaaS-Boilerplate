@@ -1,6 +1,6 @@
 {
   "Index": {
-    "meta_title": "SaaS Template - Le template SaaS parfait pour construire et mettre à l'échelle votre entreprise en toute simplicité.",
+    "meta_title": "SiteFlow - Gestion de projets de construction simple et efficace.",
     "meta_description": "Un template gratuit et open-source de landing page pour votre entreprise SaaS, construit avec React, TypeScript, Shadcn UI et Tailwind CSS."
   },
   "Navbar": {
@@ -24,7 +24,7 @@
   },
   "Features": {
     "section_subtitle": "Fonctionnalités",
-    "section_title": "Débloquer le plein potentiel du SaaS Template",
+    "section_title": "Débloquer le plein potentiel de SiteFlow",
     "section_description": "Un template gratuit et open-source de landing page pour votre entreprise SaaS, construit avec React, TypeScript, Shadcn UI et Tailwind CSS.",
     "feature1_title": "Node.js",
     "feature2_title": "React",
@@ -36,7 +36,7 @@
   },
   "Pricing": {
     "section_subtitle": "Fonctionnalités",
-    "section_title": "Débloquer le plein potentiel du SaaS Template",
+    "section_title": "Débloquer le plein potentiel de SiteFlow",
     "section_description": "Un template gratuit et open-source de landing page pour votre entreprise SaaS, construit avec React, TypeScript, Shadcn UI et Tailwind CSS.",
     "button_text": "Démarrer"
   },
@@ -94,7 +94,7 @@
     "settings": "Réglages"
   },
   "Dashboard": {
-    "meta_title": "Tableau de bord du SaaS Template",
+    "meta_title": "Tableau de bord SiteFlow",
     "meta_description": "Un template gratuit et open-source de landing page pour votre entreprise SaaS, construit avec Next.js, TypeScript, Shadcn UI et Tailwind CSS."
   },
   "DashboardIndex": {

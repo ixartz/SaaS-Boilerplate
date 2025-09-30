@@ -4,7 +4,7 @@ const localePrefix = 'as-needed' as const;
 
 // FIXME: Update this configuration file based on your project information
 export const AppConfig = {
-  name: 'SaaS Template',
+  name: 'SiteFlow',
   locales: [
     {
       id: 'en',
