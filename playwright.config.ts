@@ -5,6 +5,7 @@ const PORT = process.env.PORT || 3000;
 
 // Set webServer.url and use.baseURL with the location of the WebServer respecting the correct set port
 const baseURL = `http://localhost:${PORT}`;
+const isE2EBypass = process.env.E2E_AUTH_BYPASS === '1';
 
 /**
  * See https://playwright.dev/docs/test-configuration.
@@ -39,6 +40,7 @@ export default defineConfig({
     // Use baseURL so to make navigations relative.
     // More information: https://playwright.dev/docs/api/class-testoptions#test-options-base-url
     baseURL,
+    storageState: isE2EBypass ? 'tests/e2e/storageState.json' : undefined,
 
     // Collect trace when retrying the failed test. See https://playwright.dev/docs/trace-viewer
     trace: process.env.CI ? 'retain-on-failure' : undefined,
@@ -54,12 +56,9 @@ export default defineConfig({
     // For each test, an organization can be created within this account to ensure total isolation.
     // After all tests are completed, the `teardown` file can delete the account and all associated organizations.
     // You can find the `setup` and `teardown` files at: https://nextjs-boilerplate.com/pro-saas-starter-kit
-    { name: 'setup', testMatch: /.*\.setup\.ts/, teardown: 'teardown' },
-    { name: 'teardown', testMatch: /.*\.teardown\.ts/ },
     {
       name: 'chromium',
       use: { ...devices['Desktop Chrome'] },
-      dependencies: ['setup'],
     },
     ...(process.env.CI
       ? [

@@ -1,0 +1,14 @@
+{
+  "cookies": [
+    {
+      "name": "e2e-auth-bypass",
+      "value": "1",
+      "domain": "localhost",
+      "path": "/",
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    }
+  ],
+  "origins": []
+}

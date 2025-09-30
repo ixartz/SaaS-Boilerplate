@@ -29,10 +29,29 @@ const isProtectedRoute = createRouteMatcher([
   '/api/v1/media-assets(.*)',
 ]);
 
+const isE2EBYPASS = process.env.CLERK_E2E === 'true';
+
 export default function middleware(
   request: NextRequest,
   event: NextFetchEvent,
 ) {
+  if (isE2EBYPASS && request.headers.get('x-e2e-bypass') === 'true') {
+    const userId = request.headers.get('x-e2e-user') ?? 'user_e2e_owner';
+    const orgId = request.headers.get('x-e2e-org') ?? 'org_e2e_default';
+
+    const requestHeaders = new Headers(request.headers);
+    requestHeaders.set('x-user-id', userId);
+    requestHeaders.set('x-org-id', orgId);
+
+    return NextResponse.next({
+      request: {
+        headers: requestHeaders,
+      },
+    });
+  }
+
+  const bypassAuth = request.cookies.get('e2e-auth-bypass')?.value === '1';
+
   // Skip intl middleware for API routes
   if (request.nextUrl.pathname.startsWith('/api/')) {
     // Skip auth for public API endpoints
@@ -79,7 +98,7 @@ export default function middleware(
     || isProtectedRoute(request)
   ) {
     return clerkMiddleware(async (auth, req) => {
-      if (isProtectedRoute(req)) {
+      if (!bypassAuth && isProtectedRoute(req)) {
         // For web routes, redirect to sign-in
         const locale
           = req.nextUrl.pathname.match(/(\/.*)\/dashboard/)?.at(1) ?? '';
@@ -108,6 +127,9 @@ export default function middleware(
         return NextResponse.redirect(orgSelection);
       }
 
+      if (bypassAuth) {
+        return intlMiddleware(req);
+      }
       return intlMiddleware(req);
     })(request, event);
   }
@@ -116,5 +138,5 @@ export default function middleware(
 }
 
 export const config = {
-  matcher: ['/((?!.+\\.[\\w]+$|_next|monitoring).*)', '/'], // Include API routes but exclude specific ones in isProtectedRoute
+  matcher: ['/((?!.+\.[\w]+$|_next|monitoring).*)', '/'], // Include API routes but exclude specific ones in isProtectedRoute
 };

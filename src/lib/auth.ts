@@ -35,8 +35,15 @@ export async function requireMembership(
   allowedRoles: string[],
   orgId?: string,
 ): Promise<AuthResult> {
-  // Get Clerk user
-  const { userId: clerkUserId } = await auth();
+  // Get user ID (E2E bypass or real Clerk)
+  let clerkUserId: string | null = null;
+
+  if (process.env.CLERK_E2E === 'true' && req.headers.get('x-e2e-bypass') === 'true') {
+    clerkUserId = req.headers.get('x-user-id') ?? 'user_e2e_owner';
+  } else {
+    const authResult = await auth();
+    clerkUserId = authResult.userId;
+  }
 
   if (!clerkUserId) {
     throw new Error('Unauthorized: No Clerk user ID');
