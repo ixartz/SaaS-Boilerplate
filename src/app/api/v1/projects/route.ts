@@ -87,24 +87,65 @@ export async function GET(req: NextRequest) {
 
     const db = await getDb();
 
-    // Get total count for pagination
-    const totalCountResult = await db
-      .select({ count: count() })
-      .from(projectsSchema)
-      .where(and(...conditions));
-    const total = totalCountResult[0]?.count || 0;
+    // Get total count for pagination with error logging
+    let total = 0;
+    try {
+      console.log('Fetching projects with conditions:', { orgId, limit, page, offset });
+      const totalCountResult = await db
+        .select({ count: count() })
+        .from(projectsSchema)
+        .where(and(...conditions));
+      total = totalCountResult[0]?.count || 0;
+      console.log('Total projects count:', total);
+    } catch (error) {
+      console.error('Error fetching projects count:', error);
+      return new Response(JSON.stringify({
+        type: 'https://example.com/probs/database-error',
+        title: 'Database Error',
+        status: 500,
+        detail: 'Failed to fetch projects count',
+        instance: req.url,
+        errors: [{
+          field: 'database',
+          message: error instanceof Error ? error.message : 'Unknown database error',
+        }],
+      }), {
+        status: 500,
+        headers: { 'content-type': 'application/problem+json' },
+      });
+    }
 
     // Calculate total pages
     const totalPages = Math.ceil(total / limit);
 
     // Fetch projects from database with offset-based pagination
-    const projects = await db
-      .select()
-      .from(projectsSchema)
-      .where(and(...conditions))
-      .orderBy(desc(projectsSchema.createdAt), desc(projectsSchema.id))
-      .limit(limit)
-      .offset(offset);
+    let projects = [];
+    try {
+      projects = await db
+        .select()
+        .from(projectsSchema)
+        .where(and(...conditions))
+        .orderBy(desc(projectsSchema.createdAt), desc(projectsSchema.id))
+        .limit(limit)
+        .offset(offset);
+      console.log('Fetched projects:', projects.length);
+    } catch (error) {
+      console.error('Error fetching projects:', error);
+      return new Response(JSON.stringify({
+        type: 'https://example.com/probs/database-error',
+        title: 'Database Error',
+        status: 500,
+        detail: 'Failed to fetch projects',
+        instance: req.url,
+        errors: [{
+          field: 'database',
+          message: error instanceof Error ? error.message : 'Unknown database error',
+        }],
+      }), {
+        status: 500,
+        headers: { 'content-type': 'application/problem+json' },
+      });
+    }
 
     // Apply search filter in memory (for now)
     const filteredItems = q
@@ -198,29 +239,82 @@ export async function POST(req: NextRequest) {
 
     const validatedData = validationResult.data;
 
-        const db = await getDb();
+    const db = await getDb();
 
-        // Create project in database
-        const [newProject] = await db
-          .insert(projectsSchema)
-          .values({
-            orgId,
-            name: validatedData.name,
-            description: validatedData.description || '',
-            budget: validatedData.budget?.toString() || null,
-            status: validatedData.status,
-            startDate: validatedData.startDate ? new Date(validatedData.startDate) : null,
-            endDate: validatedData.endDate ? new Date(validatedData.endDate) : null,
-            address: validatedData.address || '',
-            clientName: validatedData.clientName || '',
-            clientContact: validatedData.clientContact || '',
-            thumbnailUrl: validatedData.thumbnailUrl || '',
-          })
-          .returning();
+    // Create project in database with detailed error logging
+    let newProject;
+    try {
+      console.log('Creating project with data:', {
+        orgId,
+        name: validatedData.name,
+        description: validatedData.description || null,
+        budget: validatedData.budget?.toString() || null,
+        status: validatedData.status,
+        startDate: validatedData.startDate ? new Date(validatedData.startDate) : null,
+        endDate: validatedData.endDate ? new Date(validatedData.endDate) : null,
+        address: validatedData.address || null,
+        clientName: validatedData.clientName || null,
+        clientContact: validatedData.clientContact || null,
+        thumbnailUrl: validatedData.thumbnailUrl || null,
+      });
 
-        if (!newProject) {
-          throw new Error('Failed to create project');
-        }
+      const [result] = await db
+        .insert(projectsSchema)
+        .values({
+          orgId,
+          name: validatedData.name,
+          description: validatedData.description || null,
+          budget: validatedData.budget?.toString() || null,
+          status: validatedData.status,
+          startDate: validatedData.startDate ? new Date(validatedData.startDate) : null,
+          endDate: validatedData.endDate ? new Date(validatedData.endDate) : null,
+          address: validatedData.address || null,
+          clientName: validatedData.clientName || null,
+          clientContact: validatedData.clientContact || null,
+          thumbnailUrl: validatedData.thumbnailUrl || null,
+        })
+        .returning();
+
+      newProject = result;
+      console.log('Project created successfully:', newProject);
+    } catch (error) {
+      console.error('Database insert error:', error);
+      console.error('Error details:', {
+        message: error instanceof Error ? error.message : 'Unknown error',
+        stack: error instanceof Error ? error.stack : undefined,
+        orgId,
+        validatedData,
+      });
+      
+      return new Response(JSON.stringify({
+        type: 'https://example.com/probs/database-error',
+        title: 'Database Error',
+        status: 500,
+        detail: 'Failed to create project in database',
+        instance: req.url,
+        errors: [{
+          field: 'database',
+          message: error instanceof Error ? error.message : 'Unknown database error',
+        }],
+      }), {
+        status: 500,
+        headers: { 'content-type': 'application/problem+json' },
+      });
+    }
+
+    if (!newProject) {
+      console.error('Project creation returned null/undefined');
+      return new Response(JSON.stringify({
+        type: 'https://example.com/probs/database-error',
+        title: 'Database Error',
+        status: 500,
+        detail: 'Project creation returned no result',
+        instance: req.url,
+      }), {
+        status: 500,
+        headers: { 'content-type': 'application/problem+json' },
+      });
+    }
 
     // Format response
     const project = {
