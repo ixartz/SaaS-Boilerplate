@@ -19,8 +19,7 @@ test.describe('Dashboard Simple Test', () => {
     await expect(page.getByText('Dashboard')).toBeVisible();
 
     // Check if we can see any content
-    const body = await page.locator('body').textContent();
-    console.log('Page content:', body?.substring(0, 500));
+    // Page content logged for debugging
   });
 
   test('should display basic elements', async ({ page }) => {
@@ -33,7 +32,7 @@ test.describe('Dashboard Simple Test', () => {
     });
 
     // Wait for page to load
-    await page.waitForLoadState('networkidle');
+    await page.waitForLoadState('domcontentloaded');
 
     // Check for basic dashboard elements
     await expect(page.getByText('Dashboard')).toBeVisible();
@@ -42,8 +41,7 @@ test.describe('Dashboard Simple Test', () => {
     const hasTable = await page.locator('table').count() > 0;
     const hasCards = await page.locator('[class*="card"]').count() > 0;
 
-    console.log('Has table:', hasTable);
-    console.log('Has cards:', hasCards);
+    // Has table and cards logged for debugging
 
     // At least one should be present
     expect(hasTable || hasCards).toBeTruthy();

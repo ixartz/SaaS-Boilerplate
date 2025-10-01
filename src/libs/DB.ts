@@ -29,7 +29,7 @@ const MIGRATIONS_FOLDER = path.join(process.cwd(), 'migrations');
 
 let drizzle;
 
-if (process.env.NODE_ENV !== 'production' && Env.DATABASE_URL) {
+if (Env.DATABASE_URL) {
   if (!globalDbState.__db.pgClient) {
     const client = new Client({
       connectionString: Env.DATABASE_URL,

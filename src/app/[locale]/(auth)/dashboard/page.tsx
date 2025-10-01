@@ -17,6 +17,15 @@ import { useProject } from '@/components/admin/project-context';
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
+import {
+  Pagination,
+  PaginationContent,
+  PaginationEllipsis,
+  PaginationItem,
+  PaginationLink,
+  PaginationNext,
+  PaginationPrevious,
+} from '@/components/ui/pagination';
 import { SafeImage } from '@/components/ui/safe-image';
 
 // Project type definition
@@ -124,16 +133,18 @@ const projectColumns = [
 ];
 
 // Hook to fetch projects using React Query
-function useProjects() {
+function useProjects(page: number = 1) {
   const {
     data: projectsData,
     isLoading: loading,
     error,
     refetch,
   } = useQuery({
-    queryKey: ['projects'],
+    queryKey: ['projects', page],
     queryFn: async () => {
-      const response = await fetch('/api/v1/projects', {
+      const url = `/api/v1/projects?page=${page}&limit=10`;
+
+      const response = await fetch(url, {
         headers: {
           'x-e2e-bypass': 'true',
           'x-org-id': 'org_e2e_default',
@@ -146,17 +157,17 @@ function useProjects() {
       }
 
       const data = await response.json();
-      if (data.items) {
-        return data.items;
-      }
-      return [];
+      return data;
     },
     staleTime: 30000, // 30 seconds
     refetchOnWindowFocus: false,
   });
 
   return {
-    projects: projectsData || [],
+    projects: projectsData?.items || [],
+    total: projectsData?.total || 0,
+    page: projectsData?.page || 1,
+    totalPages: projectsData?.totalPages || 1,
     loading,
     error: error?.message || null,
     refetch,
@@ -165,13 +176,25 @@ function useProjects() {
 
 const DashboardIndexPage = () => {
   const { isCreateModalOpen, setIsCreateModalOpen } = useProject();
-  const { projects, loading, error, refetch } = useProjects();
+  const [currentPage, setCurrentPage] = React.useState(1);
+  const { projects, total, page, totalPages, loading, error, refetch } = useProjects(currentPage);
+
+  // Handle page change
+  const handlePageChange = (newPage: number) => {
+    setCurrentPage(newPage);
+  };
+
+  // Handle refresh (go back to first page)
+  const handleRefresh = () => {
+    setCurrentPage(1);
+    refetch();
+  };
 
   const handleCreateProject = async (data: any) => {
     const payload = {
       name: data.name,
       description: data.description,
-      budget: data.budget,
+      budget: data.budget ? data.budget.toString() : undefined,
       startDate: data.startDate ? new Date(data.startDate).toISOString() : undefined,
       endDate: data.endDate ? new Date(data.endDate).toISOString() : undefined,
       status: data.status,
@@ -198,8 +221,8 @@ const DashboardIndexPage = () => {
 
     await response.json();
 
-    // 🚀 Refresh the projects list using React Query
-    refetch();
+    // 🚀 Refresh the projects list (go back to first page)
+    handleRefresh();
   };
 
   const handleEditProject = (_project: any) => {
@@ -224,7 +247,7 @@ const DashboardIndexPage = () => {
       <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-4">
         <KPICard
           title="Total Projects"
-          value={loading ? '...' : projects.length}
+          value={loading ? '...' : total}
           description="Active construction projects"
           icon={Building2}
           trend={{ value: 12, label: 'from last month' }}
@@ -243,7 +266,7 @@ const DashboardIndexPage = () => {
             notation: 'compact',
             maximumFractionDigits: 1,
           })}
-          description="Combined project budgets"
+          description="Current page project budgets"
           icon={DollarSign}
           trend={{ value: 8, label: 'from last month' }}
           className="rounded-2xl shadow-sm transition-shadow hover:shadow-md"
@@ -251,7 +274,7 @@ const DashboardIndexPage = () => {
         <KPICard
           title="Active Projects"
           value={loading ? '...' : projects.filter((p: Project) => p.status === 'IN_PROGRESS').length}
-          description="Projects in progress"
+          description="Current page active projects"
           icon={Calendar}
           trend={{ value: -3, label: 'from last week' }}
           className="rounded-2xl shadow-sm transition-shadow hover:shadow-md"
@@ -259,7 +282,7 @@ const DashboardIndexPage = () => {
         <KPICard
           title="Team Members"
           value={loading ? '...' : new Set(projects.map((p: Project) => p.managerId).filter(Boolean)).size}
-          description="Active managers"
+          description="Current page managers"
           icon={Users}
           trend={{ value: 2, label: 'new this month' }}
           className="rounded-2xl shadow-sm transition-shadow hover:shadow-md"
@@ -311,17 +334,106 @@ const DashboardIndexPage = () => {
             </div>
           )
 : (
-            <PaginatedTable
-              data={projects}
-              columns={projectColumns}
-              onEdit={handleEditProject}
-              onDelete={handleDeleteProject}
-              className="border-0"
-              searchable
-              searchPlaceholder="Search projects..."
-              pageSize={10}
-              showPagination
-            />
+            <div className="space-y-4">
+              <PaginatedTable
+                data={projects}
+                columns={projectColumns}
+                onEdit={handleEditProject}
+                onDelete={handleDeleteProject}
+                className="border-0"
+                searchable
+                searchPlaceholder="Search projects..."
+                pageSize={10}
+                showPagination={false} // We handle pagination manually
+              />
+
+              {/* Pagination Controls */}
+              {totalPages > 1 && (
+                <div className="flex justify-center pt-4">
+                  <Pagination>
+                    <PaginationContent>
+                      <PaginationItem>
+                        <PaginationPrevious
+                          onClick={() => handlePageChange(Math.max(1, page - 1))}
+                          className={page === 1 ? 'pointer-events-none opacity-50' : 'cursor-pointer'}
+                        />
+                      </PaginationItem>
+
+                      {/* Page numbers */}
+                      {Array.from({ length: Math.min(5, totalPages) }, (_, i) => {
+                        let pageNumber;
+                        if (totalPages <= 5) {
+                          pageNumber = i + 1;
+                        } else if (page <= 3) {
+                          pageNumber = i + 1;
+                        } else if (page >= totalPages - 2) {
+                          pageNumber = totalPages - 4 + i;
+                        } else {
+                          pageNumber = page - 2 + i;
+                        }
+
+                        return (
+                          <PaginationItem key={pageNumber}>
+                            <PaginationLink
+                              onClick={() => handlePageChange(pageNumber)}
+                              isActive={pageNumber === page}
+                              className="cursor-pointer"
+                            >
+                              {pageNumber}
+                            </PaginationLink>
+                          </PaginationItem>
+                        );
+                      })}
+
+                      {totalPages > 5 && page < totalPages - 2 && (
+                        <PaginationItem>
+                          <PaginationEllipsis />
+                        </PaginationItem>
+                      )}
+
+                      {totalPages > 5 && (
+                        <PaginationItem>
+                          <PaginationLink
+                            onClick={() => handlePageChange(totalPages)}
+                            isActive={page === totalPages}
+                            className="cursor-pointer"
+                          >
+                            {totalPages}
+                          </PaginationLink>
+                        </PaginationItem>
+                      )}
+
+                      <PaginationItem>
+                        <PaginationNext
+                          onClick={() => handlePageChange(Math.min(totalPages, page + 1))}
+                          className={page === totalPages ? 'pointer-events-none opacity-50' : 'cursor-pointer'}
+                        />
+                      </PaginationItem>
+                    </PaginationContent>
+                  </Pagination>
+                </div>
+              )}
+
+              {/* Show current page info */}
+              <div className="text-center text-sm text-muted-foreground">
+                Showing
+{' '}
+{projects.length}
+{' '}
+of
+{' '}
+{total}
+{' '}
+projects (Page
+{' '}
+{page}
+{' '}
+of
+{' '}
+{totalPages}
+)
+              </div>
+            </div>
           )}
         </CardContent>
       </Card>

@@ -30,25 +30,14 @@ import { Textarea } from '@/components/ui/textarea';
 import { useToast } from '@/components/ui/toast';
 
 const createProjectSchema = z.object({
-  name: z.string().min(3, 'Project name must be at least 3 characters'),
+  name: z.string().min(3, 'Project name required'),
   description: z.string().optional(),
-  budget: z.coerce.number().min(1, 'Budget must be greater than 0').optional(),
+  budget: z.coerce.number().optional(),
   startDate: z.string().optional(),
   endDate: z.string().optional(),
-        status: z.enum(['PLANNING', 'IN_PROGRESS', 'COMPLETED']).optional(),
+  status: z.enum(['PLANNING', 'IN_PROGRESS', 'DONE']).default('PLANNING'),
   managerId: z.string().optional(),
-  thumbnailUrl: z.string()
-    .url('Please enter a valid URL')
-    .refine((url) => {
-      if (!url) {
- return true;
-} // Optional field
-      // Must be Cloudinary URL, not base64
-      return url.startsWith('https://res.cloudinary.com/') && !url.startsWith('data:');
-    }, {
-      message: 'Please upload image to Cloudinary (base64 not allowed)',
-    })
-    .optional(),
+  thumbnailUrl: z.string().optional(),
 }).refine((data) => {
   if (data.startDate && data.endDate) {
     return new Date(data.startDate) <= new Date(data.endDate);
@@ -112,38 +101,36 @@ export function CreateProjectModal({
     defaultValues: {
       name: '',
       description: '',
-      budget: 0,
+      budget: undefined,
       startDate: '',
       endDate: '',
       status: 'PLANNING',
       managerId: '',
       thumbnailUrl: '',
     },
-    mode: 'onChange', // Enable real-time validation
+    mode: 'onChange',
   });
 
-      const handleSubmit = async (data: CreateProjectFormData) => {
-        try {
-          await onSubmit(data);
-          form.reset();
-          onOpenChange(false);
-          // 🚀 Call refresh callback after successful creation
-          onProjectCreated?.();
-          addToast({
-            type: 'success',
-            title: 'Project Created',
-            description: 'Project has been created successfully!',
-          });
-        } catch (error) {
-          console.error('Form submit error:', error);
-          addToast({
-            type: 'error',
-            title: 'Failed to Create Project',
-            description: error instanceof Error ? error.message : 'An error occurred while creating the project.',
-          });
-          // Don't close modal on error
-        }
-      };
+  const handleSubmit = async (data: CreateProjectFormData) => {
+    try {
+      await onSubmit(data);
+      form.reset();
+      onOpenChange(false);
+      onProjectCreated?.();
+      addToast({
+        type: 'success',
+        title: 'Project Created',
+        description: 'Project has been created successfully!',
+      });
+    } catch (error) {
+      console.error('Form submit error:', error);
+      addToast({
+        type: 'error',
+        title: 'Failed to Create Project',
+        description: error instanceof Error ? error.message : 'Failed to create project',
+      });
+    }
+  };
 
   // Check if form is valid for submit button - only name is required
   const watchedValues = form.watch();
@@ -188,7 +175,7 @@ export function CreateProjectModal({
                   name="description"
                   render={({ field }) => (
                     <FormItem>
-                      <FormLabel>Description (Optional)</FormLabel>
+                      <FormLabel>Description</FormLabel>
                       <FormControl>
                         <Textarea
                           placeholder="Enter project description"
@@ -210,19 +197,19 @@ export function CreateProjectModal({
                     name="budget"
                     render={({ field }) => (
                       <FormItem>
-                        <FormLabel>Budget (₫) (Optional)</FormLabel>
+                        <FormLabel>Budget (₫)</FormLabel>
                         <FormControl>
                           <div className="relative">
+                            <span className="absolute left-3 top-1/2 -translate-y-1/2 text-sm text-muted-foreground">
+                              ₫
+                            </span>
                             <Input
                               type="number"
                               placeholder="0"
-                              value={field.value ?? 0}
-                              onChange={e => field.onChange(e.target.value ? Number(e.target.value) : 0)}
-                              className={form.formState.errors.budget ? 'border-destructive' : ''}
+                              value={field.value ?? ''}
+                              onChange={e => field.onChange(e.target.value ? Number(e.target.value) : undefined)}
+                              className={`pl-8 ${form.formState.errors.budget ? 'border-destructive' : ''}`}
                             />
-                            <span className="absolute right-3 top-1/2 -translate-y-1/2 text-sm text-muted-foreground">
-                              ₫
-                            </span>
                           </div>
                         </FormControl>
                         <FormMessage />
@@ -235,7 +222,7 @@ export function CreateProjectModal({
                     name="startDate"
                     render={({ field }) => (
                       <FormItem>
-                        <FormLabel>Start Date (Optional)</FormLabel>
+                        <FormLabel>Start Date</FormLabel>
                         <FormControl>
                           <Input
                             type="date"
@@ -250,34 +237,33 @@ export function CreateProjectModal({
                   />
                 </div>
 
-                {/* End Date - Full width */}
-                <FormField
-                  control={form.control}
-                  name="endDate"
-                  render={({ field }) => (
-                    <FormItem>
-                      <FormLabel>Estimated End Date (Optional)</FormLabel>
-                      <FormControl>
-                        <Input
-                          type="date"
-                          value={field.value ?? ''}
-                          onChange={field.onChange}
-                          className={form.formState.errors.endDate ? 'border-destructive' : ''}
-                        />
-                      </FormControl>
-                      <FormMessage />
-                    </FormItem>
-                  )}
-                />
-
-                {/* Status and Manager - Grid 2 columns */}
+                {/* End Date and Status - Grid 2 columns */}
                 <div className="grid grid-cols-1 gap-4 md:grid-cols-2">
+                  <FormField
+                    control={form.control}
+                    name="endDate"
+                    render={({ field }) => (
+                      <FormItem>
+                        <FormLabel>Estimated End Date</FormLabel>
+                        <FormControl>
+                          <Input
+                            type="date"
+                            value={field.value ?? ''}
+                            onChange={field.onChange}
+                            className={form.formState.errors.endDate ? 'border-destructive' : ''}
+                          />
+                        </FormControl>
+                        <FormMessage />
+                      </FormItem>
+                    )}
+                  />
+
                   <FormField
                     control={form.control}
                     name="status"
                     render={({ field }) => (
                       <FormItem>
-                        <FormLabel>Status (Optional)</FormLabel>
+                        <FormLabel>Status</FormLabel>
                         <Select onValueChange={field.onChange} value={field.value}>
                           <FormControl>
                             <SelectTrigger className={form.formState.errors.status ? 'border-destructive' : ''}>
@@ -287,45 +273,46 @@ export function CreateProjectModal({
                           <SelectContent>
                             <SelectItem value="PLANNING">Planning</SelectItem>
                             <SelectItem value="IN_PROGRESS">In Progress</SelectItem>
-                            <SelectItem value="COMPLETED">Completed</SelectItem>
+                            <SelectItem value="DONE">Done</SelectItem>
                           </SelectContent>
                         </Select>
                         <FormMessage />
                       </FormItem>
                     )}
                   />
-
-                  <FormField
-                    control={form.control}
-                    name="managerId"
-                    render={({ field }) => {
-                      return (
-                        <FormItem>
-                          <FormLabel>Assign Manager (Optional)</FormLabel>
-                          <FormControl>
-                            <Combobox
-                              options={organizationUsers}
-                              value={field.value ?? ''}
-                              onValueChange={field.onChange}
-                              placeholder={usersLoading ? 'Loading users...' : 'Select manager'}
-                              disabled={usersLoading}
-                              className={form.formState.errors.managerId ? 'border-destructive' : ''}
-                            />
-                          </FormControl>
-                          <FormMessage />
-                        </FormItem>
-                      );
-                    }}
-                  />
                 </div>
 
-                {/* Avatar/Thumbnail - Full width */}
+                {/* Manager - Full width */}
+                <FormField
+                  control={form.control}
+                  name="managerId"
+                  render={({ field }) => {
+                    return (
+                      <FormItem>
+                        <FormLabel>Assign Manager</FormLabel>
+                        <FormControl>
+                          <Combobox
+                            options={organizationUsers}
+                            value={field.value ?? ''}
+                            onValueChange={field.onChange}
+                            placeholder={usersLoading ? 'Loading users...' : 'Select manager'}
+                            disabled={usersLoading}
+                            className={form.formState.errors.managerId ? 'border-destructive' : ''}
+                          />
+                        </FormControl>
+                        <FormMessage />
+                      </FormItem>
+                    );
+                  }}
+                />
+
+                {/* Project Thumbnail - Full width */}
                 <FormField
                   control={form.control}
                   name="thumbnailUrl"
                   render={({ field }) => (
                     <FormItem>
-                      <FormLabel>Project Thumbnail (Optional)</FormLabel>
+                      <FormLabel>Project Thumbnail</FormLabel>
                       <FormControl>
                         <SimpleUpload
                           value={field.value ?? ''}
@@ -346,7 +333,10 @@ export function CreateProjectModal({
               <Button
                 type="button"
                 variant="outline"
-                onClick={() => onOpenChange(false)}
+                onClick={() => {
+                  form.reset();
+                  onOpenChange(false);
+                }}
                 disabled={form.formState.isSubmitting}
                 className="w-full sm:w-auto"
               >
@@ -360,7 +350,7 @@ export function CreateProjectModal({
                 {form.formState.isSubmitting
 ? (
                   <>
-                    <div className="mr-2 size-4 animate-spin rounded-full border-2 border-background border-t-transparent" />
+                    <div className="mr-2 size-4 animate-spin rounded-full border-2 border-current border-t-transparent" />
                     Creating...
                   </>
                 )
