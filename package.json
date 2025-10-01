@@ -50,6 +50,7 @@
     "@sentry/nextjs": "^8.55.0",
     "@spotlightjs/spotlight": "^2.5.0",
     "@t3-oss/env-nextjs": "^0.11.1",
+    "@tanstack/react-query": "^5.90.2",
     "@tanstack/react-table": "^8.20.5",
     "class-variance-authority": "^0.7.0",
     "cloudinary-react": "^1.8.1",

@@ -27,6 +27,22 @@ export default withSentryConfig(
       experimental: {
         serverComponentsExternalPackages: ['@electric-sql/pglite'],
       },
+      images: {
+        remotePatterns: [
+          {
+            protocol: 'https',
+            hostname: 'res.cloudinary.com',
+            port: '',
+            pathname: '/**',
+          },
+          {
+            protocol: 'https',
+            hostname: 'via.placeholder.com',
+            port: '',
+            pathname: '/**',
+          },
+        ],
+      },
     }),
   ),
   {

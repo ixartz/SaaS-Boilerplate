@@ -1,4 +1,4 @@
-import { eq, isNull } from 'drizzle-orm';
+import { desc, eq, isNull } from 'drizzle-orm';
 import type { NextRequest } from 'next/server';
 
 import { db } from '@/libs/DB';
@@ -48,7 +48,8 @@ export async function GET(req: NextRequest) {
         deletedAt: projectsSchema.deletedAt,
       })
       .from(projectsSchema)
-      .where(isNull(projectsSchema.deletedAt));
+      .where(isNull(projectsSchema.deletedAt))
+      .orderBy(desc(projectsSchema.createdAt)); // 🚀 Newest first
 
     return new Response(JSON.stringify({
       ok: true,

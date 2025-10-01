@@ -6,7 +6,6 @@ import { useForm } from 'react-hook-form';
 import { z } from 'zod';
 
 import { Button } from '@/components/ui/button';
-import { SimpleUpload } from '@/components/ui/simple-upload';
 import { Combobox, type ComboboxOption } from '@/components/ui/combobox-simple';
 import {
   Dialog,
@@ -26,6 +25,7 @@ import {
 } from '@/components/ui/form';
 import { Input } from '@/components/ui/input';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select-simple';
+import { SimpleUpload } from '@/components/ui/simple-upload';
 import { Textarea } from '@/components/ui/textarea';
 import { useToast } from '@/components/ui/toast';
 
@@ -77,8 +77,6 @@ function useOrganizationUsers() {
             ];
             setUsers(mockUsers);
             setLoading(false);
-            return;
-            
           } catch (error) {
             console.error('Error fetching users:', error);
             setUsers([]);
@@ -97,12 +95,14 @@ type CreateProjectModalProps = {
   open: boolean;
   onOpenChange: (open: boolean) => void;
   onSubmit: (data: CreateProjectFormData) => Promise<void>;
+  onProjectCreated?: () => void; // 🚀 Add refresh callback
 };
 
 export function CreateProjectModal({
   open,
   onOpenChange,
   onSubmit,
+  onProjectCreated,
 }: CreateProjectModalProps) {
   const { addToast } = useToast();
   const { users: organizationUsers, loading: usersLoading } = useOrganizationUsers();
@@ -112,10 +112,10 @@ export function CreateProjectModal({
     defaultValues: {
       name: '',
       description: '',
-      budget: undefined,
+      budget: 0,
       startDate: '',
       endDate: '',
-      status: undefined,
+      status: 'PLANNING',
       managerId: '',
       thumbnailUrl: '',
     },
@@ -127,6 +127,8 @@ export function CreateProjectModal({
           await onSubmit(data);
           form.reset();
           onOpenChange(false);
+          // 🚀 Call refresh callback after successful creation
+          onProjectCreated?.();
           addToast({
             type: 'success',
             title: 'Project Created',
@@ -192,7 +194,8 @@ export function CreateProjectModal({
                           placeholder="Enter project description"
                           className="resize-none"
                           rows={3}
-                          {...field}
+                          value={field.value ?? ""}
+                          onChange={field.onChange}
                         />
                       </FormControl>
                       <FormMessage />
@@ -213,8 +216,8 @@ export function CreateProjectModal({
                             <Input
                               type="number"
                               placeholder="0"
-                              {...field}
-                              onChange={e => field.onChange(e.target.value ? Number(e.target.value) : undefined)}
+                              value={field.value ?? 0}
+                              onChange={e => field.onChange(e.target.value ? Number(e.target.value) : 0)}
                               className={form.formState.errors.budget ? 'border-destructive' : ''}
                             />
                             <span className="absolute right-3 top-1/2 -translate-y-1/2 text-sm text-muted-foreground">
@@ -236,7 +239,8 @@ export function CreateProjectModal({
                         <FormControl>
                           <Input
                             type="date"
-                            {...field}
+                            value={field.value ?? ""}
+                            onChange={field.onChange}
                             className={form.formState.errors.startDate ? 'border-destructive' : ''}
                           />
                         </FormControl>
@@ -256,7 +260,8 @@ export function CreateProjectModal({
                       <FormControl>
                         <Input
                           type="date"
-                          {...field}
+                          value={field.value ?? ""}
+                          onChange={field.onChange}
                           className={form.formState.errors.endDate ? 'border-destructive' : ''}
                         />
                       </FormControl>
@@ -273,7 +278,7 @@ export function CreateProjectModal({
                     render={({ field }) => (
                       <FormItem>
                         <FormLabel>Status (Optional)</FormLabel>
-                        <Select onValueChange={field.onChange} defaultValue={field.value}>
+                        <Select onValueChange={field.onChange} value={field.value}>
                           <FormControl>
                             <SelectTrigger className={form.formState.errors.status ? 'border-destructive' : ''}>
                               <SelectValue placeholder="Select status" />
@@ -300,7 +305,7 @@ export function CreateProjectModal({
                           <FormControl>
                             <Combobox
                               options={organizationUsers}
-                              value={field.value}
+                              value={field.value ?? ""}
                               onValueChange={field.onChange}
                               placeholder={usersLoading ? 'Loading users...' : 'Select manager'}
                               disabled={usersLoading}
@@ -323,7 +328,7 @@ export function CreateProjectModal({
                       <FormLabel>Project Thumbnail (Optional)</FormLabel>
                       <FormControl>
                         <SimpleUpload
-                          value={field.value}
+                          value={field.value ?? ""}
                           onChange={field.onChange}
                           onRemove={() => field.onChange('')}
                           accept="image/*"

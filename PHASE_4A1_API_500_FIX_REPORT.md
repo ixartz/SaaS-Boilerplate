@@ -26,10 +26,10 @@
 ### 1. **Foreign Key Constraint Fix**
 ```typescript
 // ❌ Sai - orgId không tồn tại
-orgId: 'test-org'
+orgId: 'test-org';
 
 // ✅ Đúng - sử dụng orgId có sẵn
-orgId: 'org_e2e_default'
+orgId: 'org_e2e_default';
 ```
 
 ### 2. **Database Verification**
@@ -45,7 +45,7 @@ SELECT id, name, thumbnail_url FROM projects WHERE org_id = 'org_e2e_default';
 
 ### 3. **API Endpoints Consistency**
 - **Projects API**: Sử dụng `org_e2e_default`
-- **Media Upload API**: Sử dụng `org_e2e_default`  
+- **Media Upload API**: Sử dụng `org_e2e_default`
 - **Media Project API**: Filter theo `projectId` đúng
 - **Dashboard**: Headers `x-org-id: org_e2e_default`
 
@@ -78,7 +78,7 @@ if (!project) {
 POST /api/v1/projects
 # ✅ 201 Created - Project created successfully
 
-# Projects API - List  
+# Projects API - List
 GET /api/v1/projects
 # ✅ 200 OK - Returns projects list with thumbnails
 
@@ -90,9 +90,9 @@ POST /api/v1/cloudinary/sign
 ### ✅ Database Verification
 ```sql
 -- Projects table
-SELECT id, name, description, thumbnail_url, org_id 
-FROM projects 
-WHERE org_id = 'org_e2e_default' 
+SELECT id, name, description, thumbnail_url, org_id
+FROM projects
+WHERE org_id = 'org_e2e_default'
 ORDER BY created_at DESC LIMIT 3;
 
 -- Result: 3 projects including new test projects with thumbnails
@@ -101,7 +101,7 @@ ORDER BY created_at DESC LIMIT 3;
 ### ✅ End-to-End Flow
 ```
 1. User clicks "Create Project" → Modal opens ✅
-2. User uploads thumbnail → Cloudinary upload ✅  
+2. User uploads thumbnail → Cloudinary upload ✅
 3. User fills form → Form validation ✅
 4. User submits → API call to /api/v1/projects ✅
 5. Database insert → Project saved with thumbnail_url ✅
@@ -182,12 +182,12 @@ Root cause đã được xác định và fix: foreign key constraint violation 
 
 **Create Project flow hoạt động hoàn hảo:**
 - Upload thumbnail → Cloudinary ✅
-- Submit form → API 201 Created ✅  
+- Submit form → API 201 Created ✅
 - Database insert → Project saved ✅
 - Dashboard display → Thumbnail shows ✅
 
 **Ready for production!** 🚀
 
 ---
-*Report generated: 2025-10-01*  
+*Report generated: 2025-10-01*
 *Branch: fix/4a1-upload-gallery-create-project*

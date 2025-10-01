@@ -1,4 +1,5 @@
 import crypto from 'node:crypto';
+
 import type { NextRequest } from 'next/server';
 
 export async function POST(req: NextRequest) {
@@ -29,11 +30,11 @@ export async function POST(req: NextRequest) {
     }
 
     const timestamp = Math.round(new Date().getTime() / 1000);
-    
+
     // Create signature for upload
     const params = {
       timestamp: timestamp.toString(),
-      folder: folder,
+      folder,
       public_id: public_id || `upload_${timestamp}`,
     };
 

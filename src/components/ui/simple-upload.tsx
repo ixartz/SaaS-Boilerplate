@@ -1,7 +1,7 @@
 'use client';
 
-import { Image, Transformation } from 'cloudinary-react';
 import { Loader2, Upload, X } from 'lucide-react';
+import Image from 'next/image';
 import React, { useState } from 'react';
 
 import { Button } from '@/components/ui/button';
@@ -171,12 +171,12 @@ MB
         <div className="relative">
           <div className="aspect-video w-full overflow-hidden rounded-lg border">
             <Image
-              publicId={getPublicId(value)}
-              cloudName={process.env.NEXT_PUBLIC_CLOUDINARY_CLOUD_NAME || 'dy44qfit2'}
+              src={value || '/images/placeholder.svg'}
+              alt="Project thumbnail"
+              width={400}
+              height={300}
               className="size-full object-cover"
-            >
-              <Transformation crop="fill" gravity="auto" quality="auto" />
-            </Image>
+            />
           </div>
           <Button
             type="button"

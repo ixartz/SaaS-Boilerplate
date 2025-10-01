@@ -25,7 +25,7 @@ export async function GET(
       .from(mediaAssetsSchema)
       .where(
         and(
-          eq(mediaAssetsSchema.projectId, projectId),
+             eq(mediaAssetsSchema.dailyLogId, projectId),
           isNull(mediaAssetsSchema.deletedAt),
         ),
       );

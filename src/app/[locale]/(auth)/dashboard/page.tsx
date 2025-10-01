@@ -1,5 +1,7 @@
 'use client';
 
+import React from 'react';
+import { useQuery } from '@tanstack/react-query';
 import {
   Building2,
   Calendar,
@@ -7,7 +9,6 @@ import {
   TrendingUp,
   Users,
 } from 'lucide-react';
-import React from 'react';
 
 import { CreateProjectModal } from '@/components/admin/create-project-modal';
 import { KPICard } from '@/components/admin/kpi-card';
@@ -16,7 +17,7 @@ import { AdminTable } from '@/components/admin/table';
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
-import { CloudinaryImage } from '@/components/ui/cloudinary-image';
+import Image from 'next/image';
 
 // Project type definition
 type Project = {
@@ -47,21 +48,13 @@ const projectColumns = [
     label: 'Thumbnail',
     render: (value: string) => (
       <div className="h-12 w-16 overflow-hidden rounded-lg border">
-        {value
-? (
-          <CloudinaryImage
-            src={value}
-            alt="Project thumbnail"
-            width={64}
-            height={48}
-            className="size-full object-cover"
-          />
-        )
-: (
-          <div className="flex size-full items-center justify-center bg-gray-200 text-xs text-gray-500">
-            No Image
-          </div>
-        )}
+        <Image
+          src={value || "/images/placeholder.svg"}
+          alt="Project thumbnail"
+          width={64}
+          height={48}
+          className="size-full object-cover"
+        />
       </div>
     ),
   },
@@ -130,54 +123,44 @@ const projectColumns = [
   },
 ];
 
-// Hook to fetch projects
+// Hook to fetch projects using React Query
 function useProjects() {
-  const [projects, setProjects] = React.useState<Project[]>([]);
-  const [loading, setLoading] = React.useState(true);
-  const [error, setError] = React.useState<string | null>(null);
+  const {
+    data: projectsData,
+    isLoading: loading,
+    error,
+    refetch,
+  } = useQuery({
+    queryKey: ['projects'],
+    queryFn: async () => {
+      const response = await fetch('/api/v1/projects', {
+        headers: {
+          'x-e2e-bypass': 'true',
+          'x-org-id': 'org_e2e_default',
+          'x-user-id': 'test-user',
+        },
+      });
 
-  React.useEffect(() => {
-    async function fetchProjects() {
-      try {
-        setLoading(true);
-        const response = await fetch('/api/v1/projects', {
-          headers: {
-            'x-e2e-bypass': 'true',
-               'x-org-id': 'org_e2e_default',
-            'x-user-id': 'test-user',
-          },
-        });
-
-        if (!response.ok) {
-          throw new Error('Failed to fetch projects');
-        }
-
-        const data = await response.json();
-        if (data.ok && data.projects) {
-          setProjects(data.projects);
-        } else {
-          setProjects([]);
-        }
-      } catch (err) {
-        console.error('Error fetching projects:', err);
-        setError(err instanceof Error ? err.message : 'Unknown error');
-        setProjects([]);
-      } finally {
-        setLoading(false);
+      if (!response.ok) {
+        throw new Error('Failed to fetch projects');
       }
-    }
 
-    fetchProjects();
-  }, []);
+      const data = await response.json();
+      if (data.ok && data.projects) {
+        return data.projects;
+      }
+      return [];
+    },
+    staleTime: 30000, // 30 seconds
+    refetchOnWindowFocus: false,
+  });
 
-  const refetch = React.useCallback(() => {
-    setLoading(true);
-    setError(null);
-    // Re-trigger the effect
-    setProjects([]);
-  }, []);
-
-  return { projects, loading, error, refetch };
+  return {
+    projects: projectsData || [],
+    loading,
+    error: error?.message || null,
+    refetch,
+  };
 }
 
 const DashboardIndexPage = () => {
@@ -201,7 +184,7 @@ const DashboardIndexPage = () => {
       headers: {
         'Content-Type': 'application/json',
         'x-e2e-bypass': 'true',
-               'x-org-id': 'org_e2e_default',
+        'x-org-id': 'org_e2e_default',
         'x-user-id': 'test-user',
       },
       body: JSON.stringify(payload),
@@ -215,7 +198,7 @@ const DashboardIndexPage = () => {
 
     await response.json();
 
-    // Refresh the projects list
+    // 🚀 Refresh the projects list using React Query
     refetch();
   };
 
@@ -251,7 +234,7 @@ const DashboardIndexPage = () => {
           title="Total Budget"
           value={loading
 ? '...'
-: projects.reduce((total, project) => {
+: projects.reduce((total: number, project: Project) => {
             const budget = project.budget ? Number(project.budget) : 0;
             return total + budget;
           }, 0).toLocaleString('vi-VN', {
@@ -267,7 +250,7 @@ const DashboardIndexPage = () => {
         />
         <KPICard
           title="Active Projects"
-          value={loading ? '...' : projects.filter(p => p.status === 'IN_PROGRESS').length}
+          value={loading ? '...' : projects.filter((p: Project) => p.status === 'IN_PROGRESS').length}
           description="Projects in progress"
           icon={Calendar}
           trend={{ value: -3, label: 'from last week' }}
@@ -275,7 +258,7 @@ const DashboardIndexPage = () => {
         />
         <KPICard
           title="Team Members"
-          value={loading ? '...' : new Set(projects.map(p => p.managerId).filter(Boolean)).size}
+          value={loading ? '...' : new Set(projects.map((p: Project) => p.managerId).filter(Boolean)).size}
           description="Active managers"
           icon={Users}
           trend={{ value: 2, label: 'new this month' }}
@@ -436,6 +419,7 @@ const DashboardIndexPage = () => {
         open={isCreateModalOpen}
         onOpenChange={setIsCreateModalOpen}
         onSubmit={handleCreateProject}
+        onProjectCreated={refetch} // 🚀 Pass refetch function
       />
     </div>
   );
