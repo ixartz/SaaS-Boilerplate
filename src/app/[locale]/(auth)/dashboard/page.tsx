@@ -13,7 +13,7 @@ import React from 'react';
 import { CreateProjectModal } from '@/components/admin/create-project-modal';
 import { KPICard } from '@/components/admin/kpi-card';
 import { useProject } from '@/components/admin/project-context';
-import { AdminTable } from '@/components/admin/table';
+import { PaginatedTable } from '@/components/admin/paginated-table';
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
@@ -311,12 +311,16 @@ const DashboardIndexPage = () => {
             </div>
           )
 : (
-            <AdminTable
+            <PaginatedTable
               data={projects}
               columns={projectColumns}
               onEdit={handleEditProject}
               onDelete={handleDeleteProject}
               className="border-0"
+              searchable={true}
+              searchPlaceholder="Search projects..."
+              pageSize={10}
+              showPagination={true}
             />
           )}
         </CardContent>

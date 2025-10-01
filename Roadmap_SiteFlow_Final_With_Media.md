@@ -1,6 +1,6 @@
 # 🛣️ Roadmap — SiteFlow SaaS (Reboot)
 
-> Lộ trình chi tiết để Cursor AI (lợn 🐷) thực thi từng phase, **bám sát Project_Description.md**.  
+> Lộ trình chi tiết để Cursor AI (lợn 🐷) thực thi từng phase, **bám sát Project_Description.md**.
 > Mỗi phase có: Mục tiêu → Công việc → Lệnh thực thi → Kiểm tra/Acceptance → Báo cáo.
 
 ---
@@ -122,21 +122,21 @@ pnpm test
 
 ### Phase 4.A.1 — Dashboard Refactor (Shadcn Admin)
 
-**Mục tiêu:** Refactor Dashboard để follow UI/UX của Shadcn Admin Demo.  
+**Mục tiêu:** Refactor Dashboard để follow UI/UX của Shadcn Admin Demo.
 
-**Công việc:**  
-- Tạo `ShellLayout` (Header + Sidebar).  
-- Sidebar canonical + responsive.  
-- Header: thông tin user/org, i18n switcher, nút Create Project.  
-- Dashboard content: KPI cards, bảng danh sách, modal tạo project (RHF + Zod).  
-- Dark/Light theme toggle.  
-- Fake user = OWNER để bypass auth.  
+**Công việc:**
+- Tạo `ShellLayout` (Header + Sidebar).
+- Sidebar canonical + responsive.
+- Header: thông tin user/org, i18n switcher, nút Create Project.
+- Dashboard content: KPI cards, bảng danh sách, modal tạo project (RHF + Zod).
+- Dark/Light theme toggle.
+- Fake user = OWNER để bypass auth.
 
-**Acceptance ✅:**  
-- `/dashboard` giống giao diện Shadcn Admin Demo.  
-- Sidebar + header hoạt động responsive.  
-- Modal tạo project hoạt động với validate.  
-- Console sạch, UI không vỡ mobile.  
+**Acceptance ✅:**
+- `/dashboard` giống giao diện Shadcn Admin Demo.
+- Sidebar + header hoạt động responsive.
+- Modal tạo project hoạt động với validate.
+- Console sạch, UI không vỡ mobile.
 
 **Mục tiêu:** Tính tiến độ realtime.
 
@@ -161,20 +161,19 @@ pnpm test
 
 ---
 
-
 ### Phase 4.C — Project Members & User Sync
 
-**Mục tiêu:** Cho phép gán user từ Clerk Org vào project với vai trò cụ thể.  
-**Công việc:**  
-- Migration: tạo bảng `users` và `project_members`.  
-- API Create Project: thêm logic sync user và insert project_members với role=manager.  
-- Webhook Clerk: sync org members vào bảng users.  
-- Join project_members + users khi trả project list.  
+**Mục tiêu:** Cho phép gán user từ Clerk Org vào project với vai trò cụ thể.
+**Công việc:**
+- Migration: tạo bảng `users` và `project_members`.
+- API Create Project: thêm logic sync user và insert project_members với role=manager.
+- Webhook Clerk: sync org members vào bảng users.
+- Join project_members + users khi trả project list.
 
-**Acceptance ✅:**  
-- Invite user mới → users table cập nhật.  
-- Create project → project_members có manager.  
-- Dashboard hiển thị avatar manager.  
+**Acceptance ✅:**
+- Invite user mới → users table cập nhật.
+- Create project → project_members có manager.
+- Dashboard hiển thị avatar manager.
 
 **Báo cáo:** Screenshot DB, API response, Dashboard list.
 
@@ -182,16 +181,16 @@ pnpm test
 
 ### Phase 4.D — Project Metadata mở rộng
 
-**Mục tiêu:** Lưu và hiển thị metadata mở rộng cho project.  
-**Công việc:**  
-- Migration: thêm cột `thumbnail_url`, `end_date`, `description` vào projects.  
-- API projects: update payload + validation.  
-- Dashboard: hiển thị thumbnail + estimated end date.  
+**Mục tiêu:** Lưu và hiển thị metadata mở rộng cho project.
+**Công việc:**
+- Migration: thêm cột `thumbnail_url`, `end_date`, `description` vào projects.
+- API projects: update payload + validation.
+- Dashboard: hiển thị thumbnail + estimated end date.
 
-**Acceptance ✅:**  
-- Create project với thumbnail, end date → lưu thành công.  
-- GET projects → trả thêm các field mới.  
-- Dashboard hiển thị dữ liệu đúng.  
+**Acceptance ✅:**
+- Create project với thumbnail, end date → lưu thành công.
+- GET projects → trả thêm các field mới.
+- Dashboard hiển thị dữ liệu đúng.
 
 **Báo cáo:** Screenshot API + UI.
 
@@ -199,18 +198,17 @@ pnpm test
 
 ### Phase 4.E — Dev Bypass & Testing Helpers
 
-**Mục tiêu:** Cho phép dev/test nhanh không cần Clerk login.  
-**Công việc:**  
-- Middleware nhận headers `x-e2e-bypass`, `x-e2e-user`, `x-e2e-org`.  
-- Khi bật bypass, set context user = OWNER.  
-- Document rõ cách dùng trong README.  
+**Mục tiêu:** Cho phép dev/test nhanh không cần Clerk login.
+**Công việc:**
+- Middleware nhận headers `x-e2e-bypass`, `x-e2e-user`, `x-e2e-org`.
+- Khi bật bypass, set context user = OWNER.
+- Document rõ cách dùng trong README.
 
-**Acceptance ✅:**  
-- Dev/test có thể truy cập dashboard không cần login.  
-- API CRUD chạy OK với bypass.  
+**Acceptance ✅:**
+- Dev/test có thể truy cập dashboard không cần login.
+- API CRUD chạy OK với bypass.
 
 **Báo cáo:** Screenshot chạy dev với bypass ON.
-
 
 ## 🖼️ Phase 5 — Media & Upload
 **Mục tiêu:** Quản lý media assets.
@@ -310,19 +308,19 @@ pnpm start
 
 ### Phase 5 — Media Upload & Gallery (Updated)
 
-**Mục tiêu:** Quản lý media assets (ảnh cho project thumbnail, daily logs).  
+**Mục tiêu:** Quản lý media assets (ảnh cho project thumbnail, daily logs).
 
-**Công việc:**  
-- Cài đặt react-uploady + cloudinary-react.  
-- API /api/v1/cloudinary/sign → ký upload.  
-- FE UploadGallery component: preview + upload nhiều ảnh.  
-- Metadata lưu DB (media_assets table).  
-- Dashboard hiển thị project thumbnail.  
-- Project Detail hiển thị daily log gallery.  
+**Công việc:**
+- Cài đặt react-uploady + cloudinary-react.
+- API /api/v1/cloudinary/sign → ký upload.
+- FE UploadGallery component: preview + upload nhiều ảnh.
+- Metadata lưu DB (media_assets table).
+- Dashboard hiển thị project thumbnail.
+- Project Detail hiển thị daily log gallery.
 
-**Acceptance ✅:**  
-- Upload nhiều ảnh thành công → DB lưu metadata.  
-- Thumbnail project hiển thị trên Dashboard.  
-- Daily log gallery hiển thị preview + zoom.  
+**Acceptance ✅:**
+- Upload nhiều ảnh thành công → DB lưu metadata.
+- Thumbnail project hiển thị trên Dashboard.
+- Daily log gallery hiển thị preview + zoom.
 
 **Báo cáo:** Screenshot upload widget, API payload, gallery view.

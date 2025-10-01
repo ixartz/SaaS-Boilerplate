@@ -1,6 +1,6 @@
 // Build-safe database wrapper for Vercel deployment
+import { PGlite } from '@electric-sql/pglite';
 import { drizzle } from 'drizzle-orm/pglite';
-import PGLite from '@electric-sql/pglite';
 
 let db: any = null;
 
@@ -15,30 +15,30 @@ export const getDb = () => {
     return {
       select: () => ({
         from: () => ({
-          where: () => Promise.resolve([])
-        })
+          where: () => Promise.resolve([]),
+        }),
       }),
       insert: () => ({
         values: () => ({
-          returning: () => Promise.resolve([{ id: 'mock' }])
-        })
+          returning: () => Promise.resolve([{ id: 'mock' }]),
+        }),
       }),
       update: () => ({
         set: () => ({
           where: () => ({
-            returning: () => Promise.resolve([{ id: 'mock' }])
-          })
-        })
+            returning: () => Promise.resolve([{ id: 'mock' }]),
+          }),
+        }),
       }),
       delete: () => ({
-        where: () => Promise.resolve([{ id: 'mock' }])
-      })
+        where: () => Promise.resolve([{ id: 'mock' }]),
+      }),
     };
   }
 
   if (!db) {
     try {
-      const pglite = new PGLite();
+      const pglite = new PGlite();
       db = drizzle(pglite);
     } catch (error) {
       console.warn('Database initialization failed:', error);
@@ -46,24 +46,24 @@ export const getDb = () => {
       return {
         select: () => ({
           from: () => ({
-            where: () => Promise.resolve([])
-          })
+            where: () => Promise.resolve([]),
+          }),
         }),
         insert: () => ({
           values: () => ({
-            returning: () => Promise.resolve([{ id: 'mock' }])
-          })
+            returning: () => Promise.resolve([{ id: 'mock' }]),
+          }),
         }),
         update: () => ({
           set: () => ({
             where: () => ({
-              returning: () => Promise.resolve([{ id: 'mock' }])
-            })
-          })
+              returning: () => Promise.resolve([{ id: 'mock' }]),
+            }),
+          }),
         }),
         delete: () => ({
-          where: () => Promise.resolve([{ id: 'mock' }])
-        })
+          where: () => Promise.resolve([{ id: 'mock' }]),
+        }),
       };
     }
   }

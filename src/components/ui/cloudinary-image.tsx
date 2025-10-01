@@ -78,6 +78,14 @@ export function CloudinaryImage({
           className,
         )}
         onClick={onClick}
+        onKeyDown={(e) => {
+          if (e.key === 'Enter' || e.key === ' ') {
+            e.preventDefault();
+            onClick?.();
+          }
+        }}
+        role="button"
+        tabIndex={0}
       >
         No Image
       </div>
@@ -85,13 +93,23 @@ export function CloudinaryImage({
   }
 
   return (
-    <Image
-      cloudName={process.env.NEXT_PUBLIC_CLOUDINARY_CLOUD_NAME || 'dy44qfit2'}
-      publicId={publicId}
-      alt={alt}
-      className={cn('object-cover', className)}
+    <div
       onClick={onClick}
+      onKeyDown={(e) => {
+        if (e.key === 'Enter' || e.key === ' ') {
+          e.preventDefault();
+          onClick?.();
+        }
+      }}
+      role="button"
+      tabIndex={0}
     >
+      <Image
+        cloudName={process.env.NEXT_PUBLIC_CLOUDINARY_CLOUD_NAME || 'dy44qfit2'}
+        publicId={publicId}
+        alt={alt}
+        className={cn('object-cover', className)}
+      >
       <Transformation
         width={width}
         height={height}
@@ -100,6 +118,7 @@ export function CloudinaryImage({
         quality={quality}
         fetchFormat={fetchFormat}
       />
-    </Image>
+      </Image>
+    </div>
   );
 }

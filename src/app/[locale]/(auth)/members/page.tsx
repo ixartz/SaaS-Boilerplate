@@ -69,7 +69,7 @@ export default function MembersPage() {
         title: 'Role Updated',
         description: `Member role changed to ${newRole}`,
       });
-    } catch (error) {
+    } catch {
       // Error handling
       addToast({
         type: 'error',

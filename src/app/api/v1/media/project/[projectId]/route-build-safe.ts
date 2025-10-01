@@ -5,7 +5,7 @@ export async function GET(
   { params }: { params: { projectId: string } },
 ) {
   try {
-    const { projectId } = params;
+    const { projectId: _projectId } = params;
 
     // Mock response for build time
     const mediaAssets: any[] = [];

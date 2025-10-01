@@ -85,9 +85,9 @@ export function MediaGallery({ projectId, className }: MediaGalleryProps) {
     }
   };
 
-  const handleDeleteAsset = async (assetId: string) => {
+  const handleDeleteAsset = async (_assetId: string) => {
     // TODO: Implement delete API
-    console.log('Delete asset:', assetId);
+    // console.log('Delete asset:', assetId);
   };
 
   if (loading) {

@@ -1,21 +1,20 @@
-import { desc, eq, isNull } from 'drizzle-orm';
 import type { NextRequest } from 'next/server';
 
 // Mock database for build time
-const mockDb = {
-  select: () => ({
-    from: () => ({
-      where: () => ({
-        orderBy: () => Promise.resolve([])
-      })
-    })
-  }),
-  insert: () => ({
-    values: () => ({
-      returning: () => Promise.resolve([{ id: 'mock-project' }])
-    })
-  })
-};
+// const _mockDb = {
+//   select: () => ({
+//     from: () => ({
+//       where: () => ({
+//         orderBy: () => Promise.resolve([]),
+//       }),
+//     }),
+//   }),
+//   insert: () => ({
+//     values: () => ({
+//       returning: () => Promise.resolve([{ id: 'mock-project' }]),
+//     }),
+//   }),
+// };
 
 export async function GET(req: NextRequest) {
   try {
@@ -33,7 +32,7 @@ export async function GET(req: NextRequest) {
     }
 
     // Mock response for build time
-    const projects = [];
+    const projects: any[] = [];
 
     return new Response(JSON.stringify({
       ok: true,
@@ -78,7 +77,7 @@ export async function POST(req: NextRequest) {
     }
 
     const body = await req.json();
-    
+
     // Mock response for build time
     const project = {
       id: 'mock-project-id',

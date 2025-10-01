@@ -96,6 +96,7 @@ export function Combobox({
                     key={option.value}
                     type="button"
                     role="option"
+                    aria-selected={value === option.value}
                     className={cn(
                       'relative flex w-full cursor-default select-none items-center rounded-sm py-1.5 pl-8 pr-2 text-sm outline-none hover:bg-gray-100 hover:text-gray-900',
                       value === option.value && 'bg-gray-100 text-gray-900',

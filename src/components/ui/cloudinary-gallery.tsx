@@ -7,9 +7,16 @@ import React, { useState } from 'react';
 import { Button } from '@/components/ui/button';
 import { cn } from '@/lib/utils';
 
+type CloudinaryImage = {
+  publicId: string;
+  secureUrl: string;
+  width?: number;
+  height?: number;
+};
+
 type CloudinaryGalleryProps = {
-  images: string[];
-  onChange?: (images: string[]) => void;
+  images: CloudinaryImage[];
+  onChange?: (images: CloudinaryImage[]) => void;
   disabled?: boolean;
   className?: string;
   maxImages?: number;
@@ -18,8 +25,10 @@ type CloudinaryGalleryProps = {
   showPreview?: boolean;
 };
 
+const defaultImages: CloudinaryImage[] = [];
+
 export function CloudinaryGallery({
-  images = [],
+  images = defaultImages,
   onChange,
   disabled = false,
   className,
@@ -213,7 +222,7 @@ export function CloudinaryGallery({
               <div className="aspect-square overflow-hidden rounded-lg border-2 border-gray-200">
                 <Image
                   cloudName={process.env.NEXT_PUBLIC_CLOUDINARY_CLOUD_NAME || 'dy44qfit2'}
-                  publicId={getPublicId(image)}
+                  publicId={image.publicId}
                   className="size-full object-cover"
                 >
                   <Transformation
@@ -235,7 +244,7 @@ export function CloudinaryGallery({
                     variant="secondary"
                     size="icon"
                     className="size-8 opacity-0 transition-opacity duration-200 group-hover:opacity-100"
-                    onClick={() => handlePreview(image)}
+                    onClick={() => handlePreview(image.secureUrl)}
                   >
                     <Eye className="size-4" />
                   </Button>
