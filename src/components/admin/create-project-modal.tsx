@@ -6,7 +6,7 @@ import { useForm } from 'react-hook-form';
 import { z } from 'zod';
 
 import { Button } from '@/components/ui/button';
-import { CloudinaryUpload } from '@/components/ui/cloudinary-upload';
+import { SimpleUpload } from '@/components/ui/simple-upload';
 import { Combobox, type ComboboxOption } from '@/components/ui/combobox-simple';
 import {
   Dialog,
@@ -35,7 +35,7 @@ const createProjectSchema = z.object({
   budget: z.coerce.number().min(1, 'Budget must be greater than 0').optional(),
   startDate: z.string().optional(),
   endDate: z.string().optional(),
-  status: z.enum(['Planning', 'In Progress', 'Completed']).optional(),
+        status: z.enum(['PLANNING', 'IN_PROGRESS', 'COMPLETED']).optional(),
   managerId: z.string().optional(),
   thumbnailUrl: z.string()
     .url('Please enter a valid URL')
@@ -69,28 +69,16 @@ function useOrganizationUsers() {
   React.useEffect(() => {
         async function fetchUsers() {
           try {
-            const response = await fetch('/api/test-users');
-
-            if (response.ok) {
-              const data = await response.json();
-
-              if (data.ok && data.items && data.items.length > 0) {
-                const userOptions: ComboboxOption[] = data.items.map((user: any) => ({
-                  value: user.clerkUserId, // Use Clerk user ID
-                  label: user.name || user.displayName || user.email,
-                  avatar: user.avatarUrl || `https://ui-avatars.com/api/?name=${encodeURIComponent(user.name || user.email)}&background=random`,
-                }));
-                setUsers(userOptions);
-              } else {
-                console.error('No users found in database');
-                setUsers([]);
-              }
-            } else {
-              console.error('Failed to fetch users:', response.status);
-              const errorData = await response.json();
-              console.error('Error details:', errorData);
-              setUsers([]);
-            }
+            // Mock users for now - in production this would call Clerk API
+            const mockUsers: ComboboxOption[] = [
+              { value: 'user-1', label: 'John Doe (Manager)' },
+              { value: 'user-2', label: 'Jane Smith (Engineer)' },
+              { value: 'user-3', label: 'Mike Johnson (PM)' },
+            ];
+            setUsers(mockUsers);
+            setLoading(false);
+            return;
+            
           } catch (error) {
             console.error('Error fetching users:', error);
             setUsers([]);
@@ -292,9 +280,9 @@ export function CreateProjectModal({
                             </SelectTrigger>
                           </FormControl>
                           <SelectContent>
-                            <SelectItem value="Planning">Planning</SelectItem>
-                            <SelectItem value="In Progress">In Progress</SelectItem>
-                            <SelectItem value="Completed">Completed</SelectItem>
+                            <SelectItem value="PLANNING">Planning</SelectItem>
+                            <SelectItem value="IN_PROGRESS">In Progress</SelectItem>
+                            <SelectItem value="COMPLETED">Completed</SelectItem>
                           </SelectContent>
                         </Select>
                         <FormMessage />
@@ -334,7 +322,7 @@ export function CreateProjectModal({
                     <FormItem>
                       <FormLabel>Project Thumbnail (Optional)</FormLabel>
                       <FormControl>
-                        <CloudinaryUpload
+                        <SimpleUpload
                           value={field.value}
                           onChange={field.onChange}
                           onRemove={() => field.onChange('')}

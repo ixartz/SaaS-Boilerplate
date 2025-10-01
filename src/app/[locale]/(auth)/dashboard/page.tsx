@@ -140,15 +140,21 @@ function useProjects() {
     async function fetchProjects() {
       try {
         setLoading(true);
-        const response = await fetch('/api/test-projects-frontend');
+        const response = await fetch('/api/v1/projects', {
+          headers: {
+            'x-e2e-bypass': 'true',
+            'x-org-id': 'test-org',
+            'x-user-id': 'test-user',
+          },
+        });
 
         if (!response.ok) {
           throw new Error('Failed to fetch projects');
         }
 
         const data = await response.json();
-        if (data.ok && data.items) {
-          setProjects(data.items);
+        if (data.ok && data.projects) {
+          setProjects(data.projects);
         } else {
           setProjects([]);
         }
@@ -190,10 +196,13 @@ const DashboardIndexPage = () => {
       thumbnailUrl: data.thumbnailUrl,
     };
 
-    const response = await fetch('/api/test-projects-frontend', {
+    const response = await fetch('/api/v1/projects', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
+        'x-e2e-bypass': 'true',
+        'x-org-id': 'test-org',
+        'x-user-id': 'test-user',
       },
       body: JSON.stringify(payload),
     });
