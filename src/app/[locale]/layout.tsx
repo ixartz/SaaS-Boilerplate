@@ -11,7 +11,18 @@ import { QueryProvider } from '@/providers/query-client-provider';
 import { AllLocales } from '@/utils/AppConfig';
 
 export const metadata: Metadata = {
-  // Removed favicon links to prevent 404 errors
+  title: 'SiteFlow - Construction Project Management',
+  description: 'Professional construction project management platform',
+  icons: {
+    icon: [
+      { url: '/favicon-16x16.png', sizes: '16x16', type: 'image/png' },
+      { url: '/favicon-32x32.png', sizes: '32x32', type: 'image/png' },
+      { url: '/favicon.ico', sizes: 'any' },
+    ],
+    apple: [
+      { url: '/apple-touch-icon.png', sizes: '180x180', type: 'image/png' },
+    ],
+  },
 };
 
 export function generateStaticParams() {

@@ -17,7 +17,7 @@ import { AdminTable } from '@/components/admin/table';
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
-import Image from 'next/image';
+import { SafeImage } from '@/components/ui/safe-image';
 
 // Project type definition
 type Project = {
@@ -48,12 +48,12 @@ const projectColumns = [
     label: 'Thumbnail',
     render: (value: string) => (
       <div className="h-12 w-16 overflow-hidden rounded-lg border">
-        <Image
-          src={value || "/images/placeholder.svg"}
+        <SafeImage
+          src={value}
           alt="Project thumbnail"
           width={64}
           height={48}
-          className="size-full object-cover"
+          className="size-full"
         />
       </div>
     ),

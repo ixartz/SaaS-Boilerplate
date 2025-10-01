@@ -35,12 +35,6 @@ export default withSentryConfig(
             port: '',
             pathname: '/**',
           },
-          {
-            protocol: 'https',
-            hostname: 'via.placeholder.com',
-            port: '',
-            pathname: '/**',
-          },
         ],
       },
     }),

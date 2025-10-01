@@ -1,8 +1,9 @@
 'use client';
 
-import { Loader2, Upload, X } from 'lucide-react';
-import Image from 'next/image';
 import React, { useState } from 'react';
+import { Loader2, Upload, X } from 'lucide-react';
+
+import { SafeImage } from '@/components/ui/safe-image';
 
 import { Button } from '@/components/ui/button';
 import { cn } from '@/lib/utils';
@@ -100,32 +101,6 @@ export function SimpleUpload({
     onRemove?.();
   };
 
-  // Extract public ID from Cloudinary URL
-  const getPublicId = (url: string) => {
-    if (!url) {
-      return '';
-    }
-
-    // Check if it's already a Cloudinary URL
-    if (url.includes('res.cloudinary.com')) {
-      try {
-        // Extract public ID from Cloudinary URL
-        // Format: https://res.cloudinary.com/cloud_name/image/upload/v1234567890/folder/public_id.ext
-        const urlParts = url.split('/');
-        const uploadIndex = urlParts.findIndex(part => part === 'upload');
-        if (uploadIndex !== -1 && urlParts.length > uploadIndex + 2) {
-          // Skip version if present
-          const startIndex = urlParts[uploadIndex + 1]?.startsWith('v') ? uploadIndex + 2 : uploadIndex + 1;
-          const publicIdParts = urlParts.slice(startIndex);
-          return publicIdParts.join('/').replace(/\.[^/.]+$/, ''); // Remove extension
-        }
-      } catch (err) {
-        console.warn('Failed to extract public ID from URL:', err);
-      }
-    }
-
-    return url; // Fallback to full URL
-  };
 
   return (
     <div className={cn('space-y-4', className)}>
@@ -170,12 +145,12 @@ MB
 : (
         <div className="relative">
           <div className="aspect-video w-full overflow-hidden rounded-lg border">
-            <Image
-              src={value || '/images/placeholder.svg'}
+            <SafeImage
+              src={value}
               alt="Project thumbnail"
               width={400}
               height={300}
-              className="size-full object-cover"
+              className="size-full"
             />
           </div>
           <Button
