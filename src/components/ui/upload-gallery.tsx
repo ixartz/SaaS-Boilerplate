@@ -201,7 +201,7 @@ export function UploadGallery({
                           className="absolute right-1 top-1 flex size-6 items-center justify-center rounded-full bg-destructive text-destructive-foreground opacity-0 transition-opacity group-hover:opacity-100"
                         >
                   <X className="size-3" />
-                </button>
+                        </button>
               </div>
             ))}
           </div>

@@ -1,4 +1,7 @@
-<svg width="400" height="300" xmlns="http://www.w3.org/2000/svg">
-  <rect width="100%" height="100%" fill="#f3f4f6"/>
-  <text x="50%" y="50%" font-family="Arial, sans-serif" font-size="18" fill="#99a3af" text-anchor="middle" dy=".3em">No Image</text>
+<svg width="400" height="300" viewBox="0 0 400 300" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <rect width="400" height="300" fill="#f3f4f6"/>
+  <rect x="50" y="50" width="300" height="200" fill="#e5e7eb" stroke="#d1d5db" stroke-width="2" stroke-dasharray="5,5"/>
+  <circle cx="200" cy="120" r="30" fill="#9ca3af"/>
+  <path d="M170 150 L200 120 L230 150 L200 180 Z" fill="#9ca3af"/>
+  <text x="200" y="220" text-anchor="middle" fill="#6b7280" font-family="Arial, sans-serif" font-size="14">No Image</text>
 </svg>
