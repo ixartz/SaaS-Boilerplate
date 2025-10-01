@@ -69,31 +69,38 @@ export function PaginatedTable<T extends Record<string, any>>({
 }: PaginatedTableProps<T>) {
   const [searchTerm, setSearchTerm] = useState('');
   const [currentPage, setCurrentPage] = useState(1);
+  const [internalPageSize, setInternalPageSize] = useState(pageSize);
   const [sortKey, setSortKey] = useState<keyof T | null>(null);
   const [sortDirection, setSortDirection] = useState<'asc' | 'desc'>('asc');
 
   // Filter data based on search term
   const filteredData = useMemo(() => {
-    if (!searchTerm) return data;
-    
+    if (!searchTerm) {
+ return data;
+}
+
     return data.filter(row =>
-      columns.some(column => {
+      columns.some((column) => {
         const value = row[column.key];
         return value && String(value).toLowerCase().includes(searchTerm.toLowerCase());
-      })
+      }),
     );
   }, [data, searchTerm, columns]);
 
   // Sort data
   const sortedData = useMemo(() => {
-    if (!sortKey) return filteredData;
-    
+    if (!sortKey) {
+ return filteredData;
+}
+
     return [...filteredData].sort((a, b) => {
       const aValue = a[sortKey];
       const bValue = b[sortKey];
-      
-      if (aValue === bValue) return 0;
-      
+
+      if (aValue === bValue) {
+ return 0;
+}
+
       const comparison = aValue < bValue ? -1 : 1;
       return sortDirection === 'asc' ? comparison : -comparison;
     });
@@ -101,12 +108,12 @@ export function PaginatedTable<T extends Record<string, any>>({
 
   // Paginate data
   const paginatedData = useMemo(() => {
-    const startIndex = (currentPage - 1) * pageSize;
-    const endIndex = startIndex + pageSize;
+    const startIndex = (currentPage - 1) * internalPageSize;
+    const endIndex = startIndex + internalPageSize;
     return sortedData.slice(startIndex, endIndex);
-  }, [sortedData, currentPage, pageSize]);
+  }, [sortedData, currentPage, internalPageSize]);
 
-  const totalPages = Math.ceil(sortedData.length / pageSize);
+  const totalPages = Math.ceil(sortedData.length / internalPageSize);
 
   const handleSort = (key: keyof T) => {
     if (sortKey === key) {
@@ -115,7 +122,7 @@ export function PaginatedTable<T extends Record<string, any>>({
       setSortKey(key);
       setSortDirection('asc');
     }
-    
+
     if (onSort) {
       onSort(key, sortDirection);
     }
@@ -126,7 +133,7 @@ export function PaginatedTable<T extends Record<string, any>>({
   };
 
   const handlePageSizeChange = (newPageSize: string) => {
-    setPageSize(Number(newPageSize));
+    setInternalPageSize(Number(newPageSize));
     setCurrentPage(1);
   };
 
@@ -142,20 +149,22 @@ export function PaginatedTable<T extends Record<string, any>>({
         <div className="flex items-center justify-between">
           <div className="flex items-center space-x-2">
             <div className="relative">
-              <Search className="absolute left-2 top-2.5 h-4 w-4 text-muted-foreground" />
+              <Search className="absolute left-2 top-2.5 size-4 text-muted-foreground" />
               <Input
                 placeholder={searchPlaceholder}
                 value={searchTerm}
-                onChange={(e) => setSearchTerm(e.target.value)}
-                className="pl-8 w-64"
+                onChange={e => setSearchTerm(e.target.value)}
+                className="w-64 pl-8"
               />
             </div>
           </div>
           <div className="flex items-center space-x-2">
             <span className="text-sm text-muted-foreground">
-              {sortedData.length} items
+              {sortedData.length}
+{' '}
+items
             </span>
-            <Select value={pageSize.toString()} onValueChange={handlePageSizeChange}>
+              <Select value={internalPageSize.toString()} onValueChange={handlePageSizeChange}>
               <SelectTrigger className="w-20">
                 <SelectValue />
               </SelectTrigger>
@@ -165,7 +174,7 @@ export function PaginatedTable<T extends Record<string, any>>({
                 <SelectItem value="20">20</SelectItem>
                 <SelectItem value="50">50</SelectItem>
               </SelectContent>
-            </Select>
+              </Select>
           </div>
         </div>
       )}
@@ -177,16 +186,18 @@ export function PaginatedTable<T extends Record<string, any>>({
             <TableRow>
               {columns.map(column => (
                 <TableHead key={String(column.key)}>
-                  {column.sortable ? (
+                  {column.sortable
+? (
                     <Button
                       variant="ghost"
                       onClick={() => handleSort(column.key)}
                       className="h-auto p-0 font-medium hover:bg-transparent"
                     >
                       {column.label}
-                      <ArrowUpDown className="ml-2 h-4 w-4" />
+                      <ArrowUpDown className="ml-2 size-4" />
                     </Button>
-                  ) : (
+                  )
+: (
                     column.label
                   )}
                 </TableHead>
@@ -197,7 +208,8 @@ export function PaginatedTable<T extends Record<string, any>>({
             </TableRow>
           </TableHeader>
           <TableBody>
-            {paginatedData.length === 0 ? (
+            {paginatedData.length === 0
+? (
               <TableRow>
                 <TableCell
                   colSpan={columns.length + 1}
@@ -206,7 +218,8 @@ export function PaginatedTable<T extends Record<string, any>>({
                   {searchTerm ? 'No results found' : 'No data available'}
                 </TableCell>
               </TableRow>
-            ) : (
+            )
+: (
               paginatedData.map((row, index) => (
                 <TableRow key={row.id || index}>
                   {columns.map(column => (
@@ -219,9 +232,9 @@ export function PaginatedTable<T extends Record<string, any>>({
                   <TableCell>
                     <DropdownMenu>
                       <DropdownMenuTrigger asChild>
-                        <Button variant="ghost" className="h-8 w-8 p-0">
+                        <Button variant="ghost" className="size-8 p-0">
                           <span className="sr-only">Open menu</span>
-                          <MoreHorizontal className="h-4 w-4" />
+                          <MoreHorizontal className="size-4" />
                         </Button>
                       </DropdownMenuTrigger>
                       <DropdownMenuContent align="end">
@@ -258,10 +271,20 @@ export function PaginatedTable<T extends Record<string, any>>({
       {/* Pagination */}
       {showPagination && totalPages > 1 && (
         <div className="flex items-center justify-between">
-          <div className="text-sm text-muted-foreground">
-            Showing {Math.min((currentPage - 1) * pageSize + 1, sortedData.length)} to{' '}
-            {Math.min(currentPage * pageSize, sortedData.length)} of {sortedData.length} results
-          </div>
+            <div className="text-sm text-muted-foreground">
+             Showing
+{' '}
+{Math.min((currentPage - 1) * internalPageSize + 1, sortedData.length)}
+{' '}
+to
+{' '}
+             {Math.min(currentPage * internalPageSize, sortedData.length)}
+{' '}
+of
+{sortedData.length}
+{' '}
+results
+            </div>
           <div className="flex items-center space-x-2">
             <Button
               variant="outline"
@@ -269,10 +292,10 @@ export function PaginatedTable<T extends Record<string, any>>({
               onClick={() => handlePageChange(currentPage - 1)}
               disabled={currentPage === 1}
             >
-              <ChevronLeft className="h-4 w-4" />
+              <ChevronLeft className="size-4" />
               Previous
             </Button>
-            
+
             {/* Page numbers */}
             <div className="flex items-center space-x-1">
               {Array.from({ length: Math.min(5, totalPages) }, (_, i) => {
@@ -286,21 +309,21 @@ export function PaginatedTable<T extends Record<string, any>>({
                 } else {
                   pageNum = currentPage - 2 + i;
                 }
-                
+
                 return (
                   <Button
                     key={pageNum}
                     variant={currentPage === pageNum ? 'default' : 'outline'}
                     size="sm"
                     onClick={() => handlePageChange(pageNum)}
-                    className="h-8 w-8 p-0"
+                    className="size-8 p-0"
                   >
                     {pageNum}
                   </Button>
                 );
               })}
             </div>
-            
+
             <Button
               variant="outline"
               size="sm"
@@ -308,7 +331,7 @@ export function PaginatedTable<T extends Record<string, any>>({
               disabled={currentPage === totalPages}
             >
               Next
-              <ChevronRight className="h-4 w-4" />
+              <ChevronRight className="size-4" />
             </Button>
           </div>
         </div>

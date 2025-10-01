@@ -1,5 +1,5 @@
 // tests/e2e/4a2/dashboard-simple.spec.ts
-import { test, expect } from '@playwright/test';
+import { expect, test } from '@playwright/test';
 
 test.describe('Dashboard Simple Test', () => {
   test('should load dashboard page', async ({ page }) => {
@@ -17,7 +17,7 @@ test.describe('Dashboard Simple Test', () => {
 
     // Check if page loads
     await expect(page.getByText('Dashboard')).toBeVisible();
-    
+
     // Check if we can see any content
     const body = await page.locator('body').textContent();
     console.log('Page content:', body?.substring(0, 500));
@@ -37,14 +37,14 @@ test.describe('Dashboard Simple Test', () => {
 
     // Check for basic dashboard elements
     await expect(page.getByText('Dashboard')).toBeVisible();
-    
+
     // Check if there's any table or content area
     const hasTable = await page.locator('table').count() > 0;
     const hasCards = await page.locator('[class*="card"]').count() > 0;
-    
+
     console.log('Has table:', hasTable);
     console.log('Has cards:', hasCards);
-    
+
     // At least one should be present
     expect(hasTable || hasCards).toBeTruthy();
   });

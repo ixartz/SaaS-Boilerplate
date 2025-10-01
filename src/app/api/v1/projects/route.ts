@@ -1,2 +1,2 @@
-// Build-time safe version - redirects to build-safe implementation
-export { GET, POST } from './route-build-safe';
+// Real implementation with cursor pagination
+export { GET, POST } from './route-real';
