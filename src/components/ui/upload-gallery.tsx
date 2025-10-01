@@ -195,10 +195,11 @@ export function UploadGallery({
                 >
                   <Transformation crop="fill" gravity="auto" quality="auto" />
                 </Image>
-                <button
-                  onClick={() => handleRemoveAsset(asset.id)}
-                  className="absolute right-1 top-1 flex size-6 items-center justify-center rounded-full bg-destructive text-destructive-foreground opacity-0 transition-opacity group-hover:opacity-100"
-                >
+                        <button
+                          type="button"
+                          onClick={() => handleRemoveAsset(asset.id)}
+                          className="absolute right-1 top-1 flex size-6 items-center justify-center rounded-full bg-destructive text-destructive-foreground opacity-0 transition-opacity group-hover:opacity-100"
+                        >
                   <X className="size-3" />
                 </button>
               </div>

@@ -1,6 +1,5 @@
 'use client';
 
-import React from 'react';
 import { useQuery } from '@tanstack/react-query';
 import {
   Building2,
@@ -9,6 +8,7 @@ import {
   TrendingUp,
   Users,
 } from 'lucide-react';
+import React from 'react';
 
 import { CreateProjectModal } from '@/components/admin/create-project-modal';
 import { KPICard } from '@/components/admin/kpi-card';

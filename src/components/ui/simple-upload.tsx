@@ -1,11 +1,10 @@
 'use client';
 
-import React, { useState } from 'react';
 import { Loader2, Upload, X } from 'lucide-react';
-
-import { SafeImage } from '@/components/ui/safe-image';
+import React, { useState } from 'react';
 
 import { Button } from '@/components/ui/button';
+import { SafeImage } from '@/components/ui/safe-image';
 import { cn } from '@/lib/utils';
 
 type SimpleUploadProps = {
@@ -100,7 +99,6 @@ export function SimpleUpload({
     setError(null);
     onRemove?.();
   };
-
 
   return (
     <div className={cn('space-y-4', className)}>

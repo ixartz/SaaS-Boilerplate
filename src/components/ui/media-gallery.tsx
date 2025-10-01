@@ -30,11 +30,7 @@ export function MediaGallery({ projectId, className }: MediaGalleryProps) {
   const [selectedAsset, setSelectedAsset] = useState<MediaAsset | null>(null);
   const [isLightboxOpen, setIsLightboxOpen] = useState(false);
 
-  useEffect(() => {
-    fetchMediaAssets();
-  }, [projectId]);
-
-  const fetchMediaAssets = async () => {
+  const fetchMediaAssets = React.useCallback(async () => {
     try {
       setLoading(true);
       const response = await fetch(`/api/v1/media/project/${projectId}`, {
@@ -56,13 +52,16 @@ export function MediaGallery({ projectId, className }: MediaGalleryProps) {
         setMediaAssets([]);
       }
     } catch (err) {
-      console.error('Error fetching media assets:', err);
       setError(err instanceof Error ? err.message : 'Unknown error');
       setMediaAssets([]);
     } finally {
       setLoading(false);
     }
-  };
+  }, [projectId]);
+
+  useEffect(() => {
+    fetchMediaAssets();
+  }, [fetchMediaAssets]);
 
   const handleViewImage = (asset: MediaAsset) => {
     setSelectedAsset(asset);

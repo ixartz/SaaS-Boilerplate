@@ -28,7 +28,7 @@ export default function MembersPage() {
           description: 'Failed to fetch members',
         });
       }
-    } catch (error) {
+    } catch {
       // Error handling
       addToast({
         type: 'error',
@@ -82,7 +82,7 @@ export default function MembersPage() {
   const handleRemove = async (memberId: string) => {
     try {
       // Here you would call an API to remove the member
-      console.log(`Removing member ${memberId}`);
+      // Remove member logic here
 
       // Update local state
       setMembers(prev => prev.filter(member => member.id !== memberId));

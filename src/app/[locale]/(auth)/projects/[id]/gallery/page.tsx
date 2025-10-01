@@ -14,8 +14,7 @@ type ProjectGalleryPageProps = {
 export default function ProjectGalleryPage({ params }: ProjectGalleryPageProps) {
   const { id: projectId } = params;
 
-  const handleUploadComplete = (assets: any[]) => {
-    console.log('Uploaded assets:', assets);
+  const handleUploadComplete = () => {
     // Refresh the gallery
     window.location.reload();
   };
