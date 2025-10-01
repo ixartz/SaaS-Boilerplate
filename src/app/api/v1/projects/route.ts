@@ -108,7 +108,7 @@ export async function POST(req: NextRequest) {
         clientName: payload.clientName || null,
         clientContact: payload.clientContact || null,
         thumbnailUrl: payload.thumbnailUrl || null,
-        orgId: 'test-org', // In production, get from auth context
+        orgId: 'org_e2e_default', // Use existing E2E organization
       })
       .returning();
 

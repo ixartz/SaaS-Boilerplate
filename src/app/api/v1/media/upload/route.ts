@@ -94,7 +94,7 @@ export async function POST(req: NextRequest) {
         mimeType: file.type,
         size: file.size,
         uploadedBy: 'test-user', // In production, get from auth context
-        orgId: 'test-org', // In production, get from auth context
+        orgId: 'org_e2e_default', // Use existing E2E organization
       })
       .returning();
 

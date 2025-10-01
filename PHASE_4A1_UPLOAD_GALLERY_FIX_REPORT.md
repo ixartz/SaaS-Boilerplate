@@ -10,12 +10,11 @@
 - **Fix**: Sửa import đúng theo react-uploady docs:
   ```typescript
   // ❌ Sai
-  import { UploadButton, UploadPreview, Uploady } from '@rpldy/uploady';
-  
-  // ✅ Đúng  
-  import Uploady from '@rpldy/uploady';
   import UploadButton from '@rpldy/upload-button';
   import UploadPreview from '@rpldy/upload-preview';
+  import Uploady, { UploadButton, UploadPreview, } from '@rpldy/uploady';
+  // ✅ Đúng
+  import Uploady from '@rpldy/uploady';
   ```
 
 ### ✅ 2) Upload ảnh (thumbnail) hoạt động, không rò rỉ secrets
@@ -117,7 +116,7 @@ pnpm check-types
 GET /api/v1/projects
 # ✅ 200 OK - trả về danh sách projects
 
-# Cloudinary Sign API  
+# Cloudinary Sign API
 POST /api/v1/cloudinary/sign
 # ✅ 200 OK - trả về signature, timestamp, apiKey, cloudName
 ```
@@ -171,7 +170,7 @@ CLOUDINARY_API_SECRET="8Gd3VsX0lOV5rTXZ3rfgZ1rCGQM"
 ### Upload Flow
 ```
 1. User chọn file → SimpleUpload
-2. Get Cloudinary signature → /api/v1/cloudinary/sign  
+2. Get Cloudinary signature → /api/v1/cloudinary/sign
 3. Upload to Cloudinary → Direct upload
 4. Save metadata → /api/v1/media/upload
 5. Update form → thumbnailUrl
@@ -194,7 +193,7 @@ CLOUDINARY_API_SECRET="8Gd3VsX0lOV5rTXZ3rfgZ1rCGQM"
 ## ✅ Definition of Done
 
 - [x] Click "Create Project" không còn crash
-- [x] Ảnh thumbnail upload OK, lưu DB, hiển thị ở Dashboard  
+- [x] Ảnh thumbnail upload OK, lưu DB, hiển thị ở Dashboard
 - [x] Không rò rỉ CLOUDINARY_API_SECRET ra client
 - [x] Console sạch (0 error, 0 warning) tại /dashboard
 - [x] TypeScript check pass (0 errors)
@@ -203,12 +202,12 @@ CLOUDINARY_API_SECRET="8Gd3VsX0lOV5rTXZ3rfgZ1rCGQM"
 
 ## 🎉 Kết luận
 
-**Phase 4.A.1 hoàn thành thành công!** 
+**Phase 4.A.1 hoàn thành thành công!**
 
 Tất cả lỗi runtime và React trong Create Project modal đã được fix. Upload ảnh thumbnail hoạt động mượt mà với Cloudinary integration. Console sạch, TypeScript pass, và tuân thủ đầy đủ Project_Description & Roadmap.
 
 **Ready for production!** 🚀
 
 ---
-*Report generated: 2025-10-01*  
+*Report generated: 2025-10-01*
 *Branch: fix/4a1-upload-gallery-create-project*

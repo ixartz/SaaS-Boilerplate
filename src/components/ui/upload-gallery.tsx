@@ -100,7 +100,7 @@ export function UploadGallery({
           method: 'POST',
           headers: {
             'x-e2e-bypass': 'true',
-            'x-org-id': 'test-org',
+            'x-org-id': 'org_e2e_default',
             'x-user-id': 'test-user',
           },
           body: (() => {
@@ -140,14 +140,16 @@ export function UploadGallery({
       <div className="flex items-center justify-center">
         <label htmlFor="file-upload" className="cursor-pointer">
           <div className="flex flex-col items-center justify-center rounded-lg border-2 border-dashed border-muted-foreground/25 p-6 hover:border-muted-foreground/50">
-            {isUploading ? (
+            {isUploading
+? (
               <>
-                <Loader2 className="h-8 w-8 animate-spin text-muted-foreground" />
+                <Loader2 className="size-8 animate-spin text-muted-foreground" />
                 <p className="mt-2 text-sm text-muted-foreground">Uploading...</p>
               </>
-            ) : (
+            )
+: (
               <>
-                <Upload className="h-8 w-8 text-muted-foreground" />
+                <Upload className="size-8 text-muted-foreground" />
                 <p className="mt-2 text-sm text-muted-foreground">
                   Click to upload or drag and drop
                 </p>

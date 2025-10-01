@@ -1,4 +1,4 @@
-import { isNull } from 'drizzle-orm';
+import { and, eq, isNull } from 'drizzle-orm';
 import type { NextRequest } from 'next/server';
 
 import { db } from '@/libs/DB';
@@ -24,7 +24,10 @@ export async function GET(
       })
       .from(mediaAssetsSchema)
       .where(
-        isNull(mediaAssetsSchema.deletedAt),
+        and(
+          eq(mediaAssetsSchema.projectId, projectId),
+          isNull(mediaAssetsSchema.deletedAt),
+        ),
       );
 
     return new Response(

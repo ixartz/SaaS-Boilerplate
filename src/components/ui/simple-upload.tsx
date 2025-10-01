@@ -105,7 +105,7 @@ export function SimpleUpload({
     if (!url) {
       return '';
     }
-    
+
     // Check if it's already a Cloudinary URL
     if (url.includes('res.cloudinary.com')) {
       try {
@@ -123,29 +123,35 @@ export function SimpleUpload({
         console.warn('Failed to extract public ID from URL:', err);
       }
     }
-    
+
     return url; // Fallback to full URL
   };
 
   return (
     <div className={cn('space-y-4', className)}>
-      {!value ? (
+      {!value
+? (
         <div className="flex items-center justify-center">
           <label htmlFor="file-upload" className="cursor-pointer">
             <div className="flex flex-col items-center justify-center rounded-lg border-2 border-dashed border-muted-foreground/25 p-6 hover:border-muted-foreground/50">
-              {isUploading ? (
+              {isUploading
+? (
                 <>
-                  <Loader2 className="h-8 w-8 animate-spin text-muted-foreground" />
+                  <Loader2 className="size-8 animate-spin text-muted-foreground" />
                   <p className="mt-2 text-sm text-muted-foreground">Uploading...</p>
                 </>
-              ) : (
+              )
+: (
                 <>
-                  <Upload className="h-8 w-8 text-muted-foreground" />
+                  <Upload className="size-8 text-muted-foreground" />
                   <p className="mt-2 text-sm text-muted-foreground">
                     Click to upload or drag and drop
                   </p>
                   <p className="text-xs text-muted-foreground">
-                    PNG, JPG, GIF up to {maxSize}MB
+                    PNG, JPG, GIF up to
+{' '}
+{maxSize}
+MB
                   </p>
                 </>
               )}
@@ -160,13 +166,14 @@ export function SimpleUpload({
             />
           </label>
         </div>
-      ) : (
+      )
+: (
         <div className="relative">
           <div className="aspect-video w-full overflow-hidden rounded-lg border">
             <Image
               publicId={getPublicId(value)}
               cloudName={process.env.NEXT_PUBLIC_CLOUDINARY_CLOUD_NAME || 'dy44qfit2'}
-              className="h-full w-full object-cover"
+              className="size-full object-cover"
             >
               <Transformation crop="fill" gravity="auto" quality="auto" />
             </Image>
@@ -177,9 +184,9 @@ export function SimpleUpload({
             size="sm"
             onClick={handleRemove}
             disabled={disabled || isUploading}
-            className="absolute right-2 top-2 h-8 w-8 p-0"
+            className="absolute right-2 top-2 size-8 p-0"
           >
-            <X className="h-4 w-4" />
+            <X className="size-4" />
           </Button>
         </div>
       )}

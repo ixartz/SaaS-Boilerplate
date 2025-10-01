@@ -143,7 +143,7 @@ function useProjects() {
         const response = await fetch('/api/v1/projects', {
           headers: {
             'x-e2e-bypass': 'true',
-            'x-org-id': 'test-org',
+               'x-org-id': 'org_e2e_default',
             'x-user-id': 'test-user',
           },
         });
@@ -201,7 +201,7 @@ const DashboardIndexPage = () => {
       headers: {
         'Content-Type': 'application/json',
         'x-e2e-bypass': 'true',
-        'x-org-id': 'test-org',
+               'x-org-id': 'org_e2e_default',
         'x-user-id': 'test-user',
       },
       body: JSON.stringify(payload),

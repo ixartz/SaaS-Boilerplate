@@ -40,7 +40,7 @@ export function MediaGallery({ projectId, className }: MediaGalleryProps) {
       const response = await fetch(`/api/v1/media/project/${projectId}`, {
         headers: {
           'x-e2e-bypass': 'true',
-          'x-org-id': 'test-org',
+          'x-org-id': 'org_e2e_default',
           'x-user-id': 'test-user',
         },
       });
