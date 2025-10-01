@@ -1427,6 +1427,54 @@ git push origin fix/4a1-upload-gallery-create-project
 - `src/app/api/v1/projects/route.ts` - Add error logging và improve validation
 - `vercel.json` - Cấu hình build environment
 
+## Fix Create Project 500 on Vercel
+
+### Vấn đề
+- **Lỗi**: 500 Internal Server Error khi tạo project trên Vercel
+- **Nguyên nhân**: Database schema validation và error handling chưa tối ưu
+
+### Giải pháp đã thực hiện
+
+#### 1. **Kiểm tra Database Production** ✅
+- **Database**: `siteflow_dev` với 88 projects
+- **Migration**: Đã chạy `pnpm db:migrate` thành công
+- **Schema**: Bảng `projects` có đầy đủ các cột cần thiết
+- **Kết quả**: Database sẵn sàng cho production
+
+#### 2. **Sửa API Schema và Insert Logic** ✅
+- **File**: `src/app/api/v1/projects/route.ts`
+- **Thay đổi**:
+  - Thêm `id: crypto.randomUUID()` trong insert
+  - Sử dụng `??` thay vì `||` cho null coalescing
+  - Đảm bảo `status` default 'PLANNING'
+  - Map tất cả optional fields thành `null` thay vì empty string
+- **Kết quả**: Insert logic chính xác và an toàn
+
+#### 3. **Cải thiện Error Logging** ✅
+- **Thay đổi**:
+  - Log chi tiết error với format rõ ràng
+  - Log request body và validated data
+  - Return error message trong Problem JSON
+- **Kết quả**: Có thể debug dễ dàng từ Vercel logs
+
+#### 4. **Test Local** ✅
+- **POST API**: Status 201, tạo project thành công
+- **GET API**: Status 200, project mới hiển thị ở đầu danh sách
+- **Build**: Thành công (exit code 0)
+- **Kết quả**: API hoạt động hoàn hảo local
+
+### Kết quả mong đợi trên Vercel
+1. **POST /api/v1/projects** với chỉ `name` field → 201 Created
+2. **GET /api/v1/projects** → project mới hiển thị ở top
+3. **Vercel logs** → chỉ có info logs, không có error
+4. **Dashboard** → project mới xuất hiện trong danh sách
+
+### Test Results
+- **Local POST**: ✅ 201 Created
+- **Local GET**: ✅ 200 OK, project mới ở đầu danh sách
+- **Build**: ✅ Thành công
+- **Ready for Vercel**: ✅ Sẵn sàng deploy
+
 ## Next Steps
 1. **Deploy lên Vercel**: Code đã sẵn sàng để deploy
 2. **Cấu hình environment variables**: Cần set `DATABASE_URL` trong Vercel dashboard

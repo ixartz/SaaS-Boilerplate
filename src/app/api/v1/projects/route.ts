@@ -287,7 +287,7 @@ export async function POST(req: NextRequest) {
       console.error('Validated data:', validatedData);
       console.error('Request body:', body);
       console.error('===============================');
-      
+
       return new Response(JSON.stringify({
         type: 'https://example.com/probs/database-error',
         title: 'Database Error',
