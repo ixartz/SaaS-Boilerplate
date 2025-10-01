@@ -2,8 +2,13 @@ import { and, count, desc, eq, isNull } from 'drizzle-orm';
 import type { NextRequest } from 'next/server';
 import { z } from 'zod';
 
-import { db } from '@/libs/DB';
 import { projectsSchema } from '@/models/Schema';
+
+// Lazy load database to avoid connection during build time
+async function getDb() {
+  const { db } = await import('@/libs/DB');
+  return db;
+}
 
 // Validation schemas
 const createProjectSchema = z.object({
@@ -79,6 +84,8 @@ export async function GET(req: NextRequest) {
       eq(projectsSchema.orgId, orgId),
       isNull(projectsSchema.deletedAt),
     ];
+
+    const db = await getDb();
 
     // Get total count for pagination
     const totalCountResult = await db
@@ -191,7 +198,9 @@ export async function POST(req: NextRequest) {
 
     const validatedData = validationResult.data;
 
-    // Create project in database
+        const db = await getDb();
+
+        // Create project in database
         const [newProject] = await db
           .insert(projectsSchema)
           .values({
