@@ -194,7 +194,7 @@ export function CreateProjectModal({
                           placeholder="Enter project description"
                           className="resize-none"
                           rows={3}
-                          value={field.value ?? ""}
+                          value={field.value ?? ''}
                           onChange={field.onChange}
                         />
                       </FormControl>
@@ -239,7 +239,7 @@ export function CreateProjectModal({
                         <FormControl>
                           <Input
                             type="date"
-                            value={field.value ?? ""}
+                            value={field.value ?? ''}
                             onChange={field.onChange}
                             className={form.formState.errors.startDate ? 'border-destructive' : ''}
                           />
@@ -260,7 +260,7 @@ export function CreateProjectModal({
                       <FormControl>
                         <Input
                           type="date"
-                          value={field.value ?? ""}
+                          value={field.value ?? ''}
                           onChange={field.onChange}
                           className={form.formState.errors.endDate ? 'border-destructive' : ''}
                         />
@@ -305,7 +305,7 @@ export function CreateProjectModal({
                           <FormControl>
                             <Combobox
                               options={organizationUsers}
-                              value={field.value ?? ""}
+                              value={field.value ?? ''}
                               onValueChange={field.onChange}
                               placeholder={usersLoading ? 'Loading users...' : 'Select manager'}
                               disabled={usersLoading}
@@ -328,7 +328,7 @@ export function CreateProjectModal({
                       <FormLabel>Project Thumbnail (Optional)</FormLabel>
                       <FormControl>
                         <SimpleUpload
-                          value={field.value ?? ""}
+                          value={field.value ?? ''}
                           onChange={field.onChange}
                           onRemove={() => field.onChange('')}
                           accept="image/*"
