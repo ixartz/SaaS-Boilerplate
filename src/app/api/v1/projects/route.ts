@@ -261,36 +261,38 @@ export async function POST(req: NextRequest) {
       const [result] = await db
         .insert(projectsSchema)
         .values({
+          id: crypto.randomUUID(),
           orgId,
           name: validatedData.name,
-          description: validatedData.description || null,
-          budget: validatedData.budget?.toString() || null,
-          status: validatedData.status,
+          description: validatedData.description ?? null,
+          budget: validatedData.budget?.toString() ?? null,
+          status: validatedData.status ?? 'PLANNING',
           startDate: validatedData.startDate ? new Date(validatedData.startDate) : null,
           endDate: validatedData.endDate ? new Date(validatedData.endDate) : null,
-          address: validatedData.address || null,
-          clientName: validatedData.clientName || null,
-          clientContact: validatedData.clientContact || null,
-          thumbnailUrl: validatedData.thumbnailUrl || null,
+          address: validatedData.address ?? null,
+          clientName: validatedData.clientName ?? null,
+          clientContact: validatedData.clientContact ?? null,
+          thumbnailUrl: validatedData.thumbnailUrl ?? null,
         })
         .returning();
 
       newProject = result;
       console.log('Project created successfully:', newProject);
     } catch (error) {
-      console.error('Database insert error:', error);
-      console.error('Error details:', {
-        message: error instanceof Error ? error.message : 'Unknown error',
-        stack: error instanceof Error ? error.stack : undefined,
-        orgId,
-        validatedData,
-      });
+      console.error('=== DATABASE INSERT ERROR ===');
+      console.error('Error:', error);
+      console.error('Error message:', error instanceof Error ? error.message : 'Unknown error');
+      console.error('Error stack:', error instanceof Error ? error.stack : undefined);
+      console.error('OrgId:', orgId);
+      console.error('Validated data:', validatedData);
+      console.error('Request body:', body);
+      console.error('===============================');
       
       return new Response(JSON.stringify({
         type: 'https://example.com/probs/database-error',
         title: 'Database Error',
         status: 500,
-        detail: 'Failed to create project in database',
+        detail: error instanceof Error ? error.message : 'Failed to create project in database',
         instance: req.url,
         errors: [{
           field: 'database',

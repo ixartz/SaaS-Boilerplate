@@ -1384,8 +1384,55 @@ git push origin fix/4a1-upload-gallery-create-project
 - **Build Success**: Production build hoạt động ổn định
 - **Version Control**: Code được lưu trữ an toàn trên GitHub
 
+## Fix Vercel Create Project API
+
+### Vấn đề
+- **Lỗi**: 500 Internal Server Error khi tạo project trên Vercel
+- **Nguyên nhân**: Database connection và error handling chưa tối ưu cho production
+
+### Giải pháp đã thực hiện
+
+#### 1. **Sửa Database Connection Logic** ✅
+- **File**: `src/libs/DB.ts`
+- **Thay đổi**: Loại bỏ điều kiện `process.env.NODE_ENV !== 'production'`
+- **Kết quả**: Sử dụng PostgreSQL trong production thay vì PGLite
+
+#### 2. **Thêm Error Logging Chi Tiết** ✅
+- **File**: `src/app/api/v1/projects/route.ts`
+- **Thay đổi**:
+  - Wrap tất cả database operations với try/catch
+  - Log chi tiết data trước khi insert
+  - Log error details với stack trace
+  - Return RFC7807 Problem JSON cho database errors
+- **Kết quả**: Có thể debug lỗi từ Vercel logs
+
+#### 3. **Cải thiện Optional Fields Handling** ✅
+- **Validation**: Đảm bảo tất cả optional fields được map thành `null` thay vì empty string
+- **Database**: Insert với `null` values cho optional fields
+- **Kết quả**: Tránh lỗi database constraint
+
+#### 4. **Test Build Local** ✅
+- **Command**: `pnpm build`
+- **Kết quả**: Build thành công (exit code 0)
+- **Status**: Sẵn sàng deploy lên Vercel
+
+### Kết quả mong đợi trên Vercel
+1. **POST /api/v1/projects** với chỉ `name` field → 201 Created
+2. **GET /api/v1/projects** → project mới hiển thị ở top
+3. **Vercel logs** → chỉ có info logs, không có error
+4. **Dashboard** → project mới xuất hiện trong danh sách
+
+### Files đã thay đổi
+- `src/libs/DB.ts` - Fix database connection logic
+- `src/app/api/v1/projects/route.ts` - Add error logging và improve validation
+- `vercel.json` - Cấu hình build environment
+
 ## Next Steps
-1. Hoàn thiện sidebar/header responsive
-2. Cải thiện E2E test stability
-3. Thêm theme toggle và i18n switcher
-4. Implement real-time updates với WebSocket
+1. **Deploy lên Vercel**: Code đã sẵn sàng để deploy
+2. **Cấu hình environment variables**: Cần set `DATABASE_URL` trong Vercel dashboard
+3. **Test production**: Kiểm tra API hoạt động trên Vercel
+4. **Monitor logs**: Xem Vercel logs để verify error logging hoạt động
+5. Hoàn thiện sidebar/header responsive
+6. Cải thiện E2E test stability
+7. Thêm theme toggle và i18n switcher
+8. Implement real-time updates với WebSocket
