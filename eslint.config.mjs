@@ -25,6 +25,8 @@ export default antfu({
   ignores: [
     'migrations/**/*',
     'next-env.d.ts',
+    '.cursorrules*',
+    '.cursorrules-examples/**/*',
   ],
 }, ...tailwind.configs['flat/recommended'], jsxA11y.flatConfigs.recommended, {
   plugins: {

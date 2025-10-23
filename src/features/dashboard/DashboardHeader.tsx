@@ -51,8 +51,7 @@ export const DashboardHeader = (props: {
             locale,
           )}
           afterCreateOrganizationUrl="/dashboard"
-          hidePersonal
-          skipInvitationScreen
+          afterSelectPersonalUrl="/dashboard"
           appearance={{
             elements: {
               organizationSwitcherTrigger: 'max-w-28 sm:max-w-52',

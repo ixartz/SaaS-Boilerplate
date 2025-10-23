@@ -1,0 +1,343 @@
+# SaaS Boilerplate Development Rules
+
+You are an expert Next.js, React, TypeScript, and SaaS development assistant working on a production-ready SaaS boilerplate. This project uses modern web technologies and follows enterprise-grade patterns.
+
+## Project Architecture
+
+This is a Next.js 14 SaaS boilerplate with TypeScript, Tailwind CSS, Clerk auth, Drizzle ORM, and Stripe billing.
+
+### Core Technologies
+- Next.js 14 with App Router
+- React 18 with TypeScript
+- Tailwind CSS with Shadcn UI
+- Clerk for authentication and multi-tenancy
+- Drizzle ORM for database operations
+- Stripe for payment processing, api keys not set as I don't want to use the feature yet
+- Sentry for error monitoring
+- Vitest & Playwright for testing
+
+### File Structure
+- `src/app/` - Next.js App Router pages and layouts
+- `src/components/` - Reusable UI components
+- `src/features/` - Feature-specific components (auth, billing, dashboard, landing)
+- `src/libs/` - Third-party library configurations
+- `src/models/` - Database schema definitions
+- `src/types/` - TypeScript type definitions
+- `src/utils/` - Utility functions and helpers
+
+### Key Files to Understand
+- `src/utils/AppConfig.ts` - Main application configuration
+- `src/models/Schema.ts` - Database schema
+- `src/libs/DB.ts` - Database connection
+- `src/middleware.ts` - Next.js middleware for auth
+- `src/types/Auth.ts` - Authentication types
+- `src/types/Subscription.ts` - Billing and subscription types
+
+## Development Standards
+
+### TypeScript Configuration
+- Use strict TypeScript with `noUncheckedIndexedAccess`
+- Prefer `type` over `interface` for type definitions
+- Use proper type annotations for all functions and variables
+- Leverage path aliases: `@/` for `src/`, `@/public/` for `public/`
+
+### React Component Patterns
+- Use Server Components by default, Client Components only when necessary
+- Implement proper error boundaries and loading states
+- Follow Next.js App Router conventions for routing
+- Use proper SEO metadata and Open Graph tags
+- Implement proper form handling with React Hook Form + Zod validation
+
+### Component Architecture
+- Create reusable components in `src/components/ui/`
+- Feature-specific components go in `src/features/`
+- Use Shadcn UI components as base, extend when needed
+- Implement proper accessibility (a11y) standards
+- Use proper TypeScript props interfaces
+
+### Authentication & Authorization
+- All auth handled through Clerk
+- Use `@clerk/nextjs` components and hooks
+- Implement proper role-based access control
+- Handle multi-tenancy with organization management
+- Protect routes with middleware
+
+### Database & ORM
+- Use Drizzle ORM for all database operations
+- Define schemas in `src/models/Schema.ts`
+- Use proper migrations with `drizzle-kit`
+- Implement type-safe database queries
+- Handle both local (PGlite) and production (PostgreSQL) databases
+
+### Styling & UI
+- Use Tailwind CSS for all styling
+- Follow Shadcn UI design system
+- Implement dark mode support
+- Use CSS variables for theming
+- Follow responsive design principles
+
+### Testing Strategy
+- Unit tests with Vitest + React Testing Library
+- E2E tests with Playwright
+- Component testing with Storybook
+- Test files co-located with source code
+- Use proper test data and mocking
+
+### Internationalization
+- Use `next-intl` for i18n
+- Store translations in `src/locales/`
+- Support multiple locales (en, fr)
+- Use proper locale routing
+
+## Code Quality Standards
+
+### ESLint Configuration
+- Follow Antfu ESLint config with React/TypeScript
+- Use simple-import-sort for import organization
+- Enforce accessibility rules
+- Use Tailwind CSS linting rules
+- Follow Next.js best practices
+
+### Code Organization
+- Group imports: external libraries, internal modules, relative imports
+- Use absolute imports with `@/` prefix
+- Keep components small and focused
+- Use proper file naming conventions
+- Implement proper error handling
+
+### Documentation Standards
+- JSDoc comments for all exported functions, classes, and interfaces
+- Inline comments for complex business logic and algorithms
+- TODO comments for temporary workarounds or future improvements
+- FIXME comments for known issues that need attention
+- Architecture comments explaining design decisions and patterns
+
+## File Path References
+
+### Code Examples
+For detailed code examples, refer to these specific files:
+- **Component Examples**: `.cursorrules-examples/component-examples.md`
+- **API Route Examples**: `.cursorrules-examples/api-examples.md`
+- **Database Examples**: `.cursorrules-examples/database-examples.md`
+- **Test Examples**: `.cursorrules-examples/test-examples.md`
+- **Hook Examples**: `.cursorrules-examples/hook-examples.md`
+- **Utility Examples**: `.cursorrules-examples/utility-examples.md`
+- **Security Examples**: `.cursorrules-examples/security-examples.md`
+
+### Development Patterns
+For common development patterns and best practices:
+- **Development Patterns**: `.cursorrules-patterns.md`
+
+### Troubleshooting
+For detailed troubleshooting guides:
+- **Troubleshooting Guide**: `.cursorrules-troubleshooting.md`
+
+## SaaS-Specific Features
+
+### Multi-Tenancy
+- Organization-based data isolation
+- Team member management
+- Role-based permissions
+- Organization switching
+
+### Billing & Subscriptions
+- Stripe integration for payments
+- Subscription management
+- Pricing tiers (Free, Premium, Enterprise)
+- Webhook handling for payment events
+
+### User Management
+- User profiles and settings
+- Organization management
+- Team invitations
+- User impersonation (admin feature)
+
+### Landing Page
+- Hero section with CTA
+- Features showcase
+- Pricing table
+- FAQ section
+- SEO optimization
+
+## Environment & Configuration
+
+### Environment Variables
+- Use `@t3-oss/env-nextjs` for type-safe env vars
+- Define in `.env` for defaults
+- Use `.env.local` for local overrides
+- Never commit sensitive keys
+
+### Database Configuration
+- Local development with PGlite
+- Production with PostgreSQL
+- Automatic migrations in development
+- Manual migrations in production
+
+### Monitoring & Logging
+- Sentry for error tracking
+- Pino.js for structured logging
+- Better Stack for log management
+- Checkly for uptime monitoring
+
+## Common Commands
+
+### Development
+- `npm run dev` - Start development server
+- `npm run dev:spotlight` - Start with Sentry Spotlight
+
+### Testing
+- `npm run test` - Run unit tests
+- `npm run test:e2e` - Run E2E tests
+- `npm run storybook` - Start Storybook
+
+### Database
+- `npm run db:generate` - Generate migration
+- `npm run db:migrate` - Run migrations
+- `npm run db:studio` - Open Drizzle Studio
+
+### Build & Deploy
+- `npm run build` - Production build
+- `npm run build-stats` - Bundle analysis
+- `npm run start` - Start production server
+
+### Code Quality
+- `npm run lint` - Run ESLint
+- `npm run lint:fix` - Fix ESLint issues
+- `npm run check-types` - TypeScript check
+
+## Security Standards (Financial Application)
+
+### Authentication & Authorization
+- **Multi-Factor Authentication (MFA)**: Mandatory for all user accounts
+- **Role-Based Access Control (RBAC)**: Implement granular permissions
+- **Session Management**: Secure session handling with proper expiration
+- **Password Policies**: Strong password requirements with complexity rules
+- **Account Lockout**: Implement account lockout after failed attempts
+- **OAuth/SSO Integration**: Secure third-party authentication
+
+### Data Protection & Privacy
+- **Data Encryption**: Encrypt all sensitive data at rest and in transit
+- **PII Protection**: Special handling for personally identifiable information
+- **Data Minimization**: Collect only necessary data
+- **Data Retention**: Implement proper data retention policies
+- **Right to Erasure**: Support for data deletion requests
+- **Audit Logging**: Comprehensive logging of all data access
+
+### Input Validation & Sanitization
+- **Input Validation**: Validate all user inputs with strict schemas
+- **SQL Injection Prevention**: Use parameterized queries only
+- **XSS Protection**: Sanitize all user-generated content
+- **CSRF Protection**: Implement CSRF tokens for all state-changing operations
+- **File Upload Security**: Validate file types and scan for malware
+- **API Rate Limiting**: Implement rate limiting to prevent abuse
+
+### Network & Infrastructure Security
+- **HTTPS Only**: Enforce HTTPS for all communications
+- **Security Headers**: Implement comprehensive security headers
+- **CORS Configuration**: Properly configure Cross-Origin Resource Sharing
+- **Content Security Policy**: Implement strict CSP headers
+- **Subresource Integrity**: Use SRI for external resources
+- **Network Segmentation**: Isolate sensitive components
+
+### Compliance & Auditing
+- **PCI DSS Compliance**: For payment card data handling
+- **SOC 2 Type II**: Security and availability controls
+- **GDPR Compliance**: European data protection regulations
+- **CCPA Compliance**: California consumer privacy act
+- **Audit Trails**: Comprehensive audit logging for all actions
+- **Penetration Testing**: Regular security assessments
+
+### Security Testing Requirements
+- **Static Analysis**: Use tools like SonarQube, ESLint security rules
+- **Dependency Scanning**: Regular vulnerability scanning
+- **Dynamic Testing**: Automated security testing in CI/CD
+- **Manual Testing**: Security-focused manual testing
+- **Code Reviews**: Security-focused code review process
+- **Threat Modeling**: Regular threat assessment and mitigation
+
+### Security Implementation Requirements
+
+**For detailed security code examples and implementations, refer to:**
+- **Security Examples**: `.cursorrules-examples/security-examples.md`
+
+**Key Security Implementation Areas:**
+- Environment Variables Security with encryption requirements
+- Database Security with parameterized queries
+- Input Validation & Sanitization with strict schemas
+- API Security Headers with comprehensive protection
+- Authentication Security with MFA requirements
+- Financial Data Encryption with AES-256-GCM
+- Audit Logging for all financial operations
+- Rate Limiting for API protection
+- Security Validation with financial constraints
+
+## Best Practices
+
+1. **Security First**: Security is the top priority in all development decisions
+2. **Defense in Depth**: Multiple layers of security controls
+3. **Least Privilege**: Minimal necessary permissions for all components
+4. **Fail Secure**: System fails to secure state by default
+5. **Security by Design**: Security considerations from the start
+6. **Regular Updates**: Keep all dependencies and systems updated
+7. **Incident Response**: Prepared incident response procedures
+
+## Security Checklist
+
+### Pre-Deployment Security Checklist
+- [ ] All environment variables are properly encrypted and secured
+- [ ] Database connections use SSL/TLS encryption
+- [ ] All API endpoints have proper authentication and authorization
+- [ ] Input validation is implemented for all user inputs
+- [ ] Output encoding is applied to prevent XSS attacks
+- [ ] CSRF protection is enabled for all state-changing operations
+- [ ] Security headers are properly configured
+- [ ] Rate limiting is implemented for all API endpoints
+- [ ] Audit logging is enabled for all financial operations
+- [ ] Dependencies are up-to-date and vulnerability-free
+- [ ] Penetration testing has been completed
+- [ ] Security code review has been performed
+- [ ] Incident response procedures are documented and tested
+
+### Security Testing Checklist
+- [ ] Static code analysis completed (SonarQube, ESLint security)
+- [ ] Dependency vulnerability scanning completed
+- [ ] Dynamic security testing completed
+- [ ] Manual security testing completed
+- [ ] Authentication and authorization testing completed
+- [ ] Input validation testing completed
+- [ ] SQL injection testing completed
+- [ ] XSS testing completed
+- [ ] CSRF testing completed
+- [ ] Session management testing completed
+- [ ] Encryption testing completed
+- [ ] Audit logging testing completed
+
+## Troubleshooting
+
+### Common Issues
+1. **Database connection**: Check `DATABASE_URL` in environment variables
+2. **Authentication**: Verify Clerk keys are properly set
+3. **Build errors**: Check TypeScript errors and missing dependencies
+4. **Styling issues**: Ensure Tailwind classes are properly configured
+5. **Import errors**: Check path aliases and file extensions
+
+### Security Issues
+1. **Authentication failures**: Check MFA configuration and session management
+2. **Authorization errors**: Verify RBAC permissions and role assignments
+3. **Encryption errors**: Check encryption keys and algorithm configuration
+4. **Rate limiting**: Verify Redis connection and rate limit configuration
+5. **Audit logging**: Check audit log database connection and permissions
+6. **Security headers**: Verify CSP and security header configuration
+7. **Input validation**: Check Zod schema validation and sanitization
+8. **CSRF protection**: Verify CSRF token generation and validation
+
+### Debug Tips
+- Use Sentry Spotlight for local error tracking
+- Check browser console for client-side errors
+- Use Drizzle Studio for database inspection
+- Enable Next.js debug mode for detailed logs
+- Monitor security logs for suspicious activity
+- Use security scanning tools for vulnerability detection
+- Check audit logs for unauthorized access attempts
+
+Remember: This is a production-ready SaaS boilerplate. Always consider security, performance, and scalability when making changes. Follow the established patterns and maintain code quality standards.
