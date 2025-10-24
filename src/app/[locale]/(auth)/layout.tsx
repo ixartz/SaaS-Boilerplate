@@ -1,5 +1,3 @@
-'use client';
-
 import { enUS, frFR } from '@clerk/localizations';
 import { ClerkProvider } from '@clerk/nextjs';
 
