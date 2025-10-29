@@ -226,7 +226,7 @@ This project offers both a free open-source version and a premium Pro version. H
 | **VSCode Configuration** | ✅ | ✅ |
 | **[Sentry Error Monitoring](https://sentry.io/for/nextjs/?utm_source=github&utm_medium=paid-community&utm_campaign=general-fy25q1-nextjs&utm_content=github-banner-nextjsboilerplate-logo)** | ✅ | ✅ |
 | **Shadcn UI** | ✅ | ✅ |
-| **Next.js** | 14 | 15 |
+| **Next.js** | 14 | 16 |
 | **React** | 18 | 19 |
 | **Tailwind CSS** | 3 | 4 |
 | **ESLint** | 8 | 9 |
@@ -243,8 +243,6 @@ This project offers both a free open-source version and a premium Pro version. H
 **Live Demos:**
 - Free Version: [https://react-saas.com](https://react-saas.com)
 - Pro Version: [https://pro-demo.nextjs-boilerplate.com](https://pro-demo.nextjs-boilerplate.com)
-
-**Note:** Some differences like Next.js 15/React 19 and Tailwind CSS 4 are currently temporary as the free version will eventually be updated. However, Pro version users always get access to the latest version first.
 
 ### Set up authentication
 

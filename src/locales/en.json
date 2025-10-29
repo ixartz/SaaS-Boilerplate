@@ -103,7 +103,7 @@
     "message_state_title": "Let's get started",
     "message_state_description": "You can customize this page by editing the file at <code>dashboard/page.tsx</code>",
     "message_state_button": "Star on GitHub",
-    "message_state_alternative": "Want more features using the same stack? Try <url></url>."
+    "message_state_alternative": "Want more features and the latest updates from Next.js 16? Try <url></url>."
   },
   "UserProfile": {
     "title_bar": "User Profile",
