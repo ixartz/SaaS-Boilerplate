@@ -37,7 +37,7 @@ const DashboardIndexPage = () => {
         })}
         button={(
           <>
-            <div className="mt-2 text-xs font-light text-muted-foreground">
+            <div className="mt-2 text-sm font-light text-muted-foreground">
               {t.rich('message_state_alternative', {
                 url: () => (
                   <a
