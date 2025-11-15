@@ -80,15 +80,6 @@ Clone this project and use it to create your own SaaS. You can check the live de
   </tr>
   <tr height="187px">
     <td align="center" width="33%">
-      <a href="https://www.nutrient.io/guides/web/nextjs/?utm_source=nextjs-boilerplate&utm_medium=referral">
-        <picture>
-          <source media="(prefers-color-scheme: dark)" srcset="public/assets/images/nutrient-dark.png?raw=true">
-          <source media="(prefers-color-scheme: light)" srcset="public/assets/images/nutrient-light.png?raw=true">
-          <img alt="Nutrient" src="public/assets/images/nutrient-light.png?raw=true">
-        </picture>
-      </a>
-    </td>
-    <td align="center" width="33%">
       <a href="mailto:contact@creativedesignsguru.com">
         Add your logo here
       </a>
@@ -203,8 +194,6 @@ Then, you can run the project locally in development mode with live reload by ex
 ```shell
 npm run dev
 ```
-
-[![Run the command in Warp](public/assets/images/warp-banner.png)](https://go.warp.dev/nextjs-bp)
 
 Open http://localhost:3000 with your favorite browser to see your project.
 
@@ -327,8 +316,6 @@ After making changes to the schema, generate a migration by running the followin
 npm run db:generate
 ```
 
-[![Run the command in Warp](public/assets/images/warp-banner.png)](https://go.warp.dev/nextjs-bp)
-
 This will create a migration file that reflects your schema changes. The migration is automatically applied during the next database interaction, so there is no need to run it manually or restart the Next.js server.
 
 ### Commit Message Format
@@ -382,8 +369,6 @@ All unit tests are located alongside the source code in the same directory, maki
 npm run test
 ```
 
-[![Run the command in Warp](public/assets/images/warp-banner.png)](https://go.warp.dev/nextjs-bp)
-
 ### Integration & E2E Testing
 
 The project uses Playwright for integration and end-to-end (E2E) testing. You can run the tests with the following commands:
@@ -426,8 +411,6 @@ Then, you can generate a production build with:
 ```shell
 $ npm run build
 ```
-
-[![Run the command in Warp](public/assets/images/warp-banner.png)](https://go.warp.dev/nextjs-bp)
 
 It generates an optimized production build of the boilerplate. To test the generated build, run:
 
@@ -503,7 +486,7 @@ Everyone is welcome to contribute to this project. Feel free to open an issue if
 
 ### License
 
-Licensed under the MIT License, Copyright © 2024
+Licensed under the MIT License, Copyright © 2025
 
 See [LICENSE](LICENSE) for more information.
 
@@ -572,15 +555,6 @@ See [LICENSE](LICENSE) for more information.
     </td>
   </tr>
   <tr height="187px">
-    <td align="center" width="33%">
-      <a href="https://www.nutrient.io/guides/web/nextjs/?utm_source=nextjs-boilerplate&utm_medium=referral">
-        <picture>
-          <source media="(prefers-color-scheme: dark)" srcset="public/assets/images/nutrient-dark.png?raw=true">
-          <source media="(prefers-color-scheme: light)" srcset="public/assets/images/nutrient-light.png?raw=true">
-          <img alt="Nutrient" src="public/assets/images/nutrient-light.png?raw=true">
-        </picture>
-      </a>
-    </td>
     <td align="center" width="33%">
       <a href="mailto:contact@creativedesignsguru.com">
         Add your logo here
