@@ -33,7 +33,7 @@ export default function middleware(
     || isProtectedRoute(request)
   ) {
     return clerkMiddleware(async (auth, req) => {
-      if (isProtectedRoute(req)) {
+      if (isProtectedRoute(req) && !req.nextUrl.pathname.includes('/api/access-request')) {
         const locale
           = req.nextUrl.pathname.match(/(\/.*)\/dashboard/)?.at(1) ?? '';
 

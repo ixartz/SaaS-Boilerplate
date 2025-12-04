@@ -91,7 +91,8 @@
     "todos": "Todos",
     "members": "Members",
     "billing": "Billing",
-    "settings": "Settings"
+    "settings": "Settings",
+    "requests": "Requests"
   },
   "Dashboard": {
     "meta_title": "SaaS Template Dashboard",
@@ -162,5 +163,38 @@
     "message_title": "Message",
     "message_description": "Enter a detailed message for your todo.",
     "submit_button": "Submit"
+  },
+  "RequestAccess": {
+    "title": "Request Access",
+    "description": "Join our exclusive platform.",
+    "email_label": "Email Address",
+    "name_label": "Full Name",
+    "submit": "Request Access",
+    "success_title": "Request Sent",
+    "success_message": "We have received your request. You will receive an email once approved.",
+    "error_message": "Something went wrong. Please try again."
+  },
+  "AdminRequests": {
+    "title": "Access Requests",
+    "description": "Manage pending access requests.",
+    "no_requests": "No pending requests.",
+    "approve": "Approve",
+    "reject": "Reject",
+    "status_approved": "Approved",
+    "status_rejected": "Rejected",
+    "status_pending": "Pending",
+    "table_email": "Email",
+    "table_name": "Name",
+    "table_status": "Status",
+    "table_actions": "Actions",
+    "success_approved": "Request approved and invitation sent.",
+    "success_rejected": "Request rejected.",
+    "error_action": "Failed to perform action.",
+    "search_placeholder": "Search here...",
+    "sort_by_date": "Sort by date",
+    "previous": "Previous",
+    "page": "Page",
+    "of": "of",
+    "next": "Next"
   }
 }
