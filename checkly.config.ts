@@ -22,7 +22,7 @@ export const config = defineConfig({
   logicalId: 'saas-boilerplate',
   repoUrl: 'https://github.com/ixartz/Next-js-Boilerplate',
   checks: {
-    locations: ['us-east-1', 'eu-west-1'],
+    locations: ['us-east-1', 'eu-central-1'],
     tags: ['website'],
     runtimeId: '2024.02',
     browserChecks: {
@@ -40,7 +40,7 @@ export const config = defineConfig({
     },
   },
   cli: {
-    runLocation: 'eu-west-1',
+    runLocation: 'us-east-1',
     reporters: ['list'],
   },
 });
