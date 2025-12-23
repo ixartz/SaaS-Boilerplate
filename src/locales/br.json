@@ -1,0 +1,211 @@
+{
+  "Index": {
+    "meta_title": "SaaS Template - The perfect SaaS template to build and scale your business with ease.",
+    "meta_description": "A free and open-source landing page template for your SaaS business, built with React, TypeScript, Shadcn UI, and Tailwind CSS."
+  },
+  "Error": {
+    "something_went_wrong": "Something went wrong!",
+    "error_occurred": "An error occurred while loading this page.",
+    "try_again": "Try again"
+  },
+  "Navbar": {
+    "sign_in": "Sign In",
+    "sign_up": "Sign Up",
+    "product": "Product",
+    "docs": "Docs",
+    "blog": "Blog",
+    "community": "Community",
+    "company": "Company"
+  },
+  "Hero": {
+    "follow_twitter": "Follow @Ixartz on Twitter",
+    "title": "The perfect <important>SaaS template</important> to build and scale your business with ease.",
+    "description": "A free and open-source landing page template for your SaaS business, built with React, TypeScript, Shadcn UI, and Tailwind CSS.",
+    "primary_button": "Get Started",
+    "secondary_button": "Star on GitHub"
+  },
+  "Sponsors": {
+    "title": "Sponsored by"
+  },
+  "Features": {
+    "section_subtitle": "Features",
+    "section_title": "Unlock the Full Potential of the SaaS Template",
+    "section_description": "A free and open-source landing page template for your SaaS business, built with React, TypeScript, Shadcn UI, and Tailwind CSS.",
+    "feature1_title": "Node.js",
+    "feature2_title": "React",
+    "feature3_title": "Tailwind CSS",
+    "feature4_title": "TypeScript",
+    "feature5_title": "Shadcn UI",
+    "feature6_title": "ESLint",
+    "feature_description": "A free and open-source landing page template for your SaaS business, built with React, TypeScript, Shadcn UI, and Tailwind CSS."
+  },
+  "Pricing": {
+    "section_subtitle": "Features",
+    "section_title": "Unlock the Full Potential of the SaaS Template",
+    "section_description": "A free and open-source landing page template for your SaaS business, built with React, TypeScript, Shadcn UI, and Tailwind CSS.",
+    "button_text": "Get Started"
+  },
+  "PricingPlan": {
+    "free_plan_name": "Free",
+    "premium_plan_name": "Premium",
+    "enterprise_plan_name": "Enterprise",
+    "free_plan_description": "For individuals",
+    "premium_plan_description": "For small teams",
+    "enterprise_plan_description": "For industry leaders",
+    "feature_team_member": "{number} Team Members",
+    "feature_website": "{number} Websites",
+    "feature_storage": "{number} GB Storage",
+    "feature_transfer": "{number} TB Transfer",
+    "feature_email_support": "Email Support",
+    "plan_interval_month": "month",
+    "plan_interval_year": "year",
+    "next_renew_date": "Your subscription renews on {date}"
+  },
+  "FAQ": {
+    "question": "Lorem ipsum dolor sit amet, consectetur adipiscing elit?",
+    "answer": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aliquam aliquam enim dui, id consequat turpis ullamcorper ac. Mauris id quam dolor. Nullam eu egestas turpis. Proin risus elit, sollicitudin in mi a, accumsan euismod turpis. In euismod mi sed diam tristique hendrerit."
+  },
+  "CTA": {
+    "title": "You are ready?",
+    "description": "Lorem ipsum dolor sit amet, consectetur adipiscing elit.",
+    "button_text": "Star on GitHub"
+  },
+  "Footer": {
+    "product": "Product",
+    "docs": "Docs",
+    "blog": "Blog",
+    "community": "Community",
+    "company": "Company",
+    "terms_of_service": "Terms Of Service",
+    "privacy_policy": "Privacy Policy",
+    "designed_by": "Designed by <author></author>."
+  },
+  "ProtectFallback": {
+    "not_enough_permission": "You do not have the permissions to perform this action"
+  },
+  "SignIn": {
+    "meta_title": "Sign in",
+    "meta_description": "Seamlessly sign in to your account with our user-friendly login process."
+  },
+  "SignUp": {
+    "meta_title": "Sign up",
+    "meta_description": "Effortlessly create an account through our intuitive sign-up process."
+  },
+  "DashboardLayout": {
+    "home": "Home",
+    "admin_panel": "Admin Panel",
+    "todos": "Todos",
+    "members": "Members",
+    "billing": "Faturamento",
+    "google_business": "Google Meu Negócio",
+    "settings": "Configurações"
+  },
+  "Dashboard": {
+    "meta_title": "Painel Niteroi Busssiness",
+    "meta_description": "Desenvolvido Independete para Niteroi"
+  },
+  "DashboardIndex": {
+    "title_bar": "Painel",
+    "title_bar_description": "Bem-vindo ao seu painel",
+    "message_state_title": "Vamos começar",
+    "message_state_description": "Você pode personalizar esta página editando o arquivo em <code>dashboard/page.tsx</code>",
+    "message_state_button": "Estrela no GitHub",
+    "message_state_alternative": "Quer mais recursos e as últimas atualizações do Next.js 16? Experimente <url></url>."
+  },
+  "UserProfile": {
+    "title_bar": "Perfil do Usuário",
+    "title_bar_description": "Visualize e gerencie seu perfil de usuário"
+  },
+  "OrganizationProfile": {
+    "title_bar": "Gerenciamento da Organização",
+    "title_bar_description": "Gerencie sua organização"
+  },
+  "Billing": {
+    "title_bar": "Faturamento",
+    "title_bar_description": "Gerencie seu faturamento e assinatura",
+    "current_section_title": "Plano Atual",
+    "current_section_description": "Ajuste seu plano de pagamento para melhor atender suas necessidades",
+    "manage_subscription_button": "Gerenciar Assinatura"
+  },
+  "BillingOptions": {
+    "current_plan": "Plano Atual",
+    "upgrade_plan": "Começar"
+  },
+  "CheckoutConfirmation": {
+    "title_bar": "Confirmação de Pagamento",
+    "message_state_title": "Pagamento bem-sucedido",
+    "message_state_description": "Seu pagamento foi processado com sucesso. Obrigado pela sua compra!",
+    "message_state_button": "Voltar ao Faturamento"
+  },
+  "DataTable": {
+    "no_results": "Nenhum resultado."
+  },
+  "Todos": {
+    "title_bar": "Lista de Tarefas",
+    "title_bar_description": "Visualize e gerencie sua lista de tarefas",
+    "add_todo_button": "Nova tarefa"
+  },
+  "TodoTableColumns": {
+    "open_menu": "Abrir menu",
+    "edit": "Editar",
+    "delete": "Excluir",
+    "title_header": "Título",
+    "message_header": "Mensagem",
+    "created_at_header": "Criado em"
+  },
+  "AddTodo": {
+    "title_bar": "Adicionar Tarefa",
+    "add_todo_section_title": "Criar nova tarefa",
+    "add_todo_section_description": "Preencha o formulário abaixo para criar uma nova tarefa"
+  },
+  "EditTodo": {
+    "title_bar": "Editar tarefa",
+    "edit_todo_section_title": "Modificar tarefa",
+    "edit_todo_section_description": "Preencha o formulário abaixo para editar a tarefa"
+  },
+  "TodoForm": {
+    "title_label": "Título",
+    "title_description": "Digite um título descritivo para sua tarefa.",
+    "message_title": "Mensagem",
+    "message_description": "Digite uma mensagem detalhada para sua tarefa.",
+    "submit_button": "Enviar"
+  },
+  "AdminDashboard": {
+    "meta_title": "Painel Administrativo",
+    "meta_description": "Painel administrativo para gerenciamento do sistema",
+    "title": "Painel Administrativo",
+    "description": "Administração e gerenciamento do sistema",
+    "welcome_title": "Painel Admin",
+    "welcome_description": "Gerencie usuários, organizações e configurações do sistema"
+  },
+  "AdminDashboardLayout": {
+    "home": "Início",
+    "admin_panel": "Painel Admin",
+    "users": "Usuários",
+    "organizations": "Organizações",
+    "settings": "Configurações",
+    "org_settings": "Config. Org"
+  },
+  "AdminUsers": {
+    "title": "Gerenciamento de Usuários",
+    "description": "Gerencie usuários do sistema e permissões",
+    "users_title": "Usuários",
+    "users_description": "Visualize e gerencie todos os usuários do sistema"
+  },
+  "AdminOrganizations": {
+    "title": "Gerenciamento de Organizações",
+    "description": "Gerencie organizações e suas configurações",
+    "organizations_title": "Organizações",
+    "organizations_description": "Visualize e gerencie todas as organizações"
+  },
+  "AdminSettings": {
+    "title": "Configurações do Sistema",
+    "description": "Configure configurações em todo o sistema",
+    "settings_title": "Configurações",
+    "settings_description": "Gerencie configuração e preferências do sistema"
+  },
+  "RoleGuard": {
+    "access_denied": "Acesso Negado",
+    "insufficient_permissions": "Você não tem permissões suficientes para acessar esta página."
+  }
+}

@@ -31,6 +31,6 @@ Sentry.init({
   ],
 });
 
-if (process.env.NODE_ENV === 'development') {
-  Spotlight.init();
-}
+// if (process.env.NODE_ENV === 'development') {
+//   Spotlight.init();
+// }

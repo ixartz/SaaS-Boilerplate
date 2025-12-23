@@ -1,63 +1,106 @@
-import { useTranslations } from 'next-intl';
+'use client';
 
-import { MessageState } from '@/features/dashboard/MessageState';
-import { TitleBar } from '@/features/dashboard/TitleBar';
-import { SponsorLogos } from '@/features/sponsors/SponsorLogos';
+import React from 'react';
 
-const DashboardIndexPage = () => {
-  const t = useTranslations('DashboardIndex');
+const MetricCard = ({ label, value, trend }: { label: string; value: string; trend?: 'up' | 'down' | 'stable' }) => (
+  <div className="flex flex-col items-center gap-1">
+    <span className="text-xs font-medium uppercase tracking-widest text-muted-foreground">
+      {label}
+    </span>
 
-  return (
-    <>
-      <TitleBar
-        title={t('title_bar')}
-        description={t('title_bar_description')}
-      />
+    <span className="text-2xl font-bold text-primary-foreground dark:text-primary">
+      {value}
+    </span>
 
-      <MessageState
-        icon={(
-          <svg
-            xmlns="http://www.w3.org/2000/svg"
-            viewBox="0 0 24 24"
-            fill="none"
-            strokeLinecap="round"
-            strokeLinejoin="round"
-          >
-            <path d="M0 0h24v24H0z" stroke="none" />
-            <path d="M12 3l8 4.5v9L12 21l-8-4.5v-9L12 3M12 12l8-4.5M12 12v9M12 12L4 7.5" />
-          </svg>
-        )}
-        title={t('message_state_title')}
-        description={t.rich('message_state_description', {
-          code: chunks => (
-            <code className="bg-secondary text-secondary-foreground">
-              {chunks}
-            </code>
-          ),
-        })}
-        button={(
-          <>
-            <div className="mt-2 text-sm font-light text-muted-foreground">
-              {t.rich('message_state_alternative', {
-                url: () => (
-                  <a
-                    className="text-blue-500 hover:text-blue-600"
-                    href="https://nextjs-boilerplate.com/pro-saas-starter-kit"
-                  >
-                    Next.js Boilerplate SaaS
-                  </a>
-                ),
-              })}
-            </div>
+    {trend && (
+      <span
+        className={
+          trend === 'up'
+            ? 'text-green-500'
+            : trend === 'down'
+              ? 'text-red-500'
+              : 'text-muted-foreground'
+        }
+      >
+        {trend === 'up' ? '▲' : trend === 'down' ? '▼' : '–'}
+      </span>
+    )}
+  </div>
+);
 
-            <div className="mt-7">
-              <SponsorLogos />
-            </div>
-          </>
-        )}
-      />
-    </>
-  );
-};
+const SectionCard = ({ title, children }: React.PropsWithChildren<{ title: string }>) => (
+  <section className="rounded-lg border p-6 shadow-sm dark:border-gray-700">
+    <h2 className="mb-4 text-lg font-semibold uppercase tracking-wide text-muted-foreground">
+      {title}
+    </h2>
+    {children}
+  </section>
+);
+
+const DashboardIndexPage = () => (
+  <div className="mx-auto max-w-5xl space-y-12 p-4 md:p-8">
+    {/* TOPO — ESTADO DO NEGÓCIO */}
+    <section className="flex flex-col items-center gap-6 text-center">
+      <h1 className="text-3xl font-bold uppercase tracking-wide">
+        Estado do Negócio
+      </h1>
+
+      {/* Main score */}
+      <span className="text-6xl font-extrabold text-primary">85%</span>
+
+      {/* Critical variations */}
+      <div className="flex flex-wrap justify-center gap-8">
+        <MetricCard label="Visibilidade" value="72%" trend="up" />
+        <MetricCard label="Reputação" value="4.4" trend="down" />
+        <MetricCard label="Conversão" value="27%" trend="stable" />
+      </div>
+    </section>
+
+    {/* BLOCO 1 — VISIBILIDADE */}
+    <SectionCard title="Visibilidade">
+      <p className="mb-4 text-sm text-muted-foreground">
+        Como estão me encontrando
+      </p>
+
+      {/* Placeholder for chart / analytics */}
+      <div className="h-48 w-full rounded-md bg-muted" />
+
+      <div className="mt-6 grid grid-cols-1 gap-6 md:grid-cols-3">
+        <div className="rounded-md bg-muted p-4 text-center">Busca vs Maps</div>
+        <div className="rounded-md bg-muted p-4 text-center">Termos principais</div>
+        <div className="rounded-md bg-muted p-4 text-center">Horários de pico</div>
+      </div>
+    </SectionCard>
+
+    {/* BLOCO 2 — REPUTAÇÃO */}
+    <SectionCard title="Reputação">
+      <p className="mb-4 text-sm text-muted-foreground">O que falam de mim</p>
+
+      <div className="grid grid-cols-1 gap-6 md:grid-cols-3">
+        <div className="rounded-md bg-muted p-4 text-center">Nota média</div>
+        <div className="rounded-md bg-muted p-4 text-center">Tendência emocional</div>
+        <div className="rounded-md bg-muted p-4 text-center">Risco</div>
+      </div>
+
+      <div className="mt-6 rounded-md bg-muted p-4 text-center">
+        Reviews recentes / Sentimento / Alertas críticos
+      </div>
+    </SectionCard>
+
+    {/* BLOCO 3 — CONVERSÃO */}
+    <SectionCard title="Conversão">
+      <p className="mb-4 text-sm text-muted-foreground">
+        O que virou ação
+      </p>
+
+      <div className="grid grid-cols-1 gap-6 md:grid-cols-4">
+        <div className="rounded-md bg-muted p-4 text-center">Cliques para ligar</div>
+        <div className="rounded-md bg-muted p-4 text-center">Rotas</div>
+        <div className="rounded-md bg-muted p-4 text-center">Site</div>
+        <div className="rounded-md bg-muted p-4 text-center">CTA</div>
+      </div>
+    </SectionCard>
+  </div>
+);
 
 export default DashboardIndexPage;

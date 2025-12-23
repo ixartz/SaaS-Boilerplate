@@ -1,0 +1,22 @@
+onlyBuiltDependencies:
+  - '@clerk/shared'
+  - '@parcel/watcher'
+  - '@percy/core'
+  - '@scarf/scarf'
+  - '@sentry-internal/node-native-stacktrace'
+  - '@sentry/cli'
+  - '@swc/core'
+  - core-js-pure
+  - cpu-features
+  - esbuild
+  - msgpackr-extract
+  - oracledb
+  - protobufjs
+  - sharp
+  - sqlite3
+  - ssh2
+  - tree-sitter
+  - tree-sitter-javascript
+  - tree-sitter-typescript
+  - unrs-resolver
+  - yarn

@@ -3,6 +3,11 @@
     "meta_title": "SaaS Template - Le template SaaS parfait pour construire et mettre à l'échelle votre entreprise en toute simplicité.",
     "meta_description": "Un template gratuit et open-source de landing page pour votre entreprise SaaS, construit avec React, TypeScript, Shadcn UI et Tailwind CSS."
   },
+  "Error": {
+    "something_went_wrong": "Quelque chose s'est mal passé !",
+    "error_occurred": "Une erreur s'est produite lors du chargement de cette page.",
+    "try_again": "Réessayer"
+  },
   "Navbar": {
     "sign_in": "Se connecter",
     "sign_up": "S'inscrire",
@@ -88,9 +93,11 @@
   },
   "DashboardLayout": {
     "home": "Accueil",
+    "admin_panel": "Panneau d'administration",
     "todos": "Todos",
     "members": "Membres",
     "billing": "Facturation",
+    "google_business": "Google Business",
     "settings": "Réglages"
   },
   "Dashboard": {
@@ -162,5 +169,43 @@
     "message_title": "Message",
     "message_description": "Entrez un message détaillé pour votre todo.",
     "submit_button": "Envoyer"
+  },
+  "AdminDashboard": {
+    "meta_title": "Tableau de bord d'administration",
+    "meta_description": "Tableau de bord administratif pour la gestion du système",
+    "title": "Tableau de bord d'administration",
+    "description": "Administration et gestion du système",
+    "welcome_title": "Panneau d'administration",
+    "welcome_description": "Gérer les utilisateurs, les organisations et les paramètres du système"
+  },
+  "AdminDashboardLayout": {
+    "home": "Accueil",
+    "admin_panel": "Panneau d'administration",
+    "users": "Utilisateurs",
+    "organizations": "Organisations",
+    "settings": "Paramètres",
+    "org_settings": "Paramètres org"
+  },
+  "AdminUsers": {
+    "title": "Gestion des utilisateurs",
+    "description": "Gérer les utilisateurs du système et leurs permissions",
+    "users_title": "Utilisateurs",
+    "users_description": "Voir et gérer tous les utilisateurs du système"
+  },
+  "AdminOrganizations": {
+    "title": "Gestion des organisations",
+    "description": "Gérer les organisations et leurs paramètres",
+    "organizations_title": "Organisations",
+    "organizations_description": "Voir et gérer toutes les organisations"
+  },
+  "AdminSettings": {
+    "title": "Paramètres système",
+    "description": "Configurer les paramètres à l'échelle du système",
+    "settings_title": "Paramètres",
+    "settings_description": "Gérer la configuration et les préférences du système"
+  },
+  "RoleGuard": {
+    "access_denied": "Accès refusé",
+    "insufficient_permissions": "Vous n'avez pas les permissions suffisantes pour accéder à cette page."
   }
 }
