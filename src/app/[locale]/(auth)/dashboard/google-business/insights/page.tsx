@@ -149,7 +149,7 @@ export default function GoogleBusinessInsightsPage() {
 
   // Dados mock para demonstração
   const kpiData = [
-    { title: "Total de Locais", value: locations.length },
+    { title: "Total de Locais", value: locations.length, change: undefined, changeType: undefined },
     { title: "Média de Avaliação", value: "4.5", change: 12, changeType: 'increase' },
     { title: "Total de Reviews", value: "1,234", change: 8, changeType: 'increase' },
     { title: "Posts Publicados", value: "89", change: -3, changeType: 'decrease' },
