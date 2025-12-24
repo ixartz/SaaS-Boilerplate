@@ -1,12 +1,7 @@
-'use client';
-
 import { useTranslations } from 'next-intl';
 
 import { DashboardHeader } from '@/features/dashboard/DashboardHeader';
 import { RoleGuard } from '@/features/auth/RoleGuard';
-import { generateMetadata } from './metadata';
-
-export { generateMetadata };
 
 export default function AdminLayout(props: { children: React.ReactNode }) {
   const t = useTranslations('AdminDashboardLayout');

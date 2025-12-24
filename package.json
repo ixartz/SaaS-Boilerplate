@@ -4,7 +4,8 @@
   "scripts": {
     "dev:spotlight": "node node_modules/.pnpm/@spotlightjs+sidecar@1.11.3/node_modules/@spotlightjs/sidecar/dist/main.js",
     "dev:next": "next dev",
-    "dev": "run-p dev:*",
+    "dev": "next dev",
+    "dev:full": "run-p dev:*",
     "build": "next build",
     "start": "next start",
     "build-stats": "cross-env ANALYZE=true npm run build",

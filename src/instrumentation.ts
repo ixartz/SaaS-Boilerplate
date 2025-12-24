@@ -1,6 +1,11 @@
 import * as Sentry from '@sentry/nextjs';
 
 export async function register() {
+  // Skip Sentry initialization in development for faster startup
+  if (process.env.NODE_ENV === 'development') {
+    return;
+  }
+
   if (process.env.NEXT_RUNTIME === 'nodejs') {
     // Node.js Sentry configuration
     Sentry.init({
