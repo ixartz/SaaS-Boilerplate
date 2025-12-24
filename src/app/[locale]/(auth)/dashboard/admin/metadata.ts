@@ -11,5 +11,3 @@ export async function generateMetadata(props: { params: { locale: string } }) {
     description: t('meta_description'),
   };
 }
-
-export { generateMetadata };
