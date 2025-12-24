@@ -20,7 +20,7 @@ import {
   AlertCircle,
   Zap,
   Bell,
-  Sync,
+  RotateCcw,
   ExternalLink
 } from 'lucide-react';
 
@@ -438,7 +438,7 @@ export default function GoogleMeuNegocioPage() {
                     <Card className="border-dashed">
                       <CardHeader className="pb-3">
                         <div className="flex items-center gap-2">
-                          <Sync className="w-4 h-4 text-purple-500" />
+                          <RotateCcw className="w-4 h-4 text-purple-500" />
                           <CardTitle className="text-sm">Relatórios Periódicos</CardTitle>
                         </div>
                       </CardHeader>
@@ -560,7 +560,7 @@ export default function GoogleMeuNegocioPage() {
                     
                     <div className="flex items-center justify-between p-3 border rounded-lg">
                       <div className="flex items-center gap-3">
-                        <Sync className="w-4 h-4 text-purple-500" />
+                        <RotateCcw className="w-4 h-4 text-purple-500" />
                         <div>
                           <p className="font-medium text-sm">Relatório Mensal</p>
                           <p className="text-xs text-muted-foreground">
