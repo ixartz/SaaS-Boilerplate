@@ -1,10 +1,14 @@
 import {
   bigint,
+  integer,
+  json,
   pgTable,
   serial,
   text,
   timestamp,
   uniqueIndex,
+  uuid,
+  varchar,
 } from 'drizzle-orm/pg-core';
 
 // This file defines the structure of your database tables using the Drizzle ORM.
@@ -57,3 +61,47 @@ export const todoSchema = pgTable('todo', {
     .notNull(),
   createdAt: timestamp('created_at', { mode: 'date' }).defaultNow().notNull(),
 });
+
+// Video Editor Tables
+export const videoProjectsSchema = pgTable('video_projects', {
+  id: uuid('id').defaultRandom().primaryKey(),
+  userId: varchar('user_id', { length: 128 }).notNull(),
+  organizationId: varchar('organization_id', { length: 128 }),
+  name: varchar('name', { length: 255 }).notNull(),
+  description: text('description'),
+  thumbnailUrl: varchar('thumbnail_url', { length: 512 }),
+  duration: integer('duration'), // in seconds
+  fileSize: integer('file_size'), // in bytes
+  resolution: varchar('resolution', { length: 20 }), // e.g., "1920x1080"
+  status: varchar('status', { length: 20 }).default('draft'), // draft, processing, completed
+  updatedAt: timestamp('updated_at', { mode: 'date' })
+    .defaultNow()
+    .$onUpdate(() => new Date())
+    .notNull(),
+  createdAt: timestamp('created_at', { mode: 'date' }).defaultNow().notNull(),
+});
+
+export const videoEditsSchema = pgTable('video_edits', {
+  id: uuid('id').defaultRandom().primaryKey(),
+  projectId: uuid('project_id')
+    .references(() => videoProjectsSchema.id, { onDelete: 'cascade' })
+    .notNull(),
+  editData: json('edit_data').notNull(), // MediaBunny command history
+  version: integer('version').default(1),
+  createdAt: timestamp('created_at', { mode: 'date' }).defaultNow().notNull(),
+});
+
+export const userUsageSchema = pgTable('user_usage', {
+  id: uuid('id').defaultRandom().primaryKey(),
+  userId: varchar('user_id', { length: 128 }).notNull(),
+  month: varchar('month', { length: 7 }).notNull(), // e.g., "2026-01"
+  videosCreated: integer('videos_created').default(0),
+  storageUsed: integer('storage_used').default(0), // in bytes
+  exportCount: integer('export_count').default(0),
+  updatedAt: timestamp('updated_at', { mode: 'date' })
+    .defaultNow()
+    .$onUpdate(() => new Date())
+    .notNull(),
+  createdAt: timestamp('created_at', { mode: 'date' }).defaultNow().notNull(),
+});
+
