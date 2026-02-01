@@ -1,6 +1,6 @@
 // Video editor type definitions
 
-export interface VideoProject {
+export type VideoProject = {
   id: string;
   userId: string;
   organizationId?: string;
@@ -13,73 +13,82 @@ export interface VideoProject {
   status: 'draft' | 'processing' | 'completed';
   createdAt: Date;
   updatedAt: Date;
-}
+};
 
-export interface VideoEdit {
+export type VideoEdit = {
   id: string;
   projectId: string;
   editData: EditCommand[];
   version: number;
   createdAt: Date;
-}
+};
 
-export interface EditCommand {
-  type: 'trim' | 'crop' | 'rotate' | 'speed' | 'volume' | 'fadeIn' | 'fadeOut';
-  params: Record<string, any>;
-  timestamp: number;
-}
+export type EditCommand =
+  | { type: 'trim'; params: TrimParams; timestamp: number }
+  | { type: 'crop'; params: CropParams; timestamp: number }
+  | { type: 'rotate'; params: RotateParams; timestamp: number }
+  | { type: 'speed'; params: SpeedParams; timestamp: number }
+  | { type: 'volume'; params: VolumeParams; timestamp: number }
+  | { type: 'fadeIn'; params: FadeParams; timestamp: number }
+  | { type: 'fadeOut'; params: FadeParams; timestamp: number };
 
-export interface TrimParams {
+export type TrimParams = {
   start: number; // in seconds
   end: number; // in seconds
-}
+};
 
-export interface CropParams {
+export type CropParams = {
   aspectRatio: '16:9' | '1:1' | '9:16' | 'custom';
-  x?: number;
-  y?: number;
-  width?: number;
-  height?: number;
-}
+  x: number; // Normalized 0-1
+  y: number; // Normalized 0-1
+  width: number; // Normalized 0-1
+  height: number; // Normalized 0-1
+};
 
-export interface RotateParams {
+export type RotateParams = {
   degrees: 90 | 180 | 270;
-}
+};
 
-export interface SpeedParams {
+export type SpeedParams = {
   multiplier: number; // 0.5 to 2.0
-}
+};
 
-export interface VolumeParams {
+export type VolumeParams = {
   level: number; // 0 to 100
-}
+};
 
-export interface FadeParams {
+export type FadeParams = {
   duration: number; // in seconds
-}
+};
 
-export interface EditorState {
+export type EditorState = {
   videoFile: File | null;
   videoUrl: string | null;
   currentTime: number;
   duration: number;
+  width: number;
+  height: number;
   isPlaying: boolean;
   volume: number;
+  playbackSpeed: number;
+  rotation: number;
+  crop: CropParams | null;
+  trim: TrimParams | null;
   editHistory: EditCommand[];
   currentProject: VideoProject | null;
   isProcessing: boolean;
-}
+};
 
-export interface ExportOptions {
+export type ExportOptions = {
   quality: '720p' | '1080p' | '4K';
   format: 'mp4' | 'webm';
-}
+};
 
-export interface UserUsage {
+export type UserUsage = {
   id: string;
   userId: string;
   month: string; // "YYYY-MM"
   videosCreated: number;
   storageUsed: number;
   exportCount: number;
-}
+};

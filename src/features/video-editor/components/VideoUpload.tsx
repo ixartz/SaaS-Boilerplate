@@ -3,16 +3,18 @@
 import { Upload } from 'lucide-react';
 import { useCallback, useState } from 'react';
 
-interface VideoUploadProps {
+type VideoUploadProps = {
   onVideoSelect: (file: File) => void;
   maxFileSize?: number; // in bytes
   acceptedFormats?: string[];
-}
+};
+
+const DEFAULT_ACCEPTED_FORMATS = ['video/mp4', 'video/quicktime', 'video/webm'];
 
 export function VideoUpload({
   onVideoSelect,
   maxFileSize = 100 * 1024 * 1024, // 100MB default
-  acceptedFormats = ['video/mp4', 'video/quicktime', 'video/webm'],
+  acceptedFormats = DEFAULT_ACCEPTED_FORMATS,
 }: VideoUploadProps) {
   const [isDragging, setIsDragging] = useState(false);
   const [error, setError] = useState<string | null>(null);
@@ -88,47 +90,50 @@ export function VideoUpload({
   const maxSizeMB = Math.round(maxFileSize / (1024 * 1024));
 
   return (
-    <div className="flex flex-col items-center justify-center w-full h-full min-h-[400px]">
+    <div className="flex size-full min-h-[400px] flex-col items-center justify-center">
       <div
         onDrop={handleDrop}
         onDragOver={handleDragOver}
         onDragLeave={handleDragLeave}
         className={
           isDragging
-            ? 'relative flex flex-col items-center justify-center w-full max-w-2xl border-2 border-dashed rounded-lg p-12 transition-all cursor-pointer border-primary bg-primary/5 scale-105'
-            : 'relative flex flex-col items-center justify-center w-full max-w-2xl border-2 border-dashed rounded-lg p-12 transition-all cursor-pointer border-gray-300 hover:border-primary hover:bg-gray-50'
+            ? 'relative flex w-full max-w-2xl scale-105 cursor-pointer flex-col items-center justify-center rounded-lg border-2 border-dashed border-primary bg-primary/5 p-12 transition-all'
+            : 'relative flex w-full max-w-2xl cursor-pointer flex-col items-center justify-center rounded-lg border-2 border-dashed border-gray-300 p-12 transition-all hover:border-primary hover:bg-gray-50'
         }
       >
         <input
           type="file"
           accept={acceptedFormats.join(',')}
           onChange={handleFileInput}
-          className="absolute inset-0 w-full h-full opacity-0 cursor-pointer"
+          className="absolute inset-0 size-full cursor-pointer opacity-0"
         />
 
-        <div className="flex flex-col items-center gap-4 text-center pointer-events-none">
-          <div className="p-4 rounded-full bg-primary/10">
-            <Upload className="w-12 h-12 text-primary" />
+        <div className="pointer-events-none flex flex-col items-center gap-4 text-center">
+          <div className="rounded-full bg-primary/10 p-4">
+            <Upload className="size-12 text-primary" />
           </div>
 
           <div>
-            <h3 className="text-xl font-semibold mb-2">
+            <h3 className="mb-2 text-xl font-semibold">
               Upload Your Video
             </h3>
-            <p className="text-gray-600 mb-4">
+            <p className="mb-4 text-gray-600">
               Drag and drop your video here, or click to browse
             </p>
             <p className="text-sm text-gray-500">
-              Supported formats: MP4, MOV, WebM • Max size: {maxSizeMB}MB
+              Supported formats: MP4, MOV, WebM • Max size:
+              {' '}
+              {maxSizeMB}
+              MB
             </p>
           </div>
         </div>
       </div>
 
       {error && (
-        <div className="mt-4 p-4 bg-red-50 border border-red-200 rounded-lg text-red-700 max-w-2xl w-full">
+        <div className="mt-4 w-full max-w-2xl rounded-lg border border-red-200 bg-red-50 p-4 text-red-700">
           <p className="font-medium">Upload Error</p>
-          <p className="text-sm mt-1">{error}</p>
+          <p className="mt-1 text-sm">{error}</p>
         </div>
       )}
     </div>

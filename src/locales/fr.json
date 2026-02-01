@@ -88,6 +88,7 @@
   },
   "DashboardLayout": {
     "home": "Accueil",
+    "ai_editor": "Éditeur IA",
     "todos": "Todos",
     "members": "Membres",
     "billing": "Facturation",
@@ -162,5 +163,9 @@
     "message_title": "Message",
     "message_description": "Entrez un message détaillé pour votre todo.",
     "submit_button": "Envoyer"
+  },
+  "AIVideoEditor": {
+    "meta_title": "Éditeur Vidéo AI - VidoFlip",
+    "meta_description": "Éditez vos vidéos en utilisant des commandes en langage naturel propulsées par l'IA."
   }
 }

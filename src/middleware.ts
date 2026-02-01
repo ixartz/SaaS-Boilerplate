@@ -19,14 +19,19 @@ const isProtectedRoute = createRouteMatcher([
   '/:locale/dashboard(.*)',
   '/onboarding(.*)',
   '/:locale/onboarding(.*)',
-  '/api(.*)',
-  '/:locale/api(.*)',
+//   '/api(.*)',
+//   '/:locale/api(.*)',
 ]);
 
 export default function middleware(
   request: NextRequest,
   event: NextFetchEvent,
 ) {
+  // FAST EXIT: Bypass all middleware for API routes
+  if (request.nextUrl.pathname.startsWith('/api')) {
+    return NextResponse.next();
+  }
+
   if (
     request.nextUrl.pathname.includes('/sign-in')
     || request.nextUrl.pathname.includes('/sign-up')
@@ -59,6 +64,10 @@ export default function middleware(
         );
 
         return NextResponse.redirect(orgSelection);
+      }
+
+      if (req.nextUrl.pathname.startsWith('/api')) {
+        return NextResponse.next();
       }
 
       return intlMiddleware(req);

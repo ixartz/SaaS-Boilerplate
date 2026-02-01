@@ -104,4 +104,3 @@ export const userUsageSchema = pgTable('user_usage', {
     .notNull(),
   createdAt: timestamp('created_at', { mode: 'date' }).defaultNow().notNull(),
 });
-

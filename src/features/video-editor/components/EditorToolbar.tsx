@@ -14,7 +14,7 @@ import {
 } from '@/components/ui/dialog';
 import { Label } from '@/components/ui/label';
 
-interface EditorToolbarProps {
+type EditorToolbarProps = {
   duration: number;
   volume: number;
   onTrim: (start: number, end: number) => void;
@@ -23,7 +23,7 @@ interface EditorToolbarProps {
   onSpeed: (multiplier: number) => void;
   onVolumeChange: (level: number) => void;
   disabled?: boolean;
-}
+};
 
 export function EditorToolbar({
   duration,
@@ -80,8 +80,8 @@ export function EditorToolbar({
 
   return (
     <>
-      <div className="flex items-center gap-2 p-4 bg-white border-t">
-        <span className="text-sm font-medium text-gray-700 mr-2">Tools:</span>
+      <div className="flex items-center gap-2 border-t bg-white p-4">
+        <span className="mr-2 text-sm font-medium text-gray-700">Tools:</span>
 
         <Button
           variant="outline"
@@ -89,7 +89,7 @@ export function EditorToolbar({
           onClick={() => setTrimDialogOpen(true)}
           disabled={disabled}
         >
-          <Scissors className="w-4 h-4 mr-2" />
+          <Scissors className="mr-2 size-4" />
           Trim
         </Button>
 
@@ -99,7 +99,7 @@ export function EditorToolbar({
           onClick={() => setCropDialogOpen(true)}
           disabled={disabled}
         >
-          <Crop className="w-4 h-4 mr-2" />
+          <Crop className="mr-2 size-4" />
           Crop
         </Button>
 
@@ -109,7 +109,7 @@ export function EditorToolbar({
           onClick={() => setRotateDialogOpen(true)}
           disabled={disabled}
         >
-          <RotateCw className="w-4 h-4 mr-2" />
+          <RotateCw className="mr-2 size-4" />
           Rotate
         </Button>
 
@@ -119,7 +119,7 @@ export function EditorToolbar({
           onClick={() => setSpeedDialogOpen(true)}
           disabled={disabled}
         >
-          <Gauge className="w-4 h-4 mr-2" />
+          <Gauge className="mr-2 size-4" />
           Speed
         </Button>
 
@@ -129,7 +129,7 @@ export function EditorToolbar({
           onClick={() => setVolumeDialogOpen(true)}
           disabled={disabled}
         >
-          <Volume2 className="w-4 h-4 mr-2" />
+          <Volume2 className="mr-2 size-4" />
           Volume
         </Button>
       </div>
@@ -146,7 +146,10 @@ export function EditorToolbar({
 
           <div className="space-y-4 py-4">
             <div className="space-y-2">
-              <Label htmlFor="trim-start">Start Time: {formatTime(trimStart)}</Label>
+              <Label htmlFor="trim-start">
+                Start Time:
+                {formatTime(trimStart)}
+              </Label>
               <input
                 id="trim-start"
                 type="range"
@@ -160,7 +163,10 @@ export function EditorToolbar({
             </div>
 
             <div className="space-y-2">
-              <Label htmlFor="trim-end">End Time: {formatTime(trimEnd)}</Label>
+              <Label htmlFor="trim-end">
+                End Time:
+                {formatTime(trimEnd)}
+              </Label>
               <input
                 id="trim-end"
                 type="range"
@@ -174,7 +180,9 @@ export function EditorToolbar({
             </div>
 
             <p className="text-sm text-gray-600">
-              New duration: {formatTime(trimEnd - trimStart)}
+              New duration:
+              {' '}
+              {formatTime(trimEnd - trimStart)}
             </p>
           </div>
 
@@ -202,13 +210,13 @@ export function EditorToolbar({
               <button
                 type="button"
                 onClick={() => setSelectedAspectRatio('16:9')}
-                className={`p-4 border-2 rounded-lg transition-all ${
+                className={`rounded-lg border-2 p-4 transition-all ${
                   selectedAspectRatio === '16:9'
                     ? 'border-primary bg-primary/5'
                     : 'border-gray-200 hover:border-gray-300'
                 }`}
               >
-                <div className="aspect-video bg-gray-200 rounded mb-2" />
+                <div className="mb-2 aspect-video rounded bg-gray-200" />
                 <p className="text-sm font-medium">16:9</p>
                 <p className="text-xs text-gray-500">Landscape</p>
               </button>
@@ -216,13 +224,13 @@ export function EditorToolbar({
               <button
                 type="button"
                 onClick={() => setSelectedAspectRatio('1:1')}
-                className={`p-4 border-2 rounded-lg transition-all ${
+                className={`rounded-lg border-2 p-4 transition-all ${
                   selectedAspectRatio === '1:1'
                     ? 'border-primary bg-primary/5'
                     : 'border-gray-200 hover:border-gray-300'
                 }`}
               >
-                <div className="aspect-square bg-gray-200 rounded mb-2" />
+                <div className="mb-2 aspect-square rounded bg-gray-200" />
                 <p className="text-sm font-medium">1:1</p>
                 <p className="text-xs text-gray-500">Square</p>
               </button>
@@ -230,13 +238,13 @@ export function EditorToolbar({
               <button
                 type="button"
                 onClick={() => setSelectedAspectRatio('9:16')}
-                className={`p-4 border-2 rounded-lg transition-all ${
+                className={`rounded-lg border-2 p-4 transition-all ${
                   selectedAspectRatio === '9:16'
                     ? 'border-primary bg-primary/5'
                     : 'border-gray-200 hover:border-gray-300'
                 }`}
               >
-                <div className="aspect-[9/16] bg-gray-200 rounded mb-2 mx-auto w-1/2" />
+                <div className="mx-auto mb-2 aspect-[9/16] w-1/2 rounded bg-gray-200" />
                 <p className="text-sm font-medium">9:16</p>
                 <p className="text-xs text-gray-500">Portrait</p>
               </button>
@@ -262,17 +270,17 @@ export function EditorToolbar({
             </DialogDescription>
           </DialogHeader>
 
-          <div className="flex gap-4 py-4 justify-center">
+          <div className="flex justify-center gap-4 py-4">
             <Button onClick={() => handleRotateApply(90)}>
-              <RotateCw className="w-4 h-4 mr-2" />
+              <RotateCw className="mr-2 size-4" />
               90° Right
             </Button>
             <Button onClick={() => handleRotateApply(180)}>
-              <RotateCw className="w-4 h-4 mr-2" />
+              <RotateCw className="mr-2 size-4" />
               180°
             </Button>
             <Button onClick={() => handleRotateApply(270)}>
-              <RotateCw className="w-4 h-4 mr-2 scale-x-[-1]" />
+              <RotateCw className="mr-2 size-4 -scale-x-100" />
               90° Left
             </Button>
           </div>
@@ -297,7 +305,11 @@ export function EditorToolbar({
 
           <div className="space-y-4 py-4">
             <div className="space-y-2">
-              <Label>Speed: {selectedSpeed}x</Label>
+              <Label>
+                Speed:
+                {selectedSpeed}
+                x
+              </Label>
               <input
                 type="range"
                 min="0.5"
@@ -346,7 +358,11 @@ export function EditorToolbar({
 
           <div className="space-y-4 py-4">
             <div className="space-y-2">
-              <Label>Volume: {selectedVolume}%</Label>
+              <Label>
+                Volume:
+                {selectedVolume}
+                %
+              </Label>
               <input
                 type="range"
                 min="0"

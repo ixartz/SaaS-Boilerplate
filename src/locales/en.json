@@ -88,6 +88,7 @@
   },
   "DashboardLayout": {
     "home": "Home",
+    "ai_editor": "AI Editor",
     "todos": "Todos",
     "members": "Members",
     "billing": "Billing",
@@ -162,5 +163,9 @@
     "message_title": "Message",
     "message_description": "Enter a detailed message for your todo.",
     "submit_button": "Submit"
+  },
+  "AIVideoEditor": {
+    "meta_title": "AI Video Editor - VidoFlip",
+    "meta_description": "Edit your videos using natural language commands powered by AI."
   }
 }
