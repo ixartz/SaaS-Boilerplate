@@ -37,7 +37,7 @@ const DashboardIndexPage = () => {
         })}
         button={(
           <>
-            <div className="mt-2 text-sm font-light text-muted-foreground">
+            <div className="mt-2 whitespace-pre text-sm font-light text-muted-foreground">
               {t.rich('message_state_alternative', {
                 url: () => (
                   <a
@@ -48,6 +48,19 @@ const DashboardIndexPage = () => {
                   </a>
                 ),
               })}
+
+              <p>
+                {t.rich('max_message', {
+                  url: () => (
+                    <a
+                      className="text-blue-500 hover:text-blue-600"
+                      href="https://nextjs-boilerplate.com/nextjs-multi-tenant-saas-boilerplate"
+                    >
+                      Next.js Boilerplate Max
+                    </a>
+                  ),
+                })}
+              </p>
             </div>
 
             <div className="mt-7">

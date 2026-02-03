@@ -21,6 +21,8 @@ export const SUBSCRIPTION_STATUS = {
 // You can check out the Next.js Boilerplate Pro at: https://nextjs-boilerplate.com/pro-saas-starter-kit
 // On top of that, you'll get access to real example of SaaS application with Next.js, TypeScript, Tailwind CSS, and more.
 // You can find a live demo at: https://pro-demo.nextjs-boilerplate.com
+
+// Or, need a Self-hosted auth stack (Better Auth)? Try Next.js Boilerplate Max: https://nextjs-boilerplate.com/nextjs-multi-tenant-saas-boilerplate
 export type PricingPlan = {
   id: PlanId;
   price: number;

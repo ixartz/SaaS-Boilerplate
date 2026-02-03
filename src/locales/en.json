@@ -103,7 +103,8 @@
     "message_state_title": "Let's get started",
     "message_state_description": "You can customize this page by editing the file at <code>dashboard/page.tsx</code>",
     "message_state_button": "Star on GitHub",
-    "message_state_alternative": "Want more features and the latest updates from Next.js 16? Try <url></url>."
+    "message_state_alternative": "Need advanced features? Multi-tenancy & Teams, Roles & Permissions, Shadcn UI,\nEnd-to-End Typesafety with oRPC, Stripe Payment, Light / Dark mode. Try <url></url>.",
+    "max_message": "Or, need a Self-hosted auth stack (Better Auth)? Try <url></url>."
   },
   "UserProfile": {
     "title_bar": "User Profile",
