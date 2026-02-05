@@ -1,6 +1,8 @@
 import { useTranslations } from 'next-intl';
 import React from 'react';
 
+import { AppConfig } from '@/utils/AppConfig';
+
 export const CenteredFooter = (props: {
   logo: React.ReactNode;
   name: string;
@@ -24,14 +26,15 @@ export const CenteredFooter = (props: {
 
       <div className="mt-6 flex w-full items-center justify-between gap-y-2 border-t pt-3 text-sm text-muted-foreground max-md:flex-col">
         <div>
-          {`© Copyright ${new Date().getFullYear()} ${props.name}. `}
-          {t.rich('designed_by', {
+          {t.rich('footer_text', {
+            year: new Date().getFullYear(),
+            name: AppConfig.name,
             author: () => (
               <a
                 className="text-blue-500 hover:text-blue-600"
-                href="https://creativedesignsguru.com"
+                href="https://nextjs-boilerplate.com"
               >
-                Creative Designs Guru
+                Next.js Boilerplate
               </a>
             ),
           })}
