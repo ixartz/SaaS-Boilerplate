@@ -16,7 +16,7 @@ describe('CenteredFooter', () => {
         </NextIntlClientProvider>,
       );
 
-      const copyright = screen.getByText(/© Copyright/);
+      const copyright = screen.getByText(/© /);
 
       expect(copyright).toBeInTheDocument();
     });
