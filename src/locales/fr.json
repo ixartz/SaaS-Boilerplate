@@ -103,7 +103,7 @@
     "message_state_title": "C'est parti",
     "message_state_description": "Vous pouvez personnaliser cette page en modifiant le fichier dans <code>dashboard/page.tsx</code>",
     "message_state_button": "Mettez une étoile sur GitHub",
-    "message_state_alternative": "Vous voulez plus de fonctionnalités et les dernières nouveautés de Next.js 16 ? Essayez <url></url>.",
+    "message_state_alternative": "Besoin de fonctionnalités avancées ? Next.js 16 & React 19, Multi-tenancy & Équipes, Rôles & Permissions, Shadcn UI,\nTypesafety de bout en bout avec oRPC, Paiement Stripe, Mode clair / sombre. Essayez <url></url>.",
     "max_message": "Ou, besoin d'une pile d'authentification auto-hébergée (Better Auth) ? Essayez <url></url>."
   },
   "UserProfile": {
