@@ -1,4 +1,4 @@
-import { ChatOllama } from "@langchain/ollama";
+import { ChatGoogleGenerativeAI } from "@langchain/google-genai";
 import { tool } from "@langchain/core/tools";
 import { MemorySaver } from "@langchain/langgraph";
 import { createReactAgent } from "@langchain/langgraph/prebuilt";
@@ -127,9 +127,10 @@ export async function POST(req: Request) {
   const tools = [trimVideo, cropVideo, rotateVideo, changeSpeed, adjustVolume, addFadeIn, addFadeOut, seekTo, undo];
 
   // Configure model
-  const model = new ChatOllama({
-    model: "llama3.2",
-    temperature: 0,
+  const model = new ChatGoogleGenerativeAI({
+    model: "gemini-flash-latest",
+    maxOutputTokens: 2048,
+    apiKey: process.env.GOOGLE_API_KEY,
   });
 
   const systemPrompt = `
@@ -141,6 +142,7 @@ export async function POST(req: Request) {
     - Dimensions: ${videoContext.width}x${videoContext.height}
     
     TOOLS AVAILABLE:
+    Use these tools to perform actions on the video.
     - trimVideo({ start, end }): Use this for trimming.
     - cropVideo({ aspectRatio }): aspectRatio can be "16:9", "1:1", "9:16".
     - rotateVideo({ degrees }): degrees can be 90, 180, 270.
@@ -150,11 +152,11 @@ export async function POST(req: Request) {
     - undo(): undo last edit.
 
     RULES:
-    1. If you need to perform an action, CALL THE APPROPRIATE TOOL immediately.
-    2. After calling a tool (or if just chatting), you MUST respond with a JSON object in this EXACT format:
-       { "punny_response": "Your playful response here", "tool_action": { "name": "trimVideo", "args": { "start": 0, "end": 5 } } }
-    3. You MUST use the exact tool names listed above.
-    4. You MUST ALWAYS RESPOND WITH VALID JSON. No extra text before or after the JSON.
+    1. If you need to perform an action, CALL THE APPROPRIATE TOOL.
+    2. Always respond with a JSON object in this format:
+       { "punny_response": "Your playful response here", "tool_action": { "name": "toolName", "args": { ... } } }
+    3. If no tool is needed, set tool_action to null.
+    4. Be playful and punny in your responses!
   `;
 
   // Create agent
@@ -165,12 +167,10 @@ export async function POST(req: Request) {
     messageModifier: systemPrompt,
   });
 
-  // Run agent
   const config = {
     configurable: { thread_id: "default-thread" }, 
   };
 
-  // Convert input messages to LangChain format if they aren't already
   const formattedMessages = messages.map(m => {
     if (m.role === 'user') return new HumanMessage(m.content);
     if (m.role === 'assistant') return new AIMessage(m.content);
@@ -186,72 +186,35 @@ export async function POST(req: Request) {
   const lastMessage = result.messages[result.messages.length - 1];
   let content = (lastMessage?.content as string) || "";
 
-  // Final Response Placeholder
+  // Helper to extract JSON from strings
+  const extractJson = (text: string) => {
+    const firstBrace = text.indexOf('{');
+    const lastBrace = text.lastIndexOf('}');
+    if (firstBrace !== -1 && lastBrace !== -1 && lastBrace > firstBrace) {
+      try {
+        return JSON.parse(text.substring(firstBrace, lastBrace + 1));
+      } catch (e) {
+        return null;
+      }
+    }
+    return null;
+  };
+
   let finalResponse = {
-    punny_response: "I'm ready to help you edit your video!",
+    punny_response: "",
     tool_action: null as any
   };
 
-  /**
-   * GREEDY JSON EXTRACTION
-   * Llama 3.2 often outputs mixed text and JSON. 
-   * A greedy approach (first { to last }) is more robust for nested structures.
-   */
-  const firstBrace = content.indexOf('{');
-  const lastBrace = content.lastIndexOf('}');
-  let parsedJson = null;
-
-  if (firstBrace !== -1 && lastBrace !== -1 && lastBrace > firstBrace) {
-    const jsonCandidate = content.substring(firstBrace, lastBrace + 1);
-    try {
-      parsedJson = JSON.parse(jsonCandidate);
-    } catch (e) {
-      // If full greedy fails, try the multi-block fallback
-      const jsonBlocks = content.match(/\{[\s\S]*?\}/g) || [];
-      for (const block of jsonBlocks) {
-        try {
-          const potentiallyValid = JSON.parse(block);
-          if (potentiallyValid.punny_response || potentiallyValid.tool_action || (potentiallyValid.name && potentiallyValid.args)) {
-            parsedJson = potentiallyValid;
-            break;
-          }
-        } catch (innerE) {
-          continue;
-        }
-      }
-    }
-  }
-
-  if (parsedJson) {
-    // Normalize format 2 (name/args) to format 1 (tool_action)
-    if (parsedJson.name && parsedJson.args && !parsedJson.tool_action) {
-      parsedJson = {
-        punny_response: parsedJson.punny_response || "I've prepared that edit for you!",
-        tool_action: { name: parsedJson.name, args: parsedJson.args }
-      };
-    }
-    
-    // Handle nested JSON inside punny_response (common quirk)
-    if (typeof parsedJson.punny_response === 'string' && parsedJson.punny_response.includes('{')) {
-       try {
-         const nested = JSON.parse(parsedJson.punny_response.match(/\{[\s\S]*?\}/)?.[0] || '');
-         if (nested.tool_action || (nested.name && nested.args)) {
-            parsedJson.tool_action = nested.tool_action || { name: nested.name, args: nested.args };
-            parsedJson.punny_response = "Got it! Let's get that edited.";
-         }
-       } catch (e) { /* ignore */ }
-    }
-    finalResponse = { ...finalResponse, ...parsedJson };
+  const parsed = extractJson(content);
+  if (parsed) {
+    finalResponse.punny_response = parsed.punny_response || content;
+    finalResponse.tool_action = parsed.tool_action || null;
   } else {
     finalResponse.punny_response = content;
   }
 
-  /**
-   * ROBUST TOOL MAPPING
-   * If the agent called a tool using the official LangGraph mechanism
-   * but didn't include it in the JSON 'tool_action', we map it manually.
-   */
-  if (lastMessage && !finalResponse.tool_action && (lastMessage as any).tool_calls && (lastMessage as any).tool_calls.length > 0) {
+  // Fallback: If agent called a tool but it's not in our explicit JSON response
+  if (!finalResponse.tool_action && (lastMessage as any).tool_calls?.length > 0) {
     const toolCall = (lastMessage as any).tool_calls[0];
     finalResponse.tool_action = {
       name: toolCall.name,
@@ -259,8 +222,5 @@ export async function POST(req: Request) {
     };
   }
 
-  // Sanitize for JSON serializability (to avoid undefined or special types)
-  const sanitized = JSON.parse(JSON.stringify(finalResponse));
-
-  return NextResponse.json(sanitized);
+  return NextResponse.json(finalResponse);
 }
