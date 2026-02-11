@@ -37,7 +37,7 @@
     "incremental": true,
 
     // Load types
-    "types": ["vitest/globals"],
+    "types": [],
 
     // Path aliases
     "baseUrl": ".",
