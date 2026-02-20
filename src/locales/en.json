@@ -16,7 +16,7 @@
     "follow_twitter": "Follow @Ixartz on Twitter",
     "title": "The perfect <important>SaaS template</important> to build and scale your business with ease.",
     "description": "A free and open-source landing page template for your SaaS business, built with React, TypeScript, Shadcn UI, and Tailwind CSS.",
-    "primary_button": "Get Started",
+    "primary_button": "Get Next.js SaaS Starter Kit",
     "secondary_button": "Star on GitHub"
   },
   "Sponsors": {
@@ -63,7 +63,7 @@
   "CTA": {
     "title": "You are ready?",
     "description": "Lorem ipsum dolor sit amet, consectetur adipiscing elit.",
-    "button_text": "Star on GitHub"
+    "button_text": "Get Next.js SaaS Starter Kit"
   },
   "Footer": {
     "product": "Product",
