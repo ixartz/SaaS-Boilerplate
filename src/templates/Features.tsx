@@ -1,18 +1,14 @@
-import { useTranslations } from 'next-intl';
-
 import { Background } from '@/components/Background';
 import { FeatureCard } from '@/features/landing/FeatureCard';
 import { Section } from '@/features/landing/Section';
 
 export const Features = () => {
-  const t = useTranslations('Features');
-
   return (
     <Background>
       <Section
-        subtitle={t('section_subtitle')}
-        title={t('section_title')}
-        description={t('section_description')}
+        subtitle="Features"
+        title="Everything you need"
+        description="Our platform provides all the tools you need to build amazing videos with AI."
       >
         <div className="grid grid-cols-1 gap-x-3 gap-y-8 md:grid-cols-3">
           <FeatureCard
@@ -29,9 +25,9 @@ export const Features = () => {
                 <path d="M12 3l8 4.5v9L12 21l-8-4.5v-9L12 3M12 12l8-4.5M12 12v9M12 12L4 7.5" />
               </svg>
             )}
-            title={t('feature1_title')}
+            title="AI Video Generation"
           >
-            {t('feature_description')}
+            Create professional videos in minutes using our advanced AI technology.
           </FeatureCard>
 
           <FeatureCard
@@ -48,9 +44,9 @@ export const Features = () => {
                 <path d="M12 3l8 4.5v9L12 21l-8-4.5v-9L12 3M12 12l8-4.5M12 12v9M12 12L4 7.5" />
               </svg>
             )}
-            title={t('feature2_title')}
+            title="Custom Templates"
           >
-            {t('feature_description')}
+            Choose from a wide range of templates or create your own to match your brand.
           </FeatureCard>
 
           <FeatureCard
@@ -67,9 +63,9 @@ export const Features = () => {
                 <path d="M12 3l8 4.5v9L12 21l-8-4.5v-9L12 3M12 12l8-4.5M12 12v9M12 12L4 7.5" />
               </svg>
             )}
-            title={t('feature3_title')}
+            title="Easy Editing"
           >
-            {t('feature_description')}
+            Our intuitive editor makes it simple to tweak and perfect your videos.
           </FeatureCard>
 
           <FeatureCard
@@ -86,9 +82,9 @@ export const Features = () => {
                 <path d="M12 3l8 4.5v9L12 21l-8-4.5v-9L12 3M12 12l8-4.5M12 12v9M12 12L4 7.5" />
               </svg>
             )}
-            title={t('feature4_title')}
+            title="High Quality Export"
           >
-            {t('feature_description')}
+            Export your videos in up to 4K resolution for crystal clear playback.
           </FeatureCard>
 
           <FeatureCard
@@ -105,9 +101,9 @@ export const Features = () => {
                 <path d="M12 3l8 4.5v9L12 21l-8-4.5v-9L12 3M12 12l8-4.5M12 12v9M12 12L4 7.5" />
               </svg>
             )}
-            title={t('feature5_title')}
+            title="Multi-language Support"
           >
-            {t('feature_description')}
+            Generate videos in multiple languages to reach a global audience.
           </FeatureCard>
 
           <FeatureCard
@@ -124,9 +120,9 @@ export const Features = () => {
                 <path d="M12 3l8 4.5v9L12 21l-8-4.5v-9L12 3M12 12l8-4.5M12 12v9M12 12L4 7.5" />
               </svg>
             )}
-            title={t('feature6_title')}
+            title="Fast Processing"
           >
-            {t('feature_description')}
+            Get your videos generated in seconds with our optimized processing engine.
           </FeatureCard>
         </div>
       </Section>

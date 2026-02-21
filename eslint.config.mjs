@@ -1,11 +1,8 @@
 import antfu from '@antfu/eslint-config';
 import nextPlugin from '@next/eslint-plugin-next';
-import jestDom from 'eslint-plugin-jest-dom';
 import jsxA11y from 'eslint-plugin-jsx-a11y';
-import playwright from 'eslint-plugin-playwright';
 import simpleImportSort from 'eslint-plugin-simple-import-sort';
 import tailwind from 'eslint-plugin-tailwindcss';
-import testingLibrary from 'eslint-plugin-testing-library';
 
 export default antfu({
   react: true,
@@ -42,18 +39,6 @@ export default antfu({
     'simple-import-sort/imports': 'error',
     'simple-import-sort/exports': 'error',
   },
-}, {
-  files: [
-    '**/*.test.ts?(x)',
-  ],
-  ...testingLibrary.configs['flat/react'],
-  ...jestDom.configs['flat/recommended'],
-}, {
-  files: [
-    '**/*.spec.ts',
-    '**/*.e2e.ts',
-  ],
-  ...playwright.configs['flat/recommended'],
 }, {
   rules: {
     'import/order': 'off', // Avoid conflicts with `simple-import-sort` plugin

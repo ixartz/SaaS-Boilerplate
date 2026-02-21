@@ -1,5 +1,4 @@
 import Link from 'next/link';
-import { useTranslations } from 'next-intl';
 
 import { CenteredFooter } from '@/features/landing/CenteredFooter';
 import { Section } from '@/features/landing/Section';
@@ -8,8 +7,6 @@ import { AppConfig } from '@/utils/AppConfig';
 import { Logo } from './Logo';
 
 export const Footer = () => {
-  const t = useTranslations('Footer');
-
   return (
     <Section className="pb-16 pt-0">
       <CenteredFooter
@@ -77,32 +74,32 @@ export const Footer = () => {
         legalLinks={(
           <>
             <li>
-              <Link href="/sign-up">{t('terms_of_service')}</Link>
+              <Link href="/sign-up">Terms of Service</Link>
             </li>
             <li>
-              <Link href="/sign-up">{t('privacy_policy')}</Link>
+              <Link href="/sign-up">Privacy Policy</Link>
             </li>
           </>
         )}
       >
         <li>
-          <Link href="/sign-up">{t('product')}</Link>
+          <Link href="/sign-up">Product</Link>
         </li>
 
         <li>
-          <Link href="/sign-up">{t('docs')}</Link>
+          <Link href="/sign-up">Docs</Link>
         </li>
 
         <li>
-          <Link href="/sign-up">{t('blog')}</Link>
+          <Link href="/sign-up">Blog</Link>
         </li>
 
         <li>
-          <Link href="/sign-up">{t('community')}</Link>
+          <Link href="/sign-up">Community</Link>
         </li>
 
         <li>
-          <Link href="/sign-up">{t('company')}</Link>
+          <Link href="/sign-up">Company</Link>
         </li>
       </CenteredFooter>
     </Section>

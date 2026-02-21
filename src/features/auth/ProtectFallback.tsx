@@ -1,5 +1,3 @@
-import { useTranslations } from 'next-intl';
-
 import {
   Tooltip,
   TooltipContent,
@@ -8,14 +6,12 @@ import {
 } from '@/components/ui/tooltip';
 
 export const ProtectFallback = (props: { trigger: React.ReactNode }) => {
-  const t = useTranslations('ProtectFallback');
-
   return (
     <TooltipProvider delayDuration={0}>
       <Tooltip>
         <TooltipTrigger asChild>{props.trigger}</TooltipTrigger>
         <TooltipContent align="center">
-          <p>{t('not_enough_permission')}</p>
+          <p>You don't have enough permission to perform this action.</p>
         </TooltipContent>
       </Tooltip>
     </TooltipProvider>
