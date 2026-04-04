@@ -28,6 +28,9 @@ services:
         - BASE_PATH=${BASE_PATH}
         - DIRECTUS_HOST=${DIRECTUS_HOST}
         - IMAGE_DOMAINS=${IMAGE_DOMAINS}
+        - NEXT_PUBLIC_GTM_ID=${NEXT_PUBLIC_GTM_ID}
+        - NEXT_PUBLIC_GA_ID=${NEXT_PUBLIC_GA_ID}
+        - NEXT_PUBLIC_CLOUDFLARE_SITE_KEY=${NEXT_PUBLIC_CLOUDFLARE_SITE_KEY}
     restart: unless-stopped
     ports:
       - '30000:3000'
