@@ -1,0 +1,11 @@
+.title {
+  color: light-dark(var(--mantine-color-black), var(--mantine-color-white));
+  font-family: Outfit, var(--mantine-font-family);
+  font-size: 44px;
+  line-height: 1.2;
+  font-weight: 500;
+
+  @media (max-width: $mantine-breakpoint-xs) {
+    font-size: 28px;
+  }
+}

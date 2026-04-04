@@ -1,0 +1,1 @@
+export { BadgeCardGridSection } from './BadgeCardGridSection';

@@ -1,0 +1,20 @@
+.title {
+  color: light-dark(var(--mantine-color-black), var(--mantine-color-white));
+  font-family: Outfit, var(--mantine-font-family);
+  font-size: 48px;
+  line-height: 1.15;
+  font-weight: 600;
+  letter-spacing: -0.02em;
+
+  @media (max-width: $mantine-breakpoint-sm) {
+    font-size: 36px;
+  }
+
+  @media (max-width: $mantine-breakpoint-xs) {
+    font-size: 28px;
+  }
+}
+
+.copyText {
+  cursor: pointer;
+}

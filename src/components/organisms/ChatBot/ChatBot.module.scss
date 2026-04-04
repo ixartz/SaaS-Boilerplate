@@ -1,0 +1,44 @@
+.title {
+  font-size: 2rem;
+  font-weight: 700;
+}
+
+.chatContainer {
+  background-color: var(--mantine-color-body);
+  border: 1px solid var(--mantine-color-gray-3);
+}
+
+.avatar {
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+
+.message {
+  max-width: 80%;
+  word-wrap: break-word;
+}
+
+.userMessage {
+  margin-left: auto;
+}
+
+.assistantMessage {
+  margin-right: auto;
+}
+
+.scrollArea {
+  transition: height 0.3s ease;
+}
+
+.messageText {
+  white-space: pre-wrap;
+}
+
+.inputField {
+  flex: 1;
+}

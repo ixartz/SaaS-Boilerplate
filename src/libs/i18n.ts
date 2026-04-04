@@ -20,7 +20,20 @@ export default getRequestConfig(async ({ locale }) => {
     notFound();
   }
 
-  return {
-    messages: (await import(`../locales/${locale}.json`)).default,
-  };
+  if (process.env.NODE_ENV === 'development') {
+    return {
+      messages: (await import(`../locales/${locale}.json`)).default,
+    };
+  } else if (process.env.NODE_ENV === 'production' && process.env.DIRECTUS_HOST) {
+    const messages = await fetch(`${process.env.DIRECTUS_HOST}/items/portfolio`).then((res) => {
+      return res.json().then(result => result.data[0].content);
+    }).catch((err) => {
+      console.error('Failed to fetch messages from Directus', err);
+
+      return {};
+    });
+
+    return { messages };
+  }
+  return { messages: {} };
 });

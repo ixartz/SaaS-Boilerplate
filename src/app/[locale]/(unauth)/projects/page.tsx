@@ -1,25 +1,23 @@
 import { getTranslations, unstable_setRequestLocale } from 'next-intl/server';
 
-import { HomePage } from '@/components/pages/HomePage';
+import { ProjectsPage } from '@/components/pages/ProjectsPage';
 
 export async function generateMetadata(props: { params: { locale: string } }) {
   const t = await getTranslations({
     locale: props.params.locale,
-    namespace: 'Index',
+    namespace: 'Projects',
   });
 
   return {
-    title: t('meta_title'),
-    description: t('meta_description'),
+    title: t('title'),
+    description: 'A showcase of my frontend development projects',
   };
 }
 
-const IndexPage = (props: { params: { locale: string } }) => {
+const ProjectsRoute = (props: { params: { locale: string } }) => {
   unstable_setRequestLocale(props.params.locale);
 
-  return (
-    <HomePage />
-  );
+  return <ProjectsPage />;
 };
 
-export default IndexPage;
+export default ProjectsRoute;

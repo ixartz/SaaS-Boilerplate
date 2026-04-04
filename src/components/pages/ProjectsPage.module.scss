@@ -1,0 +1,31 @@
+.card {
+  background-color: light-dark(var(--mantine-color-white), var(--mantine-color-dark-7));
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  transition: all 0.2s ease;
+}
+
+.card:hover {
+  transform: translateY(-4px);
+  box-shadow: var(--mantine-shadow-md);
+}
+
+.carousel {
+  overflow: hidden;
+}
+
+.section {
+  border-bottom: 1px solid light-dark(var(--mantine-color-gray-3), var(--mantine-color-dark-4));
+  padding: var(--mantine-spacing-md);
+}
+
+.carouselImage {
+  object-fit: cover;
+  width: 100%;
+}
+
+.cardFooter {
+  margin-top: auto;
+  padding-top: var(--mantine-spacing-md);
+}

@@ -1,0 +1,32 @@
+.card {
+  background-color: light-dark(var(--mantine-color-white), var(--mantine-color-dark-7));
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+}
+
+.section {
+  border-bottom: 1px solid light-dark(var(--mantine-color-gray-3), var(--mantine-color-dark-4));
+  padding: var(--mantine-spacing-md);
+}
+
+.like {
+  color: var(--mantine-color-red-6);
+  width: 20px;
+  height: 20px;
+}
+
+.label {
+  text-transform: uppercase;
+  font-size: var(--mantine-font-size-xs);
+  font-weight: 700;
+}
+
+.carouselImage {
+  object-fit: cover;
+  width: 100%;
+}
+
+.viewButton {
+  flex: 1;
+}
