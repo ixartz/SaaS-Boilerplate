@@ -65,7 +65,7 @@ export default function RootLayout(props: {
   return (
     <html lang={props.params.locale} {...mantineHtmlProps}>
       <head>
-        <ColorSchemeScript defaultColorScheme="auto" />
+        <ColorSchemeScript data-mantine-script="true" defaultColorScheme="auto" />
       </head>
       <body suppressHydrationWarning>
         {/* PRO: Dark mode support for Shadcn UI */}
@@ -77,8 +77,12 @@ export default function RootLayout(props: {
             {props.children}
           </MantineProvider>
         </NextIntlClientProvider>
-        <GoogleTagManager gtmId={process.env.NEXT_PUBLIC_GTM_ID || ''} />
-        <GoogleAnalytics gaId={process.env.NEXT_PUBLIC_GA_ID || ''} />
+        {process.env.NEXT_PUBLIC_GTM_ID && (
+          <GoogleTagManager gtmId={process.env.NEXT_PUBLIC_GTM_ID || ''} />
+        )}
+        {process.env.NEXT_PUBLIC_GA_ID && (
+          <GoogleAnalytics gaId={process.env.NEXT_PUBLIC_GA_ID || ''} />
+        )}
         <GlobalClickTracker />
       </body>
     </html>

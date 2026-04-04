@@ -6,9 +6,49 @@ const openai = new OpenAI({
   baseURL: `https://gateway.ai.cloudflare.com/v1/${process.env.CF_ACCOUNT_ID}/portfolio-ai-gateway/compat`,
 });
 
+async function validateTurnstileToken(token: string): Promise<boolean> {
+  try {
+    const response = await fetch('https://challenges.cloudflare.com/turnstile/v0/siteverify', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/x-www-form-urlencoded',
+      },
+      body: new URLSearchParams({
+        secret: process.env.CLOUDFLARE_TURNSTILE_SECRET_KEY || '',
+        response: token,
+      }),
+    });
+
+    const data = await response.json();
+    return data.success === true;
+  } catch (error) {
+    console.error('Turnstile validation error:', error);
+    return false;
+  }
+}
+
 export async function POST(req: Request) {
   try {
-    const { messages } = await req.json();
+    const { messages, turnstileToken } = await req.json();
+
+    // Validate Turnstile token
+    if (!turnstileToken) {
+      return new Response(JSON.stringify({ error: 'Turnstile token is required' }), {
+        status: 400,
+        headers: { 'Content-Type': 'application/json' },
+      });
+    }
+
+    // Skip Turnstile validation in development mode
+    if (turnstileToken !== 'dev-mode-bypass') {
+      const isValidToken = await validateTurnstileToken(turnstileToken);
+      if (!isValidToken) {
+        return new Response(JSON.stringify({ error: 'Invalid Turnstile token' }), {
+          status: 403,
+          headers: { 'Content-Type': 'application/json' },
+        });
+      }
+    }
 
     const systemPrompt = process.env.AI_SYSTEM_PROMPT?.replace(/\\n/g, '\n');
 

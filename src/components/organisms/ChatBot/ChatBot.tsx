@@ -1,8 +1,9 @@
 'use client';
-import { Badge, Box, Button, Container, Group, Loader, Paper, ScrollArea, Stack, Text, TextInput, Title } from '@mantine/core';
+import { Badge, Box, Button, Container, Flex, Group, Loader, Paper, ScrollArea, Stack, Text, TextInput, Title } from '@mantine/core';
 import { IconBrandOpenai, IconRobot, IconSend, IconUser } from '@tabler/icons-react';
 import { useTranslations } from 'next-intl';
 import { useEffect, useRef, useState } from 'react';
+import Turnstile from 'react-cloudflare-turnstile';
 import useSWRMutation from 'swr/mutation';
 
 import classes from './ChatBot.module.scss';
@@ -12,11 +13,11 @@ type Message = {
   content: string;
 };
 
-async function sendChatMessage(url: string, { arg }: { arg: Message[] }) {
+async function sendChatMessage(url: string, { arg }: { arg: { messages: Message[]; turnstileToken: string | null } }) {
   const response = await fetch(url, {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
-    body: JSON.stringify({ messages: arg }),
+    body: JSON.stringify({ messages: arg.messages, turnstileToken: arg.turnstileToken }),
   });
 
   if (!response.ok) {
@@ -31,6 +32,7 @@ export function ChatBot() {
   const [messages, setMessages] = useState<Message[]>([]);
   const [input, setInput] = useState('');
   const [streamingMessage, setStreamingMessage] = useState('');
+  const [turnstileToken, setTurnstileToken] = useState<string | null>(null);
   const viewportRef = useRef<HTMLDivElement>(null);
 
   const { trigger, isMutating } = useSWRMutation('/portfolio/api/chat', sendChatMessage);
@@ -47,6 +49,12 @@ export function ChatBot() {
     }
   }, [messages, streamingMessage]);
 
+  useEffect(() => {
+    if (process.env.NODE_ENV === 'development') {
+      setTurnstileToken('dev-mode-bypass');
+    }
+  }, []);
+
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     if (!input.trim() || isMutating) {
@@ -60,7 +68,7 @@ export function ChatBot() {
     setStreamingMessage('');
 
     try {
-      const response = await trigger(newMessages);
+      const response = await trigger({ messages: newMessages, turnstileToken });
 
       const reader = response.body?.getReader();
       const decoder = new TextDecoder();
@@ -224,19 +232,37 @@ export function ChatBot() {
           </ScrollArea>
 
           <form onSubmit={handleSubmit}>
-            <Group gap="sm" mt="md">
-              <TextInput
-                placeholder={t('inputPlaceholder')}
-                value={input}
-                onChange={e => setInput(e.target.value)}
-                className={classes.inputField}
-                radius="md"
-                disabled={isMutating}
-              />
-              <Button type="submit" radius="md" loading={isMutating} disabled={!input.trim()}>
-                <IconSend size={18} />
-              </Button>
-            </Group>
+            <Box mt="md">
+              {process.env.NODE_ENV === 'production'
+                ? (
+                    <Flex justify="center">
+                      <Turnstile
+                        turnstileSiteKey={process.env.NEXT_PUBLIC_CLOUDFLARE_SITE_KEY || ''}
+                        callback={(token: string) => setTurnstileToken(token)}
+                        theme="light"
+                        size="normal"
+                      />
+                    </Flex>
+                  )
+                : (
+                    <Text size="xs" c="dimmed" ta="center">
+                      Dev mode: Captcha disabled
+                    </Text>
+                  )}
+              <Group gap="sm" mt="sm">
+                <TextInput
+                  placeholder={t('inputPlaceholder')}
+                  value={input}
+                  onChange={e => setInput(e.target.value)}
+                  className={classes.inputField}
+                  radius="md"
+                  disabled={isMutating}
+                />
+                <Button type="submit" radius="md" loading={isMutating} disabled={!input.trim() || !turnstileToken}>
+                  <IconSend size={18} />
+                </Button>
+              </Group>
+            </Box>
           </form>
 
           <Stack gap="xs" align="center" mt="sm">
