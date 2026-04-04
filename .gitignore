@@ -49,3 +49,7 @@ local
 
 # vercel
 .vercel
+
+# directus
+/directus-data/
+/directus_data/

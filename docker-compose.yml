@@ -1,0 +1,46 @@
+version: '3.8'
+
+services:
+  directus:
+    image: directus/directus:latest
+    restart: unless-stopped
+    ports:
+      - '18055:8055'
+    environment:
+      KEY: ${DIRECTUS_KEY:-directus_key}
+      SECRET: ${DIRECTUS_SECRET:-directus_secret}
+      DB_CLIENT: sqlite3
+    volumes:
+      - ./directus-data:/directus/database
+      - ./directus_data/uploads:/directus/uploads
+    networks:
+      - proxy-net
+    env_file:
+      - .env
+      - .env.local
+      - .env.production
+      - .env.production.local
+
+  portfolio:
+    build:
+      context: .
+      args:
+        - BASE_PATH=${BASE_PATH}
+        - DIRECTUS_HOST=${DIRECTUS_HOST}
+        - IMAGE_DOMAINS=${IMAGE_DOMAINS}
+    restart: unless-stopped
+    ports:
+      - '30000:3000'
+    networks:
+      - proxy-net
+    depends_on:
+      - directus
+    env_file:
+      - .env
+      - .env.local
+      - .env.production
+      - .env.production.local
+
+networks:
+  proxy-net:
+    driver: bridge
