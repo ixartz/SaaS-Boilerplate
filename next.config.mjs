@@ -1,3 +1,5 @@
+import path from 'node:path';
+import { env } from 'node:process';
 import { fileURLToPath } from 'node:url';
 
 import withBundleAnalyzer from '@next/bundle-analyzer';
@@ -19,6 +21,9 @@ const bundleAnalyzer = withBundleAnalyzer({
 export default withSentryConfig(
   bundleAnalyzer(
     withNextIntlConfig({
+      basePath: process.env.BASE_PATH ? process.env.BASE_PATH : '',
+      assetPrefix: process.env.BASE_PATH ? process.env.BASE_PATH : '',
+      output: 'standalone',
       eslint: {
         dirs: ['.'],
       },
@@ -26,6 +31,20 @@ export default withSentryConfig(
       reactStrictMode: true,
       experimental: {
         serverComponentsExternalPackages: ['@electric-sql/pglite'],
+      },
+      sassOptions: {
+        implementation: 'sass-embedded',
+        additionalData: `@use "${path.join(process.cwd(), '_mantine').replace(/\\/g, '/')}" as *;`,
+      },
+
+      images: {
+        remotePatterns: [].concat(env.IMAGE_DOMAINS
+          ? env.IMAGE_DOMAINS.split(',').map(domain => ({
+            protocol: 'https',
+            hostname: domain,
+            pathname: '/**',
+          }))
+          : []),
       },
     }),
   ),

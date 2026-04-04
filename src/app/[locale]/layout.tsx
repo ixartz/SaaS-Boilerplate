@@ -1,33 +1,22 @@
+import '@mantine/core/styles.css';
+import '@mantine/carousel/styles.css';
 import '@/styles/global.css';
 
+import { ColorSchemeScript, mantineHtmlProps, MantineProvider } from '@mantine/core';
+import { GoogleAnalytics, GoogleTagManager } from '@next/third-parties/google';
 import type { Metadata } from 'next';
 import { NextIntlClientProvider, useMessages } from 'next-intl';
 import { unstable_setRequestLocale } from 'next-intl/server';
 
-import { DemoBadge } from '@/components/DemoBadge';
+import { GlobalClickTracker } from '@/components/atoms/GlobalClickTracker';
+import { theme } from '@/styles/theme';
 import { AllLocales } from '@/utils/AppConfig';
 
 export const metadata: Metadata = {
   icons: [
     {
-      rel: 'apple-touch-icon',
-      url: '/apple-touch-icon.png',
-    },
-    {
       rel: 'icon',
-      type: 'image/png',
-      sizes: '32x32',
-      url: '/favicon-32x32.png',
-    },
-    {
-      rel: 'icon',
-      type: 'image/png',
-      sizes: '16x16',
-      url: '/favicon-16x16.png',
-    },
-    {
-      rel: 'icon',
-      url: '/favicon.ico',
+      url: `${process.env.BASE_PATH ? process.env.BASE_PATH : ''}/favicon.ico`,
     },
   ],
 };
@@ -51,17 +40,23 @@ export default function RootLayout(props: {
   // The `suppressHydrationWarning` attribute in <body> is used to prevent hydration errors caused by Sentry Overlay,
   // which dynamically adds a `style` attribute to the body tag.
   return (
-    <html lang={props.params.locale} suppressHydrationWarning>
-      <body className="bg-background text-foreground antialiased" suppressHydrationWarning>
+    <html lang={props.params.locale} {...mantineHtmlProps}>
+      <head>
+        <ColorSchemeScript defaultColorScheme="auto" />
+      </head>
+      <body suppressHydrationWarning>
         {/* PRO: Dark mode support for Shadcn UI */}
         <NextIntlClientProvider
           locale={props.params.locale}
           messages={messages}
         >
-          {props.children}
-
-          <DemoBadge />
+          <MantineProvider defaultColorScheme="auto" theme={theme}>
+            {props.children}
+          </MantineProvider>
         </NextIntlClientProvider>
+        <GoogleTagManager gtmId={process.env.NEXT_PUBLIC_GTM_ID || ''} />
+        <GoogleAnalytics gaId={process.env.NEXT_PUBLIC_GA_ID || ''} />
+        <GlobalClickTracker />
       </body>
     </html>
   );

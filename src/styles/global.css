@@ -4,6 +4,27 @@
 
 @layer base {
   :root {
+    ::-webkit-scrollbar {
+      width: 6px;
+    }
+    ::-webkit-scrollbar-track {
+      background: transparent;
+    }
+    ::-webkit-scrollbar-thumb {
+      background: var(--mantine-color-gray-4);
+      border-radius: 3px;
+    }
+    ::-webkit-scrollbar-thumb:hover {
+      background: var(--mantine-color-gray-6);
+    }
+
+    ::selection {
+      background: var(--mantine-color-indigo-light);
+      color: var(--mantine-color-indigo-filled);
+    }
+
+    --mantine-color-body: #ffffff;
+
     --background: 0 0% 100%;
     --foreground: 222.2 84% 4.9%;
 
@@ -63,6 +84,12 @@
     --border: 217.2 32.6% 17.5%;
     --input: 217.2 32.6% 17.5%;
     --ring: 212.7 26.8% 83.9%;
+  }
+
+  [data-mantine-color-scheme='dark'] {
+    --mantine-color-body: #0b0e14;
+    --mantine-color-dark-filled: #161b22;
+    --mantine-color-dark-outline: #30363d;
   }
 }
 
