@@ -61,7 +61,7 @@ export function ProjectsPage() {
               </Carousel>
             </Card.Section>
             <Title order={3} mt="md"><HtmlContent content={p.title} /></Title>
-            <Text fz="sm" mt="sm"><HtmlContent content={p.desc} /></Text>
+            <Text component="div" fz="sm" mt="sm"><HtmlContent content={p.desc} /></Text>
             <Group mt="md" mb="md">
               {p.tech.map((tech: { emoji: string; label: string }) => <Badge key={tech.label} variant="light" leftSection={tech.emoji}>{tech.label}</Badge>)}
             </Group>

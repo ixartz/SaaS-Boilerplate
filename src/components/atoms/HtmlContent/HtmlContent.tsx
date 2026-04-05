@@ -1,5 +1,4 @@
-import type { DOMNode } from 'html-react-parser';
-import parse, { domToReact, Element, Text } from 'html-react-parser';
+import parse from 'html-react-parser';
 import DOMPurify from 'isomorphic-dompurify';
 import { useMemo } from 'react';
 
@@ -44,28 +43,9 @@ export function HtmlContent({ content, className: _className }: HtmlContentProps
     }
 
     const sanitizedHtml = DOMPurify.sanitize(content, sanitizeConfig);
-
-    return parse(sanitizedHtml, {
-      replace: (domNode) => {
-        if (domNode instanceof Element && domNode.attribs) {
-          const { attribs, children } = domNode;
-
-          // Convert class attribute to className
-          if (attribs.class) {
-            attribs.className = attribs.class;
-            delete attribs.class;
-          }
-
-          return domToReact(children as DOMNode[]);
-        }
-
-        if (domNode instanceof Text) {
-          return domNode.data;
-        }
-
-        return undefined;
-      },
-    });
+    // html-react-parser v6 automatically converts class→className and other
+    // HTML attributes to their React equivalents.
+    return parse(sanitizedHtml);
   }, [content]);
 
   return <>{parsedContent}</>;

@@ -6,7 +6,8 @@ import { ColorSchemeScript, mantineHtmlProps, MantineProvider } from '@mantine/c
 import { GoogleAnalytics, GoogleTagManager } from '@next/third-parties/google';
 import type { Metadata } from 'next';
 import { NextIntlClientProvider, useMessages } from 'next-intl';
-import { unstable_setRequestLocale } from 'next-intl/server';
+import { getTranslations, setRequestLocale } from 'next-intl/server';
+import React from 'react';
 
 import { GlobalClickTracker } from '@/components/atoms/GlobalClickTracker';
 import { theme } from '@/styles/theme';
@@ -15,32 +16,45 @@ import { AllLocales } from '@/utils/AppConfig';
 export async function generateMetadata({
   params,
 }: {
-  params: { locale: string };
+  params: Promise<{ locale: string }>;
 }): Promise<Metadata> {
-  const messages = await import(`@/locales/${params.locale}.json`).then(
-    module => module.default,
-  );
+  const { locale } = await params;
 
-  const faviconConfig = messages.favicon || {
-    url: '/favicon.ico',
-    sizes: 'any',
-    type: 'image/x-icon',
-  };
+  // Load metadata through the i18n system — works with both local JSON (dev)
+  // and Directus CMS (production) as configured in src/libs/i18n.ts
+  const [tIndex, tFavicon] = await Promise.all([
+    getTranslations({ locale, namespace: 'Index' }),
+    getTranslations({ locale, namespace: 'favicon' }),
+  ]);
 
-  // Support both remote URLs (http/https) and local paths
-  const faviconUrl = faviconConfig.url.startsWith('http')
-    ? faviconConfig.url
-    : `${process.env.BASE_PATH ? process.env.BASE_PATH : ''}${faviconConfig.url}`;
+  const faviconUrl = String(tFavicon('url'));
+  const faviconSizes = String(tFavicon('sizes'));
+  const faviconType = String(tFavicon('type'));
+
+  const resolvedFaviconUrl = faviconUrl.startsWith('http')
+    ? faviconUrl
+    : `${process.env.BASE_PATH ?? ''}${faviconUrl}`;
 
   return {
+    title: {
+      default: tIndex('meta_title'),
+      template: `%s | Kaius Mak`,
+    },
+    description: tIndex('meta_description'),
     icons: [
       {
         rel: 'icon',
-        url: faviconUrl,
-        sizes: faviconConfig.sizes,
-        type: faviconConfig.type,
+        url: resolvedFaviconUrl,
+        sizes: faviconSizes,
+        type: faviconType,
       },
     ],
+    openGraph: {
+      title: tIndex('meta_title'),
+      description: tIndex('meta_description'),
+      type: 'website',
+      locale,
+    },
   };
 }
 
@@ -50,9 +64,10 @@ export function generateStaticParams() {
 
 export default function RootLayout(props: {
   children: React.ReactNode;
-  params: { locale: string };
+  params: Promise<{ locale: string }>;
 }) {
-  unstable_setRequestLocale(props.params.locale);
+  const { locale } = React.use(props.params);
+  setRequestLocale(locale);
 
   // Using internationalization in Client Components
   const messages = useMessages();
@@ -63,26 +78,26 @@ export default function RootLayout(props: {
   // The `suppressHydrationWarning` attribute in <body> is used to prevent hydration errors caused by Sentry Overlay,
   // which dynamically adds a `style` attribute to the body tag.
   return (
-    <html lang={props.params.locale} {...mantineHtmlProps}>
+    <html lang={locale} {...mantineHtmlProps}>
+      {process.env.NEXT_PUBLIC_GTM_ID && (
+        <GoogleTagManager gtmId={process.env.NEXT_PUBLIC_GTM_ID || ''} />
+      )}
+      {process.env.NEXT_PUBLIC_GA_ID && (
+        <GoogleAnalytics gaId={process.env.NEXT_PUBLIC_GA_ID || ''} />
+      )}
       <head>
         <ColorSchemeScript data-mantine-script="true" defaultColorScheme="auto" />
       </head>
       <body suppressHydrationWarning>
         {/* PRO: Dark mode support for Shadcn UI */}
         <NextIntlClientProvider
-          locale={props.params.locale}
+          locale={locale}
           messages={messages}
         >
           <MantineProvider defaultColorScheme="auto" theme={theme}>
             {props.children}
           </MantineProvider>
         </NextIntlClientProvider>
-        {process.env.NEXT_PUBLIC_GTM_ID && (
-          <GoogleTagManager gtmId={process.env.NEXT_PUBLIC_GTM_ID || ''} />
-        )}
-        {process.env.NEXT_PUBLIC_GA_ID && (
-          <GoogleAnalytics gaId={process.env.NEXT_PUBLIC_GA_ID || ''} />
-        )}
         <GlobalClickTracker />
       </body>
     </html>

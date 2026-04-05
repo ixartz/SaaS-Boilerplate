@@ -1,5 +1,5 @@
 'use client';
-import { Badge, Container, Stack, Text, ThemeIcon, Timeline, Title, useMantineTheme } from '@mantine/core';
+import { Badge, Box, Container, Stack, Text, ThemeIcon, Timeline, Title, useMantineTheme } from '@mantine/core';
 import { useMediaQuery } from '@mantine/hooks';
 import dynamic from 'next/dynamic';
 import { useTranslations } from 'next-intl';
@@ -58,10 +58,12 @@ export function ExperiencePage() {
                 >
                   <Text size={isMobile ? 'sm' : 'md'}>{job.company}</Text>
                   <Badge size={isMobile ? 'sm' : 'md'} mt={4}>{job.badge}</Badge>
-                  <HtmlContent
-                    content={job.description}
-                    className={`mt-sm pl-md ${isMobile ? 'text-xs' : 'text-sm'}`}
-                  />
+                  <Box>
+                    <HtmlContent
+                      content={job.description}
+                      className={`mt-sm pl-md ${isMobile ? 'text-xs' : 'text-sm'}`}
+                    />
+                  </Box>
                 </Timeline.Item>
               );
             })}

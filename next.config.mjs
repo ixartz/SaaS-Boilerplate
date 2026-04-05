@@ -1,4 +1,3 @@
-import path from 'node:path';
 import { env } from 'node:process';
 import { fileURLToPath } from 'node:url';
 
@@ -24,17 +23,13 @@ export default withSentryConfig(
       basePath: process.env.BASE_PATH ? process.env.BASE_PATH : '',
       assetPrefix: process.env.BASE_PATH ? process.env.BASE_PATH : '',
       output: 'standalone',
-      eslint: {
-        dirs: ['.'],
-      },
       poweredByHeader: false,
       reactStrictMode: true,
-      experimental: {
-        serverComponentsExternalPackages: ['@electric-sql/pglite'],
-      },
+      serverExternalPackages: ['@electric-sql/pglite'],
       sassOptions: {
         implementation: 'sass-embedded',
-        additionalData: `@use "${path.join(process.cwd(), '_mantine').replace(/\\/g, '/')}" as *;`,
+        loadPaths: [process.cwd()],
+        additionalData: `@use "_mantine" as *;`,
       },
 
       images: {

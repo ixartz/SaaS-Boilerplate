@@ -56,16 +56,16 @@ export function BadgeCard({ id, images, title, description, country, badges }: B
 
       <Card.Section className={classes.section}>
         <Group justify="apart">
-          <Text fz="lg" fw={500}><HtmlContent content={title} /></Text>
+          <Text component="div" fz="lg" fw={500}><HtmlContent content={title} /></Text>
           <Badge size="sm" variant="light">
             {country}
           </Badge>
         </Group>
-        <Text fz="sm" mt="xs"><HtmlContent content={description} /></Text>
+        <Text component="div" fz="sm" mt="xs"><HtmlContent content={description} /></Text>
       </Card.Section>
 
       <Card.Section className={classes.section}>
-        <Text className={classes.label} c="dimmed">
+        <Text component="div" className={classes.label} c="dimmed">
           <HtmlContent content={t('technologies_skills')} />
         </Text>
         <Group gap={7} mt={5}>

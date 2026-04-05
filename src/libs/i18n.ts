@@ -14,14 +14,17 @@ import { AllLocales } from '@/utils/AppConfig';
 // 3. Every 24 hours at 5am, the workflow will run automatically
 
 // Using internationalization in Server Components
-export default getRequestConfig(async ({ locale }) => {
+export default getRequestConfig(async ({ requestLocale }) => {
+  const locale = await requestLocale;
+
   // Validate that the incoming `locale` parameter is valid
-  if (!AllLocales.includes(locale)) {
+  if (!locale || !AllLocales.includes(locale)) {
     notFound();
   }
 
   if (process.env.NODE_ENV === 'development') {
     return {
+      locale,
       messages: (await import(`../locales/${locale}.json`)).default,
     };
   } else if (process.env.NODE_ENV === 'production' && process.env.DIRECTUS_HOST) {
@@ -33,7 +36,7 @@ export default getRequestConfig(async ({ locale }) => {
       return {};
     });
 
-    return { messages };
+    return { locale, messages };
   }
-  return { messages: {} };
+  return { locale, messages: {} };
 });

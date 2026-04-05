@@ -1,21 +1,29 @@
-import { getTranslations, unstable_setRequestLocale } from 'next-intl/server';
+import { getTranslations, setRequestLocale } from 'next-intl/server';
 
 import { ProjectsPage } from '@/components/pages/ProjectsPage';
 
-export async function generateMetadata(props: { params: { locale: string } }) {
+export async function generateMetadata(props: { params: Promise<{ locale: string }> }) {
+  const { locale } = await props.params;
   const t = await getTranslations({
-    locale: props.params.locale,
+    locale,
     namespace: 'Projects',
   });
 
   return {
-    title: t('title'),
-    description: 'A showcase of my frontend development projects',
+    title: t('meta_title'),
+    description: t('meta_description'),
+    openGraph: {
+      title: t('meta_title'),
+      description: t('meta_description'),
+      type: 'website',
+      locale,
+    },
   };
 }
 
-const ProjectsRoute = (props: { params: { locale: string } }) => {
-  unstable_setRequestLocale(props.params.locale);
+const ProjectsRoute = async (props: { params: Promise<{ locale: string }> }) => {
+  const { locale } = await props.params;
+  setRequestLocale(locale);
 
   return <ProjectsPage />;
 };
