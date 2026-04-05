@@ -1,7 +1,7 @@
 'use client';
 import { Button, Container, Group, List, ThemeIcon, Title } from '@mantine/core';
 import { useMediaQuery } from '@mantine/hooks';
-import { IconArrowRight, IconCheck, IconMail } from '@tabler/icons-react';
+import { IconBrandGithub, IconCheck, IconMail } from '@tabler/icons-react';
 import Image from 'next/image';
 import { useTranslations } from 'next-intl';
 
@@ -73,7 +73,7 @@ export function HeroBullets() {
               fullWidth={isMobile}
               component="a"
               href={t('primary_button_link')}
-              rightSection={<IconArrowRight size={18} />}
+              leftSection={<IconBrandGithub size={18} />}
             >
               {t('primary_button')}
             </Button>
