@@ -11,7 +11,6 @@ import React from 'react';
 
 import { GlobalClickTracker } from '@/components/atoms/GlobalClickTracker';
 import { theme } from '@/styles/theme';
-import { AllLocales } from '@/utils/AppConfig';
 
 export async function generateMetadata({
   params,
@@ -58,9 +57,8 @@ export async function generateMetadata({
   };
 }
 
-export function generateStaticParams() {
-  return AllLocales.map(locale => ({ locale }));
-}
+export const revalidate = 1800; // Revalidate every 30 minutes (ISR)
+export const dynamic = 'force-dynamic'; // Do not pre-render at build time
 
 export default function RootLayout(props: {
   children: React.ReactNode;
