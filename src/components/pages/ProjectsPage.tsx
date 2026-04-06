@@ -11,7 +11,7 @@ import classes from './ProjectsPage.module.scss';
 export function ProjectsPage() {
   const t = useTranslations('Projects');
 
-  const projects = t.raw('items').map((item: { id: string; title: string; desc: string; metrics: string[]; images: string[]; tech: Array<{ emoji: string; label: string }>; demo: string; github: string }) => ({
+  const projects = t.raw('items').map((item: { id: string; title: string; desc: string; metrics: string[]; images: string[]; tech: Array<{ emoji: string; label: string }>; demo: string; github: string; year?: string; status?: string }) => ({
     id: item.id,
     title: item.title,
     images: item.images,
@@ -20,6 +20,8 @@ export function ProjectsPage() {
     metrics: item.metrics,
     demo: item.demo,
     github: item.github,
+    year: item.year,
+    status: item.status,
   }));
 
   type Project = typeof projects[number];
@@ -31,6 +33,10 @@ export function ProjectsPage() {
         {projects.map((p: Project, i: number) => (
           <Card key={i} id={p.id} shadow="sm" p="xl" radius="md" withBorder className={classes.card}>
             <Card.Section>
+              <Group p="xs" justify="space-between" style={{ position: 'absolute', top: 0, left: 0, right: 0, zIndex: 10 }}>
+                {p.year && <Badge variant="filled" color="blue">{p.year}</Badge>}
+                {p.status && <Badge variant="filled" color={p.status === 'Live' ? 'green' : 'gray'}>{p.status}</Badge>}
+              </Group>
               <Carousel
                 withIndicators
                 withControls={false}

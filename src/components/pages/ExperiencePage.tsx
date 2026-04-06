@@ -1,5 +1,5 @@
 'use client';
-import { Badge, Box, Container, Stack, Text, ThemeIcon, Timeline, Title, useMantineTheme } from '@mantine/core';
+import { Badge, Box, Button, Container, Group, Stack, Text, ThemeIcon, Timeline, Title, useMantineTheme } from '@mantine/core';
 import { useMediaQuery } from '@mantine/hooks';
 import dynamic from 'next/dynamic';
 import { useTranslations } from 'next-intl';
@@ -13,6 +13,9 @@ const IconBriefcase = dynamic(() => import('@tabler/icons-react').then(mod => ({
   ssr: false,
 });
 const IconSchool = dynamic(() => import('@tabler/icons-react').then(mod => ({ default: mod.IconSchool })), {
+  ssr: false,
+});
+const IconDownload = dynamic(() => import('@tabler/icons-react').then(mod => ({ default: mod.IconDownload })), {
   ssr: false,
 });
 
@@ -58,7 +61,7 @@ export function ExperiencePage() {
                 >
                   <Text size={isMobile ? 'sm' : 'md'}>{job.company}</Text>
                   <Badge size={isMobile ? 'sm' : 'md'} mt={4}>{job.badge}</Badge>
-                  <Box>
+                  <Box mt="xs">
                     <HtmlContent
                       content={job.description}
                       className={`mt-sm pl-md ${isMobile ? 'text-xs' : 'text-sm'}`}
@@ -92,6 +95,21 @@ export function ExperiencePage() {
             </Timeline.Item>
           </Timeline>
         </div>
+
+        {/* Download CV Section */}
+        <Group justify="center" mt="xl">
+          <Button
+            component="a"
+            href={t('download_cv_link')}
+            download
+            variant="outline"
+            size="lg"
+            leftSection={<IconDownload size={20} />}
+            radius="xl"
+          >
+            Download Full CV (PDF)
+          </Button>
+        </Group>
       </Stack>
     </Container>
   );

@@ -29,7 +29,7 @@ async function validateTurnstileToken(token: string): Promise<boolean> {
 
 export async function POST(req: Request) {
   try {
-    const { messages, turnstileToken } = await req.json();
+    const { messages, turnstileToken, systemPromptExtra } = await req.json();
 
     // Validate Turnstile token
     if (!turnstileToken) {
@@ -50,12 +50,13 @@ export async function POST(req: Request) {
       }
     }
 
-    const systemPrompt = process.env.AI_SYSTEM_PROMPT?.replace(/\\n/g, '\n');
+    const systemPromptBase = process.env.AI_SYSTEM_PROMPT?.replace(/\\n/g, '\n') || '';
+    const systemPrompt = systemPromptExtra ? `${systemPromptBase}\n\n${systemPromptExtra}` : systemPromptBase;
 
     const stream = await openai.chat.completions.create({
       model: 'groq/llama-3.3-70b-versatile',
       messages: [
-        { role: 'system', content: systemPrompt || '' },
+        { role: 'system', content: systemPrompt },
         ...messages,
       ],
       stream: true,

@@ -13,11 +13,15 @@ type Message = {
   content: string;
 };
 
-async function sendChatMessage(url: string, { arg }: { arg: { messages: Message[]; turnstileToken: string | null } }) {
+async function sendChatMessage(url: string, { arg }: { arg: { messages: Message[]; turnstileToken: string | null; systemPromptExtra?: string } }) {
   const response = await fetch(url, {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
-    body: JSON.stringify({ messages: arg.messages, turnstileToken: arg.turnstileToken }),
+    body: JSON.stringify({
+      messages: arg.messages,
+      turnstileToken: arg.turnstileToken,
+      systemPromptExtra: arg.systemPromptExtra,
+    }),
   });
 
   if (!response.ok) {
@@ -36,6 +40,9 @@ export function ChatBot() {
   const viewportRef = useRef<HTMLDivElement>(null);
 
   const { trigger, isMutating } = useSWRMutation('/portfolio/api/chat', sendChatMessage);
+
+  const suggestedQueries = t.raw('suggestedQueries') as string[];
+  const systemPromptExtra = t('systemPromptExtra');
 
   const hasConversation = messages.length > 0 || streamingMessage;
   const scrollAreaHeight = hasConversation ? 400 : 200;
@@ -68,7 +75,11 @@ export function ChatBot() {
     setStreamingMessage('');
 
     try {
-      const response = await trigger({ messages: newMessages, turnstileToken });
+      const response = await trigger({
+        messages: newMessages,
+        turnstileToken,
+        systemPromptExtra,
+      } as any);
 
       const reader = response.body?.getReader();
       const decoder = new TextDecoder();
@@ -172,9 +183,39 @@ export function ChatBot() {
           <ScrollArea h={scrollAreaHeight} viewportRef={viewportRef} type="auto" className={classes.scrollArea}>
             <Stack gap="md" p="xs">
               {messages.length === 0 && (
-                <Text c="dimmed" ta="center" py="xl">
-                  {t('placeholder')}
-                </Text>
+                <Stack gap="md" py="xl">
+                  <Group justify="center" gap="sm" align="flex-start">
+                    <Box className={classes.avatar} bg="blue.6">
+                      <IconRobot size={18} color="white" />
+                    </Box>
+                    <Paper className={classes.assistantMessage} p="sm" radius="md" bg="var(--mantine-color-gray-1)">
+                      <Text size="sm" className={classes.messageText}>
+                        {t('welcomeMessage')}
+                      </Text>
+                    </Paper>
+                  </Group>
+
+                  <Box>
+                    <Text size="xs" fw={700} c="dimmed" mb="xs" ta="center" tt="uppercase" lts="1px">
+                      Suggested Questions
+                    </Text>
+                    <Group justify="center" gap="xs">
+                      {suggestedQueries.map((query, i) => (
+                        <Button
+                          key={i}
+                          variant="light"
+                          size="xs"
+                          radius="xl"
+                          onClick={() => {
+                            setInput(query);
+                          }}
+                        >
+                          {query}
+                        </Button>
+                      ))}
+                    </Group>
+                  </Box>
+                </Stack>
               )}
               {messages.map((msg, index) => (
                 <Group
