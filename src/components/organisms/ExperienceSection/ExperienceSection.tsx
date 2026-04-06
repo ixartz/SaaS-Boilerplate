@@ -1,5 +1,5 @@
 'use client';
-import { Anchor, Container, Text, ThemeIcon, Timeline, Title, useMantineTheme } from '@mantine/core';
+import { Anchor, Box, Container, Text, ThemeIcon, Timeline, Title, useMantineTheme } from '@mantine/core';
 import { useMediaQuery } from '@mantine/hooks';
 import { IconBriefcase } from '@tabler/icons-react';
 import Link from 'next/link';
@@ -46,7 +46,7 @@ export function ExperienceSection() {
                 •
                 {job.date}
               </Text>
-              <HtmlContent content={job.description} className="mt-sm pl-md" />
+              <Box><HtmlContent content={job.description} className="mt-sm pl-md" /></Box>
               <Anchor component={Link} href={`/experience#${job.id}`} size="sm" mt="sm" className={classes.viewDetails}>
                 {t('view_details')}
               </Anchor>
