@@ -31,7 +31,7 @@ export function ProjectsPage() {
       <Title ta="center" mb="xl">{t('title')}</Title>
       <SimpleGrid cols={{ base: 1, sm: 2 }} spacing="lg">
         {projects.map((p: Project, i: number) => (
-          <Card key={i} id={p.id} shadow="sm" p="xl" radius="md" withBorder className={classes.card}>
+          <Card key={i} id={p.id} shadow="sm" radius="md" withBorder className={classes.card}>
             <Card.Section>
               <Group p="xs" justify="space-between" style={{ position: 'absolute', top: 0, left: 0, right: 0, zIndex: 10 }}>
                 {p.year && <Badge variant="filled" color="blue">{p.year}</Badge>}
