@@ -45,7 +45,7 @@ export function ChatBot() {
   const systemPromptExtra = t('systemPromptExtra');
 
   const hasConversation = messages.length > 0 || streamingMessage;
-  const scrollAreaHeight = hasConversation ? 400 : 200;
+  const scrollAreaHeight = hasConversation ? 400 : 250;
 
   useEffect(() => {
     if (viewportRef.current) {
