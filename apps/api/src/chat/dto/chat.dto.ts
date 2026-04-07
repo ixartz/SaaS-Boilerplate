@@ -6,7 +6,6 @@ export type Message = {
 export type ChatRequestDto = {
   messages: Message[];
   turnstileToken: string;
-  systemPromptExtra?: string;
 };
 
 export type ChatResponseStream = {

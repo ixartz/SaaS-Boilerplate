@@ -13,14 +13,13 @@ type Message = {
   content: string;
 };
 
-async function sendChatMessage(url: string, { arg }: { arg: { messages: Message[]; turnstileToken: string | null; systemPromptExtra?: string } }) {
+async function sendChatMessage(url: string, { arg }: { arg: { messages: Message[]; turnstileToken: string | null } }) {
   const response = await fetch(url, {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
     body: JSON.stringify({
       messages: arg.messages,
       turnstileToken: arg.turnstileToken,
-      systemPromptExtra: arg.systemPromptExtra,
     }),
   });
 
@@ -42,7 +41,6 @@ export function ChatBot() {
   const { trigger, isMutating } = useSWRMutation('/portfolio/api/chat', sendChatMessage);
 
   const suggestedQueries = t.raw('suggestedQueries') as string[];
-  const systemPromptExtra = t('systemPromptExtra');
 
   const hasConversation = messages.length > 0 || streamingMessage;
   const scrollAreaHeight = hasConversation ? 400 : 250;
@@ -78,7 +76,6 @@ export function ChatBot() {
       const response = await trigger({
         messages: newMessages,
         turnstileToken,
-        systemPromptExtra,
       } as any);
 
       const reader = response.body?.getReader();

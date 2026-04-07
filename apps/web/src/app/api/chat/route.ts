@@ -31,7 +31,7 @@ async function validateTurnstileToken(token: string): Promise<boolean> {
 
 export async function POST(req: Request) {
   try {
-    const { messages, turnstileToken, systemPromptExtra } = await req.json();
+    const { messages, turnstileToken } = await req.json();
 
     // Validate Turnstile token
     if (!turnstileToken) {
@@ -61,7 +61,6 @@ export async function POST(req: Request) {
       body: JSON.stringify({
         messages,
         turnstileToken,
-        systemPromptExtra,
       }),
     });
 

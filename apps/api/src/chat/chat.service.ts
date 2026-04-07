@@ -42,7 +42,7 @@ export class ChatService {
   }
 
   async *createChatStream(request: ChatRequestDto): AsyncGenerator<ChatResponseStream> {
-    const { messages, turnstileToken, systemPromptExtra } = request;
+    const { messages, turnstileToken } = request;
 
     // Validate Turnstile token
     if (!turnstileToken) {
@@ -57,8 +57,7 @@ export class ChatService {
       }
     }
 
-    const systemPromptBase = process.env.AI_SYSTEM_PROMPT?.replace(/\\n/g, '\n') || '';
-    const systemPrompt = systemPromptExtra ? `${systemPromptBase}\n\n${systemPromptExtra}` : systemPromptBase;
+    const systemPrompt = process.env.AI_SYSTEM_PROMPT?.replace(/\\n/g, '\n') || '';
 
     const stream = await this.openai.chat.completions.create(
       {
