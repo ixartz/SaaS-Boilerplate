@@ -53,3 +53,18 @@ local
 # directus
 /directus-data/
 /directus_data/
+
+# Monorepo builds
+apps/*/dist
+apps/*/.next
+apps/*/node_modules
+packages/*/dist
+
+# IDE
+.idea/
+.vscode/
+*.swp
+*.swo
+
+# TypeScript
+tsconfig.tsbuildinfo

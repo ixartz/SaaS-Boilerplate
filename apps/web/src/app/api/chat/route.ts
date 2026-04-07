@@ -1,10 +1,12 @@
-// app/api/chat/route.ts
-import OpenAI from 'openai';
+/**
+ * Chat API Route - Proxy to NestJS BFF
+ *
+ * This route proxies chat requests to the NestJS API server.
+ * In production, the Fastify server handles this proxying directly.
+ * This route is kept for development when running Next.js standalone.
+ */
 
-const openai = new OpenAI({
-  apiKey: process.env.CLOUDFLARE_AI_GATEWAY_TOKEN,
-  baseURL: `https://gateway.ai.cloudflare.com/v1/${process.env.CF_ACCOUNT_ID}/portfolio-ai-gateway/compat`,
-});
+const API_URL = process.env.API_URL || 'http://localhost:3001';
 
 async function validateTurnstileToken(token: string): Promise<boolean> {
   try {
@@ -19,7 +21,7 @@ async function validateTurnstileToken(token: string): Promise<boolean> {
       }),
     });
 
-    const data = await response.json();
+    const data = (await response.json()) as { success: boolean };
     return data.success === true;
   } catch (error) {
     console.error('Turnstile validation error:', error);
@@ -50,48 +52,29 @@ export async function POST(req: Request) {
       }
     }
 
-    const systemPromptBase = process.env.AI_SYSTEM_PROMPT?.replace(/\\n/g, '\n') || '';
-    const systemPrompt = systemPromptExtra ? `${systemPromptBase}\n\n${systemPromptExtra}` : systemPromptBase;
-
-    const stream = await openai.chat.completions.create({
-      model: 'groq/llama-3.3-70b-versatile',
-      messages: [
-        { role: 'system', content: systemPrompt },
-        ...messages,
-      ],
-      stream: true,
-      temperature: 0.3,
-    }, {
+    // Forward request to NestJS API
+    const apiResponse = await fetch(`${API_URL}/chat`, {
+      method: 'POST',
       headers: {
-        'cf-aig-byok-alias': 'portfolio-chat',
+        'Content-Type': 'application/json',
       },
+      body: JSON.stringify({
+        messages,
+        turnstileToken,
+        systemPromptExtra,
+      }),
     });
 
-    // Create a ReadableStream to return the SSE response
-    const encoder = new TextEncoder();
+    if (!apiResponse.ok) {
+      const errorData = await apiResponse.json().catch(() => ({}));
+      return new Response(JSON.stringify({ error: errorData.error || 'API request failed' }), {
+        status: apiResponse.status,
+        headers: { 'Content-Type': 'application/json' },
+      });
+    }
 
-    const readableStream = new ReadableStream({
-      async start(controller) {
-        try {
-          for await (const chunk of stream) {
-            const content = chunk.choices[0]?.delta?.content || '';
-            if (content) {
-              const sseData = JSON.stringify({
-                choices: [{ delta: { content } }],
-              });
-              controller.enqueue(encoder.encode(`data: ${sseData}\n\n`));
-            }
-          }
-          controller.enqueue(encoder.encode('data: [DONE]\n\n'));
-        } catch (error) {
-          console.error('Stream error:', error);
-        } finally {
-          controller.close();
-        }
-      },
-    });
-
-    return new Response(readableStream, {
+    // Stream the response from the API
+    return new Response(apiResponse.body, {
       headers: {
         'Content-Type': 'text/event-stream; charset=utf-8',
         'Cache-Control': 'no-cache, no-transform',

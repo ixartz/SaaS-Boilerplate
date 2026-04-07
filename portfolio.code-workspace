@@ -1,0 +1,104 @@
+{
+  "workspaces": {
+    "roots": [
+      {
+        "path": "."
+      },
+      {
+        "path": "apps/api"
+      },
+      {
+        "path": "apps/server"
+      },
+      {
+        "path": "apps/web"
+      },
+      {
+        "path": "packages/database"
+      },
+      {
+        "path": "packages/shared"
+      }
+    ]
+  },
+  "settings": {
+    "editor.formatOnSave": true,
+    "editor.defaultFormatter": "esbenp.prettier-vscode",
+    "editor.tabSize": 2,
+    "files.exclude": {
+      "**/node_modules": true,
+      "**/dist": true,
+      "**/.next": true,
+      "**/build": true
+    },
+    "files.watcherExclude": {
+      "**/node_modules/**": true,
+      "**/dist/**": true,
+      "**/.next/**": true,
+      "**/build/**": true
+    },
+    "typescript.tsdk": "node_modules/typescript/lib",
+    "typescript.preferences.importModuleSpecifier": "relative",
+    "[typescript]": {
+      "editor.defaultFormatter": "esbenp.prettier-vscode"
+    },
+    "[typescriptreact]": {
+      "editor.defaultFormatter": "esbenp.prettier-vscode"
+    },
+    "[json]": {
+      "editor.defaultFormatter": "esbenp.prettier-vscode"
+    },
+    "eslint.workingDirectories": [
+      { "mode": "auto" }
+    ],
+    "prettier.configPath": "prettier.config.cjs"
+  },
+  "launch": {
+    "compounds": [
+      {
+        "name": "Full Stack Dev",
+        "configurations": ["API Dev", "Server Dev"],
+        "presentation": {
+          "hidden": false,
+          "group": "monorepo",
+          "order": 1
+        }
+      }
+    ],
+    "configurations": [
+      {
+        "name": "API Dev",
+        "type": "node",
+        "request": "launch",
+        "cwd": "${workspaceFolder}/apps/api",
+        "runtimeExecutable": "npm",
+        "runtimeArgs": ["run", "dev"],
+        "console": "integratedTerminal",
+        "envFile": "${workspaceFolder}/.env"
+      },
+      {
+        "name": "Server Dev",
+        "type": "node",
+        "request": "launch",
+        "cwd": "${workspaceFolder}/apps/server",
+        "runtimeExecutable": "npm",
+        "runtimeArgs": ["run", "dev"],
+        "console": "integratedTerminal",
+        "envFile": "${workspaceFolder}/.env"
+      }
+    ]
+  },
+  "extensions": {
+    "recommendations": [
+      "dbaeumer.vscode-eslint",
+      "esbenp.prettier-vscode",
+      "bradlc.vscode-tailwindcss",
+      "dsznajder.es7-react-js-snippets",
+      "formulahendry.auto-rename-tag",
+      "usernamehw.errorlens",
+      "streetsidesoftware.code-spell-checker",
+      "ms-azuretools.vscode-docker",
+      "prisma.prisma"
+    ]
+  }
+}

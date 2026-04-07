@@ -1,0 +1,25 @@
+{
+  "name": "@portfolio/server",
+  "type": "module",
+  "version": "1.0.0",
+  "private": true,
+  "scripts": {
+    "dev": "tsx watch src/index.ts",
+    "build": "tsc",
+    "start": "node dist/index.js",
+    "lint": "eslint src",
+    "lint:fix": "eslint src --fix",
+    "check-types": "tsc --noEmit"
+  },
+  "dependencies": {
+    "@fastify/http-proxy": "^9.5.0",
+    "dotenv": "^16.4.5",
+    "fastify": "^4.25.2",
+    "next": "^16.2.2"
+  },
+  "devDependencies": {
+    "@types/node": "^22.7.6",
+    "tsx": "^4.19.1",
+    "typescript": "^5.6.3"
+  }
+}
