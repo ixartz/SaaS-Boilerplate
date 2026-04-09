@@ -7,7 +7,8 @@
     "node": ">=20.0.0"
   },
   "scripts": {
-    "dev": "npm run dev -w apps/server",
+    "dev": "concurrently \"npm run dev:api\" \"npm run dev:server\" --kill-others --prefix-colors \"blue,green\"",
+    "dev:server": "npm run dev -w apps/server",
     "dev:web": "npm run dev -w apps/web",
     "dev:api": "npm run dev -w apps/api",
     "build": "npm run build -w apps/web -w apps/api -w apps/server",
@@ -52,6 +53,7 @@
     "autoprefixer": "^10.4.20",
     "checkly": "^4.9.0",
     "commitizen": "^4.3.1",
+    "concurrently": "^8.2.2",
     "cross-env": "^7.0.3",
     "cssnano": "^7.0.6",
     "dotenv-cli": "^7.4.2",

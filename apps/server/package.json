@@ -13,9 +13,12 @@
   },
   "dependencies": {
     "@fastify/http-proxy": "^9.5.0",
+    "@types/ioredis": "^4.28.10",
     "dotenv": "^16.4.5",
     "fastify": "^4.25.2",
-    "next": "^16.2.2"
+    "ioredis": "^5.10.1",
+    "next": "^16.2.2",
+    "redis": "^5.11.0"
   },
   "devDependencies": {
     "@types/node": "^22.7.6",

@@ -56,6 +56,7 @@ export default antfu({
   ...playwright.configs['flat/recommended'],
 }, {
   rules: {
+    'no-console': 'off', //
     'import/order': 'off', // Avoid conflicts with `simple-import-sort` plugin
     'sort-imports': 'off', // Avoid conflicts with `simple-import-sort` plugin
     'style/brace-style': ['error', '1tbs'], // Use the default brace style

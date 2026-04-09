@@ -52,7 +52,6 @@ local
 
 # directus
 /directus-data/
-/directus_data/
 
 # Monorepo builds
 apps/*/dist
@@ -68,3 +67,6 @@ packages/*/dist
 
 # TypeScript
 tsconfig.tsbuildinfo
+
+# Redis
+redis-data/

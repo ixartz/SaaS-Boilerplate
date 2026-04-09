@@ -46,7 +46,8 @@
     ".next/types/**/*.ts",
     "**/*.mts",
     ".next/dev/types/**/*.ts",
-    "next.config.mjs"
+    "next.config.mjs",
+    "cache-handler.js"
   ],
   "exclude": ["./out/**/*", "./node_modules/**/*", "**/*.spec.ts", "**/*.e2e.ts"]
 }

@@ -1,4 +1,4 @@
-const localePrefix = 'as-needed' as const;
+const localePrefix = 'never' as const;
 
 export const AppConfig = {
   name: 'Kai Mak - Frontend Developer Portfolio',

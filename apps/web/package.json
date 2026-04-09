@@ -15,6 +15,7 @@
   },
   "dependencies": {
     "@electric-sql/pglite": "^0.2.12",
+    "@fortedigital/nextjs-cache-handler": "^3.2.0",
     "@hookform/resolvers": "^3.9.0",
     "@logtail/pino": "^0.5.2",
     "@mantine/carousel": "^8.3.18",
@@ -34,7 +35,9 @@
     "@t3-oss/env-nextjs": "^0.11.1",
     "@tabler/icons-react": "^3.40.0",
     "@tanstack/react-table": "^8.20.5",
+    "@trieb.work/nextjs-turbo-redis-cache": "^1.11.1",
     "@types/dompurify": "^3.0.5",
+    "@upstash/redis": "^1.37.0",
     "class-variance-authority": "^0.7.0",
     "clsx": "^2.1.1",
     "dompurify": "^3.3.3",

@@ -50,7 +50,7 @@ export class ChatService {
     }
 
     // Skip Turnstile validation in development mode
-    if (turnstileToken !== 'dev-mode-bypass') {
+    if (process.env.NODE_ENV !== 'development') {
       const isValidToken = await this.validateTurnstileToken(turnstileToken);
       if (!isValidToken) {
         throw new Error('Invalid Turnstile token');

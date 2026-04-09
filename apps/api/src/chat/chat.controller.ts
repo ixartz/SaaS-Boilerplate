@@ -1,7 +1,8 @@
 import { Body, Controller, Header, HttpCode, HttpStatus, Post, Res } from '@nestjs/common';
 import type { FastifyReply } from 'fastify';
 
-import type { ChatService } from './chat.service';
+// eslint-disable-next-line ts/consistent-type-imports -- NestJS needs runtime import for DI
+import { ChatService } from './chat.service';
 import type { ChatRequestDto } from './dto/chat.dto';
 
 @Controller('chat')
@@ -39,9 +40,10 @@ export class ChatController {
     const status = this.getHttpStatus(error);
     const message = error instanceof Error ? error.message : 'Failed to process request';
 
-    reply.status(status).send({
+    // When using Fastify with SSE, we need to send a string response
+    reply.status(status).header('Content-Type', 'application/json').send(JSON.stringify({
       error: message,
-    });
+    }));
   }
 
   private getHttpStatus(error: unknown): number {

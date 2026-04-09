@@ -68,6 +68,8 @@
     ".storybook/*.ts",
     ".next/types/**/*.ts",
     "**/*.mts",
-    ".next/dev/types/**/*.ts"
+    ".next/dev/types/**/*.ts",
+    "apps/web/cache-handler.mjs",
+    "apps/web/cache-handler.js"
   ]
 }

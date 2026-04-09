@@ -28,13 +28,23 @@ export default getRequestConfig(async ({ requestLocale }) => {
       messages: (await import(`../locales/${locale}.json`)).default,
     };
   } else if (process.env.NODE_ENV === 'production' && process.env.DIRECTUS_HOST) {
-    const messages = await fetch(`${process.env.DIRECTUS_HOST}/items/portfolio`).then((res) => {
-      return res.json().then(result => result.data[0].content);
+    const directusMessages = await fetch(`${process.env.DIRECTUS_HOST}/items/portfolio`).then((res) => {
+      return res.json().then(result => result.data?.[0]?.content ?? {});
     }).catch((err) => {
       console.error('Failed to fetch messages from Directus', err);
-
       return {};
     });
+
+    // Load fallback messages from locale file for missing keys
+    let fallbackMessages = {};
+    try {
+      fallbackMessages = (await import(`../locales/${locale}.json`)).default;
+    } catch {
+      // Fallback file not available
+    }
+
+    // Merge Directus messages with fallback, Directus takes precedence
+    const messages = { ...fallbackMessages, ...directusMessages };
 
     return { locale, messages };
   }
