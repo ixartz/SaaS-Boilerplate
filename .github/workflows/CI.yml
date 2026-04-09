@@ -8,24 +8,31 @@ on:
 
 jobs:
   build:
-    strategy:
-      matrix:
-        node-version: [20.x, 22.x]
-
-    name: Build with Node.js ${{ matrix.node-version }}
+    name: Build with Node.js 22.x
     runs-on: ubuntu-latest
 
     steps:
       - uses: actions/checkout@v4
-      - name: Use Node.js ${{ matrix.node-version }}
+      - name: Install pnpm
+        uses: pnpm/action-setup@v3
+        with:
+          version: 8
+      - name: Use Node.js 22.x
         uses: actions/setup-node@v4
         with:
-          node-version: ${{ matrix.node-version }}
-          cache: npm
+          node-version: 22.x
+          cache: pnpm
       - name: Install dependencies
-        run: npm ci
+        run: pnpm install --frozen-lockfile
+      - name: Cache Turbo artifacts
+        uses: actions/cache@v4
+        with:
+          path: .turbo
+          key: turbo-${{ runner.os }}-${{ hashFiles('**/pnpm-lock.yaml') }}
+          restore-keys: |
+            turbo-${{ runner.os }}-
       - name: Build all apps
-        run: npm run build
+        run: pnpm run build
         env:
           BASE_PATH: /portfolio
           NEXT_PUBLIC_URL: https://mak-cloud.com
@@ -33,66 +40,115 @@ jobs:
           CLOUDFLARE_AI_GATEWAY_TOKEN: ${{ secrets.CLOUDFLARE_AI_GATEWAY_TOKEN }}
           CF_ACCOUNT_ID: ${{ secrets.CF_ACCOUNT_ID }}
 
-  test:
-    strategy:
-      matrix:
-        node-version: [20.x]
-
-    name: Run all tests
+  test-fast:
+    name: Lint & Type Check
     runs-on: ubuntu-latest
-
     steps:
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v4
+      - name: Install pnpm
+        uses: pnpm/action-setup@v3
         with:
-          fetch-depth: 0 # Retrieve Git history, needed to verify commits
-      - name: Use Node.js ${{ matrix.node-version }}
-        uses: actions/setup-node@v3
+          version: 8
+      - name: Use Node.js 22.x
+        uses: actions/setup-node@v4
         with:
-          node-version: ${{ matrix.node-version }}
-          cache: npm
-      - run: npm ci
-
-      - name: Build Next.js for E2E tests
-        run: npm run build
-        env:
-          SENTRY_AUTH_TOKEN: ${{ secrets.SENTRY_AUTH_TOKEN }}
-
-      - if: github.event_name == 'pull_request'
-        name: Validate all commits from PR
-        run: npx commitlint --from ${{ github.event.pull_request.base.sha }} --to ${{ github.event.pull_request.head.sha }} --verbose
-
+          node-version: 22.x
+          cache: pnpm
+      - run: pnpm install --frozen-lockfile
       - name: Linter
-        run: npm run lint
-
+        run: pnpm run lint
       - name: Type checking
-        run: npm run check-types
+        run: pnpm run check-types
 
-      - name: Run unit tests
-        run: npm run test -- --coverage
-
+  test-unit:
+    name: Unit Tests
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Install pnpm
+        uses: pnpm/action-setup@v3
+        with:
+          version: 8
+      - name: Use Node.js 22.x
+        uses: actions/setup-node@v4
+        with:
+          node-version: 22.x
+          cache: pnpm
+      - run: pnpm install --frozen-lockfile
+      - name: Cache Turbo artifacts
+        uses: actions/cache@v4
+        with:
+          path: .turbo
+          key: turbo-${{ runner.os }}-${{ hashFiles('**/pnpm-lock.yaml') }}
+          restore-keys: |
+            turbo-${{ runner.os }}-
+      - name: Run tests (using cached build)
+        run: pnpm run test
+        env:
+          BASE_PATH: /portfolio
+          NEXT_PUBLIC_URL: https://mak-cloud.com
+          IMAGE_DOMAINS: portfolio-cms.mak-cloud.com
+          SENTRY_AUTH_TOKEN: ${{ secrets.SENTRY_AUTH_TOKEN }}
+      - name: Run unit tests with coverage
+        run: pnpm run test -- --coverage
       - name: Upload coverage reports to Codecov
         uses: codecov/codecov-action@v4
         env:
           CODECOV_TOKEN: ${{ secrets.CODECOV_TOKEN }}
 
-      - name: Install Playwright (used for Storybook and E2E tests)
+  test-visual:
+    name: Storybook & E2E Tests
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - name: Install pnpm
+        uses: pnpm/action-setup@v3
+        with:
+          version: 8
+      - name: Use Node.js 22.x
+        uses: actions/setup-node@v4
+        with:
+          node-version: 22.x
+          cache: pnpm
+      - run: pnpm install --frozen-lockfile
+      - name: Install Playwright
         run: npx playwright install --with-deps
-
       - name: Run storybook tests
-        run: npm run test-storybook:ci
-
+        run: pnpm run test-storybook:ci
       - name: Run E2E tests
-        run: npx percy exec -- npm run test:e2e
+        run: npx percy exec -- pnpm run test:e2e
         env:
           PERCY_TOKEN: ${{ secrets.PERCY_TOKEN }}
           CLERK_SECRET_KEY: ${{ secrets.CLERK_SECRET_KEY }}
-
       - uses: actions/upload-artifact@v4
         if: always()
         with:
           name: test-results
           path: test-results/
           retention-days: 7
+
+  test-commitlint:
+    name: Commit Lint
+    runs-on: ubuntu-latest
+    if: github.event_name == 'pull_request'
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - name: Install pnpm
+        uses: pnpm/action-setup@v3
+        with:
+          version: 8
+      - name: Use Node.js 22.x
+        uses: actions/setup-node@v4
+        with:
+          node-version: 22.x
+          cache: pnpm
+      - run: pnpm install --frozen-lockfile
+      - name: Validate all commits from PR
+        run: npx commitlint --from ${{ github.event.pull_request.base.sha }} --to ${{ github.event.pull_request.head.sha }} --verbose
 
   docker-compose-test:
     name: Test Docker Compose with Redis
@@ -105,11 +161,12 @@ jobs:
         uses: docker/setup-buildx-action@v3
       - name: Build Docker Compose services
         run: |
-          docker compose build --no-cache
+          docker compose build
       - name: Start services
         run: |
           docker compose up -d
-          sleep 30
+          # Wait for Redis to be ready instead of sleeping
+          timeout 60s bash -c 'until docker exec portfolio-portfolio-1 redis-cli -h redis ping; do sleep 2; done' || (echo "Redis failed to start" && exit 1)
       - name: Test Redis connection
         run: |
           docker exec portfolio-portfolio-1 redis-cli -h redis ping
@@ -136,7 +193,6 @@ jobs:
         with:
           ref: ${{ github.event.pull_request.head.sha }} # Crowdin Actions needs to push commits to the PR branch, checkout HEAD commit instead of merge commit
           fetch-depth: 0
-
       - name: crowdin action
         uses: crowdin/github-action@v2
         with:

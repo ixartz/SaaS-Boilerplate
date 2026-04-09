@@ -7,7 +7,6 @@ import createJiti from 'jiti';
 import withNextIntl from 'next-intl/plugin';
 
 // const require = createRequire(import.meta.url);
-
 const __dirname = dirname(fileURLToPath(import.meta.url));
 const jiti = createJiti(fileURLToPath(import.meta.url));
 
@@ -23,10 +22,9 @@ const bundleAnalyzer = withBundleAnalyzer({
 /** @returns {Record<string, string>} */
 const getFilteredEnv = () => {
   const reservedPrefixes = ['NEXT_PUBLIC_', 'NEXT_', 'VERCEL', '__NEXT'];
-  const reservedKeys = ['NODE_ENV', '__SENTRY_TUNNEL_ROUTE__', '__COMPAT_LAYER', 'NODE_OPTIONS', 'NODE_VERSION'];
+  const reservedKeys = ['NODE_ENV', 'NODE_PATH', '__SENTRY_TUNNEL_ROUTE__', '__COMPAT_LAYER', 'NODE_OPTIONS', 'NODE_VERSION'];
   /** @type {Record<string, string>} */
   const filteredEnv = {};
-
   for (const [key, value] of Object.entries(process.env)) {
     if (typeof value !== 'string') {
       continue;
@@ -39,7 +37,6 @@ const getFilteredEnv = () => {
     }
     filteredEnv[key] = value;
   }
-
   return filteredEnv;
 };
 
@@ -57,7 +54,6 @@ export default withSentryConfig(
     withNextIntlConfig({
       output: 'standalone',
       // cacheHandler: require.resolve('@trieb.work/nextjs-turbo-redis-cache'),
-
       basePath: process.env.BASE_PATH,
       assetPrefix: process.env.BASE_PATH && process.env.NEXT_PUBLIC_URL ? `${process.env.NEXT_PUBLIC_URL}${process.env.BASE_PATH || ''}` : undefined,
       // Note: 'standalone' output is NOT used because we have a custom Fastify server

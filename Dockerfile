@@ -1,4 +1,11 @@
-FROM node:24-alpine AS builder
+FROM node:24-alpine AS base
+
+# Install pnpm
+ENV PNPM_HOME="/pnpm"
+ENV PATH="$PNPM_HOME:$PATH"
+RUN corepack enable pnpm
+
+FROM base AS builder
 
 ARG DIRECTUS_HOST
 ARG BASE_PATH
@@ -10,16 +17,17 @@ ARG NEXT_PUBLIC_GA_ID
 
 WORKDIR /app
 
-# Copy root package files
-COPY package*.json .npmrc* ./
+# Copy root package files and lockfile for pnpm
+COPY package.json pnpm-lock.yaml pnpm-workspace.yaml ./
 
-# Copy workspace package files
-COPY apps/web/package*.json apps/web/
-COPY apps/api/package*.json apps/api/
-COPY apps/server/package*.json apps/server/
+# Copy workspace package files to allow pnpm to resolve dependencies correctly
+# We copy the package.json of each workspace to ensure correct installation
+COPY apps/web/package.json ./apps/web/
+COPY apps/api/package.json ./apps/api/
+COPY apps/server/package.json ./apps/server/
 
-# Install dependencies
-RUN npm ci
+# Install dependencies (using --frozen-lockfile for CI)
+RUN pnpm install --frozen-lockfile
 
 # Copy all source files
 COPY . .
@@ -33,53 +41,50 @@ ENV NEXT_PUBLIC_CLOUDFLARE_SITE_KEY=${NEXT_PUBLIC_CLOUDFLARE_SITE_KEY}
 ENV NEXT_PUBLIC_GTM_ID=${NEXT_PUBLIC_GTM_ID}
 ENV NEXT_PUBLIC_GA_ID=${NEXT_PUBLIC_GA_ID}
 
-# Build all apps
-RUN npm run build
+# Build all apps using turbo for efficiency
+RUN pnpm run build
 
 # Production stage
-FROM node:24-alpine
+FROM base AS runner
 
 WORKDIR /app
 
-# Copy package files for npm workspace resolution
-COPY --from=builder /app/package.json ./
-COPY --from=builder /app/package-lock.json ./
-COPY --from=builder /app/.npmrc ./
+ENV NODE_ENV=production
+ENV HOSTNAME="0.0.0.0" 
+ENV PORT=3000
+ENV TRUST_PROXY=1
 
-# Copy built artifacts - server dist files
-COPY --from=builder /app/apps/server/dist/index.js ./apps/server/dist/
-COPY --from=builder /app/apps/server/dist/index.d.ts ./apps/server/dist/
-COPY --from=builder /app/apps/server/dist/index.js.map ./apps/server/dist/
-COPY --from=builder /app/apps/server/dist/index.d.ts.map ./apps/server/dist/
+# Copy package files for workspace resolution in production
+COPY package.json pnpm-lock.yaml pnpm-workspace.yaml ./
+COPY apps/web/package.json ./apps/web/
+COPY apps/api/package.json ./apps/api/
+COPY apps/server/package.json ./apps/server/
+
+# Copy built artifacts from builder stage
+# Server dist files
+COPY --from=builder /app/apps/server/dist ./apps/server/dist
 COPY --from=builder /app/apps/server/package.json ./apps/server/
 
-# Copy Next.js web app directory (build output only for custom server)
-# We need the .next build output and config for the custom Fastify server
-# Note: Without 'standalone' output, we copy the full .next directory
+# Next.js web app (using the build output)
 COPY --from=builder /app/apps/web/.next ./apps/web/.next
 COPY --from=builder /app/apps/web/next.config.mjs ./apps/web/
 COPY --from=builder /app/apps/web/package.json ./apps/web/
 COPY --from=builder /app/apps/web/public ./apps/web/public
-# Copy src directory needed for i18n and next.config.mjs runtime loading
 COPY --from=builder /app/apps/web/src ./apps/web/src
 
-# Copy API dist files
+# API dist files
 COPY --from=builder /app/apps/api/dist ./apps/api
 COPY --from=builder /app/apps/api/package.json ./apps/api/
 
-# Copy node_modules (all in root for workspaces)
+# Copy node_modules (optimized for production)
+# In a real-world scenario, you might want to use pnpm deploy or 
+# prune dependencies here, but for simplicity we copy from builder.
 COPY --from=builder /app/node_modules ./node_modules
-# Copy workspace-specific node_modules that are not hoisted
 COPY --from=builder /app/apps/web/node_modules ./apps/web/node_modules
 COPY --from=builder /app/apps/api/node_modules ./apps/api/node_modules
-
-# Note: .env files are NOT copied to production
-# Environment variables should be set via Docker/container orchestration
-# to preserve build-time values and allow runtime overrides
+COPY --from=builder /app/apps/server/node_modules ./apps/server/node_modules
 
 EXPOSE 3000
-
-ENV HOSTNAME="0.0.0.0" PORT=3000 TRUST_PROXY=1 NODE_ENV=production
 
 # Health check endpoint
 HEALTHCHECK --interval=30s --timeout=3s --start-period=40s --retries=3 \
