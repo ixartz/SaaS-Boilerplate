@@ -4,7 +4,7 @@
   "version": "1.0.0",
   "private": true,
   "scripts": {
-    "dev": "tsx watch --tsconfig ../../tsconfig.json src/index.ts",
+    "dev": "tsx watch --tsconfig ../../tsconfig.json src/index.cts",
     "build": "tsc",
     "start": "node dist/index.js",
     "lint": "eslint src",

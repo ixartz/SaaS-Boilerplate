@@ -1,167 +1,379 @@
 {
   "Index": {
-    "meta_title": "SaaS Template - The perfect SaaS template to build and scale your business with ease.",
-    "meta_description": "A free and open-source landing page template for your SaaS business, built with React, TypeScript, Shadcn UI, and Tailwind CSS."
+    "meta_title": "Project Nova | Senior Engineering Specialist Portfolio",
+    "meta_description": "A showcase of resilient, container-aligned frontend architectures. Specializing in high-concurrency ecosystems and distributed state management."
   },
-  "Navbar": {
-    "sign_in": "Sign In",
-    "sign_up": "Sign Up",
-    "product": "Product",
-    "docs": "Docs",
-    "blog": "Blog",
-    "community": "Community",
-    "company": "Company"
+  "ThemeConfig": {
+    "primary": "Slate",
+    "secondary": "Cyan",
+    "aesthetic": "Cyber-Minimalist / Line Art",
+    "logo_text": "NOVA"
   },
-  "Hero": {
-    "follow_twitter": "Follow @Ixartz on Twitter",
-    "title": "The perfect <important>SaaS template</important> to build and scale your business with ease.",
-    "description": "A free and open-source landing page template for your SaaS business, built with React, TypeScript, Shadcn UI, and Tailwind CSS.",
-    "primary_button": "Get Next.js SaaS Starter Kit",
-    "secondary_button": "Star on GitHub"
+  "HeaderTabs": {
+    "home": "Dashboard",
+    "projects": "System Architecture",
+    "experience": "Career Logs",
+    "contact": "Comm Link",
+    "name": "Kaius M.",
+    "avatar": "https://api.dicebear.com/7.x/identicon/svg?seed=NovaAdmin",
+    "profile_link": "/"
   },
-  "Sponsors": {
-    "title": "Sponsored by"
+  "PortfolioHero": {
+    "badge": "Engineering Lead of Leads",
+    "title": "Scaling The Digital Frontier",
+    "subtitle": "Engineering high-resiliency cores for ultra-scale global infrastructures.",
+    "cards": [
+      {
+        "id": "project-starlight",
+        "title": "Starlight: Logistics Orchestration Core",
+        "category": "Greenfield Lead of Leads",
+        "description": "Architected a ground-up rebuild of a planetary-scale logistics hub. Synchronized 20+ engineers via strict Docker-containerized dev-flows.",
+        "badges": [
+          "Next.js 15",
+          "Docker Parity",
+          "Lead of Leads",
+          "Redis Resilience"
+        ],
+        "images": [
+          "https://picsum.photos/seed/space_1/800/600"
+        ],
+        "emoji": "🌌",
+        "year": "2024",
+        "status": "Production"
+      },
+      {
+        "id": "content-mesh",
+        "title": "Quantum Mesh: Edge Content Delivery",
+        "category": "Architecture Lead",
+        "description": "Zero-latency static hub leveraging Triple-Layer Edge Caching and Headless CMS to serve 1M+ nodes globally.",
+        "badges": [
+          "Headless Core",
+          "ISR",
+          "Edge Caching",
+          "Lighthouse 100"
+        ],
+        "images": [
+          "https://picsum.photos/seed/nebula_2/800/600"
+        ],
+        "emoji": "🕸️"
+      },
+      {
+        "id": "energy-grid-ui",
+        "title": "Apex: High-Concurrency Grid Control",
+        "category": "Technical Lead",
+        "description": "Engineered a Next.js infrastructure capable of 15x peak surge handling. Eliminated cache drift in multi-pod clusters.",
+        "badges": [
+          "K8s Resilient",
+          "Redis Cluster",
+          "High-Concurrency"
+        ],
+        "images": [
+          "https://picsum.photos/seed/energy_3/800/600"
+        ],
+        "emoji": "⚡"
+      }
+    ]
   },
-  "Features": {
-    "section_subtitle": "Features",
-    "section_title": "Unlock the Full Potential of the SaaS Template",
-    "section_description": "A free and open-source landing page template for your SaaS business, built with React, TypeScript, Shadcn UI, and Tailwind CSS.",
-    "feature1_title": "Node.js",
-    "feature2_title": "React",
-    "feature3_title": "Tailwind CSS",
-    "feature4_title": "TypeScript",
-    "feature5_title": "Shadcn UI",
-    "feature6_title": "ESLint",
-    "feature_description": "A free and open-source landing page template for your SaaS business, built with React, TypeScript, Shadcn UI, and Tailwind CSS."
+  "HeroBullets": {
+    "title": "Precision Architecture. Extreme Scale.",
+    "description": "Specializing in Greenfield Next.js transformations and engineering governance. I bridge the gap between complex infrastructure and seamless user experiences.",
+    "features": [
+      {
+        "title": "Environment Homogeneity",
+        "description": "Enforcing 100% development parity via Docker-native workflows, ensuring 'works on my machine' is a relic of the past."
+      },
+      {
+        "title": "Engineering Governance",
+        "description": "Scaling teams from 4 to 20+ by implementing standardized hiring rubrics, code telemetry, and observability standards."
+      },
+      {
+        "title": "Distributed State Stability",
+        "description": "Mastering cross-region session persistence and data consistency using centralized Redis-backed state orchestration."
+      }
+    ],
+    "primary_button": "Access Repository",
+    "secondary_button": "Request Briefing",
+    "primary_button_link": "https://github.com/kaicmak6",
+    "secondary_button_action": "scroll_to_contact",
+    "image": "https://picsum.photos/seed/blueprint/800/600"
   },
-  "Pricing": {
-    "section_subtitle": "Features",
-    "section_title": "Unlock the Full Potential of the SaaS Template",
-    "section_description": "A free and open-source landing page template for your SaaS business, built with React, TypeScript, Shadcn UI, and Tailwind CSS.",
-    "button_text": "Get Started"
+  "Projects": {
+    "title": "System Deployments",
+    "meta_title": "Project Portfolio | Kaius M.",
+    "meta_description": "Exploring distributed architectures, container-aligned dev-flows, and enterprise Next.js patterns.",
+    "live_demo": "Live Interface",
+    "github": "Source Code",
+    "view_production": "Technical Brief",
+    "items": [
+      {
+        "id": "project-starlight",
+        "title": "Project Starlight: Planetary Logistics Core",
+        "category": "Lead of Leads (Greenfield)",
+        "description": "Ground-up modernization of a distributed booking and tracking engine.",
+        "badges": [
+          "Next.js",
+          "Docker alignment",
+          "Distributed Redis"
+        ],
+        "desc": "<p><b>Technical Directive:</b> Rebuilding a mission-critical core from legacy monolith to distributed Next.js. <b>I led the cross-functional squad</b> (20+ devs) across 3 workstreams.</p><ul><li><b>Lead of Leads:</b> Defined the governance for tech selection and environment standardization.</li><li><b>Observability:</b> Implemented <b>Trace-ID Context Propagation</b> across the ELK stack for sub-second incident root-cause analysis.</li><li><b>Resiliency:</b> Solved <b>Cache Pollution</b> issues via centralized Redis state management.</li></ul>",
+        "metrics": [
+          "20+ Devs Orchestrated",
+          "100% Env Alignment",
+          "Zero Drift Deployment"
+        ],
+        "tech": [
+          {
+            "emoji": "⚛️",
+            "label": "Next.js"
+          },
+          {
+            "emoji": "🐳",
+            "label": "Docker"
+          },
+          {
+            "emoji": "🔴",
+            "label": "Redis"
+          },
+          {
+            "emoji": "📊",
+            "label": "ELK Stack"
+          }
+        ],
+        "demo": "#",
+        "images": [
+          "https://picsum.photos/seed/space_1/800/600"
+        ],
+        "emoji": "🌌"
+      },
+      {
+        "id": "content-mesh",
+        "title": "Quantum Mesh: Edge Content Delivery",
+        "category": "Architecture Lead",
+        "description": "High-velocity content hub for global data distribution.",
+        "badges": [
+          "Edge Mesh",
+          "Triple-Cache",
+          "Headless"
+        ],
+        "desc": "<p><b>Objective:</b> Deliver content to millions of edge nodes with near-zero latency.</p><ul><li><b>Caching Strategy:</b> Combined Next.js ISR with global CDN layers and localized browser persistence.</li><li><b>System decoupling:</b> Used a Headless approach to allow real-time updates without infrastructure redeployment.</li></ul>",
+        "metrics": [
+          "Lighthouse 100",
+          "TTFB < 15ms",
+          "Zero-Latency Sync"
+        ],
+        "tech": [
+          {
+            "emoji": "🌐",
+            "label": "Edge Computing"
+          },
+          {
+            "emoji": "🔄",
+            "label": "ISR"
+          },
+          {
+            "emoji": "🔷",
+            "label": "Headless CMS"
+          }
+        ],
+        "images": [
+          "https://picsum.photos/seed/nebula_2/800/600"
+        ],
+        "emoji": "🕸️"
+      }
+    ]
   },
-  "PricingPlan": {
-    "free_plan_name": "Free",
-    "premium_plan_name": "Premium",
-    "enterprise_plan_name": "Enterprise",
-    "free_plan_description": "For individuals",
-    "premium_plan_description": "For small teams",
-    "enterprise_plan_description": "For industry leaders",
-    "feature_team_member": "{number} Team Members",
-    "feature_website": "{number} Websites",
-    "feature_storage": "{number} GB Storage",
-    "feature_transfer": "{number} TB Transfer",
-    "feature_email_support": "Email Support",
-    "plan_interval_month": "month",
-    "plan_interval_year": "year",
-    "next_renew_date": "Your subscription renews on {date}"
+  "ExperiencePage": {
+    "title": "Career Logs",
+    "download_cv_link": "#",
+    "meta_title": "Experience | Engineering Specialist",
+    "meta_description": "Technical career progression log from Specialist to Lead of Leads.",
+    "work_experience_title": "Professional Assignments",
+    "education_section_title": "Academy",
+    "education_title": "BSc (Hons) Computer Science",
+    "education_institution": "City University of Technology",
+    "education_details": "Specialized in Distributed Systems and Software Architecture.",
+    "jobs": [
+      {
+        "id": "exp-lead",
+        "title": "Senior Engineering Specialist (Lead of Leads)",
+        "company": "Global Technology Syndicate",
+        "date": "2024 – 2025",
+        "badge": "Core Strategy",
+        "description": "Led digital transformation for high-scale enterprise logistics hubs.<br/><br/>• <b>Team Orchestration:</b> Scaled engineering capacity from 4 to 20+ members across multiple workstreams.<br/>• <b>Infrastructure Alignment:</b> Enforced Docker-native development to eliminate local-to-production variance.<br/>• <b>State Resilience:</b> Architected Redis-backed persistence for high-concurrency multi-pod K8s clusters."
+      },
+      {
+        "id": "exp-senior",
+        "title": "Technical Lead",
+        "company": "Global Technology Syndicate",
+        "date": "2022 – 2023",
+        "badge": "Infra Systems",
+        "description": "Architected foundational cores for high-traffic promotional engines.<br/><br/>• <b>Next.js Core:</b> Built resilient frontend foundations handling 15x traffic surges.<br/>• <b>Edge Caching:</b> Implemented triple-layer caching strategies for instant content delivery."
+      },
+      {
+        "id": "exp-sabbatical",
+        "title": "Strategic Research Sabbatical",
+        "company": "Independent R&D",
+        "date": "2026 – Present",
+        "badge": "Modernization",
+        "description": "Current focus on Next-Gen DX and Edge Infrastructure.<br/><br/>• <b>Self-Hosting:</b> Deploying resilient micro-services via <b>Docker</b> and <b>Caddy</b>.<br/>• <b>Backend:</b> Deep-diving into <b>NestJS</b> architectural patterns and Cloudflare AI integration."
+      }
+    ]
   },
-  "FAQ": {
-    "question": "Lorem ipsum dolor sit amet, consectetur adipiscing elit?",
-    "answer": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aliquam aliquam enim dui, id consequat turpis ullamcorper ac. Mauris id quam dolor. Nullam eu egestas turpis. Proin risus elit, sollicitudin in mi a, accumsan euismod turpis. In euismod mi sed diam tristique hendrerit."
+  "Experience": {
+    "title": "Professional Progression",
+    "subtitle": "Engineering Impact over 5.8+ Years",
+    "view_details": "Review Detailed Logs →",
+    "jobs": [
+      {
+        "id": "exp-lead",
+        "title": "Lead of Leads",
+        "company": "Global Syndicate",
+        "date": "2024 – 2025",
+        "description": "Scaled team to 20+ pax. Led Docker-aligned governance and Redis state strategy.",
+        "icon": "briefcase",
+        "badge_color": "blue"
+      },
+      {
+        "id": "exp-senior",
+        "title": "Technical Lead",
+        "company": "Global Syndicate",
+        "date": "2022 – 2023",
+        "description": "Optimized high-traffic cores via ISR and Triple-Layer Caching.",
+        "icon": "code",
+        "badge_color": "blue"
+      },
+      {
+        "id": "exp-sabbatical",
+        "title": "R&D Lead",
+        "company": "Sabbatical",
+        "date": "2026 – Present",
+        "description": "Modernizing DX with Docker, Caddy, and NestJS.",
+        "icon": "cpu",
+        "badge_color": "orange"
+      }
+    ]
   },
-  "CTA": {
-    "title": "You are ready?",
-    "description": "Lorem ipsum dolor sit amet, consectetur adipiscing elit.",
-    "button_text": "Get Next.js SaaS Starter Kit"
+  "Skills": {
+    "title": "Tech Matrix",
+    "subtitle": "Synthesized expertise in enterprise ecosystems",
+    "categories": [
+      {
+        "title": "Frontend Leadership",
+        "icon": "code",
+        "skills": [
+          {
+            "emoji": "⚛️",
+            "label": "Next.js 15"
+          },
+          {
+            "emoji": "📘",
+            "label": "TypeScript"
+          },
+          {
+            "emoji": "🎨",
+            "label": "Mantine UI"
+          },
+          {
+            "emoji": "💨",
+            "label": "Tailwind"
+          }
+        ]
+      },
+      {
+        "title": "System Engineering",
+        "icon": "server",
+        "skills": [
+          {
+            "emoji": "🐳",
+            "label": "Docker Alignment"
+          },
+          {
+            "emoji": "🔴",
+            "label": "Redis State"
+          },
+          {
+            "emoji": "☸️",
+            "label": "Kubernetes"
+          },
+          {
+            "emoji": "🦁",
+            "label": "NestJS"
+          }
+        ]
+      },
+      {
+        "title": "Leadership & Ops",
+        "icon": "users",
+        "skills": [
+          {
+            "emoji": "👥",
+            "label": "Team Scaling"
+          },
+          {
+            "emoji": "📋",
+            "label": "SDLC Governance"
+          },
+          {
+            "emoji": "📊",
+            "label": "Observability"
+          }
+        ]
+      }
+    ]
   },
-  "Footer": {
-    "product": "Product",
-    "docs": "Docs",
-    "blog": "Blog",
-    "community": "Community",
-    "company": "Company",
-    "terms_of_service": "Terms Of Service",
-    "privacy_policy": "Privacy Policy",
-    "footer_text": "© {year} {name}. Made with <author></author>."
+  "ContactInfo": {
+    "title": "Establish Connection",
+    "subtitle": "Open for Technical Leadership & Architectural Specialist Roles",
+    "email": "contact@your-domain.com",
+    "phone": "+852 XXXX XXXX",
+    "linkedin": "https://linkedin.com/in/redacted",
+    "copied": "Log Copied!",
+    "icons": {
+      "email": "mail",
+      "phone": "phone",
+      "linkedin": "linkedin"
+    }
   },
-  "ProtectFallback": {
-    "not_enough_permission": "You do not have the permissions to perform this action"
+  "FooterSocial": {
+    "logo": "https://api.dicebear.com/7.x/identicon/svg?seed=NovaAdmin",
+    "alt_text": "Nova Logo",
+    "aria_labels": {
+      "email": "Email",
+      "whatsapp": "WhatsApp",
+      "linkedin": "LinkedIn",
+      "github": "GitHub"
+    },
+    "links": {
+      "email": "mailto:contact@your-domain.com",
+      "whatsapp": "#",
+      "linkedin": "#",
+      "github": "https://github.com/kaicmak6"
+    }
   },
-  "SignIn": {
-    "meta_title": "Sign in",
-    "meta_description": "Seamlessly sign in to your account with our user-friendly login process."
+  "BadgeCard": {
+    "technologies_skills": "System Specs",
+    "view_project": "Decrypt Project"
   },
-  "SignUp": {
-    "meta_title": "Sign up",
-    "meta_description": "Effortlessly create an account through our intuitive sign-up process."
+  "ChatBot": {
+    "title": "NOVA AI",
+    "subtitle": "System Liaison",
+    "welcomeMessage": "Greeting. I am the Nova System Liaison. You can ask me about scaling 20-man squads, Docker-aligned architectures, or distributed state management.",
+    "suggestedQueries": [
+      "How do you scale teams to 20+ members?",
+      "Explain the Docker environment alignment.",
+      "Tell me about the Redis Shared State strategy.",
+      "What is your approach to Greenfield Next.js?"
+    ],
+    "inputPlaceholder": "Enter query...",
+    "error": "Comm-link interrupted. Please retry.",
+    "suggestedQuestionsTitle": "Recommended Queries",
+    "devModeCaptchaDisabled": "Simulator: Captcha Bypassed",
+    "poweredBy": "Powered by AI Core",
+    "gatewayInfo": "Data processed through Secure AI Gateway for edge-level security."
   },
-  "DashboardLayout": {
-    "home": "Home",
-    "todos": "Todos",
-    "members": "Members",
-    "billing": "Billing",
-    "settings": "Settings"
-  },
-  "Dashboard": {
-    "meta_title": "SaaS Template Dashboard",
-    "meta_description": "A free and open-source landing page template for your SaaS business, built with Next.js, TypeScript, Shadcn UI, and Tailwind CSS."
-  },
-  "DashboardIndex": {
-    "title_bar": "Dashboard",
-    "title_bar_description": "Welcome to your dashboard",
-    "message_state_title": "Let's get started",
-    "message_state_description": "You can customize this page by editing the file at <code>dashboard/page.tsx</code>",
-    "message_state_button": "Star on GitHub",
-    "message_state_alternative": "Need advanced features? Next.js 16 & React 19, Multi-tenancy & Teams, Roles & Permissions, Shadcn UI,\nEnd-to-End Typesafety with oRPC, Stripe Payment, Light / Dark mode. Try <url></url>.",
-    "max_message": "Or, need a Self-hosted auth stack (Better Auth)? Try <url></url>."
-  },
-  "UserProfile": {
-    "title_bar": "User Profile",
-    "title_bar_description": "View and manage your user profile"
-  },
-  "OrganizationProfile": {
-    "title_bar": "Organization Management",
-    "title_bar_description": "Manage your organization"
-  },
-  "Billing": {
-    "title_bar": "Billing",
-    "title_bar_description": "Manage your billing and subscription",
-    "current_section_title": "Current Plan",
-    "current_section_description": "Adjust your payment plan to best suit your requirements",
-    "manage_subscription_button": "Manage Subscription"
-  },
-  "BillingOptions": {
-    "current_plan": "Current Plan",
-    "upgrade_plan": "Get Started"
-  },
-  "CheckoutConfirmation": {
-    "title_bar": "Payment Confirmation",
-    "message_state_title": "Payment successful",
-    "message_state_description": "Your payment has been successfully processed. Thank you for your purchase!",
-    "message_state_button": "Go back to Billing"
-  },
-  "DataTable": {
-    "no_results": "No results."
-  },
-  "Todos": {
-    "title_bar": "Todo List",
-    "title_bar_description": "View and manage your todo list",
-    "add_todo_button": "New todo"
-  },
-  "TodoTableColumns": {
-    "open_menu": "Open menu",
-    "edit": "Edit",
-    "delete": "Delete",
-    "title_header": "Title",
-    "message_header": "Message",
-    "created_at_header": "Created at"
-  },
-  "AddTodo": {
-    "title_bar": "Add Todo",
-    "add_todo_section_title": "Create a new todo",
-    "add_todo_section_description": "Fill in the form below to create a new todo"
-  },
-  "EditTodo": {
-    "title_bar": "Edit todo",
-    "edit_todo_section_title": "Modify todo",
-    "edit_todo_section_description": "Fill in the form below to edit the todo"
-  },
-  "TodoForm": {
-    "title_label": "Title",
-    "title_description": "Enter a descriptive title for your todo.",
-    "message_title": "Message",
-    "message_description": "Enter a detailed message for your todo.",
-    "submit_button": "Submit"
+  "favicon": {
+    "url": "https://api.dicebear.com/7.x/identicon/svg?seed=NovaAdmin",
+    "sizes": "any",
+    "type": "image/x-icon"
   }
 }
