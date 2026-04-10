@@ -2,7 +2,7 @@ import { existsSync } from 'node:fs';
 import { join } from 'node:path';
 import { chdir } from 'node:process';
 
-import { bootstrap } from '@api/main.js';
+import { bootstrap } from '@api/main';
 import { config as dotenvConfig } from 'dotenv';
 import Fastify from 'fastify';
 import { Redis } from 'ioredis';
@@ -89,7 +89,7 @@ async function bootstrapServer() {
   // Bootstrap NestJS API in the same Fastify instance
   try {
     process.env.APP_MODE = 'integrated';
-    await bootstrap(server);
+    await bootstrap(server as Parameters<typeof bootstrap>[0]);
     console.log('✅ NestJS API integrated into Fastify server');
   } catch (err) {
     console.error('❌ Failed to integrate NestJS API:', err);
@@ -101,7 +101,6 @@ async function bootstrapServer() {
   const dev = process.env.NODE_ENV !== 'production';
   // Dynamic import for Next.js
   const nextModule = await import('next');
-  // @ts-expect-error - Next.js default export is callable
   // In production, we don't need to specify dir as the build is already done
   const nextApp = nextModule.default({ dev, ...(dev ? { dir: webDir } : {}) });
   const handle = nextApp.getRequestHandler();

@@ -1,26 +1,23 @@
 name: CI
-
 on:
   push:
     branches: [main]
   pull_request:
     branches: [main]
-
 jobs:
   build:
-    name: Build with Node.js 22.x
+    name: Build with Node.js 24.x
     runs-on: ubuntu-latest
-
     steps:
       - uses: actions/checkout@v4
       - name: Install pnpm
         uses: pnpm/action-setup@v3
         with:
           version: 8
-      - name: Use Node.js 22.x
+      - name: Use Node.js 24.x
         uses: actions/setup-node@v4
         with:
-          node-version: 22.x
+          node-version: 24.x
           cache: pnpm
       - name: Install dependencies
         run: pnpm install --frozen-lockfile
@@ -39,7 +36,6 @@ jobs:
           IMAGE_DOMAINS: portfolio-cms.mak-cloud.com
           CLOUDFLARE_AI_GATEWAY_TOKEN: ${{ secrets.CLOUDFLARE_AI_GATEWAY_TOKEN }}
           CF_ACCOUNT_ID: ${{ secrets.CF_ACCOUNT_ID }}
-
   test-fast:
     name: Lint & Type Check
     runs-on: ubuntu-latest
@@ -49,17 +45,16 @@ jobs:
         uses: pnpm/action-setup@v3
         with:
           version: 8
-      - name: Use Node.js 22.x
+      - name: Use Node.js 24.x
         uses: actions/setup-node@v4
         with:
-          node-version: 22.x
+          node-version: 24.x
           cache: pnpm
       - run: pnpm install --frozen-lockfile
       - name: Linter
         run: pnpm run lint
       - name: Type checking
         run: pnpm run check-types
-
   test-unit:
     name: Unit Tests
     runs-on: ubuntu-latest
@@ -69,10 +64,10 @@ jobs:
         uses: pnpm/action-setup@v3
         with:
           version: 8
-      - name: Use Node.js 22.x
+      - name: Use Node.js 24.x
         uses: actions/setup-node@v4
         with:
-          node-version: 22.x
+          node-version: 24.x
           cache: pnpm
       - run: pnpm install --frozen-lockfile
       - name: Cache Turbo artifacts
@@ -95,7 +90,6 @@ jobs:
         uses: codecov/codecov-action@v4
         env:
           CODECOV_TOKEN: ${{ secrets.CODECOV_TOKEN }}
-
   test-visual:
     name: Storybook & E2E Tests
     runs-on: ubuntu-latest
@@ -107,10 +101,10 @@ jobs:
         uses: pnpm/action-setup@v3
         with:
           version: 8
-      - name: Use Node.js 22.x
+      - name: Use Node.js 24.x
         uses: actions/setup-node@v4
         with:
-          node-version: 22.x
+          node-version: 24.x
           cache: pnpm
       - run: pnpm install --frozen-lockfile
       - name: Install Playwright
@@ -128,7 +122,6 @@ jobs:
           name: test-results
           path: test-results/
           retention-days: 7
-
   test-commitlint:
     name: Commit Lint
     runs-on: ubuntu-latest
@@ -141,20 +134,18 @@ jobs:
         uses: pnpm/action-setup@v3
         with:
           version: 8
-      - name: Use Node.js 22.x
+      - name: Use Node.js 24.x
         uses: actions/setup-node@v4
         with:
-          node-version: 22.x
+          node-version: 24.x
           cache: pnpm
       - run: pnpm install --frozen-lockfile
       - name: Validate all commits from PR
         run: npx commitlint --from ${{ github.event.pull_request.base.sha }} --to ${{ github.event.pull_request.head.sha }} --verbose
-
   docker-compose-test:
     name: Test Docker Compose with Redis
     runs-on: ubuntu-latest
     needs: [build]
-
     steps:
       - uses: actions/checkout@v4
       - name: Set up Docker Buildx
@@ -165,7 +156,6 @@ jobs:
       - name: Start services
         run: |
           docker compose up -d
-          # Wait for Redis to be ready instead of sleeping
           timeout 60s bash -c 'until docker exec portfolio-portfolio-1 redis-cli -h redis ping; do sleep 2; done' || (echo "Redis failed to start" && exit 1)
       - name: Test Redis connection
         run: |
@@ -180,18 +170,15 @@ jobs:
       - name: Stop services
         run: |
           docker compose down
-
   synchronize-with-crowdin:
     name: GitHub PR synchronize with Crowdin
     runs-on: ubuntu-latest
-
-    needs: [build, test]
+    needs: [build]
     if: github.event_name == 'pull_request'
-
     steps:
       - uses: actions/checkout@v4
         with:
-          ref: ${{ github.event.pull_request.head.sha }} # Crowdin Actions needs to push commits to the PR branch, checkout HEAD commit instead of merge commit
+          ref: ${{ github.event.pull_request.head.sha }}
           fetch-depth: 0
       - name: crowdin action
         uses: crowdin/github-action@v2
@@ -200,7 +187,7 @@ jobs:
           upload_translations: true
           download_translations: true
           create_pull_request: false
-          localization_branch_name: ${{ github.head_ref || github.ref_name }} # explanation here: https://stackoverflow.com/a/71158878
+          localization_branch_name: ${{ github.head_ref || github.ref_name }}
           commit_message: 'chore: new Crowdin translations by GitHub Action'
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}

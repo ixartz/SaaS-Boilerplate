@@ -1,6 +1,6 @@
 {
   "name": "@portfolio/server",
-  "type": "module",
+  "type": "commonjs",
   "version": "1.0.0",
   "private": true,
   "scripts": {

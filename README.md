@@ -20,6 +20,7 @@ A high-performance, full-stack portfolio platform built with a modern monorepo a
 
 ### Services & Infrastructure
 - **AI/ML**: [Cloudflare AI Gateway](https://developers.cloudflare.com/ai/), [Groq LPU](https://groq.com/)
+- **CMS**: [Directus](https://directus.io/) (Content Management System)
 - **Auth**: [Clerk](https://clerk.com/)
 - **Payments**: [Stripe](https://stripe.com/)
 - **Database**: [PostgreSQL](https://www.postgresql.org/) (via Drizzle)
@@ -41,6 +42,16 @@ A high-performance, full-stack portfolio platform built with a modern monorepo a
 
 The project follows a monorepo pattern to maintain high cohesion and low coupling between services.
 
+### Data Flow
+`[ Client (Next.js) ] ➔ [ Gateway (Fastify) ] ➔ [ BFF API (NestJS) ] ➔ [ Directus CMS / AI Services / DB ]`
+
+1. **Client**: Interacts with the UI and sends requests to the Gateway.
+2. **Gateway**: Acts as a single entry point, proxying requests to the appropriate microservices or serving static assets.
+3. **BFF (Backend for Frontend)**: Orchestrates business logic, handles AI orchestration via Groq/Cloudflare, and manages data fetching from Directus and other services.
+4. **Services & CMS**: Integrates with **Directus** for content management, Drizzle ORM for database access, and external AI/Auth providers.
+
+### Directory Structure
+
 ```text
 portfolio/
 ├── apps/
@@ -57,8 +68,8 @@ portfolio/
 
 | Component | Technology | Role | Port (Dev) |
 | :--- | :--- | :--- | :--- |
-| **Frontend** | `Next.js 16` | User Interface & Client Logic | `3002` |
-| **BFF API** | `NestJS v10` | Business Logic & AI Orchestration | `3001` |
+| **Frontend** | `Next.js 16` | User Interface & Client Logic  |
+| **BFF API** | `NestJS v10` | Business Logic & AI Orchestration |
 | **Gateway** | `Fastify` | Unified Server (Proxies & Static Serving) | `3000` |
 
 ---
@@ -75,6 +86,21 @@ portfolio/
 ```bash
 # Install all dependencies across the workspace
 pnpm install
+```
+
+### Database Setup
+
+Ensure you have a PostgreSQL instance running, then:
+
+```bash
+# Generate Drizzle schema migrations
+pnpm db:generate
+
+# Apply migrations to your database
+pnpm db:migrate
+
+# Open Drizzle Studio to view data
+pnpm db:studio
 ```
 
 ### Development Workflow

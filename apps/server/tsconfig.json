@@ -1,15 +1,16 @@
 {
   "compilerOptions": {
-    "target": "ES2022",
-    "lib": ["ES2022"],
+    "target": "esnext",
+    "lib": ["esnext"],
     "emitDecoratorMetadata": true,
     "experimentalDecorators": true,
     "baseUrl": ".",
-    "rootDirs": ["./src", "../api/src", "../web/src"],
-    "module": "NodeNext",
-    "moduleResolution": "NodeNext",
+    "rootDirs": ["./src"],
+    "module": "esnext",
+    "moduleResolution": "bundler",
     "paths": {
-      "@api/*": ["../api/src/*"]
+      "@api/*": ["../api/src/*"],
+      "@web/*": ["../web/src/*"]
     },
     "resolveJsonModule": true,
     "types": ["node"],

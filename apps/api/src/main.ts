@@ -3,9 +3,9 @@ import { ValidationPipe } from '@nestjs/common';
 import { NestFactory } from '@nestjs/core';
 import { FastifyAdapter } from '@nestjs/platform-fastify';
 
-export async function bootstrap(existingServer?: any) {
+export async function bootstrap(existingServer?: ConstructorParameters<typeof FastifyAdapter>[0]) {
   // Use an empty object if no server is provided to satisfy FastifyOptions type
-  const adapter = new FastifyAdapter(existingServer ? (existingServer as any) : {});
+  const adapter = new FastifyAdapter(existingServer || {});
 
   const app = await NestFactory.create(AppModule, adapter);
 
@@ -33,8 +33,4 @@ export async function bootstrap(existingServer?: any) {
   }
 
   return app;
-}
-
-if (process.env.APP_MODE !== 'integrated') {
-  bootstrap();
 }
