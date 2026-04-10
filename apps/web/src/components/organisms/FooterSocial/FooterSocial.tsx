@@ -16,22 +16,22 @@ export function FooterSocial() {
       <Container className={classes.inner} py="md">
         <Image
           src={logo}
-          alt="Logo"
+          alt={t('alt_text')}
           width={28}
           height={28}
           className={classes.logoImage}
         />
         <Group gap={0} className={classes.links} justify="flex-end" wrap="nowrap">
-          <ActionIcon component="a" href={`mailto:${links.email}`} size="lg" color="gray" variant="subtle" aria-label="Email">
+          <ActionIcon component="a" href={`mailto:${links.email}`} size="lg" color="gray" variant="subtle" aria-label={t('aria_labels.email')}>
             <IconMail size={18} stroke={1.5} />
           </ActionIcon>
-          <ActionIcon component="a" href={links.whatsapp} size="lg" color="gray" variant="subtle" aria-label="WhatsApp" target="_blank" rel="noopener noreferrer">
+          <ActionIcon component="a" href={links.whatsapp} size="lg" color="gray" variant="subtle" aria-label={t('aria_labels.whatsapp')} target="_blank" rel="noopener noreferrer">
             <IconBrandWhatsapp size={18} stroke={1.5} />
           </ActionIcon>
-          <ActionIcon component="a" href={links.linkedin} size="lg" color="gray" variant="subtle" aria-label="LinkedIn" target="_blank" rel="noopener noreferrer">
+          <ActionIcon component="a" href={links.linkedin} size="lg" color="gray" variant="subtle" aria-label={t('aria_labels.linkedin')} target="_blank" rel="noopener noreferrer">
             <IconBrandLinkedin size={18} stroke={1.5} />
           </ActionIcon>
-          <ActionIcon component="a" href={links.github} size="lg" color="gray" variant="subtle" aria-label="GitHub" target="_blank" rel="noopener noreferrer">
+          <ActionIcon component="a" href={links.github} size="lg" color="gray" variant="subtle" aria-label={t('aria_labels.github')} target="_blank" rel="noopener noreferrer">
             <IconBrandGithub size={18} stroke={1.5} />
           </ActionIcon>
         </Group>

@@ -22,7 +22,7 @@ COPY package.json pnpm-lock.yaml pnpm-workspace.yaml ./
 
 # Copy workspace package files to allow pnpm to resolve dependencies correctly
 # We copy the package.json of each workspace to ensure correct installation
-COPY apps/web/package.json ./apps/web/
+COPY apps/web/package.json pnpm-lock.yaml ./apps/web/
 COPY apps/api/package.json ./apps/api/
 COPY apps/server/package.json ./apps/server/
 
@@ -91,4 +91,4 @@ HEALTHCHECK --interval=30s --timeout=3s --start-period=40s --retries=3 \
   CMD wget --no-verbose --tries=1 --spider http://localhost:3000/health || exit 1
 
 # Start the unified server
-CMD ["node", "apps/server/dist/index.js"]
+CMD ["pnpm", "start"]

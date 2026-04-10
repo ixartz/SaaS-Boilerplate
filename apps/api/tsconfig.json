@@ -5,7 +5,11 @@
     "emitDecoratorMetadata": true,
     "experimentalDecorators": true,
     "baseUrl": "./",
+    "rootDirs": ["./src"],
     "module": "commonjs",
+    "paths": {
+      "@api/*": ["src/*"]
+    },
     "resolveJsonModule": true,
     "strict": true,
     "strictBindCallApply": true,

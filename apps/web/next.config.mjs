@@ -18,28 +18,6 @@ const bundleAnalyzer = withBundleAnalyzer({
   enabled: process.env.ANALYZE === 'true',
 });
 
-// Filter out reserved Next.js environment variables for the env config
-/** @returns {Record<string, string>} */
-const getFilteredEnv = () => {
-  const reservedPrefixes = ['NEXT_PUBLIC_', 'NEXT_', 'VERCEL', '__NEXT'];
-  const reservedKeys = ['NODE_ENV', 'NODE_PATH', '__SENTRY_TUNNEL_ROUTE__', '__COMPAT_LAYER', 'NODE_OPTIONS', 'NODE_VERSION'];
-  /** @type {Record<string, string>} */
-  const filteredEnv = {};
-  for (const [key, value] of Object.entries(process.env)) {
-    if (typeof value !== 'string') {
-      continue;
-    }
-    if (reservedKeys.includes(key)) {
-      continue;
-    }
-    if (reservedPrefixes.some(prefix => key === prefix || key.startsWith(prefix))) {
-      continue;
-    }
-    filteredEnv[key] = value;
-  }
-  return filteredEnv;
-};
-
 // Get IMAGE_DOMAINS for image configuration
 const imageDomains = process.env.IMAGE_DOMAINS ? process.env.IMAGE_DOMAINS.split(',') : [];
 const imageRemotePatterns = imageDomains.map(domain => ({
@@ -52,7 +30,7 @@ const imageRemotePatterns = imageDomains.map(domain => ({
 export default withSentryConfig(
   bundleAnalyzer(
     withNextIntlConfig({
-      output: 'standalone',
+      // output: 'standalone',
       // cacheHandler: require.resolve('@trieb.work/nextjs-turbo-redis-cache'),
       basePath: process.env.BASE_PATH,
       assetPrefix: process.env.BASE_PATH && process.env.NEXT_PUBLIC_URL ? `${process.env.NEXT_PUBLIC_URL}${process.env.BASE_PATH || ''}` : undefined,
@@ -74,7 +52,7 @@ export default withSentryConfig(
       },
 
       // Pass filtered environment variables from parent process (Fastify server)
-      env: getFilteredEnv(),
+      // env: getFilteredEnv(),
     }),
   ),
   {

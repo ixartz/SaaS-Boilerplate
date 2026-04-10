@@ -2,13 +2,14 @@
   "compilerOptions": {
     "target": "ES2022",
     "lib": ["ES2022"],
-    "experimentalDecorators": false,
+    "emitDecoratorMetadata": true,
+    "experimentalDecorators": true,
     "baseUrl": ".",
-    "rootDir": "./src",
+    "rootDirs": ["./src", "../api/src", "../web/src"],
     "module": "NodeNext",
     "moduleResolution": "NodeNext",
     "paths": {
-      "@/*": ["src/*"]
+      "@api/*": ["../api/src/*"]
     },
     "resolveJsonModule": true,
     "types": ["node"],

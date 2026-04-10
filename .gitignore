@@ -70,3 +70,6 @@ tsconfig.tsbuildinfo
 
 # Redis
 redis-data/
+
+# Turbo Repo
+.turbo

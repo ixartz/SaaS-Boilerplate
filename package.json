@@ -1,33 +1,64 @@
 {
   "name": "portfolio-monorepo",
   "type": "module",
-  "version": "2.0.0",
+  "version": "0.0.1",
   "private": true,
   "packageManager": "pnpm@9.15.4",
   "engines": {
     "node": ">=20.0.0"
   },
   "scripts": {
-    "dev": "turbo run dev",
-    "dev:server": "npm run dev -w apps/server",
-    "dev:web": "npm run dev -w apps/web",
-    "dev:api": "npm run dev -w apps/api",
+    "dev": "pnpm --filter @portfolio/server dev",
+    "dev:server": "pnpm run dev -w apps/server",
+    "dev:web": "pnpm run dev -w apps/web",
+    "dev:api": "pnpm run dev -w apps/api",
     "build": "turbo run build",
     "build test": "turbo run build test",
-    "start": "npm run start -w apps/server",
-    "build:web": "npm run build -w apps/web",
-    "build:api": "npm run build -w apps/api",
-    "build:server": "npm run build -w apps/server",
+    "start": "pnpm --filter @portfolio/server start",
+    "build:web": "pnpm run build -w apps/web",
+    "build:api": "pnpm run build -w apps/api",
+    "build:server": "pnpm run build -w apps/server",
     "lint": "turbo run lint",
-    "lint:fix": "npm run lint:fix --workspaces --if-present",
+    "lint:fix": "pnpm run lint:fix --workspaces --if-present",
     "check-types": "turbo run check-types",
     "test": "turbo run test",
-    "test:e2e": "npm run test:e2e -w apps/web",
+    "test:e2e": "pnpm run test:e2e -w apps/web",
     "clean": "rimraf apps/*/dist apps/*/.next apps/*/node_modules packages/*/dist node_modules",
     "prepare": "husky",
-    "db:generate": "npm run db:generate -w packages/database",
-    "db:migrate": "npm run db:migrate -w packages/database",
-    "db:studio": "npm run db:studio -w packages/database"
+    "db:generate": "pnpm run db:generate -w packages/database",
+    "db:migrate": "pnpm run db:migrate -w packages/database",
+    "db:studio": "pnpm run db:studio -w packages/database"
+  },
+  "config": {
+    "commitizen": {
+      "path": "@commitlint/cz-commitlint"
+    }
+  },
+  "release": {
+    "branches": [
+      "main"
+    ],
+    "plugins": [
+      [
+        "@semantic-release/commit-analyzer",
+        {
+          "preset": "conventionalcommits"
+        }
+      ],
+      "@semantic-release/release-notes-generator",
+      "@semantic-release/changelog",
+      [
+        "@semantic-release/npm",
+        {
+          "npmPublish": false
+        }
+      ],
+      "@semantic-release/git",
+      "@semantic-release/github"
+    ]
+  },
+  "dependencies": {
+    "vite": "^8.0.8"
   },
   "devDependencies": {
     "@antfu/eslint-config": "^2.27.3",
@@ -45,6 +76,7 @@
     "@testing-library/react": "^16.3.2",
     "@testing-library/user-event": "^14.5.2",
     "@types/node": "^22.7.6",
+    "@types/pg": "^8.11.5",
     "@vitejs/plugin-react": "^4.3.2",
     "@vitest/coverage-v8": "^2.1.9",
     "@vitest/expect": "^2.1.9",
@@ -82,33 +114,5 @@
     "vite-tsconfig-paths": "^5.0.1",
     "vitest": "^2.1.9",
     "vitest-fail-on-console": "^0.7.1"
-  },
-  "config": {
-    "commitizen": {
-      "path": "@commitlint/cz-commitlint"
-    }
-  },
-  "release": {
-    "branches": [
-      "main"
-    ],
-    "plugins": [
-      [
-        "@semantic-release/commit-analyzer",
-        {
-          "preset": "conventionalcommits"
-        }
-      ],
-      "@semantic-release/release-notes-generator",
-      "@semantic-release/changelog",
-      [
-        "@semantic-release/npm",
-        {
-          "npmPublish": false
-        }
-      ],
-      "@semantic-release/git",
-      "@semantic-release/github"
-    ]
   }
 }

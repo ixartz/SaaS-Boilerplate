@@ -11,7 +11,7 @@ import {
 
 // To modify the database schema:
 // 1. Update this file with your desired changes.
-// 2. Generate a new migration by running: `npm run db:generate`
+// 2. Generate a new migration by running: `pnpm run db:generate`
 
 // The generated migration file will reflect your schema changes.
 // The migration is automatically applied during the next database interaction,

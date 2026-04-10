@@ -1,5 +1,26 @@
 {
   "$schema": "https://turbo.build/schema.json",
+  "globalEnv": [
+    "CLERK_SECRET_KEY",
+    "DATABASE_URL",
+    "LOGTAIL_SOURCE_TOKEN",
+    "STRIPE_SECRET_KEY",
+    "STRIPE_WEBHOOK_SECRET",
+    "BILLING_PLAN_ENV",
+    "REDIS_URL",
+    "NEXT_PUBLIC_APP_URL",
+    "NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY",
+    "NEXT_PUBLIC_CLERK_SIGN_IN_URL",
+    "NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY",
+    "NODE_ENV",
+    "ALLOWED_ORIGINS",
+    "API_PORT",
+    "HOST",
+    "BASE_PATH",
+    "NEXT_PUBLIC_URL",
+    "IMAGE_DOMAINS",
+    "ANALYZE"
+  ],
   "tasks": {
     "build": {
       "dependsOn": ["^build"],

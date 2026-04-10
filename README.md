@@ -1,166 +1,169 @@
-# Portfolio Monorepo
+# 🚀 Portfolio Monorepo
 
-A modern portfolio monorepo featuring a Next.js frontend, NestJS BFF (Backend for Frontend), and a unified Fastify server.
+[![Next.js](https://img.shields.io/badge/Next.js-16-black?style=flat-square&logo=next.js)](https://nextjs.org/)
+[![NestJS](https://img.shields.io/badge/NestJS-v10-E0234E?style=flat-square&logo=nestjs)](https://nestjs.com/)
+[![Fastify](https://img.shields.io/badge/Fastify-v4-black?style=flat-square&logo=fastify)](https://www.fastify.io/)
+[![Mantine](https://img.shields.io/badge/Mantine-v8-blue?style=flat-square)](https://mantine.dev/)
+[![TypeScript](https://img.shields.io/badge/TypeScript-5.x-blue?style=flat-square&logo=typescript)](https://www.typescriptlang.org/)
+[![Turborepo](https://img.shields.io/badge/Turbo-Monorepo-orange?style=flat-square)](https://turbo.build/)
+[![Cloudflare](https://img.shields.io/badge/Cloudflare_AI-Enabled-orange?style=flat-square&logo=cloudflare)](https://www.cloudflare.com/)
+[![Groq](https://img.shields.io/badge/Groq-LPU-yellow?style=flat-square)](https://groq.com/)
+
+A high-performance, full-stack portfolio platform built with a modern monorepo architecture. This project showcases advanced integration of AI chat capabilities, secure authentication, and seamless payment processing.
+
+## 🛠️ Tech Stack
+
+### Core Frameworks & Languages
+- **Frontend**: [Next.js 16](https://nextjs.org/) (App Router), [Mantine v8](https://mantine.dev/), [TypeScript](https://www.typescriptlang.org/)
+- **Backend**: [NestJS v10](https://nestjs.com/), [Fastify](https://www.fastify.io/), [Drizzle ORM](https://orm.drizzle.team/)
+- **Monorepo**: [Turborepo](https://turbo.build/), [pnpm](https://pnpm.io/)
+
+### Services & Infrastructure
+- **AI/ML**: [Cloudflare AI Gateway](https://developers.cloudflare.com/ai/), [Groq LPU](https://groq.com/)
+- **Auth**: [Clerk](https://clerk.com/)
+- **Payments**: [Stripe](https://stripe.com/)
+- **Database**: [PostgreSQL](https://www.postgresql.org/) (via Drizzle)
+
+---
+
+## ✨ Key Features
+
+- 🤖 **AI Chat Integration**: Powered by Cloudflare AI Gateway for intelligent interactions.
+- 🔐 **Secure Authentication**: Managed via Clerk for robust user identity management.
+- 💳 **Subscription Engine**: Seamless Stripe integration for premium features.
+- 🌍 **Internationalization**: Full i18n support using `next-intl`.
+- ⚡ **Unified Server**: Custom Fastify server unifying Next.js and NestJS under a single entry point.
+- 🏗️ **Monorepo Architecture**: Scalable structure managed by Turborepo and pnpm.
+
+---
 
 ## 🏗️ Architecture
 
-This is a monorepo with the following structure:
+The project follows a monorepo pattern to maintain high cohesion and low coupling between services.
 
-```
+```text
 portfolio/
 ├── apps/
-│   ├── api/          # NestJS BFF API server
-│   ├── server/       # Fastify custom server (unifies API + Next.js)
-│   └── web/          # Next.js frontend application
+│   ├── api/          # NestJS BFF (Backend for Frontend)
+│   ├── server/       # Fastify Custom Server (Unified Entry Point)
+│   └── web/          # Next.js 16 Frontend Application
 ├── packages/
-│   ├── database/     # Shared database utilities
-│   └── shared/       # Shared utilities and types
-└── public/           # Static assets
+│   ├── database/     # Shared Drizzle ORM & Database Schema
+│   └── shared/       # Common Types, Utilities & Constants
+└── public/           # Static Assets
 ```
 
-### Key Components
+### Service Breakdown
 
-1. **@portfolio/api** - NestJS BFF
-   - Handles all API logic (chat, etc.)
-   - Uses Fastify adapter for high performance
-   - Runs on port 3001 (internal)
+| Component | Technology | Role | Port (Dev) |
+| :--- | :--- | :--- | :--- |
+| **Frontend** | `Next.js 16` | User Interface & Client Logic | `3002` |
+| **BFF API** | `NestJS v10` | Business Logic & AI Orchestration | `3001` |
+| **Gateway** | `Fastify` | Unified Server (Proxies & Static Serving) | `3000` |
 
-2. **@portfolio/web** - Next.js Frontend
-   - React 19 with Next.js 16
-   - Mantine UI components
-   - Internationalization support
-   - Runs on port 3002 (dev) / integrated in production
-
-3. **@portfolio/server** - Fastify Custom Server
-   - Unifies API and frontend under one server
-   - Proxies `/api/*` requests to NestJS
-   - Serves Next.js for all other routes
-   - Runs on port 3000
+---
 
 ## 🚀 Getting Started
 
 ### Prerequisites
 
-- Node.js >= 20
-- npm >= 9
+- [Node.js](https://nodejs.org/) >= 20
+- [pnpm](https://pnpm.io/) >= 9
 
 ### Installation
 
 ```bash
-# Install all dependencies
-npm install
-
-# Or install for specific workspace
-npm install -w apps/web
+# Install all dependencies across the workspace
+pnpm install
 ```
 
-### Development
+### Development Workflow
 
 ```bash
-# Start the unified server (recommended)
-npm run dev
+# Start the unified Fastify server (Recommended)
+pnpm dev
 
-# Or start individual apps:
-npm run dev:web    # Next.js on port 3002
-npm run dev:api    # NestJS on port 3001
+# Run individual services in parallel
+pnpm dev:web    # Next.js frontend
+pnpm dev:api    # NestJS API
 ```
 
-### Building
+### Building & Production
 
 ```bash
-# Build all apps
-npm run build
+# Build all applications using Turborepo
+pnpm build
 
-# Build specific app
-npm run build:web
-npm run build:api
-npm run build:server
+# Start the production environment
+pnpm start
 ```
 
-### Production
+---
 
-```bash
-# Start the production server
-npm start
-```
+## 📝 Environment Configuration
 
-## 📝 Environment Variables
-
-Copy `.env` to `.env.local` and configure:
+Create a `.env` file in the root and populate the following variables:
 
 ```env
-# Clerk Authentication
+# --- Authentication (Clerk) ---
 NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY=
 CLERK_SECRET_KEY=
 
-# Stripe
+# --- Payments (Stripe) ---
 NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY=
 STRIPE_SECRET_KEY=
 STRIPE_WEBHOOK_SECRET=
 BILLING_PLAN_ENV=dev
 
-# AI Chat
+# --- AI Capabilities (Cloudflare) ---
 CLOUDFLARE_TURNSTILE_SECRET_KEY=
 CLOUDFLARE_AI_GATEWAY_TOKEN=
 CF_ACCOUNT_ID=
-AI_SYSTEM_PROMPT=
+AI_SYSTEM_PROMPT="You are a helpful assistant..."
 
-# Monorepo Configuration
+# --- Server Configuration ---
 API_URL=http://localhost:3001
 API_PORT=3001
 PORT=3000
 HOST=0.0.0.0
 ```
 
-## 🐳 Docker
+---
+
+## 🐳 Deployment & DevOps
+
+### Docker Support
+
+The project is container-ready for seamless deployment.
 
 ```bash
-# Build and run with Docker Compose
+# Build and run the entire stack via Docker Compose
 docker-compose up --build
 
-# Or build and run the Dockerfile directly
+# Or build a standalone image
 docker build -t portfolio .
 docker run -p 3000:3000 portfolio
 ```
 
-## 🧪 Testing
+### Testing Suite
 
 ```bash
-# Run all tests
-npm test
+# Run all unit and integration tests (Vitest)
+pnpm test
 
-# Run e2e tests
-npm run test:e2e
-
-# Run tests for specific app
-npm test -w apps/web
+# Execute end-to-end testing (Playwright)
+pnpm test:e2e
 ```
 
-## 📦 Workspace Packages
+---
 
-### Apps
+## 🔧 Maintenance Commands
 
-| Package | Description | Port |
-|---------|-------------|------|
-| `@portfolio/web` | Next.js frontend | 3002 (dev) |
-| `@portfolio/api` | NestJS BFF | 3001 |
-| `@portfolio/server` | Fastify unified server | 3000 |
-
-### Internal Packages
-
-| Package | Description |
-|---------|-------------|
-| `@portfolio/database` | Database schema and utilities |
-| `@portfolio/shared` | Shared types and utilities |
-
-## 🔧 Development Commands
-
-```bash
-npm run lint          # Lint all workspaces
-npm run lint:fix      # Fix linting issues
-npm run check-types   # Type check all workspaces
-npm run clean         # Clean all build artifacts
-```
+| Command | Description |
+| :--- | :--- |
+| `pnpm run lint` | Run ESLint across all workspaces |
+| `pnpm run check-types` | Perform TypeScript type checking |
+| `pnpm run clean` | Remove build artifacts and cache |
 
 ## 📄 License
 

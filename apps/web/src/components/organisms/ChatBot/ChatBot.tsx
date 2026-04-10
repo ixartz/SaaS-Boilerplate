@@ -24,7 +24,7 @@ async function sendChatMessage(url: string, { arg }: { arg: { messages: Message[
   });
 
   if (!response.ok) {
-    throw new Error('Failed to fetch response');
+    throw new Error('fetch_error');
   }
 
   return response;
@@ -42,8 +42,10 @@ export function ChatBot() {
 
   const suggestedQueries = t.raw('suggestedQueries') as string[];
 
+  const formRef = useRef<HTMLFormElement>(null);
+
   const hasConversation = messages.length > 0 || streamingMessage;
-  const scrollAreaHeight = hasConversation ? 400 : 250;
+  const scrollAreaHeight = hasConversation ? 500 : 300;
 
   useEffect(() => {
     if (viewportRef.current) {
@@ -194,7 +196,7 @@ export function ChatBot() {
 
                   <Box>
                     <Text size="xs" fw={700} c="dimmed" mb="xs" ta="center" tt="uppercase" lts="1px">
-                      Suggested Questions
+                      {t('suggestedQuestionsTitle')}
                     </Text>
                     <Group justify="center" gap="xs">
                       {suggestedQueries.map((query, i) => (
@@ -205,6 +207,7 @@ export function ChatBot() {
                           radius="xl"
                           onClick={() => {
                             setInput(query);
+                            formRef.current?.submit();
                           }}
                         >
                           {query}
@@ -269,7 +272,7 @@ export function ChatBot() {
             </Stack>
           </ScrollArea>
 
-          <form onSubmit={handleSubmit}>
+          <form onSubmit={handleSubmit} ref={formRef}>
             <Box mt="md">
               {process.env.NODE_ENV === 'production'
                 ? (
@@ -284,7 +287,7 @@ export function ChatBot() {
                   )
                 : (
                     <Text size="xs" c="dimmed" ta="center">
-                      Dev mode: Captcha disabled
+                      {t('devModeCaptchaDisabled')}
                     </Text>
                   )}
               <Group gap="sm" mt="sm">

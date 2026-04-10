@@ -33,18 +33,18 @@ jobs:
       - uses: actions/setup-node@v4
         with:
           node-version: ${{ matrix.node-version }}
-          cache: npm
+          cache: pnpm
 
       - name: Restore or cache node_modules
         id: cache-node-modules
         uses: actions/cache@v4
         with:
           path: node_modules
-          key: node-modules-${{ hashFiles('package-lock.json') }}
+          key: node-modules-${{ hashFiles('pnpm-lock.yaml') }}
 
       - name: Install dependencies
         if: steps.cache-node-modules.outputs.cache-hit != 'true'
-        run: npm ci
+        run: pnpm install --frozen-lockfile
 
       - name: Run checks # run the checks passing in the ENVIRONMENT_URL and recording a test session.
         id: run-checks

@@ -1,5 +1,6 @@
 # Dependencies
-# node_modules
+**/node_modules
+**/.pnpm-store
 .pnpm-store
 
 # Next.js build output
@@ -142,3 +143,66 @@ temp
 *.njsproj
 *.sln
 *.sw?
+
+# Database
+*.db
+
+# testing
+/coverage
+
+# storybook
+storybook-static
+*storybook.log
+
+# playwright
+/test-results/
+/playwright-report/
+/playwright/.cache/
+
+# next.js
+/.next
+/out
+
+# cache
+.swc/
+
+# production
+/build
+
+# misc
+.DS_Store
+*.pem
+Thumbs.db
+
+# debug
+npm-debug.log*
+pnpm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# local env files
+.env*.local
+
+# local folder
+local
+
+# vercel
+.vercel
+
+# directus
+/directus-data/
+
+# IDE
+.idea/
+.vscode/
+*.swp
+*.swo
+
+# TypeScript
+tsconfig.tsbuildinfo
+
+# Redis
+redis-data/
+
+# Turbo Repo
+.turbo

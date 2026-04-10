@@ -1,75 +1,19 @@
-/* eslint-disable jsonc/sort-keys */{
+{
   "compilerOptions": {
-    "lib": [
-      "dom",
-      "dom.iterable",
-      "esnext"
-    ],
-    "module": "esnext",
-    "moduleResolution": "bundler",
-    "resolveJsonModule": true,
-    "removeComments": true,
-    "preserveConstEnums": true,
-    "strict": true,
-    "alwaysStrict": true,
-    "strictNullChecks": true,
-    "noUncheckedIndexedAccess": true,
-    "noImplicitAny": true,
-    "noImplicitReturns": true,
-    "noImplicitThis": true,
-    "noUnusedLocals": true,
-    "noUnusedParameters": true,
-    "allowUnreachableCode": false,
-    "noFallthroughCasesInSwitch": true,
-    "target": "es2017",
-    "outDir": "out",
-    "sourceMap": true,
-    "esModuleInterop": true,
-    "allowSyntheticDefaultImports": true,
-    "allowJs": true,
-    "checkJs": true,
-    "skipLibCheck": true,
-    "forceConsistentCasingInFileNames": true,
-    "jsx": "react-jsx",
-    "noEmit": true,
-    "isolatedModules": true,
-    "incremental": true,
-    // Load types
-    "types": [
-      "vitest/globals"
-    ],
-    // Path aliases
+    "target": "ES2022",
+    "emitDecoratorMetadata": true,
+    "experimentalDecorators": true,
     "baseUrl": ".",
+    "module": "NodeNext",
+    "moduleResolution": "NodeNext",
     "paths": {
-      "@/*": [
-        "./src/*"
-      ],
-      "@/public/*": [
-        "./public/*"
-      ]
+      "@api/*": ["apps/api/src/*"],
+      "@server/*": ["apps/server/src/*"],
+      "@web/*": ["apps/web/src/*"]
     },
-    // Editor support
-    "plugins": [
-      {
-        "name": "next"
-      }
-    ]
-  },
-  "exclude": [
-    "./out/**/*",
-    "./node_modules/**/*",
-    "**/*.spec.ts",
-    "**/*.e2e.ts"
-  ],
-  "include": [
-    "next-env.d.ts",
-    "**/*.ts",
-    "**/*.tsx",
-    ".storybook/*.ts",
-    ".next/types/**/*.ts",
-    "**/*.mts",
-    ".next/dev/types/**/*.ts",
-    "apps/web/cache-handler.mjs",
-    "apps/web/cache-handler.js"
-  ]
+    "resolveJsonModule": true,
+    "strict": true,
+    "esModuleInterop": true,
+    "skipLibCheck": true
+  }
 }

@@ -22,26 +22,6 @@ services:
       - .env.production
       - .env.production.local
 
-  api:
-    build:
-      context: .
-      args:
-        DIRECTUS_HOST: ${DIRECTUS_HOST:-http://host.docker.internal:18055}
-    restart: unless-stopped
-    networks:
-      - proxy-net
-    depends_on:
-      - directus
-    command: [node, apps/api/main.js]
-    environment:
-      - DIRECTUS_HOST=${DIRECTUS_HOST:-http://portfolio-directus-1:3001}
-      - PORT=3001
-      - HOST=0.0.0.0
-      - CLOUDFLARE_AI_GATEWAY_TOKEN=${CLOUDFLARE_AI_GATEWAY_TOKEN:-}
-      - CF_ACCOUNT_ID=${CF_ACCOUNT_ID:-}
-      - CLOUDFLARE_TURNSTILE_SECRET_KEY=${CLOUDFLARE_TURNSTILE_SECRET_KEY:-}
-      - AI_SYSTEM_PROMPT=${AI_SYSTEM_PROMPT:-}
-
   portfolio:
     build:
       context: .
@@ -60,7 +40,6 @@ services:
       - proxy-net
     depends_on:
       - directus
-      - api
       - redis
     environment:
       # Runtime environment variables (BASE_PATH must match build-time value)
@@ -71,9 +50,6 @@ services:
       - NEXT_PUBLIC_GTM_ID=${NEXT_PUBLIC_GTM_ID:-}
       - NEXT_PUBLIC_GA_ID=${NEXT_PUBLIC_GA_ID:-}
       - NEXT_PUBLIC_CLOUDFLARE_SITE_KEY=${NEXT_PUBLIC_CLOUDFLARE_SITE_KEY:-}
-      # Internal configuration - API_URL points to the api service
-      - API_URL=http://api:3001
-      - API_PORT=3001
       # Redis configuration for caching
       - REDIS_HOST=${REDIS_HOST:-}
       - REDIS_PORT=${REDIS_PORT:-6379}

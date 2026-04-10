@@ -23,7 +23,7 @@ if (process.env.NEXT_PHASE !== PHASE_PRODUCTION_BUILD && Env.DATABASE_URL) {
   });
   await client.connect();
 
-  drizzle = drizzlePg(client, { schema });
+  drizzle = drizzlePg(client as any, { schema });
   await migratePg(drizzle, {
     migrationsFolder: path.join(process.cwd(), 'migrations'),
   });
