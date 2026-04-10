@@ -39,9 +39,7 @@ export function ChatBot() {
   const viewportRef = useRef<HTMLDivElement>(null);
 
   const { trigger, isMutating } = useSWRMutation('/portfolio/api/chat', sendChatMessage);
-
   const suggestedQueries = t.raw('suggestedQueries') as string[];
-
   const formRef = useRef<HTMLFormElement>(null);
 
   const hasConversation = messages.length > 0 || streamingMessage;
@@ -62,13 +60,12 @@ export function ChatBot() {
     }
   }, []);
 
-  const handleSubmit = async (e: React.FormEvent) => {
-    e.preventDefault();
-    if (!input.trim() || isMutating) {
+  const handleSendMessage = async (content: string) => {
+    if (!content.trim() || isMutating) {
       return;
     }
 
-    const userMessage: Message = { role: 'user', content: input.trim() };
+    const userMessage: Message = { role: 'user', content: content.trim() };
     const newMessages = [...messages, userMessage];
     setMessages(newMessages);
     setInput('');
@@ -86,7 +83,6 @@ export function ChatBot() {
 
       if (reader) {
         let buffer = '';
-
         while (true) {
           const { done, value } = await reader.read();
           if (done) {
@@ -111,7 +107,6 @@ export function ChatBot() {
               if (data === '[DONE]') {
                 continue;
               }
-
               try {
                 const parsed = JSON.parse(data);
                 const content = parsed.choices?.[0]?.delta?.content;
@@ -137,7 +132,6 @@ export function ChatBot() {
             }
           }
         }
-
         // Process any remaining buffer content
         if (buffer.trim()) {
           try {
@@ -164,6 +158,11 @@ export function ChatBot() {
       setMessages(prev => [...prev, { role: 'assistant', content: t('error') }]);
       setStreamingMessage('');
     }
+  };
+
+  const handleSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+    handleSendMessage(input);
   };
 
   return (
@@ -205,10 +204,7 @@ export function ChatBot() {
                           variant="light"
                           size="xs"
                           radius="xl"
-                          onClick={() => {
-                            setInput(query);
-                            formRef.current?.submit();
-                          }}
+                          onClick={() => handleSendMessage(query)}
                         >
                           {query}
                         </Button>
