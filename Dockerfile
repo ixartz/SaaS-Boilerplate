@@ -73,7 +73,7 @@ COPY --from=builder /app/apps/web/public ./apps/web/public
 COPY --from=builder /app/apps/web/src ./apps/web/src
 
 # API dist files
-COPY --from=builder /app/apps/api/dist ./apps/api
+COPY --from=builder /app/apps/api/dist ./apps/api/dist
 COPY --from=builder /app/apps/api/package.json ./apps/api/
 
 # Copy node_modules (optimized for production)
