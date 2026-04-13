@@ -8,7 +8,7 @@
     "node": ">=24.0.0"
   },
   "scripts": {
-    "dev": "pnpm --filter @portfolio/server dev",
+    "dev": "concurrently \"pnpm --filter @portfolio/server dev\" \"pnpm --filter @portfolio/api dev\"",
     "dev:server": "pnpm run dev -w apps/server",
     "dev:web": "pnpm run dev -w apps/web",
     "dev:api": "pnpm run dev -w apps/api",

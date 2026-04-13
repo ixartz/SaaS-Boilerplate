@@ -73,3 +73,6 @@ redis-data/
 
 # Turbo Repo
 .turbo
+
+# Local locale files
+apps/web/src/locales/*.local.json
