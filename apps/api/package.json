@@ -20,6 +20,7 @@
     "@nestjs/platform-fastify": "^10.3.0",
     "class-transformer": "^0.5.1",
     "class-validator": "^0.14.1",
+    "dotenv": "^16.4.5",
     "fastify": "^4.28.1",
     "openai": "^6.33.0",
     "reflect-metadata": "^0.2.1",
