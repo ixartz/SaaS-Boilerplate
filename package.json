@@ -14,7 +14,7 @@
     "dev:api": "pnpm run dev -w apps/api",
     "build": "turbo run build",
     "build test": "turbo run build test",
-    "start": "pnpm --filter @portfolio/server start",
+    "start": "concurrently \"pnpm --filter @portfolio/server start\" \"pnpm --filter @portfolio/api start\"",
     "build:web": "pnpm run build -w apps/web",
     "build:api": "pnpm run build -w apps/api",
     "build:server": "pnpm run build -w apps/server",
