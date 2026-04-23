@@ -2,12 +2,24 @@
 
 import Link from 'next/link';
 
+import { SCENARIOS } from '../scenarios';
 import { useStore } from '../state/useStore';
 import { ProofReceiptCard } from './ProofReceiptCard';
 
 export function ReceiptsView() {
-  const { receipts } = useStore();
+  const { receipts, governedCall } = useStore();
+
   if (receipts.length === 0) {
+    const seed = () => {
+      for (const s of SCENARIOS) {
+        governedCall({
+          capabilityId: s.capabilityId,
+          principal: s.principal,
+          args: s.args,
+          estimatedImpact: s.estimatedImpact,
+        });
+      }
+    };
     return (
       <div className="rounded-xl border border-white/5 bg-white/[0.02] p-10 text-center">
         <p className="text-white/70">No receipts yet.</p>
@@ -22,15 +34,62 @@ export function ReceiptsView() {
           {' '}
           page.
         </p>
+        <div className="mt-5 flex items-center justify-center gap-2">
+          <Link
+            href="/strix-store/agent"
+            className="rounded-md bg-emerald-500 px-3 py-1.5 text-xs font-semibold text-black hover:bg-emerald-400"
+          >
+            Open Agent Console →
+          </Link>
+          <button
+            type="button"
+            onClick={seed}
+            className="rounded-md border border-white/10 bg-white/5 px-3 py-1.5 text-xs text-white hover:bg-white/10"
+          >
+            Seed with all scenarios
+          </button>
+        </div>
       </div>
     );
   }
 
+  const counts = receipts.reduce(
+    (acc, r) => {
+      acc[r.decision] = (acc[r.decision] ?? 0) + 1;
+      return acc;
+    },
+    {} as Record<string, number>,
+  );
+
   return (
-    <div className="grid grid-cols-1 gap-4 md:grid-cols-2">
-      {receipts.map(r => (
-        <ProofReceiptCard key={r.id} receipt={r} href={`/strix-store/receipts/${r.id}`} />
-      ))}
+    <div className="space-y-5">
+      <div className="flex flex-wrap items-center gap-3 text-xs text-white/60">
+        <span>
+          <span className="font-semibold text-white">{receipts.length}</span>
+          {' '}
+          total
+        </span>
+        <span>
+          <span className="font-semibold text-rose-300">{counts.block ?? 0}</span>
+          {' '}
+          blocked
+        </span>
+        <span>
+          <span className="font-semibold text-amber-300">{counts.approval_required ?? 0}</span>
+          {' '}
+          approval-required
+        </span>
+        <span>
+          <span className="font-semibold text-emerald-300">{counts.allow ?? 0}</span>
+          {' '}
+          allowed
+        </span>
+      </div>
+      <div className="grid grid-cols-1 gap-4 md:grid-cols-2">
+        {receipts.map(r => (
+          <ProofReceiptCard key={r.id} receipt={r} href={`/strix-store/receipts/${r.id}`} />
+        ))}
+      </div>
     </div>
   );
 }

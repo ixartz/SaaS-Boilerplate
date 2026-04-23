@@ -38,8 +38,10 @@ function fnvHash(input: string): string {
   );
 }
 
-let sequence = 0;
-let previousHash: string | null = null;
+// Mutable chain state for real decisions. The hero/auto-play surfaces pass
+// `mutateChain: false` so their marketing-loop receipts don't poison the
+// sequence that the admin/agent/receipt pages show.
+const mainChain = { sequence: 0, previousHash: null as string | null };
 
 export function buildReceipt(args: {
   decision: Decision;
@@ -47,9 +49,13 @@ export function buildReceipt(args: {
   policyId: string;
   ctx: ActionContext;
   issuedAt?: string;
+  mutateChain?: boolean;
 }): Receipt {
+  const mutate = args.mutateChain !== false;
   const id = `rcpt_${Math.random().toString(36).slice(2, 10)}${Date.now().toString(36)}`;
   const issuedAt = args.issuedAt ?? new Date().toISOString();
+  const prev = mutate ? mainChain.previousHash : null;
+  const seq = mutate ? mainChain.sequence : -1;
   const body = JSON.stringify({
     id,
     issuedAt,
@@ -58,8 +64,8 @@ export function buildReceipt(args: {
     capabilityId: args.ctx.capability.id,
     principal: args.ctx.principal,
     args: args.ctx.args,
-    prev: previousHash,
-    seq: sequence,
+    prev,
+    seq,
   });
   const hash = fnvHash(body);
   const receipt: Receipt = {
@@ -75,15 +81,16 @@ export function buildReceipt(args: {
     principal: args.ctx.principal,
     args: args.ctx.args,
     estimatedImpact: args.ctx.estimatedImpact,
-    chain: { previousHash, sequence },
+    chain: { previousHash: prev, sequence: seq },
   };
-  previousHash = hash;
-  sequence += 1;
+  if (mutate) {
+    mainChain.previousHash = hash;
+    mainChain.sequence += 1;
+  }
   return receipt;
 }
 
-// Used to reset state in SSR / hot-reload so two server renders don't conflict.
 export function resetReceiptChain() {
-  sequence = 0;
-  previousHash = null;
+  mainChain.sequence = 0;
+  mainChain.previousHash = null;
 }

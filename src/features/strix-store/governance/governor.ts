@@ -8,6 +8,10 @@ export type GovernedRequest = {
   principal: Principal;
   args?: Record<string, unknown>;
   estimatedImpact?: ActionContext['estimatedImpact'];
+  // When false, the evaluation does not advance the main receipt chain.
+  // Used by the hero/auto-play surfaces so their marketing loop doesn't
+  // poison the real audit sequence the rest of the app shows.
+  mutateChain?: boolean;
 };
 
 export type GovernedResponse = {
@@ -18,6 +22,7 @@ export type GovernedResponse = {
 };
 
 export function evaluate(req: GovernedRequest): GovernedResponse {
+  const mutateChain = req.mutateChain !== false;
   const capability = CAPABILITIES[req.capabilityId];
   if (!capability) {
     const fallback = CAPABILITIES['orders.read']!;
@@ -32,6 +37,7 @@ export function evaluate(req: GovernedRequest): GovernedResponse {
       reason: `Unknown capability '${req.capabilityId}'. Unknown capabilities are blocked by default.`,
       policyId: 'pol.deny.unknown_capability',
       ctx,
+      mutateChain,
     });
     return {
       decision: 'block',
@@ -59,6 +65,7 @@ export function evaluate(req: GovernedRequest): GovernedResponse {
         reason: verdict.reason,
         policyId: verdict.policyId,
         ctx,
+        mutateChain,
       });
       return {
         decision: verdict.decision,
@@ -74,6 +81,7 @@ export function evaluate(req: GovernedRequest): GovernedResponse {
     reason: 'No policy matched. Default-allow for this capability tier.',
     policyId: 'pol.default.allow',
     ctx,
+    mutateChain,
   });
   return {
     decision: 'allow',

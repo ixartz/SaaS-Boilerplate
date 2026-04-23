@@ -16,6 +16,13 @@ export const CAPABILITIES: Record<string, Capability> = {
     risk: 'low',
     blastRadius: 'read-only',
   },
+  'orders.create': {
+    id: 'orders.create',
+    name: 'Create order',
+    description: 'A customer checks out with items in their cart.',
+    risk: 'low',
+    blastRadius: 'one new order, one payment authorization',
+  },
   'orders.refund.single': {
     id: 'orders.refund.single',
     name: 'Refund a single order',

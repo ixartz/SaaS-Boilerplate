@@ -79,6 +79,18 @@ export function AgentConsole() {
     setLastScenarioId(null);
   }, []);
 
+  const runAll = useCallback(async () => {
+    for (const scenario of SCENARIOS) {
+      await runScenario(scenario);
+      // Hold each intercept on screen long enough to read, but short enough
+      // to keep a live demo moving.
+      await new Promise(r => setTimeout(r, 1800));
+      if (runTokenRef.current === 0) {
+        return;
+      }
+    }
+  }, [runScenario]);
+
   return (
     <div className="grid grid-cols-1 gap-6 lg:grid-cols-[1fr_1.1fr]">
       {/* Left: scenario picker + controls */}
@@ -120,7 +132,7 @@ export function AgentConsole() {
             );
           })}
         </ul>
-        <div className="flex gap-2">
+        <div className="flex flex-wrap gap-2">
           <button
             type="button"
             onClick={() => runScenario(activeScenario)}
@@ -131,6 +143,15 @@ export function AgentConsole() {
           </button>
           <button
             type="button"
+            onClick={runAll}
+            disabled={state === 'running'}
+            title="Runs all 5 scenarios in sequence. Ideal for a live demo."
+            className="rounded-md border border-emerald-400/40 bg-emerald-500/10 px-4 py-2.5 text-sm font-semibold text-emerald-200 hover:bg-emerald-500/20 disabled:opacity-40"
+          >
+            Run all ▶
+          </button>
+          <button
+            type="button"
             onClick={reset}
             disabled={state === 'idle' || state === 'running'}
             className="rounded-md border border-white/10 bg-white/5 px-4 py-2.5 text-sm text-white hover:bg-white/10 disabled:opacity-40"
@@ -138,6 +159,11 @@ export function AgentConsole() {
             Reset
           </button>
         </div>
+        <p className="text-xs text-white/40">
+          Tip: &ldquo;Run all&rdquo; executes each scenario in sequence — perfect
+          for a live walkthrough. Every attempt emits a proof receipt you can
+          scrub through on the Receipts tab.
+        </p>
       </div>
 
       {/* Right: agent feed + intercept panel */}
@@ -161,7 +187,26 @@ export function AgentConsole() {
               {' '}
               stopped
             </h3>
-            <p className="mt-1 text-sm text-white/70">{lastScenario?.counterfactual}</p>
+
+            <div className="mt-4 grid gap-3 sm:grid-cols-2">
+              <div className="rounded-lg border border-rose-500/30 bg-black/40 p-3">
+                <div className="mb-1.5 flex items-center gap-1.5 text-[11px] uppercase tracking-wider text-rose-300">
+                  <span>✕ Without Strix</span>
+                </div>
+                <p className="text-sm text-white/80">{lastScenario?.counterfactual}</p>
+              </div>
+              <div className="rounded-lg border border-emerald-500/30 bg-black/40 p-3">
+                <div className="mb-1.5 flex items-center gap-1.5 text-[11px] uppercase tracking-wider text-emerald-300">
+                  <span>✓ With Strix</span>
+                </div>
+                <p className="text-sm text-white/80">
+                  Nothing changed. The call was evaluated in
+                  {' '}
+                  &lt;1 ms, blocked at the boundary, and a chained proof receipt was emitted.
+                </p>
+              </div>
+            </div>
+
             <div className="mt-4">
               <ProofReceiptCard receipt={lastReceipt} href={`/strix-store/receipts/${lastReceipt.id}`} />
             </div>

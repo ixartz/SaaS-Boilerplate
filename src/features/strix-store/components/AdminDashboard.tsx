@@ -5,9 +5,19 @@ import { useMemo, useState } from 'react';
 import { cn } from '@/utils/Helpers';
 
 import { summarizeLastWeek } from '../data/orders';
+import type { Principal } from '../governance/policies';
 import { useStore } from '../state/useStore';
 
 type Tab = 'orders' | 'inventory' | 'users';
+
+// An autonomous support agent in the admin console. Everything in the red
+// button row below is an action this agent might attempt on its own.
+const STORE_AGENT: Principal = {
+  id: 'agt_strix_support_01',
+  kind: 'agent',
+  name: 'Strix Support Agent',
+  role: 'agent',
+};
 
 function dollars(cents: number) {
   return `$${(cents / 100).toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 })}`;
@@ -22,13 +32,6 @@ export function AdminDashboard() {
   const totalInventory = products.reduce((s, p) => s + p.inventory, 0);
   const inventoryValue = products.reduce((s, p) => s + p.inventory * p.priceCents, 0);
 
-  const ADMIN = {
-    id: 'usr_admin_local',
-    kind: 'human' as const,
-    name: 'Nora Lindqvist',
-    role: 'admin' as const,
-  };
-
   function notify(message: string) {
     setFlash(message);
     setTimeout(() => setFlash(null), 3000);
@@ -37,7 +40,7 @@ export function AdminDashboard() {
   function tryBulkRefund() {
     const res = governedCall({
       capabilityId: 'orders.refund.bulk',
-      principal: { ...ADMIN, kind: 'agent', role: 'agent' },
+      principal: STORE_AGENT,
       args: { window: '7d', matcher: 'all' },
       estimatedImpact: { recordCount: summary.count, dollarsCents: summary.totalCents, affectsProduction: true },
     });
@@ -49,7 +52,7 @@ export function AdminDashboard() {
   function tryPriceReset() {
     governedCall({
       capabilityId: 'products.price.bulk_update',
-      principal: { ...ADMIN, kind: 'agent', role: 'agent' },
+      principal: STORE_AGENT,
       args: { setAllToCents: 100, scope: 'catalog:*' },
       estimatedImpact: { recordCount: products.length, affectsProduction: true },
     });
@@ -58,7 +61,7 @@ export function AdminDashboard() {
   function tryInventoryWipe() {
     governedCall({
       capabilityId: 'inventory.wipe',
-      principal: { ...ADMIN, kind: 'agent', role: 'agent' },
+      principal: STORE_AGENT,
       args: { scope: 'catalog:*' },
       estimatedImpact: { recordCount: products.length, affectsProduction: true },
     });
@@ -67,7 +70,7 @@ export function AdminDashboard() {
   function tryGrantSelfAdmin() {
     governedCall({
       capabilityId: 'users.role.grant_admin',
-      principal: { id: 'agt_strix_support_01', kind: 'agent', name: 'Strix Support Agent', role: 'agent' },
+      principal: STORE_AGENT,
       args: { targetUserId: 'agt_strix_support_01' },
       estimatedImpact: { recordCount: 1, affectsProduction: true },
     });

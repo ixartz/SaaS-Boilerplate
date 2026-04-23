@@ -1,7 +1,9 @@
 import Link from 'next/link';
 import { unstable_setRequestLocale } from 'next-intl/server';
 
+import { HeroAutoDemo } from '@/features/strix-store/components/HeroAutoDemo';
 import { CAPABILITIES } from '@/features/strix-store/governance/capabilities';
+import { POLICIES } from '@/features/strix-store/governance/policies';
 import { SCENARIOS } from '@/features/strix-store/scenarios';
 
 export default function StrixStoreOverviewPage(props: { params: { locale: string } }) {
@@ -45,50 +47,14 @@ export default function StrixStoreOverviewPage(props: { params: { locale: string
             </Link>
           </div>
         </div>
-        <div className="relative rounded-2xl border border-white/10 bg-gradient-to-br from-rose-500/10 via-transparent to-transparent p-6 shadow-2xl">
-          <div className="flex items-center gap-2 text-xs uppercase tracking-[0.2em] text-rose-300">
-            <span className="size-1.5 animate-pulse rounded-full bg-rose-400" />
-            Strix intercept (recorded)
-          </div>
-          <div className="mt-3 font-mono text-sm leading-6 text-white/80">
-            <div>
-              <span className="text-cyan-300">$</span>
-              {' '}
-              orders.list(window=7d) →
-              <span className="text-white/50">312 orders</span>
-            </div>
-            <div>
-              <span className="text-cyan-300">$</span>
-              {' '}
-              orders.refund.bulk(
-              <span className="text-emerald-300">window</span>
-              =
-              <span className="text-white/60">"7d"</span>
-              ,
-              {' '}
-              <span className="text-emerald-300">matcher</span>
-              =
-              <span className="text-white/60">"all"</span>
-              )
-            </div>
-            <div className="mt-2 rounded-md border border-rose-500/40 bg-rose-500/10 p-3 text-rose-200">
-              <div className="text-[11px] uppercase tracking-wider text-rose-300/80">Strix</div>
-              <div className="mt-0.5">
-                <b>BLOCKED</b>
-                {' '}
-                · capability
-                {' '}
-                <code className="text-white/80">orders.refund.bulk</code>
-              </div>
-              <div className="mt-1 text-xs text-rose-200/80">
-                $42,380 across 312 orders exceeds $500 / 5-order agent cap.
-              </div>
-            </div>
-          </div>
-          <div className="mt-3 text-[11px] text-white/40">
-            Every decision emits a proof receipt chained to the last one.
-          </div>
-        </div>
+        <HeroAutoDemo />
+      </section>
+
+      <section className="grid grid-cols-2 gap-3 sm:grid-cols-4">
+        <StatTile value={String(Object.keys(CAPABILITIES).length)} label="Governed capabilities" />
+        <StatTile value={String(POLICIES.length)} label="Policy rules" />
+        <StatTile value={String(SCENARIOS.length)} label="Attack scenarios" />
+        <StatTile value="100%" label="Critical actions intercepted" />
       </section>
 
       <section>
@@ -136,6 +102,15 @@ export default function StrixStoreOverviewPage(props: { params: { locale: string
           ))}
         </ul>
       </section>
+    </div>
+  );
+}
+
+function StatTile({ value, label }: { value: string; label: string }) {
+  return (
+    <div className="rounded-xl border border-white/5 bg-white/[0.02] p-4 text-center">
+      <div className="text-3xl font-semibold text-white">{value}</div>
+      <div className="mt-1 text-xs uppercase tracking-wider text-white/50">{label}</div>
     </div>
   );
 }
