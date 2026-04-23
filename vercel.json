@@ -4,24 +4,6 @@
   "installCommand": "npm install",
   "framework": "nextjs",
   "outputDirectory": ".next",
-  "env": {
-    "NEXT_PUBLIC_APP_URL": {
-      "description": "The public URL of the application",
-      "value": ""
-    },
-    "DATABASE_URL": {
-      "description": "PostgreSQL database connection string",
-      "value": ""
-    },
-    "NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY": {
-      "description": "Clerk publishable key for authentication",
-      "value": ""
-    },
-    "CLERK_SECRET_KEY": {
-      "description": "Clerk secret key for authentication",
-      "value": ""
-    }
-  },
   "headers": [
     {
       "source": "/api/health",
