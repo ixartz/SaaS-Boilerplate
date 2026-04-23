@@ -4,8 +4,8 @@ import { StickyBanner } from '@/features/landing/StickyBanner';
 
 export const DemoBanner = () => (
   <StickyBanner>
-    New · Strix Store is live —
+    Live demo · watch an agent try to drain a shop and fail —
     {' '}
-    <Link href="/strix-store">watch an agent try to drain the shop →</Link>
+    <Link href="/strix-store">open the Strix Store →</Link>
   </StickyBanner>
 );

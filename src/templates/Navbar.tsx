@@ -1,3 +1,4 @@
+import { GitHubLogoIcon } from '@radix-ui/react-icons';
 import Link from 'next/link';
 import { useTranslations } from 'next-intl';
 
@@ -5,6 +6,7 @@ import { LocaleSwitcher } from '@/components/LocaleSwitcher';
 import { buttonVariants } from '@/components/ui/buttonVariants';
 import { CenteredMenu } from '@/features/landing/CenteredMenu';
 import { Section } from '@/features/landing/Section';
+import { AppConfig } from '@/utils/AppConfig';
 
 import { Logo } from './Logo';
 
@@ -17,7 +19,6 @@ export const Navbar = () => {
         logo={<Logo />}
         rightMenu={(
           <>
-            {/* PRO: Dark mode toggle button */}
             <li data-fade>
               <LocaleSwitcher />
             </li>
@@ -33,23 +34,27 @@ export const Navbar = () => {
         )}
       >
         <li>
-          <Link href="/sign-up">{t('product')}</Link>
+          <Link href="/#features">{t('product')}</Link>
         </li>
 
         <li>
-          <Link href="/sign-up">{t('docs')}</Link>
+          <a href={AppConfig.docsUrl} target="_blank" rel="noopener noreferrer">{t('docs')}</a>
         </li>
 
         <li>
-          <Link href="/sign-up">{t('blog')}</Link>
+          <Link href="/strix-store">{t('community')}</Link>
         </li>
 
         <li>
-          <Link href="/sign-up">{t('community')}</Link>
-        </li>
-
-        <li>
-          <Link href="/sign-up">{t('company')}</Link>
+          <a
+            className="inline-flex items-center gap-1"
+            href={AppConfig.githubUrl}
+            target="_blank"
+            rel="noopener noreferrer"
+          >
+            <GitHubLogoIcon className="size-4" />
+            {t('company')}
+          </a>
         </li>
       </CenteredMenu>
     </Section>

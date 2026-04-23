@@ -1,3 +1,4 @@
+import type { Metadata } from 'next';
 import { getTranslations, unstable_setRequestLocale } from 'next-intl/server';
 
 import { CTA } from '@/templates/CTA';
@@ -9,16 +10,36 @@ import { Hero } from '@/templates/Hero';
 import { Navbar } from '@/templates/Navbar';
 import { Pricing } from '@/templates/Pricing';
 import { Sponsors } from '@/templates/Sponsors';
+import { AppConfig } from '@/utils/AppConfig';
 
-export async function generateMetadata(props: { params: { locale: string } }) {
+export async function generateMetadata(props: {
+  params: { locale: string };
+}): Promise<Metadata> {
   const t = await getTranslations({
     locale: props.params.locale,
     namespace: 'Index',
   });
 
+  const title = t('meta_title');
+  const description = t('meta_description');
+
   return {
-    title: t('meta_title'),
-    description: t('meta_description'),
+    title,
+    description,
+    metadataBase: AppConfig.demoUrl ? new URL(AppConfig.demoUrl) : undefined,
+    openGraph: {
+      title,
+      description,
+      url: AppConfig.demoUrl,
+      siteName: AppConfig.name,
+      type: 'website',
+    },
+    twitter: {
+      card: 'summary_large_image',
+      title,
+      description,
+      site: '@strixgov',
+    },
   };
 }
 
@@ -31,10 +52,14 @@ const IndexPage = (props: { params: { locale: string } }) => {
       <Navbar />
       <Hero />
       <Sponsors />
-      <Features />
+      <section id="features">
+        <Features />
+      </section>
       <Pricing />
       <FAQ />
-      <CTA />
+      <section id="cta">
+        <CTA />
+      </section>
       <Footer />
     </>
   );

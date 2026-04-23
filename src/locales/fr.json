@@ -1,166 +1,171 @@
 {
   "Index": {
-    "meta_title": "SaaS Template - Le template SaaS parfait pour construire et mettre à l'échelle votre entreprise en toute simplicité.",
-    "meta_description": "Un template gratuit et open-source de landing page pour votre entreprise SaaS, construit avec React, TypeScript, Shadcn UI et Tailwind CSS."
+    "meta_title": "Strix — Gouvernance runtime pour agents IA",
+    "meta_description": "Strix intercepte les actions à risque des agents avant exécution, émet une preuve pour chaque décision, et offre à votre équipe une surface de politiques plutôt qu'un énième tableau de bord."
   },
   "Navbar": {
     "sign_in": "Se connecter",
-    "sign_up": "S'inscrire",
+    "sign_up": "Demander l'accès",
     "product": "Produit",
     "docs": "Docs",
     "blog": "Blog",
-    "community": "Communauté",
-    "company": "Entreprise"
+    "community": "Démo",
+    "company": "GitHub"
   },
   "Hero": {
-    "follow_twitter": "Suivez @Ixartz sur Twitter",
-    "title": "Le parfait <important>SaaS template</important> pour construire et mettre à l'échelle votre entreprise en toute simplicité.",
-    "description": "Un template gratuit et open-source de landing page pour votre entreprise SaaS, construit avec React, TypeScript, Shadcn UI et Tailwind CSS.",
-    "primary_button": "Démarrer",
-    "secondary_button": "Mettez une étoile sur GitHub"
+    "follow_twitter": "Démo live · s'exécute dans votre navigateur",
+    "title": "Empêchez les agents de <important>faire la mauvaise chose</important> — dès la première fois.",
+    "description": "Strix, c'est la gouvernance runtime pour les agents IA. Chaque capacité est évaluée par policy avant exécution. Chaque décision émet un reçu vérifiable. Voies rapides là où c'est sûr, murs fermes là où ça ne l'est pas.",
+    "primary_button": "Lancer la démo",
+    "secondary_button": "Star sur GitHub"
   },
   "Sponsors": {
-    "title": "Sponsorisé par"
+    "title": "Conçu pour les équipes qui déploient des agents"
   },
   "Features": {
-    "section_subtitle": "Fonctionnalités",
-    "section_title": "Débloquer le plein potentiel du SaaS Template",
-    "section_description": "Un template gratuit et open-source de landing page pour votre entreprise SaaS, construit avec React, TypeScript, Shadcn UI et Tailwind CSS.",
-    "feature1_title": "Node.js",
-    "feature2_title": "React",
-    "feature3_title": "Tailwind CSS",
-    "feature4_title": "TypeScript",
-    "feature5_title": "Shadcn UI",
-    "feature6_title": "ESLint",
-    "feature_description": "Un template gratuit et open-source de landing page pour votre entreprise SaaS, construit avec React, TypeScript, Shadcn UI et Tailwind CSS."
+    "section_subtitle": "Gouvernance runtime",
+    "section_title": "Les policies à la surface des capacités — pas ajoutées après coup.",
+    "section_description": "Strix se place entre votre agent et le monde. Chaque tool call est associé à une capacité, chaque capacité porte ses métadonnées de risque, chaque décision est tracée avec un reçu auditable.",
+    "feature1_title": "Permissions scoped par capacité",
+    "feature1_description": "Les agents n'ont pas accès aux APIs — ils reçoivent des capacités explicites avec niveau de risque et rayon d'impact. Scope par principal, par environnement.",
+    "feature2_title": "Policies en code, pas en prompts",
+    "feature2_description": "Règles déclaratives en code, pas coincées dans un system prompt. Bloquer les actions destructives. Exiger l'approbation humaine sur les appels critiques. Auto-autoriser la routine.",
+    "feature3_title": "Reçus cryptographiques",
+    "feature3_description": "Chaque décision émet un reçu chaîné : décision, policy, principal, arguments, impact estimé. Partageable, auditable, indexable.",
+    "feature4_title": "SDK en ~10 lignes",
+    "feature4_description": "Encapsulez n'importe quel tool call dans un adaptateur governed(). SDK TypeScript et Python. Compatible OpenAI, Anthropic, LangChain, votre harness.",
+    "feature5_title": "Human-in-the-loop, quand ça compte",
+    "feature5_description": "Escalation automatique sur approval_required. Les approbateurs voient l'action exacte, la raison de la policy, l'impact estimé.",
+    "feature6_title": "Piste d'audit par défaut",
+    "feature6_description": "Reçus hash-chaînés pour un historique inviolable. Export vers S3, Datadog, ou votre entrepôt de données."
   },
   "Pricing": {
-    "section_subtitle": "Fonctionnalités",
-    "section_title": "Débloquer le plein potentiel du SaaS Template",
-    "section_description": "Un template gratuit et open-source de landing page pour votre entreprise SaaS, construit avec React, TypeScript, Shadcn UI et Tailwind CSS.",
-    "button_text": "Démarrer"
+    "section_subtitle": "Tarifs",
+    "section_title": "Commencez par la démo. Payez quand vous passez en prod.",
+    "section_description": "La démo est gratuite pour toujours. La prod est facturée à l'usage.",
+    "button_text": "Demander l'accès"
   },
   "PricingPlan": {
-    "free_plan_name": "Gratuit",
-    "premium_plan_name": "Premium",
-    "enterprise_plan_name": "Enterprise",
-    "free_plan_description": "Pour les particuliers",
-    "premium_plan_description": "Pour les petites équipes",
-    "enterprise_plan_description": "Pour les leaders de l'industrie",
-    "feature_team_member": "{number} membres",
-    "feature_website": "{number} sites internet",
-    "feature_storage": "{number} Go de stockage",
-    "feature_transfer": "{number} TB de transfert",
-    "feature_email_support": "Support par e-mail",
+    "free_plan_name": "Démo",
+    "premium_plan_name": "Équipe",
+    "enterprise_plan_name": "Entreprise",
+    "free_plan_description": "Pour évaluer Strix",
+    "premium_plan_description": "Pour les équipes en production",
+    "enterprise_plan_description": "Pour les déploiements régulés à fort volume",
+    "feature_team_member": "{number} sièges",
+    "feature_website": "{number} environnements",
+    "feature_storage": "{number}M d'appels gouvernés / mois",
+    "feature_transfer": "{number} jours de rétention des reçus",
+    "feature_email_support": "Support Slack privé",
     "plan_interval_month": "mois",
     "plan_interval_year": "année",
     "next_renew_date": "Votre abonnement sera renouvelé le {date}"
   },
   "FAQ": {
-    "question": "Lorem ipsum dolor sit amet, consectetur adipiscing elit?",
-    "answer": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aliquam aliquam enim dui, id consequat turpis ullamcorper ac. Mauris id quam dolor. Nullam eu egestas turpis. Proin risus elit, sollicitudin in mi a, accumsan euismod turpis. In euismod mi sed diam tristique hendrerit."
+    "question": "En quoi est-ce différent d'un system prompt qui dit 'sois prudent' ?",
+    "answer": "Les system prompts sont des suggestions. Strix est une contrainte runtime. Quand un agent tente un remboursement de 42 000 $, un prompt peut déconseiller. Strix bloque le tool call avant qu'il n'atteigne votre processeur de paiement, écrit un reçu, escalade. Différence : l'un compte sur la coopération du modèle, l'autre non."
   },
   "CTA": {
-    "title": "Vous êtes prêt?",
-    "description": "Lorem ipsum dolor sit amet, consectetur adipiscing elit.",
-    "button_text": "Mettez une étoile sur GitHub"
+    "title": "Prêt à voir un agent tenter — et échouer — à vider une boutique ?",
+    "description": "La démo prend 30 secondes. Choisissez un scénario, appuyez sur lancer, regardez Strix intercepter.",
+    "button_text": "Lancer la démo"
   },
   "Footer": {
     "product": "Produit",
     "docs": "Docs",
-    "blog": "Blog",
-    "community": "Communauté",
-    "company": "Entreprise",
-    "terms_of_service": "Conditions d'utilisation",
-    "privacy_policy": "Politique de confidentialité",
-    "designed_by": "Designé by <author></author>."
+    "blog": "Changelog",
+    "community": "Démo",
+    "company": "GitHub",
+    "terms_of_service": "Conditions",
+    "privacy_policy": "Confidentialité",
+    "designed_by": "© {year} Strix."
   },
   "ProtectFallback": {
     "not_enough_permission": "Vous n'avez pas les permissions pour effectuer cette action"
   },
   "SignIn": {
-    "meta_title": "Se connecter",
-    "meta_description": "Connectez-vous à votre compte avec facilité."
+    "meta_title": "Se connecter à Strix",
+    "meta_description": "Connectez-vous à votre workspace Strix."
   },
   "SignUp": {
-    "meta_title": "S'inscrire",
-    "meta_description": "Créez un compte sans effort grâce à notre processus d'inscription intuitif."
+    "meta_title": "Créer un workspace Strix",
+    "meta_description": "Commencez à gouverner les actions d'agents en quelques minutes."
   },
   "DashboardLayout": {
-    "home": "Accueil",
-    "todos": "Todos",
+    "home": "Vue d'ensemble",
+    "todos": "Policies",
     "members": "Membres",
     "billing": "Facturation",
     "settings": "Réglages"
   },
   "Dashboard": {
-    "meta_title": "Tableau de bord du SaaS Template",
-    "meta_description": "Un template gratuit et open-source de landing page pour votre entreprise SaaS, construit avec Next.js, TypeScript, Shadcn UI et Tailwind CSS."
+    "meta_title": "Strix · Workspace développeur",
+    "meta_description": "Votre workspace Strix : clés API, policies, reçus."
   },
   "DashboardIndex": {
-    "title_bar": "Tableau de bord",
-    "title_bar_description": "Bienvenue sur votre tableau de bord",
-    "message_state_title": "C'est parti",
-    "message_state_description": "Vous pouvez personnaliser cette page en modifiant le fichier dans <code>dashboard/page.tsx</code>",
-    "message_state_button": "Mettez une étoile sur GitHub",
-    "message_state_alternative": "Vous voulez plus de fonctionnalités et les dernières nouveautés de Next.js 16 ? Essayez <url></url>."
+    "title_bar": "Bienvenue sur Strix",
+    "title_bar_description": "Votre workspace de gouvernance d'agents.",
+    "message_state_title": "Vous êtes entré. Déployons un agent gouverné.",
+    "message_state_description": "Votre workspace démo est prêt. Utilisez le quickstart pour encapsuler votre premier tool call, ou lancez la démo live.",
+    "message_state_button": "Ouvrir la démo",
+    "message_state_alternative": "Besoin d'une démo sur votre stack ? <url>Réservez 20 minutes</url>."
   },
   "UserProfile": {
-    "title_bar": "Profil utilisateur",
-    "title_bar_description": "Afficher et gérer votre profil utilisateur"
+    "title_bar": "Profil",
+    "title_bar_description": "Gérer votre compte"
   },
   "OrganizationProfile": {
-    "title_bar": "Gestion de l’organisation",
-    "title_bar_description": "Gérer votre organisation"
+    "title_bar": "Workspace",
+    "title_bar_description": "Gérer votre workspace Strix"
   },
   "Billing": {
     "title_bar": "Facturation",
-    "title_bar_description": "Gérer votre facturation et votre abonnement",
+    "title_bar_description": "Gérer votre facturation",
     "current_section_title": "Plan actuel",
-    "current_section_description": "Ajuster votre plan de paiement pour le mieux répondre à vos besoins",
+    "current_section_description": "Ajustez votre plan selon le volume.",
     "manage_subscription_button": "Gérer l'abonnement"
   },
   "BillingOptions": {
     "current_plan": "Plan actuel",
-    "upgrade_plan": "Démarrer"
+    "upgrade_plan": "Choisir"
   },
   "CheckoutConfirmation": {
     "title_bar": "Confirmation du paiement",
     "message_state_title": "Paiement accepté",
-    "message_state_description": "Votre paiement a été traité avec succès. Merci pour votre achat !",
-    "message_state_button": "Revenir à la facturation"
+    "message_state_description": "Votre paiement a été traité. Merci !",
+    "message_state_button": "Retour à la facturation"
   },
   "DataTable": {
     "no_results": "Aucun résultat."
   },
   "Todos": {
-    "title_bar": "Liste de Todos",
-    "title_bar_description": "Afficher et gérer votre liste de todos",
-    "add_todo_button": "Nouveau todo"
+    "title_bar": "Policies",
+    "title_bar_description": "Gérer les policies de gouvernance",
+    "add_todo_button": "Nouvelle policy"
   },
   "TodoTableColumns": {
     "open_menu": "Ouvrir le menu",
     "edit": "Modifier",
     "delete": "Supprimer",
     "title_header": "Titre",
-    "message_header": "Message",
+    "message_header": "Description",
     "created_at_header": "Créé le"
   },
   "AddTodo": {
-    "title_bar": "Ajouter une todo",
-    "add_todo_section_title": "Créer une nouvelle todo",
-    "add_todo_section_description": "Remplissez le formulaire ci-dessous pour créer une nouvelle todo"
+    "title_bar": "Nouvelle policy",
+    "add_todo_section_title": "Créer une policy",
+    "add_todo_section_description": "Définir une règle appliquée par Strix."
   },
   "EditTodo": {
-    "title_bar": "Editer le todo",
-    "edit_todo_section_title": "Modifier le todo",
-    "edit_todo_section_description": "Remplissez le formulaire ci-dessous pour modifier la todo"
+    "title_bar": "Éditer la policy",
+    "edit_todo_section_title": "Modifier la policy",
+    "edit_todo_section_description": "Modifier la règle appliquée par Strix."
   },
   "TodoForm": {
     "title_label": "Titre",
-    "title_description": "Entrez un titre descriptif pour votre todo.",
-    "message_title": "Message",
-    "message_description": "Entrez un message détaillé pour votre todo.",
-    "submit_button": "Envoyer"
+    "title_description": "Nom court et descriptif pour cette policy.",
+    "message_title": "Description",
+    "message_description": "Que fait cette policy, et pourquoi ?",
+    "submit_button": "Enregistrer"
   }
 }

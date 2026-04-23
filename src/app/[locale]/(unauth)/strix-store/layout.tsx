@@ -2,6 +2,7 @@ import type { Metadata } from 'next';
 import { unstable_setRequestLocale } from 'next-intl/server';
 import type { ReactNode } from 'react';
 
+import { DeployStrixBanner } from '@/features/strix-store/components/DeployStrixBanner';
 import { GovernorRail } from '@/features/strix-store/components/GovernorRail';
 import { StoreNav } from '@/features/strix-store/components/StoreNav';
 import { StrixInterceptModal } from '@/features/strix-store/components/StrixInterceptModal';
@@ -9,7 +10,8 @@ import { StoreProvider } from '@/features/strix-store/state/StoreContext';
 
 export const metadata: Metadata = {
   title: 'Strix Store · Governed merch shop',
-  description: 'A fully governed demo merch shop. Watch Strix intercept high-risk agent actions in real time.',
+  description:
+    'A fully governed demo merch shop. Watch Strix intercept high-risk agent actions in real time. Proof receipts included.',
   openGraph: {
     title: 'Strix Store · The merch shop that can\'t be drained',
     description: 'An autonomous agent tries to refund $42,380, reprice the catalog to $1, and grant itself admin. Strix blocks every attempt and emits a proof receipt.',
@@ -36,10 +38,15 @@ export default function StrixStoreLayout({
         <StoreNav />
         <main className="mx-auto max-w-7xl px-4 py-8 pb-24 sm:px-6">
           {children}
+          <DeployStrixBanner />
         </main>
         <footer className="border-t border-white/5 py-8 text-center text-xs text-white/40">
           Strix Store is a runnable demo. All actions are evaluated client-side
           against policy; no real refunds, charges, or exports occur.
+          <div className="mt-1">
+            The same governance engine runs server-side in production Strix
+            deployments.
+          </div>
         </footer>
         <StrixInterceptModal />
         <GovernorRail />

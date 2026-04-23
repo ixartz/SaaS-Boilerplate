@@ -1,12 +1,16 @@
+import Link from 'next/link';
+
 export const DemoBadge = () => (
-  <div className="fixed bottom-0 right-20 z-10">
-    <a
-      href="https://react-saas.com"
+  <div className="fixed bottom-4 right-4 z-10 hidden sm:block">
+    <Link
+      href="/strix-store"
+      className="group flex items-center gap-2 rounded-full border border-emerald-500/30 bg-black/80 px-3 py-2 text-xs font-semibold text-white shadow-lg backdrop-blur transition-colors hover:border-emerald-400/60"
     >
-      <div className="rounded-md bg-gray-900 px-3 py-2 font-semibold text-gray-100">
-        <span className="text-gray-500">Demo of</span>
-        {' SaaS Boilerplate'}
-      </div>
-    </a>
+      <span className="inline-block size-1.5 animate-pulse rounded-full bg-emerald-400" />
+      <span className="text-white/60">Live demo</span>
+      <span className="text-white group-hover:text-emerald-300">
+        Strix Store →
+      </span>
+    </Link>
   </div>
 );

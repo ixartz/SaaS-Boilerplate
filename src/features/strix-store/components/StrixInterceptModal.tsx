@@ -1,7 +1,9 @@
 'use client';
 
 import Link from 'next/link';
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
+
+import { LeadForm } from '@/features/leads/LeadForm';
 
 import { useStore } from '../state/useStore';
 import { ProofReceiptCard } from './ProofReceiptCard';
@@ -9,6 +11,7 @@ import { ProofReceiptCard } from './ProofReceiptCard';
 export function StrixInterceptModal() {
   const { receipts, lastInterceptedReceiptId, dismissIntercept } = useStore();
   const receipt = receipts.find(r => r.id === lastInterceptedReceiptId);
+  const [showLeadForm, setShowLeadForm] = useState(false);
 
   useEffect(() => {
     if (!receipt) {
@@ -22,6 +25,12 @@ export function StrixInterceptModal() {
     window.addEventListener('keydown', handler);
     return () => window.removeEventListener('keydown', handler);
   }, [receipt, dismissIntercept]);
+
+  useEffect(() => {
+    if (receipt) {
+      setShowLeadForm(false);
+    }
+  }, [receipt?.id]); // eslint-disable-line react-hooks/exhaustive-deps
 
   if (!receipt) {
     return null;
@@ -78,15 +87,52 @@ export function StrixInterceptModal() {
               >
                 View full receipt
               </Link>
+              {!showLeadForm && (
+                <button
+                  type="button"
+                  onClick={() => setShowLeadForm(true)}
+                  className="rounded-md bg-emerald-500 px-3 py-1.5 text-sm font-semibold text-black hover:bg-emerald-400"
+                >
+                  Run this on your stack →
+                </button>
+              )}
               <button
                 type="button"
                 onClick={dismissIntercept}
-                className="rounded-md bg-white px-3 py-1.5 text-sm font-medium text-black hover:bg-white/85"
+                className="rounded-md border border-white/10 bg-white/5 px-3 py-1.5 text-sm text-white hover:bg-white/10"
               >
-                Acknowledge
+                Close
               </button>
             </div>
           </div>
+
+          {showLeadForm && (
+            <div className="mt-6 rounded-xl border border-emerald-500/30 bg-emerald-500/[0.04] p-5">
+              <div className="mb-3 flex items-center justify-between">
+                <div>
+                  <div className="text-sm font-semibold text-white">
+                    Want Strix wrapping your real agent?
+                  </div>
+                  <div className="mt-0.5 text-xs text-white/55">
+                    We'll send you a 10-minute integration guide + sample receipts on your own tools.
+                  </div>
+                </div>
+                <button
+                  type="button"
+                  onClick={() => setShowLeadForm(false)}
+                  className="text-xs text-white/40 hover:text-white/70"
+                >
+                  Skip
+                </button>
+              </div>
+              <LeadForm
+                source={`intercept_${receipt.capabilityId}`}
+                variant="dark"
+                buttonLabel="Send me access"
+                placeholder="work@email.com"
+              />
+            </div>
+          )}
         </div>
       </div>
     </div>

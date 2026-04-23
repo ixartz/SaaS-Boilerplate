@@ -19,21 +19,15 @@ export const Pricing = () => {
         buttonList={{
           [PLAN_ID.FREE]: (
             <Link
-              className={buttonVariants({
-                size: 'sm',
-                className: 'mt-5 w-full',
-              })}
-              href="/sign-up"
+              className={buttonVariants({ variant: 'outline', size: 'sm', className: 'mt-5 w-full' })}
+              href="/strix-store"
             >
-              {t('button_text')}
+              Try the demo
             </Link>
           ),
           [PLAN_ID.PREMIUM]: (
             <Link
-              className={buttonVariants({
-                size: 'sm',
-                className: 'mt-5 w-full',
-              })}
+              className={buttonVariants({ size: 'sm', className: 'mt-5 w-full' })}
               href="/sign-up"
             >
               {t('button_text')}
@@ -41,13 +35,10 @@ export const Pricing = () => {
           ),
           [PLAN_ID.ENTERPRISE]: (
             <Link
-              className={buttonVariants({
-                size: 'sm',
-                className: 'mt-5 w-full',
-              })}
-              href="/sign-up"
+              className={buttonVariants({ variant: 'outline', size: 'sm', className: 'mt-5 w-full' })}
+              href="/#cta"
             >
-              {t('button_text')}
+              Talk to us
             </Link>
           ),
         }}

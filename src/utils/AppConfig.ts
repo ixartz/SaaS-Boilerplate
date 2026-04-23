@@ -4,9 +4,14 @@ import { BILLING_INTERVAL, type PricingPlan } from '@/types/Subscription';
 
 const localePrefix: LocalePrefix = 'as-needed';
 
-// FIXME: Update this configuration file based on your project information
 export const AppConfig = {
-  name: 'SaaS Template',
+  name: 'Strix',
+  productTagline: 'Runtime governance for AI agents',
+  domain: 'strixgov.com',
+  demoUrl: 'https://demo.strixgov.com',
+  githubUrl: 'https://github.com/strix-gov',
+  docsUrl: 'https://docs.strixgov.com',
+  contactEmail: 'hello@strixgov.com',
   locales: [
     {
       id: 'en',

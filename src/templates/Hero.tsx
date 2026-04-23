@@ -1,32 +1,28 @@
-import { GitHubLogoIcon, TwitterLogoIcon } from '@radix-ui/react-icons';
+import { GitHubLogoIcon } from '@radix-ui/react-icons';
+import Link from 'next/link';
 import { useTranslations } from 'next-intl';
 
-import { badgeVariants } from '@/components/ui/badgeVariants';
 import { buttonVariants } from '@/components/ui/buttonVariants';
 import { CenteredHero } from '@/features/landing/CenteredHero';
 import { Section } from '@/features/landing/Section';
+import { LeadForm } from '@/features/leads/LeadForm';
+import { AppConfig } from '@/utils/AppConfig';
 
 export const Hero = () => {
   const t = useTranslations('Hero');
 
   return (
-    <Section className="py-36">
+    <Section className="py-28 sm:py-36">
       <CenteredHero
         banner={(
-          <a
-            className={badgeVariants()}
-            href="https://twitter.com/ixartz"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            <TwitterLogoIcon className="mr-1 size-5" />
-            {' '}
+          <span className="inline-flex items-center gap-2 rounded-full border border-emerald-500/30 bg-emerald-500/10 px-3 py-1 text-xs font-medium uppercase tracking-[0.18em] text-emerald-600 dark:text-emerald-300">
+            <span className="inline-block size-1.5 animate-pulse rounded-full bg-emerald-500" />
             {t('follow_twitter')}
-          </a>
+          </span>
         )}
         title={t.rich('title', {
           important: chunks => (
-            <span className="bg-gradient-to-r from-indigo-500 via-purple-500 to-pink-500 bg-clip-text text-transparent">
+            <span className="bg-gradient-to-r from-emerald-500 via-teal-500 to-cyan-500 bg-clip-text text-transparent">
               {chunks}
             </span>
           ),
@@ -34,16 +30,18 @@ export const Hero = () => {
         description={t('description')}
         buttons={(
           <>
-            <a
+            <Link
               className={buttonVariants({ size: 'lg' })}
-              href="https://github.com/ixartz/SaaS-Boilerplate"
+              href="/strix-store"
             >
               {t('primary_button')}
-            </a>
+            </Link>
 
             <a
               className={buttonVariants({ variant: 'outline', size: 'lg' })}
-              href="https://github.com/ixartz/SaaS-Boilerplate"
+              href={AppConfig.githubUrl}
+              target="_blank"
+              rel="noopener noreferrer"
             >
               <GitHubLogoIcon className="mr-2 size-5" />
               {t('secondary_button')}
@@ -51,6 +49,16 @@ export const Hero = () => {
           </>
         )}
       />
+
+      <div className="mx-auto mt-10 max-w-xl">
+        <LeadForm
+          source="landing_hero"
+          variant="light"
+          buttonLabel="Request access"
+          headline="Skip the waitlist."
+          subhead="Drop your work email and we'll send you a private walkthrough on your stack."
+        />
+      </div>
     </Section>
   );
 };

@@ -57,3 +57,17 @@ export const todoSchema = pgTable('todo', {
     .notNull(),
   createdAt: timestamp('created_at', { mode: 'date' }).defaultNow().notNull(),
 });
+
+export const leadSchema = pgTable('lead', {
+  id: serial('id').primaryKey(),
+  email: text('email').notNull(),
+  company: text('company'),
+  role: text('role'),
+  useCase: text('use_case'),
+  source: text('source').notNull(),
+  referrer: text('referrer'),
+  utm: text('utm'),
+  userAgent: text('user_agent'),
+  ipHash: text('ip_hash'),
+  createdAt: timestamp('created_at', { mode: 'date' }).defaultNow().notNull(),
+});
