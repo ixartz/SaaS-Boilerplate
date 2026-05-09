@@ -218,7 +218,7 @@ This project offers a free open-source version and premium Pro/Max versions. Her
 | **Drizzle ORM & Dev Database** | ✅ | ✅ | ✅ |
 | **GitHub Actions** | ✅ | ✅ | ✅ |
 | **VSCode Configuration** | ✅ | ✅ | ✅ |
-| **Built for Humans & AI Agents (Agents.md)** | ❌ | ❌ | ✅ |
+| **Built for Humans & AI Agents (Agents.md)** | ❌ | ✅ | ✅ |
 | **Transactional Emails (React Email)** | ❌ | ❌ | ✅ |
 | **Bun: package manager** | ❌ | ❌ | ✅ |
 | **[Sentry Error Monitoring](https://sentry.io/for/nextjs/?utm_source=github&utm_medium=paid-community&utm_campaign=general-fy25q1-nextjs&utm_content=github-banner-nextjsboilerplate-logo)** | ✅ | ✅ | ✅ |
