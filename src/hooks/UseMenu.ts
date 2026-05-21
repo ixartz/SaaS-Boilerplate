@@ -1,19 +1,18 @@
 import { useState } from 'react';
 
 /**
- * React Hook to toggle element. Mostly used for responsive menu.
- * @hook
+ * React hook for menu visibility.
+ * @param defaultOpen Initial open state (default: false).
+ * @returns containing menu state and control functions.
  */
-export const useMenu = () => {
-  const [showMenu, setShowMenu] = useState(false);
+export const useMenu = (defaultOpen: boolean = false) => {
+  const [isMenuOpen, setIsMenuOpen] = useState<boolean>(defaultOpen);
 
-  const handleToggleMenu = () => {
-    setShowMenu(prevState => !prevState);
-  };
+  const toggleMenu = () => setIsMenuOpen(prev => !prev);
 
-  const handleClose = () => {
-    setShowMenu(false);
-  };
+  const closeMenu = () => setIsMenuOpen(false);
 
-  return { showMenu, handleToggleMenu, handleClose };
+  const openMenu = () => setIsMenuOpen(true);
+
+  return { isMenuOpen, openMenu, closeMenu, toggleMenu };
 };

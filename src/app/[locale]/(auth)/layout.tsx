@@ -1,34 +1,33 @@
 'use client';
 
-import { enUS, frFR } from '@clerk/localizations';
 import { ClerkProvider } from '@clerk/nextjs';
-
-import { AppConfig } from '@/utils/AppConfig';
+import { useParams } from 'next/navigation';
+import { routing } from '@/libs/I18nRouting';
+import { ClerkLocalizations } from '@/utils/AppConfig';
 
 export default function AuthLayout(props: {
   children: React.ReactNode;
-  params: { locale: string };
 }) {
-  let clerkLocale = enUS;
+  const { locale } = useParams<{ locale: string }>();
+
+  const clerkLocale = ClerkLocalizations.supportedLocales[locale] ?? ClerkLocalizations.defaultLocale;
   let signInUrl = '/sign-in';
   let signUpUrl = '/sign-up';
   let dashboardUrl = '/dashboard';
   let afterSignOutUrl = '/';
 
-  if (props.params.locale === 'fr') {
-    clerkLocale = frFR;
-  }
-
-  if (props.params.locale !== AppConfig.defaultLocale) {
-    signInUrl = `/${props.params.locale}${signInUrl}`;
-    signUpUrl = `/${props.params.locale}${signUpUrl}`;
-    dashboardUrl = `/${props.params.locale}${dashboardUrl}`;
-    afterSignOutUrl = `/${props.params.locale}${afterSignOutUrl}`;
+  if (locale !== routing.defaultLocale) {
+    signInUrl = `/${locale}${signInUrl}`;
+    signUpUrl = `/${locale}${signUpUrl}`;
+    dashboardUrl = `/${locale}${dashboardUrl}`;
+    afterSignOutUrl = `/${locale}${afterSignOutUrl}`;
   }
 
   return (
     <ClerkProvider
-      // PRO: Dark mode support for Clerk
+      appearance={{
+        cssLayerName: 'clerk', // Ensure Clerk is compatible with Tailwind CSS v4
+      }}
       localization={clerkLocale}
       signInUrl={signInUrl}
       signUpUrl={signUpUrl}

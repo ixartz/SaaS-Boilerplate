@@ -1,11 +1,5 @@
 import { useTranslations } from 'next-intl';
-
-import {
-  Accordion,
-  AccordionContent,
-  AccordionItem,
-  AccordionTrigger,
-} from '@/components/ui/accordion';
+import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from '@/components/ui/accordion';
 import { Section } from '@/features/landing/Section';
 
 export const FAQ = () => {

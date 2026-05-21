@@ -1,5 +1,4 @@
 import { useTranslations } from 'next-intl';
-
 import { Background } from '@/components/Background';
 import { FeatureCard } from '@/features/landing/FeatureCard';
 import { Section } from '@/features/landing/Section';
@@ -14,7 +13,11 @@ export const Features = () => {
         title={t('section_title')}
         description={t('section_description')}
       >
-        <div className="grid grid-cols-1 gap-x-3 gap-y-8 md:grid-cols-3">
+        <div className="
+          grid grid-cols-1 gap-x-3 gap-y-8
+          md:grid-cols-3
+        "
+        >
           <FeatureCard
             icon={(
               <svg

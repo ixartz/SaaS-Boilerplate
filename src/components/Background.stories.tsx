@@ -1,5 +1,4 @@
-import type { Meta, StoryObj } from '@storybook/react';
-
+import type { Meta, StoryObj } from '@storybook/nextjs-vite';
 import { Background } from './Background';
 
 const meta = {
@@ -8,21 +7,20 @@ const meta = {
   parameters: {
     layout: 'fullscreen',
   },
-  tags: ['autodocs'],
 } satisfies Meta<typeof Background>;
 
 export default meta;
 type Story = StoryObj<typeof meta>;
 
-export const DefaultBackgroundWithChildren = {
+export const DefaultBackgroundWithChildren: Story = {
   args: {
     children: <div>Children node</div>,
   },
-} satisfies Story;
+};
 
-export const RedBackgroundWithChildren = {
+export const RedBackgroundWithChildren: Story = {
   args: {
     className: 'bg-red-500',
     children: <div>Children node</div>,
   },
-} satisfies Story;
+};
