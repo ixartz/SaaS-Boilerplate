@@ -1,8 +1,6 @@
 'use client';
 
-import Link from 'next/link';
-import { usePathname } from 'next/navigation';
-
+import { Link, usePathname } from '@/libs/I18nNavigation';
 import { cn } from '@/utils/Helpers';
 
 export const ActiveLink = (props: { href: string; children: React.ReactNode }) => {

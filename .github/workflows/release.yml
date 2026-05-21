@@ -12,10 +12,11 @@ jobs:
   release:
     strategy:
       matrix:
-        node-version: [20.x]
+        node-version: [24.x]
 
     name: Create a new release
     runs-on: ubuntu-latest
+    timeout-minutes: 10
 
     permissions:
       contents: write # to be able to publish a GitHub release
@@ -23,17 +24,19 @@ jobs:
       pull-requests: write # to be able to comment on released pull requests
 
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v6
         with:
           fetch-depth: 0
-      - name: Use Node.js ${{ matrix.node-version }}
-        uses: actions/setup-node@v4
+
+      - name: Set up Node.js environment
+        uses: ./.github/actions/setup-project
         with:
           node-version: ${{ matrix.node-version }}
-          cache: npm
-      - run: HUSKY=0 npm ci
+
+      - name: Verify the integrity of provenance attestations and registry signatures for installed dependencies
+        run: npm audit signatures
 
       - name: Release
+        run: npx semantic-release
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        run: npx semantic-release

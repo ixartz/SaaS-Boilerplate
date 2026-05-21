@@ -1,0 +1,19 @@
+# Validate commit messages
+commit-msg:
+  jobs:
+    - name: commitlint
+      run: npx --no -- commitlint --edit {1}
+
+# Validate content before committing
+pre-commit:
+  jobs:
+    - name: lint
+      run: npx --no -- eslint --fix --no-warn-ignored {staged_files}
+      glob: '*'
+      stage_fixed: true
+    - name: check-types
+      run: npm run check:types
+      glob: '*.{ts,tsx}'
+    - name: knip
+      run: npm run check:deps
+      glob: '*'

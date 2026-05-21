@@ -1,11 +1,17 @@
 import { OrganizationProfile } from '@clerk/nextjs';
-import { useTranslations } from 'next-intl';
-
+import { getTranslations, setRequestLocale } from 'next-intl/server';
 import { TitleBar } from '@/features/dashboard/TitleBar';
 import { getI18nPath } from '@/utils/Helpers';
 
-const OrganizationProfilePage = (props: { params: { locale: string } }) => {
-  const t = useTranslations('OrganizationProfile');
+export default async function OrganizationProfilePage(props: {
+  params: Promise<{ locale: string }>;
+}) {
+  const { locale } = await props.params;
+  setRequestLocale(locale);
+  const t = await getTranslations({
+    locale,
+    namespace: 'OrganizationProfilePage',
+  });
 
   return (
     <>
@@ -16,20 +22,15 @@ const OrganizationProfilePage = (props: { params: { locale: string } }) => {
 
       <OrganizationProfile
         routing="path"
-        path={getI18nPath(
-          '/dashboard/organization-profile',
-          props.params.locale,
-        )}
+        path={getI18nPath('/dashboard/organization-profile', locale)}
         afterLeaveOrganizationUrl="/onboarding/organization-selection"
         appearance={{
           elements: {
             rootBox: 'w-full',
-            cardBox: 'w-full flex',
+            cardBox: 'w-full flex', // `flex` is needed when the component has a large width
           },
         }}
       />
     </>
   );
 };
-
-export default OrganizationProfilePage;

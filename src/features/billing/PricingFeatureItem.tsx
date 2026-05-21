@@ -1,7 +1,7 @@
-export const PricingFeature = (props: { children: React.ReactNode }) => (
+export const PricingFeatureItem = (props: { children: React.ReactNode }) => (
   <li className="flex items-center text-muted-foreground">
     <svg
-      className="mr-1 size-6 stroke-current stroke-2 text-purple-400"
+      className="mr-2 size-6 stroke-current stroke-2 text-purple-400"
       xmlns="http://www.w3.org/2000/svg"
       viewBox="0 0 24 24"
       fill="none"

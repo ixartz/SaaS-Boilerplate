@@ -11,11 +11,12 @@ jobs:
   synchronize-with-crowdin:
     name: Synchronize with Crowdin
     runs-on: ubuntu-latest
+    timeout-minutes: 10
 
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v6
 
-      - name: crowdin action
+      - name: Crowdin action
         uses: crowdin/github-action@v2
         with:
           upload_sources: true

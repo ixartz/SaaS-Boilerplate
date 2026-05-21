@@ -1,10 +1,16 @@
+import type { Metadata } from 'next';
 import { OrganizationList } from '@clerk/nextjs';
-import { getTranslations } from 'next-intl/server';
+import { getTranslations, setRequestLocale } from 'next-intl/server';
 
-export async function generateMetadata(props: { params: { locale: string } }) {
+type OrganizationSelectionProps = {
+  params: Promise<{ locale: string }>;
+};
+
+export async function generateMetadata(props: OrganizationSelectionProps): Promise<Metadata> {
+  const { locale } = await props.params;
   const t = await getTranslations({
-    locale: props.params.locale,
-    namespace: 'Dashboard',
+    locale,
+    namespace: 'DashboardLayout',
   });
 
   return {
@@ -13,17 +19,18 @@ export async function generateMetadata(props: { params: { locale: string } }) {
   };
 }
 
-const OrganizationSelectionPage = () => (
-  <div className="flex min-h-screen items-center justify-center">
-    <OrganizationList
-      afterSelectOrganizationUrl="/dashboard"
-      afterCreateOrganizationUrl="/dashboard"
-      hidePersonal
-      skipInvitationScreen
-    />
-  </div>
-);
+export default async function OrganizationSelectionPage(props: OrganizationSelectionProps) {
+  const { locale } = await props.params;
+  setRequestLocale(locale);
 
-export const dynamic = 'force-dynamic';
-
-export default OrganizationSelectionPage;
+  return (
+    <div className="flex min-h-screen items-center justify-center">
+      <OrganizationList
+        afterSelectOrganizationUrl="/dashboard"
+        afterCreateOrganizationUrl="/dashboard"
+        hidePersonal
+        skipInvitationScreen
+      />
+    </div>
+  );
+}

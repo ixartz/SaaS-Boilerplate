@@ -1,13 +1,20 @@
-import React from 'react';
+import * as React from 'react';
 
-export const MessageState = (props: {
+export const PageMessage = (props: {
   icon: React.ReactNode;
   title: React.ReactNode;
   description: React.ReactNode;
   button: React.ReactNode;
 }) => (
-  <div className="flex h-[600px] flex-col items-center justify-center rounded-md bg-card p-5">
-    <div className="size-16 rounded-full bg-muted p-3 [&_svg]:stroke-muted-foreground [&_svg]:stroke-2">
+  <div className="
+    flex h-150 flex-col items-center justify-center rounded-md bg-card p-5
+  "
+  >
+    <div className="
+      size-16 rounded-full bg-muted p-3
+      [&_svg]:stroke-muted-foreground [&_svg]:stroke-2
+    "
+    >
       {props.icon}
     </div>
 

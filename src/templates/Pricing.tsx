@@ -1,10 +1,9 @@
-import Link from 'next/link';
 import { useTranslations } from 'next-intl';
-
 import { buttonVariants } from '@/components/ui/buttonVariants';
-import { PricingInformation } from '@/features/billing/PricingInformation';
+import { PricingCard } from '@/features/billing/PricingCard';
 import { Section } from '@/features/landing/Section';
-import { PLAN_ID } from '@/utils/AppConfig';
+import { Link } from '@/libs/I18nNavigation';
+import { AllPlans } from '@/utils/PricingPlans';
 
 export const Pricing = () => {
   const t = useTranslations('Pricing');
@@ -15,43 +14,30 @@ export const Pricing = () => {
       title={t('section_title')}
       description={t('section_description')}
     >
-      <PricingInformation
-        buttonList={{
-          [PLAN_ID.FREE]: (
-            <Link
-              className={buttonVariants({
-                size: 'sm',
-                className: 'mt-5 w-full',
-              })}
-              href="/sign-up"
-            >
-              {t('button_text')}
-            </Link>
-          ),
-          [PLAN_ID.PREMIUM]: (
-            <Link
-              className={buttonVariants({
-                size: 'sm',
-                className: 'mt-5 w-full',
-              })}
-              href="/sign-up"
-            >
-              {t('button_text')}
-            </Link>
-          ),
-          [PLAN_ID.ENTERPRISE]: (
-            <Link
-              className={buttonVariants({
-                size: 'sm',
-                className: 'mt-5 w-full',
-              })}
-              href="/sign-up"
-            >
-              {t('button_text')}
-            </Link>
-          ),
-        }}
-      />
+      <div className="
+        grid grid-cols-1 gap-x-6 gap-y-8
+        @xl:grid-cols-2
+        @4xl:grid-cols-3
+      "
+      >
+        {AllPlans.map(plan => (
+          <PricingCard
+            key={plan.name}
+            plan={plan}
+            button={(
+              <Link
+                className={buttonVariants({
+                  size: 'sm',
+                  className: 'w-full',
+                })}
+                href="/sign-up"
+              >
+                {t('button_text')}
+              </Link>
+            )}
+          />
+        ))}
+      </div>
     </Section>
   );
 };

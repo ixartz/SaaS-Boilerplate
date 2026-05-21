@@ -1,22 +1,21 @@
-import percySnapshot from '@percy/playwright';
-import { expect, test } from '@playwright/test';
+import { expect, takeSnapshot, test } from '@chromatic-com/playwright';
 
 test.describe('Visual testing', () => {
   test.describe('Static pages', () => {
-    test('should take screenshot of the homepage', async ({ page }) => {
+    test('should take screenshot of the homepage', async ({ page }, testInfo) => {
       await page.goto('/');
 
       await expect(page.getByText('The perfect SaaS template to build')).toBeVisible();
 
-      await percySnapshot(page, 'Homepage');
+      await takeSnapshot(page, testInfo);
     });
 
-    test('should take screenshot of the French homepage', async ({ page }) => {
+    test('should take screenshot of the French homepage', async ({ page }, testInfo) => {
       await page.goto('/fr');
 
-      await expect(page.getByText('Le parfait SaaS template pour construire')).toBeVisible();
+      await expect(page.getByText('Le modèle SaaS parfait pour développer')).toBeVisible();
 
-      await percySnapshot(page, 'Homepage - French');
+      await takeSnapshot(page, testInfo);
     });
   });
 });

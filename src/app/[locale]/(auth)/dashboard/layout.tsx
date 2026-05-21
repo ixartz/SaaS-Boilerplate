@@ -1,12 +1,17 @@
-import { useTranslations } from 'next-intl';
-import { getTranslations } from 'next-intl/server';
-
+import type { Metadata } from 'next';
+import { getTranslations, setRequestLocale } from 'next-intl/server';
 import { DashboardHeader } from '@/features/dashboard/DashboardHeader';
 
-export async function generateMetadata(props: { params: { locale: string } }) {
+type DashboardLayoutProps = {
+  params: Promise<{ locale: string }>;
+  children: React.ReactNode;
+};
+
+export async function generateMetadata(props: DashboardLayoutProps): Promise<Metadata> {
+  const { locale } = await props.params;
   const t = await getTranslations({
-    locale: props.params.locale,
-    namespace: 'Dashboard',
+    locale,
+    namespace: 'DashboardLayout',
   });
 
   return {
@@ -15,20 +20,28 @@ export async function generateMetadata(props: { params: { locale: string } }) {
   };
 }
 
-export default function DashboardLayout(props: { children: React.ReactNode }) {
-  const t = useTranslations('DashboardLayout');
+export default async function DashboardLayout(props: DashboardLayoutProps) {
+  const { locale } = await props.params;
+  setRequestLocale(locale);
+
+  const t = await getTranslations({
+    locale,
+    namespace: 'DashboardLayout',
+  });
 
   return (
     <>
       <div className="shadow-md">
-        <div className="mx-auto flex max-w-screen-xl items-center justify-between px-3 py-4">
+        <div className="
+          mx-auto flex max-w-7xl items-center justify-between px-3 py-4
+        "
+        >
           <DashboardHeader
             menu={[
               {
                 href: '/dashboard',
                 label: t('home'),
               },
-              // PRO: Link to the /dashboard/todos page
               {
                 href: '/dashboard/organization-profile/organization-members',
                 label: t('members'),
@@ -37,14 +50,13 @@ export default function DashboardLayout(props: { children: React.ReactNode }) {
                 href: '/dashboard/organization-profile',
                 label: t('settings'),
               },
-              // PRO: Link to the /dashboard/billing page
             ]}
           />
         </div>
       </div>
 
       <div className="min-h-[calc(100vh-72px)] bg-muted">
-        <div className="mx-auto max-w-screen-xl px-3 pb-16 pt-6">
+        <div className="mx-auto max-w-7xl px-3 pt-6 pb-16">
           {props.children}
         </div>
       </div>

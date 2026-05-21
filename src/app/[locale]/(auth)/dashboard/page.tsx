@@ -1,11 +1,17 @@
-import { useTranslations } from 'next-intl';
-
-import { MessageState } from '@/features/dashboard/MessageState';
+import { getTranslations, setRequestLocale } from 'next-intl/server';
+import { PageMessage } from '@/features/dashboard/PageMessage';
 import { TitleBar } from '@/features/dashboard/TitleBar';
 import { SponsorLogos } from '@/features/sponsors/SponsorLogos';
 
-const DashboardIndexPage = () => {
-  const t = useTranslations('DashboardIndex');
+export default async function DashboardIndexPage(props: {
+  params: Promise<{ locale: string }>;
+}) {
+  const { locale } = await props.params;
+  setRequestLocale(locale);
+  const t = await getTranslations({
+    locale,
+    namespace: 'DashboardIndexPage',
+  });
 
   return (
     <>
@@ -14,7 +20,7 @@ const DashboardIndexPage = () => {
         description={t('title_bar_description')}
       />
 
-      <MessageState
+      <PageMessage
         icon={(
           <svg
             xmlns="http://www.w3.org/2000/svg"
@@ -37,11 +43,17 @@ const DashboardIndexPage = () => {
         })}
         button={(
           <>
-            <div className="mt-2 whitespace-pre text-sm font-light text-muted-foreground">
+            <div className="
+              mt-2 text-sm font-light whitespace-pre text-muted-foreground
+            "
+            >
               {t.rich('message_state_alternative', {
                 url: () => (
                   <a
-                    className="text-blue-500 hover:text-blue-600"
+                    className="
+                      text-blue-500
+                      hover:text-blue-600
+                    "
                     href="https://nextjs-boilerplate.com/pro-saas-starter-kit"
                   >
                     Next.js Boilerplate SaaS
@@ -53,7 +65,10 @@ const DashboardIndexPage = () => {
                 {t.rich('max_message', {
                   url: () => (
                     <a
-                      className="text-blue-500 hover:text-blue-600"
+                      className="
+                        text-blue-500
+                        hover:text-blue-600
+                      "
                       href="https://nextjs-boilerplate.com/nextjs-multi-tenant-saas-boilerplate"
                     >
                       Next.js Boilerplate Max
@@ -72,5 +87,3 @@ const DashboardIndexPage = () => {
     </>
   );
 };
-
-export default DashboardIndexPage;
