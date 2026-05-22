@@ -36,8 +36,8 @@
   },
   "Pricing": {
     "section_subtitle": "Tarifs",
-    "section_title": "Exploitez tout le potentiel du modèle SaaS",
-    "section_description": "Un modèle de landing page gratuit et open-source pour votre entreprise SaaS, construit avec React, TypeScript, Shadcn UI et Tailwind CSS.",
+    "section_title": "Débloquer le plein potentiel du SaaS Template",
+    "section_description": "Un template gratuit et open-source de landing page pour votre entreprise SaaS, construit avec React, TypeScript, Shadcn UI et Tailwind CSS.",
     "button_text": "Commencer"
   },
   "PricingPlans": {
@@ -74,7 +74,7 @@
     "answer": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aliquam aliquam enim dui, id consequat turpis ullamcorper ac. Mauris id quam dolor. Nullam eu egestas turpis. Proin risus elit, sollicitudin in mi a, accumsan euismod turpis. In euismod mi sed diam tristique hendrerit."
   },
   "CTA": {
-    "title": "Êtes-vous prêt ?",
+    "title": "Vous êtes prêt?",
     "description": "Lorem ipsum dolor sit amet, consectetur adipiscing elit.",
     "button_text": "Obtenir Next.js SaaS Starter Kit"
   },
