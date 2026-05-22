@@ -174,7 +174,7 @@ Built-in features from Next.js:
 
 ### Requirements
 
-- Node.js 22+ and npm
+- Node.js 24+ and npm
 
 ### Getting started
 
