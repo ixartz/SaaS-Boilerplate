@@ -11,11 +11,18 @@ export const CenteredHero = (props: {
       {props.title}
     </div>
 
-    <div className="mx-auto mt-5 max-w-screen-md text-center text-xl text-muted-foreground">
+    <div className="
+      mx-auto mt-5 max-w-3xl text-center text-xl text-muted-foreground
+    "
+    >
       {props.description}
     </div>
 
-    <div className="mt-8 flex justify-center gap-x-5 gap-y-3 max-sm:flex-col">
+    <div className="
+      mt-8 flex justify-center gap-x-5 gap-y-3
+      max-sm:flex-col
+    "
+    >
       {props.buttons}
     </div>
   </>

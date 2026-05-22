@@ -10,7 +10,7 @@ test.describe('I18n', () => {
       await page.getByRole('button', { name: 'Change language' }).click();
       await page.getByText('Français').click();
 
-      await expect(page.getByText('Le modèle SaaS parfait pour développer')).toBeVisible();
+      await expect(page.getByText('Le parfait SaaS template pour construire')).toBeVisible();
     });
 
     test('should switch language from English to French using URL and verify text on the sign-in page', async ({ page }) => {

@@ -1,11 +1,9 @@
-import Link from 'next/link';
 import { useTranslations } from 'next-intl';
-
 import { LocaleSwitcher } from '@/components/LocaleSwitcher';
 import { buttonVariants } from '@/components/ui/buttonVariants';
 import { CenteredMenu } from '@/features/landing/CenteredMenu';
 import { Section } from '@/features/landing/Section';
-
+import { Link } from '@/libs/I18nNavigation';
 import { Logo } from './Logo';
 
 export const Navbar = () => {
@@ -17,11 +15,10 @@ export const Navbar = () => {
         logo={<Logo />}
         rightMenu={(
           <>
-            {/* PRO: Dark mode toggle button */}
-            <li data-fade>
+            <li>
               <LocaleSwitcher />
             </li>
-            <li className="ml-1 mr-2.5" data-fade>
+            <li className="mr-2.5 ml-1">
               <Link href="/sign-in">{t('sign_in')}</Link>
             </li>
             <li>
@@ -37,6 +34,10 @@ export const Navbar = () => {
         </li>
 
         <li>
+          <Link href="/sign-up">{t('pricing')}</Link>
+        </li>
+
+        <li>
           <Link href="/sign-up">{t('docs')}</Link>
         </li>
 
@@ -45,11 +46,7 @@ export const Navbar = () => {
         </li>
 
         <li>
-          <Link href="/sign-up">{t('community')}</Link>
-        </li>
-
-        <li>
-          <Link href="/sign-up">{t('company')}</Link>
+          <Link href="/sign-up">{t('about')}</Link>
         </li>
       </CenteredMenu>
     </Section>

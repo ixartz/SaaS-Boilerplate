@@ -4,13 +4,16 @@
     "meta_description": "A free and open-source landing page template for your SaaS business, built with React, TypeScript, Shadcn UI, and Tailwind CSS."
   },
   "Navbar": {
-    "sign_in": "Sign In",
-    "sign_up": "Sign Up",
+    "sign_in": "Sign in",
+    "sign_up": "Sign up",
     "product": "Product",
+    "pricing": "Pricing",
     "docs": "Docs",
     "blog": "Blog",
-    "community": "Community",
-    "company": "Company"
+    "about": "About"
+  },
+  "LocaleSwitcher": {
+    "button_label": "Change language"
   },
   "Hero": {
     "follow_twitter": "Follow @Ixartz on Twitter",
@@ -18,9 +21,6 @@
     "description": "A free and open-source landing page template for your SaaS business, built with React, TypeScript, Shadcn UI, and Tailwind CSS.",
     "primary_button": "Get Next.js SaaS Starter Kit",
     "secondary_button": "Star on GitHub"
-  },
-  "Sponsors": {
-    "title": "Sponsored by"
   },
   "Features": {
     "section_subtitle": "Features",
@@ -35,26 +35,39 @@
     "feature_description": "A free and open-source landing page template for your SaaS business, built with React, TypeScript, Shadcn UI, and Tailwind CSS."
   },
   "Pricing": {
-    "section_subtitle": "Features",
+    "section_subtitle": "Pricing",
     "section_title": "Unlock the Full Potential of the SaaS Template",
     "section_description": "A free and open-source landing page template for your SaaS business, built with React, TypeScript, Shadcn UI, and Tailwind CSS.",
-    "button_text": "Get Started"
+    "button_text": "Get started"
   },
-  "PricingPlan": {
+  "PricingPlans": {
     "free_plan_name": "Free",
     "premium_plan_name": "Premium",
-    "enterprise_plan_name": "Enterprise",
+    "enterprise_plan_name": "Enterprise"
+  },
+  "PricingCard": {
     "free_plan_description": "For individuals",
     "premium_plan_description": "For small teams",
     "enterprise_plan_description": "For industry leaders",
-    "feature_team_member": "{number} Team Members",
-    "feature_website": "{number} Websites",
-    "feature_storage": "{number} GB Storage",
-    "feature_transfer": "{number} TB Transfer",
-    "feature_email_support": "Email Support",
-    "plan_interval_month": "month",
-    "plan_interval_year": "year",
-    "next_renew_date": "Your subscription renews on {date}"
+    "plan_price": "${price}",
+    "plan_interval_month": "/ month",
+    "plan_interval_year": "/ year"
+  },
+  "PricingFeatures": {
+    "feature_team_member": "Up to {number} team members",
+    "feature_website": "Up to {number} websites",
+    "feature_storage": "{number} GB of storage",
+    "feature_transfer": "{number} TB of transfer",
+    "feature_email_support": "Email support"
+  },
+  "SponsorLogos": {
+    "sponsored_by": "Sponsored by",
+    "clerk_logo": "Clerk logo",
+    "sentry_logo": "Sentry logo",
+    "crowdin_logo": "Crowdin logo",
+    "arcjet_logo": "Arcjet logo",
+    "coderabbit_logo": "CodeRabbit logo",
+    "nextjs_boilerplate_logo": "Next.js SaaS Boilerplate logo"
   },
   "FAQ": {
     "question": "Lorem ipsum dolor sit amet, consectetur adipiscing elit?",
@@ -75,9 +88,6 @@
     "privacy_policy": "Privacy Policy",
     "footer_text": "© {year} {name}. Made with <author></author>."
   },
-  "ProtectFallback": {
-    "not_enough_permission": "You do not have the permissions to perform this action"
-  },
   "SignIn": {
     "meta_title": "Sign in",
     "meta_description": "Seamlessly sign in to your account with our user-friendly login process."
@@ -87,81 +97,26 @@
     "meta_description": "Effortlessly create an account through our intuitive sign-up process."
   },
   "DashboardLayout": {
+    "meta_title": "SaaS Template Dashboard",
+    "meta_description": "A free and open-source landing page template for your SaaS business, built with Next.js, TypeScript, Shadcn UI, and Tailwind CSS.",
     "home": "Home",
-    "todos": "Todos",
     "members": "Members",
-    "billing": "Billing",
     "settings": "Settings"
   },
-  "Dashboard": {
-    "meta_title": "SaaS Template Dashboard",
-    "meta_description": "A free and open-source landing page template for your SaaS business, built with Next.js, TypeScript, Shadcn UI, and Tailwind CSS."
-  },
-  "DashboardIndex": {
+  "DashboardIndexPage": {
     "title_bar": "Dashboard",
     "title_bar_description": "Welcome to your dashboard",
     "message_state_title": "Let's get started",
-    "message_state_description": "You can customize this page by editing the file at <code>dashboard/page.tsx</code>",
-    "message_state_button": "Star on GitHub",
+    "message_state_description": "Customize this page by editing the file at <code>dashboard/page.tsx</code>.",
     "message_state_alternative": "Need advanced features? Next.js 16 & React 19, Multi-tenancy & Teams, Roles & Permissions, Shadcn UI,\nEnd-to-End Typesafety with oRPC, Stripe Payment, Light / Dark mode. Try <url></url>.",
     "max_message": "Or, need a Self-hosted auth stack (Better Auth)? Try <url></url>."
   },
-  "UserProfile": {
+  "UserProfilePage": {
     "title_bar": "User Profile",
     "title_bar_description": "View and manage your user profile"
   },
-  "OrganizationProfile": {
+  "OrganizationProfilePage": {
     "title_bar": "Organization Management",
     "title_bar_description": "Manage your organization"
-  },
-  "Billing": {
-    "title_bar": "Billing",
-    "title_bar_description": "Manage your billing and subscription",
-    "current_section_title": "Current Plan",
-    "current_section_description": "Adjust your payment plan to best suit your requirements",
-    "manage_subscription_button": "Manage Subscription"
-  },
-  "BillingOptions": {
-    "current_plan": "Current Plan",
-    "upgrade_plan": "Get Started"
-  },
-  "CheckoutConfirmation": {
-    "title_bar": "Payment Confirmation",
-    "message_state_title": "Payment successful",
-    "message_state_description": "Your payment has been successfully processed. Thank you for your purchase!",
-    "message_state_button": "Go back to Billing"
-  },
-  "DataTable": {
-    "no_results": "No results."
-  },
-  "Todos": {
-    "title_bar": "Todo List",
-    "title_bar_description": "View and manage your todo list",
-    "add_todo_button": "New todo"
-  },
-  "TodoTableColumns": {
-    "open_menu": "Open menu",
-    "edit": "Edit",
-    "delete": "Delete",
-    "title_header": "Title",
-    "message_header": "Message",
-    "created_at_header": "Created at"
-  },
-  "AddTodo": {
-    "title_bar": "Add Todo",
-    "add_todo_section_title": "Create a new todo",
-    "add_todo_section_description": "Fill in the form below to create a new todo"
-  },
-  "EditTodo": {
-    "title_bar": "Edit todo",
-    "edit_todo_section_title": "Modify todo",
-    "edit_todo_section_description": "Fill in the form below to edit the todo"
-  },
-  "TodoForm": {
-    "title_label": "Title",
-    "title_description": "Enter a descriptive title for your todo.",
-    "message_title": "Message",
-    "message_description": "Enter a detailed message for your todo.",
-    "submit_button": "Submit"
   }
 }
