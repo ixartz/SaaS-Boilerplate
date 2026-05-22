@@ -1,21 +1,15 @@
-'use client';
-
-import { OrganizationSwitcher, UserButton } from '@clerk/nextjs';
+import { UserButton } from '@clerk/nextjs';
 import { useLocale } from 'next-intl';
+import Link from 'next/link';
 import { ActiveLink } from '@/components/ActiveLink';
 import { LocaleSwitcher } from '@/components/LocaleSwitcher';
-import { Button } from '@/components/ui/button';
-import {
-  DropdownMenu,
-  DropdownMenuContent,
-  DropdownMenuItem,
-  DropdownMenuTrigger,
 
-} from '@/components/ui/dropdown-menu';
 import { Separator } from '@/components/ui/separator';
-import { Link } from '@/libs/I18nNavigation';
 import { Logo } from '@/templates/Logo';
 import { getI18nPath } from '@/utils/Helpers';
+import { MobileNavigation } from './MobileNavigation';
+import { OrganizationMenu } from './OrganizationMenu';
+import { SlashIcon } from './SlashIcon';
 
 export const DashboardHeader = (props: {
   menu: {
@@ -32,36 +26,9 @@ export const DashboardHeader = (props: {
           <Logo />
         </Link>
 
-        <svg
-          className="
-            size-8 stroke-muted-foreground
-            max-sm:hidden
-          "
-          xmlns="http://www.w3.org/2000/svg"
-          viewBox="0 0 24 24"
-          fill="none"
-          strokeLinecap="round"
-          strokeLinejoin="round"
-        >
-          <path stroke="none" d="M0 0h24v24H0z" />
-          <path d="M17 5 7 19" />
-        </svg>
+        <SlashIcon />
 
-        <OrganizationSwitcher
-          organizationProfileMode="navigation"
-          organizationProfileUrl={getI18nPath(
-            '/dashboard/organization-profile',
-            locale,
-          )}
-          afterCreateOrganizationUrl="/dashboard"
-          hidePersonal
-          skipInvitationScreen
-          appearance={{
-            elements: {
-              organizationSwitcherTrigger: 'max-w-28 sm:max-w-52',
-            },
-          }}
-        />
+        <OrganizationMenu />
 
         <nav className="
           ml-3
@@ -84,49 +51,12 @@ export const DashboardHeader = (props: {
       </div>
 
       <div>
-        <ul className="
-          flex items-center gap-x-1.5
-          [&_li[data-fade]]:opacity-60
-          [&_li[data-fade]:hover]:opacity-100
-        "
-        >
-          <li data-fade>
-            <div className="lg:hidden">
-              <DropdownMenu>
-                <DropdownMenuTrigger asChild>
-                  <Button
-                    className="
-                      p-2
-                      focus-visible:ring-offset-0
-                    "
-                    variant="ghost"
-                  >
-                    <svg
-                      className="size-6 stroke-current"
-                      xmlns="http://www.w3.org/2000/svg"
-                      viewBox="0 0 24 24"
-                      strokeWidth="1.5"
-                      fill="none"
-                      strokeLinecap="round"
-                      strokeLinejoin="round"
-                    >
-                      <path d="M0 0h24v24H0z" stroke="none" />
-                      <path d="M4 6h16M4 12h16M4 18h16" />
-                    </svg>
-                  </Button>
-                </DropdownMenuTrigger>
-                <DropdownMenuContent>
-                  {props.menu.map(item => (
-                    <DropdownMenuItem key={item.href} asChild>
-                      <Link href={item.href}>{item.label}</Link>
-                    </DropdownMenuItem>
-                  ))}
-                </DropdownMenuContent>
-              </DropdownMenu>
-            </div>
+        <ul className="flex items-center gap-x-1.5">
+          <li className="lg:hidden">
+            <MobileNavigation menu={props.menu} />
           </li>
 
-          <li data-fade>
+          <li>
             <LocaleSwitcher />
           </li>
 

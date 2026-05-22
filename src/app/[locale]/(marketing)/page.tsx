@@ -8,7 +8,7 @@ import { Footer } from '@/templates/Footer';
 import { Hero } from '@/templates/Hero';
 import { Navbar } from '@/templates/Navbar';
 import { Pricing } from '@/templates/Pricing';
-import { AppConfig } from '@/utils/AppConfig';
+import { Sponsors } from '@/templates/Sponsors';
 
 type IndexProps = {
   params: Promise<{ locale: string }>;
@@ -22,7 +22,7 @@ export async function generateMetadata(props: IndexProps): Promise<Metadata> {
   });
 
   return {
-    title: t('meta_title', { name: AppConfig.name }),
+    title: t('meta_title'),
     description: t('meta_description'),
   };
 }
@@ -36,6 +36,7 @@ export default async function Index(props: IndexProps) {
       <DemoBanner />
       <Navbar />
       <Hero />
+      <Sponsors />
       <Features />
       <Pricing />
       <FAQ />
