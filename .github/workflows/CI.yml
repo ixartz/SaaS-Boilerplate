@@ -10,7 +10,7 @@ jobs:
   build:
     strategy:
       matrix:
-        node-version: [22.x, 24.x]
+        node-version: [24.x]
         # See supported Node.js release schedule at https://nodejs.org/en/about/releases/
 
     name: Build with ${{ matrix.node-version }}
@@ -168,7 +168,7 @@ jobs:
           sudo chmod -R 777 test-results
 
       - name: Run visual regression tests
-        uses: chromaui/action@v16
+        uses: chromaui/action@v17
         with:
           playwright: true
           exitOnceUploaded: true # Speed up by skipping the build results
