@@ -2,7 +2,7 @@
   "name": "saas-boilerplate",
   "author": "Ixartz (https://github.com/ixartz)",
   "engines": {
-    "node": ">=20"
+    "node": ">=24"
   },
   "scripts": {
     "dev:spotlight": "npx @spotlightjs/spotlight",
