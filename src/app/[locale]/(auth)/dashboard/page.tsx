@@ -44,7 +44,7 @@ export default async function DashboardIndexPage(props: {
         button={(
           <>
             <div className="
-              mt-2 text-sm font-light whitespace-pre text-muted-foreground
+              mt-2 text-sm font-light whitespace-pre-wrap text-muted-foreground
             "
             >
               {t.rich('message_state_alternative', {

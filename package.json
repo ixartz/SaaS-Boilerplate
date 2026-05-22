@@ -34,6 +34,7 @@
   "dependencies": {
     "@clerk/localizations": "^4.6.7",
     "@clerk/nextjs": "^7.4.0",
+    "@clerk/ui": "^1.13.0",
     "@logtape/logtape": "^2.1.1",
     "@radix-ui/react-accordion": "^1.2.12",
     "@radix-ui/react-dropdown-menu": "^2.1.16",
