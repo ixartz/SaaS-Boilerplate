@@ -68,6 +68,7 @@ export const DashboardHeader = (props: {
             <UserButton
               userProfileMode="navigation"
               userProfileUrl={getI18nPath('/dashboard/user-profile', locale)}
+              afterSwitchSessionUrl="/dashboard"
               appearance={{
                 elements: {
                   rootBox: 'px-2 py-1.5',
