@@ -10,7 +10,7 @@ export default defineConfig({
   },
   test: {
     coverage: {
-      include: ['src/**/*'],
+      include: ['src/**/*.{ts,tsx}'],
       exclude: ['src/**/*.stories.{js,jsx,ts,tsx}'],
     },
     projects: [
