@@ -1,5 +1,6 @@
 import { ClerkProvider } from '@clerk/nextjs';
 import { shadcn } from '@clerk/ui/themes';
+import { setRequestLocale } from 'next-intl/server';
 import { ClerkLocalizations } from '@/utils/AppConfig';
 
 export default async function AuthLayout(props: {
@@ -7,6 +8,7 @@ export default async function AuthLayout(props: {
   params: Promise<{ locale: string }>;
 }) {
   const { locale } = await props.params;
+  setRequestLocale(locale);
 
   const clerkLocale = ClerkLocalizations.supportedLocales[locale] ?? ClerkLocalizations.defaultLocale;
 

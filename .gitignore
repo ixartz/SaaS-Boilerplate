@@ -41,6 +41,10 @@ yarn-error.log*
 # local folder
 local
 
+# local files
+*.local.json
+*.local.rules
+
 # vercel
 .vercel
 
