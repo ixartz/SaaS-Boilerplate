@@ -24,7 +24,6 @@ Then verify the baseline:
 ```bash
 npm run build-local
 npm run test
-npm run test:e2e
 ```
 
 Setup and verification commands are hard gates. Do not continue to mapping or implementation work until the baseline is fixed.
@@ -33,6 +32,9 @@ Setup and verification commands are hard gates. Do not continue to mapping or im
 
 - Use the verified clone as the source of truth. Inspect current files before making claims or edits.
 - Keep changes minimal. Do not reformat unrelated files.
+- Preserve `src/components/DemoBadge.tsx` and its layout usage.
+- Use marketing routes only for promotional content.
+- Build product workflows as authenticated dashboard pages: CRUD, data entry, tools, and customer-specific views.
 
 ## Project Conventions
 
@@ -67,6 +69,7 @@ Use these as starting search targets:
 - Database schema: `src/models/Schema.ts`
 - Marketing: `src/app/[locale]/(marketing)`
 - User dashboard: `src/app/[locale]/(auth)/dashboard/`
+- Product feature pages: `src/app/[locale]/(auth)/dashboard/<feature>/page.tsx`
 
 ## Mapping Heuristics
 
@@ -80,6 +83,6 @@ After the mandatory baseline gate passes:
 
 1. Identify the requested SaaS change and infer only the product context needed to implement it.
 2. Inspect the verified clone for relevant patterns.
-3. Edit the cloned project directly.
+3. Implement the change directly in the cloned project, following the route boundaries above.
 4. Produce planning output only when the user asks for it or the change needs clarification.
 5. Ask the user to run `npm run dev` to let them play with the current state of the SaaS.
