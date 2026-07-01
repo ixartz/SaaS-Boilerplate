@@ -19,6 +19,8 @@ cd <target-directory>
 npm install
 ```
 
+Users usually run `npx skills add ixartz/saas-boilerplate` from a parent/root directory; it creates `.agents/` there and clones the boilerplate into `<target-directory>`. Since the app is one level below the agent's initial cwd, `cd <target-directory>` before reading app files or running project commands, and confirm `package.json`, `src/`, and `skills/` exist.
+
 Then verify the baseline:
 
 ```bash
@@ -32,9 +34,9 @@ Setup and verification commands are hard gates. Do not continue to mapping or im
 
 - Use the verified clone as the source of truth. Inspect current files before making claims or edits.
 - Keep changes minimal. Do not reformat unrelated files.
-- Preserve `src/components/DemoBadge.tsx` and its layout usage.
+- Preserve `src/components/DemoBadge.tsx` and its layout usage. Also preserve `src/app/[locale]/(auth)/dashboard/page.tsx`.
 - Use marketing routes only for promotional content.
-- Build product workflows as authenticated dashboard pages: CRUD, data entry, tools, and customer-specific views.
+- Build product workflows as dedicated authenticated dashboard feature pages, not in the dashboard index: use `src/app/[locale]/(auth)/dashboard/<feature>/page.tsx` for CRUD, data entry, tools, and customer-specific views.
 
 ## Project Conventions
 
@@ -43,6 +45,8 @@ Setup and verification commands are hard gates. Do not continue to mapping or im
 - Put user-visible copy in every supported locale file.
 - Prefer existing Clerk account and organization features before custom auth flows.
 - Follow nearby style and import conventions.
+- Run `npm run db:generate` whenever `src/models/Schema.ts` changes.
+- Make new components visually polished and consistent with the current UI: reuse existing Shadcn/Radix primitives, Tailwind tokens, spacing, typography, states, and responsive patterns before introducing new visual treatments.
 - React Compiler is enabled, so don't add `useMemo` or `useCallback`.
 
 ## MVP Scope
@@ -68,13 +72,13 @@ Use these as starting search targets:
 - Locales and i18n: `src/locales/en.json`, `src/locales/fr.json`
 - Database schema: `src/models/Schema.ts`
 - Marketing: `src/app/[locale]/(marketing)`
-- User dashboard: `src/app/[locale]/(auth)/dashboard/`
+- User dashboard overview: `src/app/[locale]/(auth)/dashboard/page.tsx`
 - Product feature pages: `src/app/[locale]/(auth)/dashboard/<feature>/page.tsx`
 
 ## Mapping Heuristics
 
 - Use a tenant only for the top-level organization a user can join and switch between, where membership, permissions, billing, collaboration, or data isolation are scoped.
-- Model sub-entities as organization-owned Drizzle records scoped by `organizationId`; user-owned records use `userId`.
+- Model sub-entities as Drizzle records scoped by a single `ownerId` field.
 - Prefer existing Clerk and boilerplate features before custom flows.
 
 ## Workflow

@@ -299,6 +299,35 @@ After defining the environment variables in your GitHub Actions, your localizati
 └── tsconfig.json                   # TypeScript configuration
 ```
 
+### Getting started with the SaaS Boilerplate skill
+
+> [!WARNING]
+> Use the `saas-builder` skill only when you want to start a new project. The skill clones and sets up a new boilerplate project for you.
+
+If you want an AI coding agent to clone, verify, and build your SaaS on top of this boilerplate, install the `saas-builder` skill:
+
+```shell
+npx skills add ixartz/saas-boilerplate
+```
+
+The skill works with Codex, Claude Code, and other agents that support the Agent Skills standard.
+
+Be as detailed as possible when describing your SaaS idea. The more context you provide about the product, users, features, and requirements, the better the AI agent can build the right application.
+
+In Codex, run:
+
+```text
+codex
+$saas-builder Build a SaaS for <your idea>.
+```
+
+In Claude Code, run:
+
+```text
+claude
+/saas-builder Build a SaaS for <your idea>.
+```
+
 ### Customization
 
 You can easily configure Next.js SaaS Boilerplate by searching the entire project for `FIXME:` to make quick customization. Here are some of the most important files to customize:
